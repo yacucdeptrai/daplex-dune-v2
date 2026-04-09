@@ -183,7 +183,7 @@ export class MediaComponent implements OnInit, OnDestroy {
   showAddSourceDialog(media: Media): void {
     this.findMediaDetails(media._id).pipe(tap(mediaDetails => {
       this.dialogService.open(AddSourceComponent, {
-        data: { ...mediaDetails },
+        data: { media: { ...mediaDetails } },
         width: '500px',
         modal: true,
         dismissableMask: true,

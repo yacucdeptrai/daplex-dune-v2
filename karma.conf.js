@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/kamplex-v2'),
+      dir: require('path').join(__dirname, './coverage/daplex-v2'),
       subdir: '.',
       reporters: [
         { type: 'html' },

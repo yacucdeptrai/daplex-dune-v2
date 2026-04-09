@@ -7,7 +7,7 @@ import { first } from 'rxjs';
 import { SITE_NAME } from '../../../environments/config';
 
 @Injectable()
-export class KamPlexTitleStrategy extends TitleStrategy {
+export class DaPlexTitleStrategy extends TitleStrategy {
   constructor(private readonly title: Title, private translocoService: TranslocoService) {
     super();
   }

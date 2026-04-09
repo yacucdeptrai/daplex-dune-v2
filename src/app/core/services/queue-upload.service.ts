@@ -10,6 +10,23 @@ import { CAN_INTERCEPT } from '../tokens';
 
 @Injectable()
 export class QueueUploadService {
+  private static readonly SUPPORTED_SOURCE_MIME_TYPES = new Set([
+    'video/mp4',
+    'video/x-matroska',
+    'video/webm',
+    'video/mp2t',
+    'video/ts',
+    'video/m2ts'
+  ]);
+
+  private static readonly EXTENSION_TO_MIME_TYPE: Record<string, string> = {
+    '.mp4': 'video/mp4',
+    '.mkv': 'video/x-matroska',
+    '.webm': 'video/webm',
+    '.ts': 'video/mp2t',
+    '.m2ts': 'video/m2ts'
+  };
+
   private _files: FileUpload[] = [];
   private _uploadedBytes = 0;
   private _totalBytes = 0;
@@ -68,12 +85,48 @@ export class QueueUploadService {
   private upload(queuedUploadFile: FileUpload) {
     queuedUploadFile.updateProgress(0);
     this._totalBytes += queuedUploadFile.file.size;
+    const mimeType = this.resolveMimeType(queuedUploadFile.file);
+    const filename = this.normalizeFilenameForApi(queuedUploadFile.file.name);
 
     const subscription = this.http.post<UploadSession>(queuedUploadFile.createUrl, {
-      filename: queuedUploadFile.file.name,
-      mimeType: queuedUploadFile.file.type,
+      filename,
+      mimeType,
       size: queuedUploadFile.file.size
     }).pipe(switchMap((session: UploadSession) => {
+      const sessionFileId = session.fileId;
+      if (sessionFileId) {
+        return new Observable<{ sessionId: string, fileId: string }>(observer => {
+          const singleUploadSub = this.http.put(session.url, queuedUploadFile.file, {
+            context: new HttpContext().set(CAN_INTERCEPT, []),
+            reportProgress: true,
+            responseType: 'text',
+            observe: 'events'
+          }).pipe(
+            retry({ count: QUEUE_UPLOAD_RETRIES, delay: QUEUE_UPLOAD_RETRY_DELAY }),
+            tap(res => {
+              if (res.type === HttpEventType.UploadProgress) {
+                const fileUploadedBytes = res.loaded || 0;
+                const percent = (fileUploadedBytes / queuedUploadFile.file.size) * 100;
+                queuedUploadFile.updateProgress(percent);
+                this._uploadQueue.next(this._files);
+              } else if (res.type === HttpEventType.Response) {
+                queuedUploadFile.updateProgress(100);
+                queuedUploadFile.completed();
+                this._uploadQueue.next(this._files);
+                observer.next({ sessionId: session._id, fileId: sessionFileId });
+                observer.complete();
+              }
+            })
+          ).subscribe();
+          return () => {
+            if (queuedUploadFile.status !== QueueUploadStatus.UPLOADING) return;
+            singleUploadSub.unsubscribe();
+            queuedUploadFile.cancel();
+            this._uploadQueue.next(this._files);
+            observer.complete();
+          };
+        });
+      }
       return new Observable<{ sessionId: string, fileId: string }>(observer2 => {
         let allChunkUploadedBytes = 0;
         let lastUploadedBytes = 0;
@@ -87,8 +140,7 @@ export class QueueUploadService {
         }).pipe(concatMap(({ startOffset, endOffset, fileSize, chunk }) => {
           return this.http.put<{ id: string }>(session.url, chunk, {
             headers: {
-              'Content-Range': `bytes ${startOffset}-${endOffset}/${fileSize}`,
-              'ngsw-bypass': 'true'
+              'Content-Range': `bytes ${startOffset}-${endOffset}/${fileSize}`
             },
             context: new HttpContext().set(CAN_INTERCEPT, []),
             reportProgress: true,
@@ -139,12 +191,42 @@ export class QueueUploadService {
         fileId: data.fileId
       });
     })).subscribe({
-      error: () => {
+      error: (error) => {
+        console.error('Queue upload session failed', error?.error ?? error);
         queuedUploadFile.failed();
         this._uploadQueue.next(this._files);
       }
     });
 
     queuedUploadFile.subscription = subscription;
+  }
+
+  private resolveMimeType(file: File): string {
+    const detectedMimeType = file.type?.toLowerCase();
+    if (detectedMimeType && QueueUploadService.SUPPORTED_SOURCE_MIME_TYPES.has(detectedMimeType)) {
+      return detectedMimeType;
+    }
+
+    const normalizedFileName = file.name.toLowerCase();
+    const extension = Object.keys(QueueUploadService.EXTENSION_TO_MIME_TYPE).find(ext => normalizedFileName.endsWith(ext));
+    if (extension) {
+      return QueueUploadService.EXTENSION_TO_MIME_TYPE[extension];
+    }
+
+    // Keep current behavior for unknown files and let backend validation reject.
+    return file.type;
+  }
+
+  private normalizeFilenameForApi(fileName: string): string {
+    const normalized = fileName.trim();
+    const matchedExtension = Object.keys(QueueUploadService.EXTENSION_TO_MIME_TYPE)
+      .find(ext => normalized.toLowerCase().endsWith(ext));
+
+    if (!matchedExtension) {
+      return normalized;
+    }
+
+    const extensionIndex = normalized.length - matchedExtension.length;
+    return `${normalized.slice(0, extensionIndex)}${matchedExtension}`;
   }
 }

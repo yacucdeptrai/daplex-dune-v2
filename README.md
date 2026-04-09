@@ -1,27 +1,65 @@
-# KamplexV2
+# DaPlex Dune V2 (Frontend)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.2.
+Angular 17 frontend for the DaPlex streaming platform.
 
-## Development server
+## Stack
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- Angular 17
+- RxJS
+- PrimeNG
+- Tailwind CSS
+- Transloco (i18n)
+- Karma/Jasmine (unit tests)
 
-## Code scaffolding
+## Prerequisites
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Node.js 20.x (recommended)
+- npm 10+
+
+## Install
+
+```bash
+npm install
+```
+
+## Run (development)
+
+```bash
+npm run start
+```
+
+Default URL: `http://localhost:4200`
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+npm run build
+```
 
-## Running unit tests
+Build output is generated in `dist/daplex-v2`.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Test
 
-## Running end-to-end tests
+```bash
+npm run test
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## i18n Utilities
 
-## Further help
+```bash
+npm run i18n:extract
+npm run i18n:find
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Common Issues
+
+- **Angular/Node compatibility**: use Node 20 LTS for best compatibility.
+- **Style/PostCSS errors**: verify lockfile consistency and local dependency state.
+
+## Related Services
+
+This frontend depends on:
+
+- `../DaPlex-API` (main backend API)
+- `../DaPlex-Transcoder` (media jobs, indirectly via backend)
+- `../Redis` (backend infrastructure dependency)

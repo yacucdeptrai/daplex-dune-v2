@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "kamplex-v2": {
+    "daplex-v2": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -28,7 +28,7 @@
               "dashjs",
               "dompurify"
             ],
-            "outputPath": "dist/kamplex-v2",
+            "outputPath": "dist/daplex-v2",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -86,10 +86,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "kamplex-v2:build:production"
+              "buildTarget": "daplex-v2:build:production"
             },
             "development": {
-              "buildTarget": "kamplex-v2:build:development"
+              "buildTarget": "daplex-v2:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -97,7 +97,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "kamplex-v2:build"
+            "buildTarget": "daplex-v2:build"
           }
         },
         "test": {

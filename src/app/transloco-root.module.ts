@@ -10,7 +10,7 @@ import { CAN_INTERCEPT } from './core/tokens';
 
 // localForage.config({
 //   driver: [localForage.INDEXEDDB, localForage.LOCALSTORAGE],
-//   name: 'KamPlexI18N',
+//   name: 'DaPlexI18N',
 //   storeName: 'translations'
 // });
 

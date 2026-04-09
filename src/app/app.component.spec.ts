@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'KamPlex'`, () => {
+  it(`should have as title 'DaPlex'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('KamPlex');
+    expect(app.title).toEqual('DaPlex');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('span')?.textContent).toContain('KamPlex app is running!');
+    expect(compiled.querySelector('span')?.textContent).toContain('DaPlex app is running!');
   });
 });

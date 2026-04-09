@@ -1,5 +1,5 @@
 {
-  "name": "kamplex-v2",
+  "name": "daplex-v2",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -71,6 +71,7 @@
     "karma-jasmine": "4.0.2",
     "karma-jasmine-html-reporter": "1.7.0",
     "ngx-build-plus": "17.0.0",
+    "postcss": "8.4.31",
     "purgecss": "5.0.0",
     "tailwindcss": "3.4.3",
     "typescript": "5.4.4"

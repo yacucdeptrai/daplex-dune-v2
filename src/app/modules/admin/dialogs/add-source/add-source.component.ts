@@ -45,13 +45,25 @@ export class AddSourceComponent implements OnInit {
   }
 
   uploadFile(file: File): void {
-    const mediaId = this.config.data!.media._id;
-    const mediaType = this.config.data!['media']['type'];
+    const media = this.config.data?.media;
+    if (!media?._id) {
+      console.error('Missing media data in AddSource dialog config');
+      return;
+    }
+
+    const mediaId = media._id;
+    const mediaType = media.type;
     if (mediaType === MediaType.MOVIE) {
       this.queueUploadService.addToQueue(mediaId, file, `media/${mediaId}/movie/source`, `media/${mediaId}/movie/source/:id`);
       return;
     }
-    const episodeId = this.config.data!.episode._id;
+
+    const episodeId = this.config.data?.episode?._id;
+    if (!episodeId) {
+      console.error('Missing episode data in AddSource dialog config');
+      return;
+    }
+
     this.queueUploadService.addToQueue(`${mediaId}:${episodeId}`, file, `media/${mediaId}/tv/episodes/${episodeId}/source`, `media/${mediaId}/tv/episodes/${episodeId}/source/:id`);
   }
 
@@ -59,6 +71,10 @@ export class AddSourceComponent implements OnInit {
     if (this.addSourceForm.invalid) return;
     this.isAddingSource = true;
     const formValue = this.addSourceForm.getRawValue();
+    if (!formValue.file) {
+      this.isAddingSource = false;
+      return;
+    }
     this.uploadFile(formValue.file!);
     this.dialogRef.close();
   }

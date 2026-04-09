@@ -1,4 +1,4 @@
-export const SITE_NAME = 'KamPlex';
+export const SITE_NAME = 'DaPlex';
 export const SITE_THEME_COLOR = '#1976d2';
 export const IMAGE_PREVIEW_SIZE = 8388608; // 8MiB
 export const IMAGE_PREVIEW_MIMES = ['image/jpeg', 'image/png'];
@@ -46,6 +46,6 @@ export const SIGN_IN_LIMIT_TTL = 300;
 export const SEND_CONFIRM_EMAIL_LIMIT_TTL = 120;
 export const SEND_RECOVERY_EMAIL_LIMIT_TTL = 120;
 export const HTTP_CACHE_TTL = 300000;
-export const SUBTITLE_FONT_LIST_URL = 'https://cdn.jsdelivr.net/gh/kamplex-site/subtitle-fonts@master';
+export const SUBTITLE_FONT_LIST_URL = 'https://cdn.jsdelivr.net/gh/daplex-site/subtitle-fonts@master';
 export const SUBTITLE_FONT_LIST_FILE = 'fonts.min.json';
 export const SUBTITLE_FALLBACK_FONT = 'noto sans jp';
