@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, Renderer2, Inject, AfterViewInit } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, Renderer2, Inject, AfterViewInit, DOCUMENT } from '@angular/core';
+
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';

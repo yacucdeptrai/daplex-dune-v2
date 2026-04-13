@@ -6,13 +6,13 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import { DOCUMENT } from '@angular/common';
+
 import { Directionality } from '@angular/cdk/bidi';
 import { BooleanInput, NumberInput, coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { hasModifierKey } from '@angular/cdk/keycodes';
 import { Platform, _getEventTarget, normalizePassiveListenerOptions } from '@angular/cdk/platform';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { AfterViewInit, Directive, ElementRef, EventEmitter, inject, Inject, InjectionToken, Injector, Input, NgZone, OnChanges, OnDestroy, Optional, Output, SimpleChanges, TemplateRef, ViewContainerRef, } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, inject, Inject, InjectionToken, Injector, Input, NgZone, OnChanges, OnDestroy, Optional, Output, SimpleChanges, TemplateRef, ViewContainerRef, DOCUMENT } from '@angular/core';
 import { Subject, Subscription, asapScheduler, fromEvent } from 'rxjs';
 import { delay, take, takeUntil, takeWhile } from 'rxjs/operators';
 import {

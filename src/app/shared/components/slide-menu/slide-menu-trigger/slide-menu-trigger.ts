@@ -1,5 +1,5 @@
-import { Directive, ElementRef, inject, OnDestroy } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Directive, ElementRef, inject, OnDestroy, DOCUMENT } from '@angular/core';
+
 import { Directionality } from '@angular/cdk/bidi';
 import { _getEventTarget } from '@angular/cdk/platform';
 import { ConnectedPosition, FlexibleConnectedPositionStrategy, Overlay, OverlayConfig, STANDARD_DROPDOWN_ADJACENT_POSITIONS, STANDARD_DROPDOWN_BELOW_POSITIONS } from '@angular/cdk/overlay';

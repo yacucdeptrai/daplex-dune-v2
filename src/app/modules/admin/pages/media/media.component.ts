@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, Renderer2, Inject, OnDestroy } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, Renderer2, Inject, OnDestroy, DOCUMENT } from '@angular/core';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { ConfirmationService } from 'primeng/api';

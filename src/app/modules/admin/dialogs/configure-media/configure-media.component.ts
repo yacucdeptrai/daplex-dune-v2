@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, Inject, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, Inject, OnDestroy, ViewChild, AfterViewInit, DOCUMENT } from '@angular/core';
+
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ConfirmationService, MenuItem } from 'primeng/api';

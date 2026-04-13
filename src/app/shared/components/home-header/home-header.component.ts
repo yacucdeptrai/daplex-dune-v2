@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inject, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inject, Input, OnInit, Renderer2, ViewChild, DOCUMENT } from '@angular/core';
+
 import { NavigationEnd, Router } from '@angular/router';
 import { AutoComplete } from 'primeng/autocomplete';
 import { DialogService } from 'primeng/dynamicdialog';

@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { Directive, ElementRef, HostListener, Inject } from '@angular/core';
+
+import { Directive, ElementRef, HostListener, Inject, DOCUMENT } from '@angular/core';
 import { FormGroupDirective } from '@angular/forms';
 
 @Directive({
