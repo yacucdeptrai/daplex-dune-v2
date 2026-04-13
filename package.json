@@ -39,6 +39,7 @@
     "lodash-es": "4.17.21",
     "marked": "11.2.0",
     "material-symbols": "0.24.0",
+    "media-captions": "npm:@ktt45678/media-captions@1.0.4-F1",
     "ng-lazyload-image": "9.1.3",
     "ng-recaptcha": "13.2.1",
     "ngx-infinite-scroll": "19.0.0",
@@ -81,6 +82,7 @@
       "@angular/core": "$@angular/core",
       "@angular/common": "$@angular/common"
     },
+    "media-captions": "npm:@ktt45678/media-captions@1.0.4-F1",
     "primeng": {
       "@angular/core": "$@angular/core",
       "@angular/common": "$@angular/common",
