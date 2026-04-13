@@ -16,7 +16,7 @@ import { SlideMenuItem } from '../slide-menu-item/slide-menu-item';
     host: {
         'role': 'menuitembutton',
         '[class.slide-menu-button]': 'true',
-        '[class.slide-menu-button-checked]': '!!checked'
+        '[class.slide-menu-button-checked]': 'false'
     },
     providers: [
         { provide: SlideMenuItem, useExisting: SlideMenuItemButton }

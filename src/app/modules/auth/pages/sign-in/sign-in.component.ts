@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChil
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { finalize, takeUntil, timer } from 'rxjs';
-import { RecaptchaComponent } from 'ng-recaptcha';
+import { RecaptchaComponent } from '../../../../shared/components/recaptcha';
 
 import { AuthService, DestroyService } from '../../../../core/services';
 import { SIGN_IN_LIMIT_COUNT, SIGN_IN_LIMIT_TTL } from '../../../../../environments/config';
