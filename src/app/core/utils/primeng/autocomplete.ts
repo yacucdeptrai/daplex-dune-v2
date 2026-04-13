@@ -145,7 +145,7 @@ export const AUTOCOMPLETE_VALUE_ACCESSOR: any = {
             </button>
             <p-overlay
                 #overlay
-                [(visible)]="!!overlayVisible"
+                [visible]="!!overlayVisible" (visibleChange)="overlayVisible = $event"
                 [options]="overlayOptions"
                 [target]="'@parent'"
                 [appendTo]="appendTo"

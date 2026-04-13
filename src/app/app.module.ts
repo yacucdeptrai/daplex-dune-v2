@@ -1,11 +1,11 @@
 import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { RouteReuseStrategy } from '@angular/router';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overlay';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { HttpCacheInterceptorModule } from '@ngneat/cashew';
+import { provideHttpCache, withHttpCacheInterceptor } from '@ngneat/cashew';
 import { RecaptchaSettings, RECAPTCHA_SETTINGS } from 'ng-recaptcha';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
@@ -35,16 +35,7 @@ import { HTTP_CACHE_TTL } from '../environments/config';
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
-      // Register the ServiceWorker as soon as the app is stable
-      // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    }),
-    HttpClientModule,
-    HttpCacheInterceptorModule.forRoot({
-      ttl: HTTP_CACHE_TTL,
-      responseSerializer(body) {
-        return cloneDeep(body);
-      }
     }),
     TranslocoRootModule,
     RouterLoaderModule,
@@ -88,7 +79,14 @@ import { HTTP_CACHE_TTL } from '../environments/config';
     {
       provide: ROUTER_LOADER_CONFIG,
       useValue: { latencyThreshold: 100 }
-    }
+    },
+    provideHttpClient(withInterceptorsFromDi(), withInterceptors([withHttpCacheInterceptor()])),
+    provideHttpCache({
+      ttl: HTTP_CACHE_TTL,
+      responseSerializer(body: any) {
+        return cloneDeep(body);
+      }
+    })
   ],
   bootstrap: [AppComponent]
 })
