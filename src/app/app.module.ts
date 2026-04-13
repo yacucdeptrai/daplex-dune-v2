@@ -6,7 +6,7 @@ import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overl
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { provideHttpCache, withHttpCacheInterceptor } from '@ngneat/cashew';
-import { RecaptchaSettings, RECAPTCHA_SETTINGS } from 'ng-recaptcha';
+import { RecaptchaSettings, RECAPTCHA_SETTINGS } from './shared/components/recaptcha';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { cloneDeep } from 'lodash-es';

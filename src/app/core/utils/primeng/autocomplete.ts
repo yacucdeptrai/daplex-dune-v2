@@ -236,7 +236,7 @@ export const AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     host: {
         class: 'p-element p-inputwrapper',
         '[class.p-inputwrapper-filled]': 'filled',
-        '[class.p-inputwrapper-focus]': '((focus && !disabled) || autofocus) || overlayVisible',
+        '[class.p-inputwrapper-focus]': '((focused && !disabled) || autofocus) || overlayVisible',
         '[class.p-autocomplete-clearable]': 'showClear && !disabled'
     },
     providers: [AUTOCOMPLETE_VALUE_ACCESSOR],
