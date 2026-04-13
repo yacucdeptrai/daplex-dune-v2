@@ -3,7 +3,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { Platform } from '@angular/cdk/platform';
 import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { patchState } from '@ngrx/signals';
-import { DeepSignal } from '@ngrx/signals/src/deep-signal';
+import { DeepSignal } from '@ngrx/signals';
 import { type TextTrackInit, type MediaPlayEvent, type AudioTrack, type MediaLoadedMetadataEvent, type PlayerSrc, type TextTrack, MediaLoadedDataEvent, MediaCanPlayThroughEvent } from 'vidstack';
 import { debounceTime, filter, first, forkJoin, fromEvent, Observable, of, switchMap, takeUntil, takeWhile, tap } from 'rxjs';
 import { supportsMediaSource } from 'dashjs';

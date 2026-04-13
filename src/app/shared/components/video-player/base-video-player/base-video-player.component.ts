@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, injec
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Platform } from '@angular/cdk/platform';
 import { patchState } from '@ngrx/signals';
-import type { DeepSignal } from '@ngrx/signals/src/deep-signal';
+import type { DeepSignal } from '@ngrx/signals';
 import { isDASHProvider, isHLSProvider, LibASSTextRenderer } from 'vidstack';
 import type { MediaEndedEvent, MediaPauseRequestEvent, MediaPlayRequestEvent, MediaProviderChangeEvent, MediaProviderSetupEvent, MediaSeekRequestEvent, MediaVolumeChangeEvent, PlayerSrc } from 'vidstack';
 import { MediaPlayerElement, MediaSliderThumbnailElement } from 'vidstack/elements';
