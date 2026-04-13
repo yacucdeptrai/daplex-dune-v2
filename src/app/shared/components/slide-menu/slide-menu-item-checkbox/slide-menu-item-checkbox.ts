@@ -11,17 +11,18 @@ import { SlideMenuItemSelectable } from '../slide-menu-item-selectable/slide-men
 import { SlideMenuItem } from '../slide-menu-item/slide-menu-item';
 
 @Directive({
-  selector: '[slideMenuItemCheckbox]',
-  exportAs: 'slideMenuItemCheckbox',
-  host: {
-    'role': 'menuitemcheckbox',
-    '[class.slide-menu-checkbox]': 'true',
-    '[class.slide-menu-checkbox-checked]': '!!checked'
-  },
-  providers: [
-    { provide: SlideMenuItemSelectable, useExisting: SlideMenuItemCheckbox },
-    { provide: SlideMenuItem, useExisting: SlideMenuItemSelectable }
-  ]
+    selector: '[slideMenuItemCheckbox]',
+    exportAs: 'slideMenuItemCheckbox',
+    host: {
+        'role': 'menuitemcheckbox',
+        '[class.slide-menu-checkbox]': 'true',
+        '[class.slide-menu-checkbox-checked]': '!!checked'
+    },
+    providers: [
+        { provide: SlideMenuItemSelectable, useExisting: SlideMenuItemCheckbox },
+        { provide: SlideMenuItem, useExisting: SlideMenuItemSelectable }
+    ],
+    standalone: false
 })
 export class SlideMenuItemCheckbox extends SlideMenuItemSelectable {
   /**

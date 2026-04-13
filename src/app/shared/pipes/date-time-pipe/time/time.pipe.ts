@@ -17,7 +17,8 @@ interface TimeOptions {
 }
 
 @Pipe({
-  name: 'time'
+    name: 'time',
+    standalone: false
 })
 export class TimePipe implements PipeTransform {
   locales: { [key: string]: Locale } = { en: enUS, vi: vi };

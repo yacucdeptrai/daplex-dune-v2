@@ -14,10 +14,11 @@ import { UpdateGenreComponent } from '../../dialogs/update-genre';
 import { translocoEscape } from '../../../../core/utils';
 
 @Component({
-  selector: 'app-genres',
-  templateUrl: './genres.component.html',
-  styleUrls: ['./genres.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-genres',
+    templateUrl: './genres.component.html',
+    styleUrls: ['./genres.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class GenresComponent implements OnInit, OnDestroy {
   @ViewChild('genreTable') genreTable?: Table;

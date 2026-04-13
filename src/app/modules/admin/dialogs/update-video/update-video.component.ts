@@ -16,11 +16,12 @@ interface UpdateVideoForm {
 }
 
 @Component({
-  selector: 'app-update-video',
-  templateUrl: './update-video.component.html',
-  styleUrls: ['./update-video.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ItemDataService, DestroyService]
+    selector: 'app-update-video',
+    templateUrl: './update-video.component.html',
+    styleUrls: ['./update-video.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [ItemDataService, DestroyService],
+    standalone: false
 })
 export class UpdateVideoComponent implements OnInit {
   youtubeUrl = YOUTUBE_EMBED_URL;

@@ -21,29 +21,30 @@ interface UpdateProfileForm {
 }
 
 @Component({
-  selector: 'app-profile-settings',
-  templateUrl: './profile-settings.component.html',
-  styleUrls: ['./profile-settings.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    DestroyService,
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: 'common'
-    }
-  ],
-  animations: [
-    trigger('updateProfileToast', [
-      transition(':enter', [
-        style({ transform: 'translateY(100%)', opacity: 0 }),
-        animate('200ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 }))
-      ]),
-      transition(':leave', [
-        style({ transform: 'translateY(0)', opacity: 1 }),
-        animate('200ms ease-in-out', style({ transform: 'translateY(100%)', opacity: 0 }))
-      ])
-    ])
-  ]
+    selector: 'app-profile-settings',
+    templateUrl: './profile-settings.component.html',
+    styleUrls: ['./profile-settings.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        DestroyService,
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: 'common'
+        }
+    ],
+    animations: [
+        trigger('updateProfileToast', [
+            transition(':enter', [
+                style({ transform: 'translateY(100%)', opacity: 0 }),
+                animate('200ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 }))
+            ]),
+            transition(':leave', [
+                style({ transform: 'translateY(0)', opacity: 1 }),
+                animate('200ms ease-in-out', style({ transform: 'translateY(100%)', opacity: 0 }))
+            ])
+        ])
+    ],
+    standalone: false
 })
 export class ProfileSettingsComponent implements OnInit, OnDestroy {
   currentUser: UserDetails | null = null;

@@ -8,7 +8,8 @@ interface NgLetContext<T> {
 
 @Directive({
     // tslint:disable-next-line: directive-selector
-    selector: '[ngLet]'
+    selector: '[ngLet]',
+    standalone: false
 })
 export class NgLetDirective<T> {
 

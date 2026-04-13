@@ -10,11 +10,12 @@ interface CreateGenreForm {
 }
 
 @Component({
-  selector: 'app-create-genre',
-  templateUrl: './create-genre.component.html',
-  styleUrls: ['./create-genre.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-create-genre',
+    templateUrl: './create-genre.component.html',
+    styleUrls: ['./create-genre.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class CreateGenreComponent {
   createGenreForm: FormGroup<CreateGenreForm>;

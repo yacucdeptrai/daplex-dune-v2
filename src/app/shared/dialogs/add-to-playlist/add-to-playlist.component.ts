@@ -10,11 +10,12 @@ import { CreatePlaylistForm } from '../../../core/interfaces/forms';
 import { debounceTime, distinctUntilChanged, fromEvent, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-add-to-playlist',
-  templateUrl: './add-to-playlist.component.html',
-  styleUrls: ['./add-to-playlist.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [PlaylistsService]
+    selector: 'app-add-to-playlist',
+    templateUrl: './add-to-playlist.component.html',
+    styleUrls: ['./add-to-playlist.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [PlaylistsService],
+    standalone: false
 })
 export class AddToPlaylistComponent implements OnInit, OnDestroy {
   // Listen to input search keyup event with viewchild setter

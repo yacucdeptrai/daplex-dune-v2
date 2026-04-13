@@ -20,23 +20,24 @@ interface UpdateMediaForm {
 }
 
 @Component({
-  selector: 'app-media-settings',
-  templateUrl: './media-settings.component.html',
-  styleUrls: ['./media-settings.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService],
-  animations: [
-    trigger('updateMediaToast', [
-      transition(':enter', [
-        style({ transform: 'translateY(100%)', opacity: 0 }),
-        animate('200ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 }))
-      ]),
-      transition(':leave', [
-        style({ transform: 'translateY(0)', opacity: 1 }),
-        animate('200ms ease-in-out', style({ transform: 'translateY(100%)', opacity: 0 }))
-      ])
-    ])
-  ]
+    selector: 'app-media-settings',
+    templateUrl: './media-settings.component.html',
+    styleUrls: ['./media-settings.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    animations: [
+        trigger('updateMediaToast', [
+            transition(':enter', [
+                style({ transform: 'translateY(100%)', opacity: 0 }),
+                animate('200ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 }))
+            ]),
+            transition(':leave', [
+                style({ transform: 'translateY(0)', opacity: 1 }),
+                animate('200ms ease-in-out', style({ transform: 'translateY(100%)', opacity: 0 }))
+            ])
+        ])
+    ],
+    standalone: false
 })
 export class MediaSettingsComponent implements OnInit {
   currentUser: UserDetails | null = null;

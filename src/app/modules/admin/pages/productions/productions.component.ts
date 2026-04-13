@@ -14,10 +14,11 @@ import { UpdateProductionComponent } from '../../dialogs/update-production';
 import { translocoEscape } from '../../../../core/utils';
 
 @Component({
-  selector: 'app-productions',
-  templateUrl: './productions.component.html',
-  styleUrls: ['./productions.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-productions',
+    templateUrl: './productions.component.html',
+    styleUrls: ['./productions.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ProductionsComponent implements OnInit, OnDestroy {
   @ViewChild('productionTable') productionTable?: Table;

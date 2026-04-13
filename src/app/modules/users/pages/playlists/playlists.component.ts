@@ -15,11 +15,12 @@ import { MediaVisibility } from '../../../../core/enums';
 import { PlaylistSettingsComponent } from '../../../../shared/dialogs/playlist-settings';
 
 @Component({
-  selector: 'app-playlists',
-  templateUrl: './playlists.component.html',
-  styleUrls: ['./playlists.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [PlaylistsService, DestroyService]
+    selector: 'app-playlists',
+    templateUrl: './playlists.component.html',
+    styleUrls: ['./playlists.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [PlaylistsService, DestroyService],
+    standalone: false
 })
 export class PlaylistsComponent implements OnInit, OnDestroy {
   track_Id = track_Id;

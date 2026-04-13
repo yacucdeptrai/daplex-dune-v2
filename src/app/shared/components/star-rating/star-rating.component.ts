@@ -1,10 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 
 @Component({
-  selector: 'app-star-rating',
-  templateUrl: './star-rating.component.html',
-  styleUrls: ['./star-rating.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-star-rating',
+    templateUrl: './star-rating.component.html',
+    styleUrls: ['./star-rating.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class StarRatingComponent implements OnInit, OnDestroy {
 

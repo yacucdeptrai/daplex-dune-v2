@@ -6,10 +6,11 @@ import { Media, RatingDetails, UserDetails } from '../../../../core/models';
 import { AuthService, DestroyService } from '../../../../core/services';
 
 @Component({
-  selector: 'app-rating-card [rating]',
-  templateUrl: './rating-card.component.html',
-  styleUrls: ['./rating-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-rating-card [rating]',
+    templateUrl: './rating-card.component.html',
+    styleUrls: ['./rating-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class RatingCardComponent implements OnInit {
   @Input() rating!: RatingDetails;

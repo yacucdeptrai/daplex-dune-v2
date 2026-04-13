@@ -13,18 +13,19 @@ import { SLIDE_MENU } from '../slide-menu-interface';
 import { SlideMenuOverlay } from '../slide-menu-overlay/slide-menu-overlay';
 
 @Directive({
-  selector: '[slideMenuItem]',
-  exportAs: 'slideMenuItem',
-  host: {
-    'role': 'menuitem',
-    'class': 'slide-menu-item',
-    '[tabindex]': '_tabindex',
-    '[attr.aria-disabled]': 'disabled || null',
-    '(blur)': '_resetTabIndex()',
-    '(focus)': '_setTabIndex()',
-    '(click)': 'trigger({ keepOpen })',
-    '(keydown)': '_onKeydown($event)',
-  }
+    selector: '[slideMenuItem]',
+    exportAs: 'slideMenuItem',
+    host: {
+        'role': 'menuitem',
+        'class': 'slide-menu-item',
+        '[tabindex]': '_tabindex',
+        '[attr.aria-disabled]': 'disabled || null',
+        '(blur)': '_resetTabIndex()',
+        '(focus)': '_setTabIndex()',
+        '(click)': 'trigger({ keepOpen })',
+        '(keydown)': '_onKeydown($event)',
+    },
+    standalone: false
 })
 export class SlideMenuItem implements FocusableOption, FocusableElement, Toggler, OnDestroy {
   /** The directionality (text direction) of the current page. */

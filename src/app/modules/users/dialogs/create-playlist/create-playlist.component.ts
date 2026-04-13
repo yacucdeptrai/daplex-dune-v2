@@ -11,11 +11,12 @@ interface CreatePlaylistWithDescForm extends CreatePlaylistForm {
 }
 
 @Component({
-  selector: 'app-create-playlist',
-  templateUrl: './create-playlist.component.html',
-  styleUrls: ['./create-playlist.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [PlaylistsService, DestroyService]
+    selector: 'app-create-playlist',
+    templateUrl: './create-playlist.component.html',
+    styleUrls: ['./create-playlist.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [PlaylistsService, DestroyService],
+    standalone: false
 })
 export class CreatePlaylistComponent {
   createPlaylistForm: FormGroup<CreatePlaylistWithDescForm>;

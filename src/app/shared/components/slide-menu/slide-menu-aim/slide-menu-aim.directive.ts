@@ -248,7 +248,8 @@ export class SlideTargetMenuAim implements SlideMenuAim, OnDestroy {
  * element with either the `cdkMenu` or `cdkMenuBar` directive and child menu items.
  */
 @Directive({
-  selector: '[appSlideTargetMenuAim]',
-  exportAs: 'appSlideTargetMenuAim',
+    selector: '[appSlideTargetMenuAim]',
+    exportAs: 'appSlideTargetMenuAim',
+    standalone: false
 })
 export class SlideTargetMenuAimDirective { }

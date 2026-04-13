@@ -3,7 +3,8 @@ import { ValidationErrors } from '@angular/forms';
 import { TranslocoService } from '@ngneat/transloco';
 
 @Pipe({
-  name: 'firstErrorKey'
+    name: 'firstErrorKey',
+    standalone: false
 })
 export class FirstErrorKeyPipe implements PipeTransform {
   constructor(private translocoService: TranslocoService) { }

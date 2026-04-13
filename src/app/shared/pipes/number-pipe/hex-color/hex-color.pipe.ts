@@ -3,7 +3,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { toHexColor } from '../../../../core/utils';
 
 @Pipe({
-  name: 'hexColor'
+    name: 'hexColor',
+    standalone: false
 })
 export class HexColorPipe implements PipeTransform {
 

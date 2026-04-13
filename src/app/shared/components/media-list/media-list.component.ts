@@ -10,17 +10,18 @@ import { AddToPlaylistComponent } from '../../dialogs/add-to-playlist';
 import { track_Id } from '../../../core/utils';
 
 @Component({
-  selector: 'app-media-list',
-  templateUrl: './media-list.component.html',
-  styleUrls: ['./media-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    DialogService,
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: 'media'
-    }
-  ]
+    selector: 'app-media-list',
+    templateUrl: './media-list.component.html',
+    styleUrls: ['./media-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        DialogService,
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: 'media'
+        }
+    ],
+    standalone: false
 })
 export class MediaListComponent implements OnInit, OnDestroy {
   track_Id = track_Id;

@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform, QueryList } from '@angular/core';
 
 @Pipe({
-  name: 'queryListGet'
+    name: 'queryListGet',
+    standalone: false
 })
 export class QueryListGetPipe implements PipeTransform {
 

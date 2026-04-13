@@ -9,11 +9,12 @@ import { DestroyService } from '../../../../core/services';
 import { MediaBreakpoints } from '../../../../core/enums';
 
 @Component({
-  selector: 'app-collection-list',
-  templateUrl: './collection-list.component.html',
-  styleUrl: './collection-list.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-collection-list',
+    templateUrl: './collection-list.component.html',
+    styleUrl: './collection-list.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class CollectionListComponent implements OnInit {
   t = input.required<TranslocoTranslateFn>();

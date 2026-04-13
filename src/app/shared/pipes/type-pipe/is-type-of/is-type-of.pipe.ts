@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'isTypeOf'
+    name: 'isTypeOf',
+    standalone: false
 })
 export class IsTypeOfPipe implements PipeTransform {
 

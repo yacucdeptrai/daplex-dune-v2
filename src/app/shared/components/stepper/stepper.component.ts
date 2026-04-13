@@ -3,11 +3,12 @@ import { CdkStepper } from '@angular/cdk/stepper';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
-  selector: 'app-stepper',
-  templateUrl: './stepper.component.html',
-  styleUrls: ['./stepper.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: CdkStepper, useExisting: StepperComponent }]
+    selector: 'app-stepper',
+    templateUrl: './stepper.component.html',
+    styleUrls: ['./stepper.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [{ provide: CdkStepper, useExisting: StepperComponent }],
+    standalone: false
 })
 export class StepperComponent extends CdkStepper implements OnInit {
   @Input() activeClass = 'tw-bg-black tw-text-white';

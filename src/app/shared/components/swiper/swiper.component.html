@@ -1,0 +1,22 @@
+<div class="app-swiper-root" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+  <div class="app-swiper-track" [class.app-swiper-touch-disabled]="!allowTouchMove">
+    <div
+      class="app-swiper-slide"
+      #slideElement
+      *ngFor="let slide of slideTemplates; let index = index"
+      [class.app-swiper-slide-active]="index === activeIndex">
+      <ng-container *ngTemplateOutlet="slide.template"></ng-container>
+    </div>
+  </div>
+
+  <div class="app-swiper-pagination" *ngIf="paginationClickable && slideTemplates.length > 1">
+    <button
+      *ngFor="let slide of slideTemplates; let index = index"
+      type="button"
+      class="app-swiper-bullet"
+      [class.app-swiper-bullet-active]="index === activeIndex"
+      [attr.aria-label]="'Go to slide ' + (index + 1)"
+      (click)="onPaginationClick(index)">
+    </button>
+  </div>
+</div>

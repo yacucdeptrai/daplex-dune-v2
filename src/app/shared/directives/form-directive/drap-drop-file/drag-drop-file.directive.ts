@@ -1,9 +1,10 @@
-import { DOCUMENT } from '@angular/common';
-import { Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, Renderer2 } from '@angular/core';
+
+import { Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, Renderer2, DOCUMENT } from '@angular/core';
 
 @Directive({
-  selector: '[dragDropFile]',
-  exportAs: 'dragDropFile'
+    selector: '[dragDropFile]',
+    exportAs: 'dragDropFile',
+    standalone: false
 })
 export class DragDropFileDirective {
   @Input() disabled: boolean = false;

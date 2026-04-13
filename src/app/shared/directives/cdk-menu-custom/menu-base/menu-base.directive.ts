@@ -1,5 +1,5 @@
 // https://github.com/angular/components/blob/main/src/cdk/menu/menu-base.ts
-import { AfterContentInit, ContentChildren, Directive, ElementRef, inject, Input, NgZone, OnDestroy, QueryList } from '@angular/core';
+import { AfterContentInit, ContentChildren, Directive, ElementRef, inject, Input, NgZone, OnDestroy, QueryList, Renderer2 } from '@angular/core';
 import { FocusKeyManager, FocusOrigin } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import { CdkMenuGroup, Menu, MENU_AIM, MENU_STACK, MenuStack, MenuStackItem, PointerFocusTracker } from '@angular/cdk/menu';
@@ -15,17 +15,18 @@ let nextId = 0;
  * This class can be extended to create custom menu types.
  */
 @Directive({
-  host: {
-    'role': 'menu',
-    'class': '', // reset the css class added by the super-class
-    '[tabindex]': '_getTabIndex()',
-    '[id]': 'id',
-    '[attr.aria-orientation]': 'orientation',
-    '[attr.data-cdk-menu-stack-id]': 'menuStack.id',
-    /*'(focus)': 'focusFirstItem()',*/
-    '(focusin)': 'menuStack.setHasFocus(true)',
-    '(focusout)': 'menuStack.setHasFocus(false)',
-  }
+    host: {
+        'role': 'menu',
+        'class': '', // reset the css class added by the super-class
+        '[tabindex]': '_getTabIndex()',
+        '[id]': 'id',
+        '[attr.aria-orientation]': 'orientation',
+        '[attr.data-cdk-menu-stack-id]': 'menuStack.id',
+        /*'(focus)': 'focusFirstItem()',*/
+        '(focusin)': 'menuStack.setHasFocus(true)',
+        '(focusout)': 'menuStack.setHasFocus(false)',
+    },
+    standalone: false
 })
 export abstract class MenuBase
   extends CdkMenuGroup
@@ -35,6 +36,8 @@ export abstract class MenuBase
 
   /** The Angular zone. */
   protected ngZone = inject(NgZone);
+
+  private readonly _renderer = inject(Renderer2);
 
   /** The stack of menus this menu belongs to. */
   readonly menuStack: MenuStack = inject(MENU_STACK);
@@ -200,7 +203,7 @@ export abstract class MenuBase
   private _setUpPointerTracker() {
     if (this.menuAim) {
       this.ngZone.runOutsideAngular(() => {
-        this.pointerTracker = new PointerFocusTracker(this.items);
+        this.pointerTracker = new PointerFocusTracker(this._renderer, this.items);
       });
       this.menuAim.initialize(this, this.pointerTracker!);
     }

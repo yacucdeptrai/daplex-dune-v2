@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'charColor'
+    name: 'charColor',
+    standalone: false
 })
 export class CharColorPipe implements PipeTransform {
 

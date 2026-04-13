@@ -7,7 +7,8 @@ import { enUSDateRelative, viDateRelative } from '../../../../core/utils/date-fn
 const locales: { [key: string]: Locale } = { en: enUSDateRelative, vi: viDateRelative };
 
 @Pipe({
-  name: 'relativeDate'
+    name: 'relativeDate',
+    standalone: false
 })
 export class RelativeDatePipe implements PipeTransform {
   constructor(private translocoService: TranslocoService) { }
