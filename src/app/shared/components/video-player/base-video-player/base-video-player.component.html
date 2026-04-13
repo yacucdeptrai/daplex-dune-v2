@@ -213,147 +213,131 @@
         <svg slot="play" aria-hidden="true" viewBox="0 0 36 36" fill="white">
           <path d="M 12,26 18.5,22 18.5,14 12,10 z M 18.5,22 25,18 25,18 18.5,14 z"
             class="tw-transition-[d] tw-duration-200 tw-ease-in-out" />
-          </svg>
-        } @else {
-          <player-play-icon [paused]="playerStore.paused()"></player-play-icon>
-        }
+        </svg>
+      } @else {
+        <player-play-icon [paused]="playerStore.paused()"></player-play-icon>
+      }
+    </button>
+  </ng-template>
+  <ng-template #subtitleButtonTpl>
+    @if (playerSettings.subtitleTracks().length) {
+      <button type="button" [focusTarget]="player"
+        class="media-subtitle-button tw-w-12 sm:tw-w-14 tw-p-2 tw-pointer-events-auto focus-visible:tw-shadow-focus-box"
+        aria-label="Enable/disable subtitle" aria-keyshortcuts="c" (click)="toggleSubtitle()">
+        <player-subtitle-icon [enabled]="playerSettings.showSubtitle()"></player-subtitle-icon>
       </button>
-    </ng-template>
-    <ng-template #subtitleButtonTpl>
+    }
+  </ng-template>
+  <ng-template #settingsButtonTpl let-tplMenuPosition="menuPosition" let-tplMenuRelativeTo="menuRelativeTo"
+    let-tplOffsetX="offsetX" let-tplOffsetY="offsetY" let-tplLockedPosition="lockedPosition"
+    let-tplFlexibleDimensions="flexibleDimensions" let-tplBackdropClass="backdropClass">
+    <button type="button" [focusTarget]="!playerSettings.isMenuOpen() ? player : null"
+      class="media-settings-button tw-w-12 sm:tw-w-14 tw-p-2 tw-pointer-events-auto focus-visible:tw-shadow-focus-box"
+      [ngClass]="{ 'media-settings-button-active': playerSettings.isMenuOpen() }" aria-label="Settings"
+      [slideMenuTriggerFor]="settingsMenu" [menuRelativeTo]="tplMenuRelativeTo" [offsetX]="tplOffsetX"
+      [offsetY]="tplOffsetY" [lockedPosition]="tplLockedPosition" [flexibleDimensions]="tplFlexibleDimensions"
+      [backdropClass]="tplBackdropClass" [menuPosition]="tplMenuPosition" [fixedBottom]="playerSupports.isMobile()"
+      #settingsMenuTrigger="slideMenuTriggerFor" (menuOpened)="toggleMenu(true)" (menuClosed)="toggleMenu(false)">
+      <player-settings-icon></player-settings-icon>
+    </button>
+  </ng-template>
+  <ng-template #settingsMenu>
+    <app-slide-menu class="media-menu" [ngClass]="{ 'media-menu-mobile tw-w-96': playerSupports.isMobile() }">
+      @if (canReqNext()) {
+        <p-inputSwitch slideMenuItemCheckbox [ngModel]="playerSettings.autoNext()" [label]="t()('player.menu.autoNext')"
+          styleClass="p-inputswitch-sm" icon="ms ms-queue-play-next" (onChange)="toggleAutoNext($event.checked)">
+        </p-inputSwitch>
+      }
+      <button slideMenuItem [slideMenuTriggerFor]="playbackSpeedMenu">
+        <i class="ms ms-slow-motion-video"></i>
+        <span class="tw-mr-8">{{ t()('player.menu.speed') }}</span>
+        <span [ngSwitch]="playerSettings.activeSpeedValue()"
+          class="tw-ml-auto tw-min-w-24 tw-text-sm tw-font-normal tw-text-right">
+          <ng-container *ngSwitchCase="1">{{ t()('player.speed.normal') }}</ng-container>
+          <ng-container *ngSwitchDefault>{{ playerSettings.activeSpeedValue() }}</ng-container>
+        </span>
+        <i class="ms ms-navigate-next ms-icon-sm tw-ml-1"></i>
+      </button>
+      <button slideMenuItem [slideMenuTriggerFor]="audioMenu" [disabled]="!playerStore.canPlay()">
+        <i class="ms ms-speaker"></i>
+        <span class="tw-mr-8">{{ t()('player.menu.audio') }}</span>
+        <span class="tw-ml-auto tw-min-w-24 tw-text-sm tw-font-normal tw-text-right">
+          @if (playerStore.audioTrack(); as audioTrack) {
+            {{ audioTrack.label | split:' - ':1 }} ({{ t()('languages.' + audioTrack.language) }})
+          }
+        </span>
+        <i class="ms ms-navigate-next ms-icon-sm tw-ml-1"></i>
+      </button>
+      <button slideMenuItem [slideMenuTriggerFor]="qualityMenu" [disabled]="!playerStore.canPlay()">
+        <i class="ms ms-tune"></i>
+        <span class="tw-mr-8">{{ t()('player.menu.quality') }}</span>
+        <span class="tw-ml-auto tw-min-w-24 tw-text-sm tw-font-normal tw-text-right">
+          @if (!playerStore.autoQuality() && playerStore.quality()) {
+            {{ playerStore.quality()!.height | qualityLabel:0:playerStore.quality()!.id }}
+          } @else {
+            {{ t()('player.qualities.auto') }} @if (playerStore.quality()) { ({{ playerStore.quality()!.height |
+              qualityLabel:0:playerStore.quality()!.id }}) }
+          }
+        </span>
+        <i class="ms ms-navigate-next ms-icon-sm tw-ml-1"></i>
+      </button>
       @if (playerSettings.subtitleTracks().length) {
-        <button type="button" [focusTarget]="player"
-          class="media-subtitle-button tw-w-12 sm:tw-w-14 tw-p-2 tw-pointer-events-auto focus-visible:tw-shadow-focus-box"
-          aria-label="Enable/disable subtitle" aria-keyshortcuts="c" (click)="toggleSubtitle()">
-          <player-subtitle-icon [enabled]="playerSettings.showSubtitle()"></player-subtitle-icon>
+        <button slideMenuItem [slideMenuTriggerFor]="subtitleMenu">
+          <i class="ms ms-subtitles"></i>
+          <span class="tw-mr-8">{{ t()('player.menu.subtitle') }}</span>
+          <span class="tw-ml-auto tw-min-w-24 tw-text-sm tw-font-normal tw-text-right">
+            @if (playerStore.textTrack(); as textTrack) {
+              {{ textTrack.label }}
+            } @else {
+              {{ t()('player.subtitles.off') }}
+            }
+          </span>
+          <i class="ms ms-navigate-next ms-icon-sm tw-ml-1"></i>
         </button>
       }
-    </ng-template>
-    <ng-template #settingsButtonTpl let-tplMenuPosition="menuPosition" let-tplMenuRelativeTo="menuRelativeTo"
-      let-tplOffsetX="offsetX" let-tplOffsetY="offsetY" let-tplLockedPosition="lockedPosition"
-      let-tplFlexibleDimensions="flexibleDimensions" let-tplBackdropClass="backdropClass">
-      <button type="button" [focusTarget]="!playerSettings.isMenuOpen() ? player : null"
-        class="media-settings-button tw-w-12 sm:tw-w-14 tw-p-2 tw-pointer-events-auto focus-visible:tw-shadow-focus-box"
-        [ngClass]="{ 'media-settings-button-active': playerSettings.isMenuOpen() }" aria-label="Settings"
-        [slideMenuTriggerFor]="settingsMenu" [menuRelativeTo]="tplMenuRelativeTo" [offsetX]="tplOffsetX"
-        [offsetY]="tplOffsetY" [lockedPosition]="tplLockedPosition" [flexibleDimensions]="tplFlexibleDimensions"
-        [backdropClass]="tplBackdropClass" [menuPosition]="tplMenuPosition" [fixedBottom]="playerSupports.isMobile()"
-        #settingsMenuTrigger="slideMenuTriggerFor" (menuOpened)="toggleMenu(true)" (menuClosed)="toggleMenu(false)">
-        <player-settings-icon></player-settings-icon>
+    </app-slide-menu>
+  </ng-template>
+  <ng-template #playbackSpeedMenu>
+    <app-slide-menu class="media-menu" [ngClass]="{ 'media-menu-mobile tw-w-96': playerSupports.isMobile() }"
+      [backLabel]="t()('player.menu.speed')">
+      <button *ngFor="let speed of playerSettings.playbackSpeeds()" slideMenuItemRadio
+        [menuItemChecked]="playerSettings.activeSpeedValue() === speed" (menuItemTriggered)="setPlaybackSpeed(speed)">
+        <i role="checkbox" class="ms ms-icon-sm ms-check"></i>
+        <span [ngSwitch]="speed">
+          <ng-container *ngSwitchCase="1">{{ t()('player.speed.normal') }}</ng-container>
+          <ng-container *ngSwitchDefault>{{ speed }}</ng-container>
+        </span>
       </button>
-    </ng-template>
-    <ng-template #settingsMenu>
-      <app-slide-menu class="media-menu" [ngClass]="{ 'media-menu-mobile tw-w-96': playerSupports.isMobile() }">
-        @if (canReqNext()) {
-          <p-inputSwitch slideMenuItemCheckbox [ngModel]="playerSettings.autoNext()" [label]="t()('player.menu.autoNext')"
-            styleClass="p-inputswitch-sm" icon="ms ms-queue-play-next" (onChange)="toggleAutoNext($event.checked)">
-          </p-inputSwitch>
-        }
-        <button slideMenuItem [slideMenuTriggerFor]="playbackSpeedMenu">
-          <i class="ms ms-slow-motion-video"></i>
-          <span class="tw-mr-8">{{ t()('player.menu.speed') }}</span>
-          <span
-            class="tw-ml-auto tw-min-w-24 tw-text-sm tw-font-normal tw-text-right">
-            @switch (playerSettings.activeSpeedValue()) {
-              @case (1) {
-                {{ t()('player.speed.normal') }}
-              }
-              @default {
-                {{ playerSettings.activeSpeedValue() }}
-              }
-            }
-          </span>
-          <i class="ms ms-navigate-next ms-icon-sm tw-ml-1"></i>
-        </button>
-        <button slideMenuItem [slideMenuTriggerFor]="audioMenu" [disabled]="!playerStore.canPlay()">
-          <i class="ms ms-speaker"></i>
-          <span class="tw-mr-8">{{ t()('player.menu.audio') }}</span>
-          <span class="tw-ml-auto tw-min-w-24 tw-text-sm tw-font-normal tw-text-right">
-            @if (playerStore.audioTrack(); as audioTrack) {
-              {{ audioTrack.label | split:' - ':1 }} ({{ t()('languages.' + audioTrack.language) }})
-            }
-          </span>
-          <i class="ms ms-navigate-next ms-icon-sm tw-ml-1"></i>
-        </button>
-        <button slideMenuItem [slideMenuTriggerFor]="qualityMenu" [disabled]="!playerStore.canPlay()">
-          <i class="ms ms-tune"></i>
-          <span class="tw-mr-8">{{ t()('player.menu.quality') }}</span>
-          <span class="tw-ml-auto tw-min-w-24 tw-text-sm tw-font-normal tw-text-right">
-            @if (!playerStore.autoQuality() && playerStore.quality()) {
-              {{ playerStore.quality()!.height | qualityLabel:0:playerStore.quality()!.id }}
-            } @else {
-              {{ t()('player.qualities.auto') }} @if (playerStore.quality()) { ({{ playerStore.quality()!.height |
-              qualityLabel:0:playerStore.quality()!.id }}) }
-            }
-          </span>
-          <i class="ms ms-navigate-next ms-icon-sm tw-ml-1"></i>
-        </button>
-        @if (playerSettings.subtitleTracks().length) {
-          <button slideMenuItem [slideMenuTriggerFor]="subtitleMenu">
-            <i class="ms ms-subtitles"></i>
-            <span class="tw-mr-8">{{ t()('player.menu.subtitle') }}</span>
-            <span class="tw-ml-auto tw-min-w-24 tw-text-sm tw-font-normal tw-text-right">
-              @if (playerStore.textTrack(); as textTrack) {
-                {{ textTrack.label }}
-              } @else {
-                {{ t()('player.subtitles.off') }}
-              }
-            </span>
-            <i class="ms ms-navigate-next ms-icon-sm tw-ml-1"></i>
-          </button>
-        }
-      </app-slide-menu>
-    </ng-template>
-    <ng-template #playbackSpeedMenu>
-      <app-slide-menu class="media-menu" [ngClass]="{ 'media-menu-mobile tw-w-96': playerSupports.isMobile() }"
-        [backLabel]="t()('player.menu.speed')">
-        @for (speed of playerSettings.playbackSpeeds(); track speed) {
-          <button slideMenuItemRadio
-            [menuItemChecked]="playerSettings.activeSpeedValue() === speed" (menuItemTriggered)="setPlaybackSpeed(speed)">
-            <i role="checkbox" class="ms ms-icon-sm ms-check"></i>
-            <span>
-              @switch (speed) {
-                @case (1) {
-                  {{ t()('player.speed.normal') }}
-                }
-                @default {
-                  {{ speed }}
-                }
-              }
-            </span>
-          </button>
-        }
-      </app-slide-menu>
-    </ng-template>
-    <ng-template #audioMenu>
-      <app-slide-menu class="media-menu tw-max-h-80"
-        [ngClass]="{ 'media-menu-mobile tw-w-96': playerSupports.isMobile() }" [backLabel]="t()('player.menu.audio')">
-        <button ngProjectAs="header-options" class="slide-menu-options !tw-text-xs !tw-px-2" slideMenuItemButton
+    </app-slide-menu>
+  </ng-template>
+  <ng-template #audioMenu>
+    <app-slide-menu class="media-menu tw-max-h-80"
+      [ngClass]="{ 'media-menu-mobile tw-w-96': playerSupports.isMobile() }" [backLabel]="t()('player.menu.audio')">
+      <button ngProjectAs="header-options" class="slide-menu-options !tw-text-xs !tw-px-2" slideMenuItemButton
         [slideMenuTriggerFor]="audioOptionsMenu">Options</button>
-        @for (audio of playerStore.audioTracks(); track track_Id(i, audio); let i = $index) {
-          <button slideMenuItemRadio
-            [menuItemChecked]="audio.selected" (menuItemTriggered)="changeAudioTrack(i)">
-            <i role="checkbox" class="ms ms-icon-sm ms-check"></i>
-            <span>{{ audio.label | split:' - ':1 }}</span>
-            <span class="tw-ml-auto tw-pl-2 tw-text-sm">
-              <span>{{ t()('languages.' + audio.language) }}</span>
-              @if (audio.label | split:' - ':4; as audioTrackTitle) { <span> ({{ audioTrackTitle }})</span> }
-            </span>
-          </button>
-        }
-      </app-slide-menu>
-    </ng-template>
-    <ng-template #audioOptionsMenu>
-      <app-slide-menu class="media-menu tw-w-96 tw-max-h-80"
-        [ngClass]="{ 'media-menu-mobile': playerSupports.isMobile() }" [backLabel]="t()('player.menu.audio')">
-        <div slideMenuItemButton>
-          <label>{{ t()('player.audioOptions.maxVolume') }}</label>
-          <span class="ms ms-help tw-text-base tw-ml-1 tw-mr-4"
+      <button *ngFor="let audio of playerStore.audioTracks(); let i = index; trackBy: track_Id" slideMenuItemRadio
+        [menuItemChecked]="audio.selected" (menuItemTriggered)="changeAudioTrack(i)">
+        <i role="checkbox" class="ms ms-icon-sm ms-check"></i>
+        <span>{{ audio.label | split:' - ':1 }}</span>
+        <span class="tw-ml-auto tw-pl-2 tw-text-sm">
+          <span>{{ t()('languages.' + audio.language) }}</span>
+          @if (audio.label | split:' - ':4; as audioTrackTitle) { <span> ({{ audioTrackTitle }})</span> }
+        </span>
+      </button>
+    </app-slide-menu>
+  </ng-template>
+  <ng-template #audioOptionsMenu>
+    <app-slide-menu class="media-menu tw-w-96 tw-max-h-80"
+      [ngClass]="{ 'media-menu-mobile': playerSupports.isMobile() }" [backLabel]="t()('player.menu.audio')">
+      <div slideMenuItemButton>
+        <label>{{ t()('player.audioOptions.maxVolume') }}</label>
+        <span class="ms ms-help tw-text-base tw-ml-1 tw-mr-4"
           pTooltip="Adjust maximum volume using audio gain on supported browsers"></span>
-          <p-selectButton [options]="audioGainOptions" [initValue]="playerSettings.audioGain()" optionLabel="label"
-            optionValue="value" class="tw-ml-auto" styleClass="p-button-sm" (onChange)="setAudioGain($event.value)">
-          </p-selectButton>
-        </div>
-        <!-- <button slideMenuItem [slideMenuTriggerFor]="audioPreferedOptionsMenu">
+        <p-selectButton [options]="audioGainOptions" [initValue]="playerSettings.audioGain()" optionLabel="label"
+          optionValue="value" class="tw-ml-auto" styleClass="p-button-sm" (onChange)="setAudioGain($event.value)">
+        </p-selectButton>
+      </div>
+      <!-- <button slideMenuItem [slideMenuTriggerFor]="audioPreferedOptionsMenu">
         <span class="tw-mr-8">{{ t()('player.audioOptions.preferedAudioOptions') }}</span>
         <span class="tw-ml-auto tw-min-w-24 tw-text-sm tw-font-normal tw-text-right">
           AAC, Surround
@@ -369,7 +353,7 @@
       <div slideMenuItemButton>
         <label>{{ t()('player.audioOptions.codec') }}</label>
         <span class="ms ms-help tw-text-base tw-ml-1 tw-mr-4"
-        [pTooltip]="t()('player.audioOptions.codecDescription')"></span>
+          [pTooltip]="t()('player.audioOptions.codecDescription')"></span>
         <p-selectButton [options]="audioCodecOptions()" [initValue]="1" optionLabel="label" optionValue="value"
           class="tw-ml-auto" styleClass="p-button-sm" (onChange)="setAudioCodecOption($event.value)">
         </p-selectButton>
@@ -377,7 +361,7 @@
       <div slideMenuItemButton>
         <label>{{ t()('player.audioOptions.audioChannels') }}</label>
         <span class="ms ms-help tw-text-base tw-ml-1 tw-mr-4"
-        [pTooltip]="t()('player.audioOptions.audioChannelsDescription')"></span>
+          [pTooltip]="t()('player.audioOptions.audioChannelsDescription')"></span>
         <p-selectButton [options]="audioChannelOptions()" [initValue]="1" optionLabel="label" optionValue="value"
           class="tw-ml-auto" styleClass="p-button-sm" (onChange)="setAudioChannelOption($event.value)">
         </p-selectButton>
@@ -387,14 +371,12 @@
   <ng-template #qualityMenu>
     <app-slide-menu class="media-menu tw-max-h-80"
       [ngClass]="{ 'media-menu-mobile tw-w-96': playerSupports.isMobile() }" [backLabel]="t()('player.menu.quality')">
-      @for (quality of playerStore.qualities(); track track_Id($index, quality)) {
-        <button slideMenuItemRadio
-          [menuItemChecked]="quality.selected && !playerStore.autoQuality()"
-          (menuItemTriggered)="changeVideoQualityById(quality.id)">
-          <i role="checkbox" class="ms ms-icon-sm ms-check"></i>
-          <span>{{ quality.height | qualityLabel:quality.bitrate:quality.id }}</span>
-        </button>
-      }
+      <button *ngFor="let quality of playerStore.qualities(); trackBy: track_Id" slideMenuItemRadio
+        [menuItemChecked]="quality.selected && !playerStore.autoQuality()"
+        (menuItemTriggered)="changeVideoQualityById(quality.id)">
+        <i role="checkbox" class="ms ms-icon-sm ms-check"></i>
+        <span>{{ quality.height | qualityLabel:quality.bitrate:quality.id }}</span>
+      </button>
       <button slideMenuItemRadio [menuItemChecked]="playerStore.autoQuality()"
         (menuItemTriggered)="changeVideoQuality(0)">
         <i role="checkbox" class="ms ms-icon-sm ms-check"></i>
@@ -410,14 +392,12 @@
         <i role="checkbox" class="ms ms-icon-sm ms-check"></i>
         <span>{{ t()('player.subtitles.off') }}</span>
       </button>
-      @for (track of playerSettings.subtitleTracks(); track track_Id($index, track)) {
-        <button slideMenuItemRadio
-          [menuItemChecked]="playerSettings.showSubtitle() && playerSettings.activeTrackValue() === track.lang"
-          (menuItemTriggered)="setPlayerTrack(track.lang)">
-          <i role="checkbox" class="ms ms-icon-sm ms-check"></i>
-          <span>{{ track.label }}</span>
-        </button>
-      }
+      <button *ngFor="let track of playerSettings.subtitleTracks(); trackBy: track_Id" slideMenuItemRadio
+        [menuItemChecked]="playerSettings.showSubtitle() && playerSettings.activeTrackValue() === track.lang"
+        (menuItemTriggered)="setPlayerTrack(track.lang)">
+        <i role="checkbox" class="ms ms-icon-sm ms-check"></i>
+        <span>{{ track.label }}</span>
+      </button>
     </app-slide-menu>
   </ng-template>
 </media-player>

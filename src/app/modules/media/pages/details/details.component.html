@@ -1,327 +1,292 @@
 <ng-container *transloco="let t; loadingTpl: loadingMediaTpl">
-  @if (media) {
-    @if (media.thumbnailBackdropUrl) {
-<div role="banner" aria-label="Background" class="tw-relative tw-w-full tw-h-72 sm:tw-h-80 tw-bg-cover tw-bg-no-repeat
+  <ng-container *ngIf="media; else loadingMediaTpl">
+    <div role="banner" aria-label="Background" class="tw-relative tw-w-full tw-h-72 sm:tw-h-80 tw-bg-cover tw-bg-no-repeat
       [background-position-x:50%] [background-position-y:35%] before:tw-absolute before:tw-inset-y-0 before:tw-w-full
-    before:tw-bg-zinc-900/75 -tw-z-1"
-        [lazyLoad]="media.thumbnailBackdropUrl"
-        [ngStyle]="{ 'background-color': media.backdropColor ? '#' + (media.backdropColor | toString:16) : '#212121' }">
-      </div>
-    } @else {
+    before:tw-bg-zinc-900/75 -tw-z-1" *ngIf="media.thumbnailBackdropUrl; else emptyBackground"
+      [lazyLoad]="media.thumbnailBackdropUrl"
+      [ngStyle]="{ 'background-color': media.backdropColor ? '#' + (media.backdropColor | toString:16) : '#212121' }">
+    </div>
+    <ng-template #emptyBackground>
       <div role="banner" aria-label="Empty background" class="tw-bg-neutral-850 tw-w-full tw-h-72 sm:tw-h-80 -tw-z-1">
       </div>
-    }
+    </ng-template>
     <div class="tw-mb-8 tw-max-w-7xl tw-mx-auto">
       <div class="tw-mx-2 md:tw-mx-8">
         <div class="tw-flex tw-items-center sm:tw-items-start">
           <div class="tw-w-2/5 sm:tw-w-1/5 tw-mx-2 md:tw-mx-4 tw-max-w-115px sm:tw-max-w-none -tw-mt-64 sm:-tw-mt-56">
             <!-- Poster -->
             <div class="tw-aspect-w-2 tw-aspect-h-3 tw-rounded-lg tw-overflow-hidden">
-              @if (media.thumbnailPosterUrl) {
-                <img class="tw-object-cover"
-                  [lazyLoad]="media.thumbnailPosterUrl" [defaultImage]="media.posterPlaceholder | thumbhashUrl"
-                  [alt]="media.title" errorImage="assets/images/media-poster-md.png">
-                } @else {
-                  <img class="tw-object-cover" lazyLoad="assets/images/media-poster-md.png"
-                    defaultImage="assets/images/media-poster-sm.png" [alt]="media.title">
-                  }
-                </div>
-                @if (!isMobile) {
-                  <ng-container [ngTemplateOutlet]="mediaActions"
-                  [ngTemplateOutletContext]="{ actionsStyleClass: 'tw-mt-2' }"></ng-container>
-                }
-              </div>
-              <div class="tw-w-3/5 sm:tw-w-4/5 tw-ml-2 sm:tw-ml-4">
-                <div class="sm:tw-h-76 sm:tw-flex sm:tw-items-end -tw-mt-52 sm:-tw-mt-76">
-                  <!-- Primary info -->
-                  <div class="tw-text-white tw-mb-4">
+              <img *ngIf="media.thumbnailPosterUrl; else noPoster" class="tw-object-cover"
+                [lazyLoad]="media.thumbnailPosterUrl" [defaultImage]="media.posterPlaceholder | thumbhashUrl"
+                [alt]="media.title" errorImage="assets/images/media-poster-md.png">
+              <ng-template #noPoster>
+                <img class="tw-object-cover" lazyLoad="assets/images/media-poster-md.png"
+                  defaultImage="assets/images/media-poster-sm.png" [alt]="media.title">
+              </ng-template>
+            </div>
+            <ng-container *ngIf="!isMobile" [ngTemplateOutlet]="mediaActions"
+              [ngTemplateOutletContext]="{ actionsStyleClass: 'tw-mt-2' }"></ng-container>
+          </div>
+          <div class="tw-w-3/5 sm:tw-w-4/5 tw-ml-2 sm:tw-ml-4">
+            <div class="sm:tw-h-76 sm:tw-flex sm:tw-items-end -tw-mt-52 sm:-tw-mt-76">
+              <!-- Primary info -->
+              <div class="tw-text-white tw-mb-4">
                 <p class="tw-text-2xl sm:tw-text-3xl md:tw-text-4xl tw-font-bold tw-mt-2
                   tw-leading-6 tw-line-clamp-5" [appTextResize]="media.title" [resizeOptions]="titleResizes">{{
-                    media.title }}</p>
-                    @if (media.originalTitle) {
-                      <p class="tw-text-lg sm:tw-text-xl md:tw-text-2xl tw-mt-1 tw-line-clamp-2"
-                        [appTextResize]="media.originalTitle" [resizeOptions]="originalTitleResizes">{{ media.originalTitle
-                      }}</p>
-                    }
-                    <div class="tw-flex max-xs:tw-flex-wrap tw-text-base xs:tw-text-xl 2md:tw-text-2xl tw-mt-1 xs:tw-mt-2">
-                      <p class="max-xs:tw-w-full [&>*]:tw-align-middle">
-                        <i class="ms ms-star tw-text-xl xs:tw-text-2xl 2md:tw-text-3xl tw-text-yellow-500 -tw-mt-0.5"></i>
-                        <span class="tw-font-medium tw-ml-1.5">{{ media.ratingAverage }}</span>
-                      </p>
-                      <p class="xs:tw-ml-4 max-xs:tw-w-full [&>*]:tw-align-middle">
-                        <i class="ms ms-visibility tw-text-xl xs:tw-text-2xl 2md:tw-text-3xl tw-text-green-500"></i>
-                        <span class="tw-font-medium tw-ml-1.5">{{ media.views | number }}</span>
-                      </p>
-                    </div>
-                    @if (!isMobile) {
-                      <div class="tw-flex tw-text-sm md:tw-text-base tw-mt-2">
-                        <ng-container [ngTemplateOutlet]="mediaDetails2"></ng-container>
-                      </div>
-                    }
-                    @if (!isMobile) {
-                      <ng-container [ngTemplateOutlet]="genreList"
-                        [ngTemplateOutletContext]="{ genreListStyleClass: 'tw-mt-4' }">
-                      </ng-container>
-                    }
-                  </div>
+                  media.title }}</p>
+                <p *ngIf="media.originalTitle" class="tw-text-lg sm:tw-text-xl md:tw-text-2xl tw-mt-1 tw-line-clamp-2"
+                  [appTextResize]="media.originalTitle" [resizeOptions]="originalTitleResizes">{{ media.originalTitle
+                  }}</p>
+                <div class="tw-flex max-xs:tw-flex-wrap tw-text-base xs:tw-text-xl 2md:tw-text-2xl tw-mt-1 xs:tw-mt-2">
+                  <p class="max-xs:tw-w-full [&>*]:tw-align-middle">
+                    <i class="ms ms-star tw-text-xl xs:tw-text-2xl 2md:tw-text-3xl tw-text-yellow-500 -tw-mt-0.5"></i>
+                    <span class="tw-font-medium tw-ml-1.5">{{ media.ratingAverage }}</span>
+                  </p>
+                  <p class="xs:tw-ml-4 max-xs:tw-w-full [&>*]:tw-align-middle">
+                    <i class="ms ms-visibility tw-text-xl xs:tw-text-2xl 2md:tw-text-3xl tw-text-green-500"></i>
+                    <span class="tw-font-medium tw-ml-1.5">{{ media.views | number }}</span>
+                  </p>
                 </div>
-                @if (!isMobile) {
-                  <ng-container [ngTemplateOutlet]="mediaTabs"
-                    [ngTemplateOutletContext]="{ tabStyleClass: 'tw-text-lg' }">
-                  </ng-container>
-                }
+                <div *ngIf="!isMobile" class="tw-flex tw-text-sm md:tw-text-base tw-mt-2">
+                  <ng-container [ngTemplateOutlet]="mediaDetails2"></ng-container>
+                </div>
+                <ng-container *ngIf="!isMobile" [ngTemplateOutlet]="genreList"
+                  [ngTemplateOutletContext]="{ genreListStyleClass: 'tw-mt-4' }">
+                </ng-container>
               </div>
             </div>
-            @if (isMobile) {
-              <div class="tw-text-white tw-text-sm tw-flex tw-mx-2 -tw-mt-8">
-                <ng-container [ngTemplateOutlet]="mediaDetails2"></ng-container>
-              </div>
-            }
-            @if (isMobile) {
-              <ng-container [ngTemplateOutlet]="mediaActions"
-              [ngTemplateOutletContext]="{ actionsStyleClass: 'tw-mt-4' }"></ng-container>
-              <ng-container [ngTemplateOutlet]="genreList"
-              [ngTemplateOutletContext]="{ genreListStyleClass: 'tw-mt-2' }"></ng-container>
-              <ng-container [ngTemplateOutlet]="mediaTabs"
-              [ngTemplateOutletContext]="{ tabStyleClass: 'tw-mt-4 tw-text-base' }"> </ng-container>
-            }
-            <ng-template #mediaTabs let-tabStyleClass="tabStyleClass">
-              <p-tabView [styleClass]="tabStyleClass">
-                <p-tabPanel class="tw-text-white" [header]="t('media.details.information')">
-                  <p class="tw-text-base sm:tw-text-lg tw-leading-5">{{
-                  t('media.details.overview') }}</p>
-                  <p class="tw-text-gray-200 tw-text-base tw-mt-2">{{ media.overview }}</p>
-                  <p class="tw-text-base tw-leading-5 tw-mt-4">
-                    <span>{{ t('media.details.studios') }}: </span>
-                    @if (media.studios.length) {
-                      @for (studio of media.studios; track track_Id($index, studio); let first = $first; let last = $last) {
-                        <a class="hover:tw-underline focus-visible:tw-underline tw-font-semibold" [class.tw-ml-2]="!first"
-                        [routerLink]="['/list', 'studio', studio._id]">{{ studio.name }}</a>
-                        @if (!last) {
-                          <span>,</span>
-                        }
-                      }
-                    } @else {
-                      <span class="tw-text-gray-400 tw-italic">{{ t('media.details.noStudios') }}</span>
-                    }
-                  </p>
-                  <p class="tw-text-base tw-leading-5 tw-mt-2">
-                    <span>{{ t('media.details.producers') }}: </span>
-                    @if (media.producers.length) {
-                      @for (producer of media.producers; track track_Id($index, producer); let first = $first; let last = $last) {
-                        <a class="hover:tw-underline focus-visible:tw-underline tw-font-semibold" [class.tw-ml-2]="!first"
-                        [routerLink]="['/list', 'producer', producer._id]">{{ producer.name }}</a>
-                        @if (!last) {
-                          <span>,</span>
-                        }
-                      }
-                    } @else {
-                      <span class="tw-text-gray-400 tw-italic">{{ t('media.details.noProducers') }}</span>
-                    }
-                  </p>
-                  <p class="tw-text-base tw-leading-5 tw-mt-2">
-                    <span>{{ t('media.details.releaseDate') }}: </span>
-                    <span>{{ media.releaseDate | shortDate }}</span>
-                    @if (media.type === MediaType.TV) {
-                      <span> {{ t('media.details.releaseDateTo')
-                        }}
-                        @if (media.tv.lastAirDate) {
-                          {{ media.tv.lastAirDate | shortDate }}
-                        }
-                        @else {
-                        {{ t('media.details.releaseDateToNow') }}
-                      }
-                    </span>
+            <ng-container *ngIf="!isMobile" [ngTemplateOutlet]="mediaTabs"
+              [ngTemplateOutletContext]="{ tabStyleClass: 'tw-text-lg' }">
+            </ng-container>
+          </div>
+        </div>
+        <div *ngIf="isMobile" class="tw-text-white tw-text-sm tw-flex tw-mx-2 -tw-mt-8">
+          <ng-container [ngTemplateOutlet]="mediaDetails2"></ng-container>
+        </div>
+        <ng-container *ngIf="isMobile">
+          <ng-container [ngTemplateOutlet]="mediaActions"
+            [ngTemplateOutletContext]="{ actionsStyleClass: 'tw-mt-4' }"></ng-container>
+          <ng-container [ngTemplateOutlet]="genreList"
+            [ngTemplateOutletContext]="{ genreListStyleClass: 'tw-mt-2' }"></ng-container>
+          <ng-container [ngTemplateOutlet]="mediaTabs"
+            [ngTemplateOutletContext]="{ tabStyleClass: 'tw-mt-4 tw-text-base' }"> </ng-container>
+        </ng-container>
+        <ng-template #mediaTabs let-tabStyleClass="tabStyleClass">
+          <p-tabView [styleClass]="tabStyleClass">
+            <p-tabPanel class="tw-text-white" [header]="t('media.details.information')">
+              <p class="tw-text-base sm:tw-text-lg tw-leading-5">{{
+                t('media.details.overview') }}</p>
+              <p class="tw-text-gray-200 tw-text-base tw-mt-2">{{ media.overview }}</p>
+              <p class="tw-text-base tw-leading-5 tw-mt-4">
+                <span>{{ t('media.details.studios') }}: </span>
+                <ng-container *ngIf="media.studios.length; else noStudios">
+                  <ng-container
+                    *ngFor="let studio of media.studios; let first = first; let last = last; trackBy: track_Id">
+                    <a class="hover:tw-underline focus-visible:tw-underline tw-font-semibold" [class.tw-ml-2]="!first"
+                      [routerLink]="['/list', 'studio', studio._id]">{{ studio.name }}</a>
+                    <span *ngIf="!last">,</span>
+                  </ng-container>
+                </ng-container>
+                <ng-template #noStudios>
+                  <span class="tw-text-gray-400 tw-italic">{{ t('media.details.noStudios') }}</span>
+                </ng-template>
+              </p>
+              <p class="tw-text-base tw-leading-5 tw-mt-2">
+                <span>{{ t('media.details.producers') }}: </span>
+                <ng-container *ngIf="media.producers.length; else noProducers">
+                  <ng-container
+                    *ngFor="let producer of media.producers; let first = first; let last = last; trackBy: track_Id">
+                    <a class="hover:tw-underline focus-visible:tw-underline tw-font-semibold" [class.tw-ml-2]="!first"
+                      [routerLink]="['/list', 'producer', producer._id]">{{ producer.name }}</a>
+                    <span *ngIf="!last">,</span>
+                  </ng-container>
+                </ng-container>
+                <ng-template #noProducers>
+                  <span class="tw-text-gray-400 tw-italic">{{ t('media.details.noProducers') }}</span>
+                </ng-template>
+              </p>
+              <p class="tw-text-base tw-leading-5 tw-mt-2">
+                <span>{{ t('media.details.releaseDate') }}: </span>
+                <span>{{ media.releaseDate | shortDate }}</span>
+                <span *ngIf="media.type === MediaType.TV"> {{ t('media.details.releaseDateTo')
+                  }}
+                  @if (media.tv.lastAirDate) {
+                    {{ media.tv.lastAirDate | shortDate }}
                   }
-                </p>
-                <p class="tw-text-base tw-leading-5 tw-mt-2">
-                  <span>{{ t('media.details.status') }}: </span>
-                  <span>{{ t('media.statusOptions.' + media.status) }}</span>
-                </p>
-                @if (media.tags.length) {
-                  <p class="tw-text-base tw-leading-5 tw-mt-2">
-                    <span>{{ t('media.details.tags') }}: </span>
-                    @for (tag of media.tags; track track_Id($index, tag); let first = $first; let last = $last) {
-                      <a class="hover:tw-underline focus-visible:tw-underline tw-font-semibold" [class.tw-ml-2]="!first"
-                      [routerLink]="['/list', 'tag', tag._id]">{{ tag.name }}</a>
-                      @if (!last) {
-                        <span>,</span>
-                      }
-                    }
-                  </p>
-                }
-                <p class="tw-text-base tw-leading-5 tw-mt-2">
-                  <span>{{ t('media.details.releaseYear') }}: </span>
-                  <a class="hover:tw-underline focus-visible:tw-underline tw-font-semibold"
+                  @else {
+                    {{ t('media.details.releaseDateToNow') }}
+                  }
+                </span>
+              </p>
+              <p class="tw-text-base tw-leading-5 tw-mt-2">
+                <span>{{ t('media.details.status') }}: </span>
+                <span>{{ t('media.statusOptions.' + media.status) }}</span>
+              </p>
+              <p *ngIf="media.tags.length" class="tw-text-base tw-leading-5 tw-mt-2">
+                <span>{{ t('media.details.tags') }}: </span>
+                <ng-container *ngFor="let tag of media.tags; let first = first; let last = last; trackBy: track_Id">
+                  <a class="hover:tw-underline focus-visible:tw-underline tw-font-semibold" [class.tw-ml-2]="!first"
+                    [routerLink]="['/list', 'tag', tag._id]">{{ tag.name }}</a>
+                  <span *ngIf="!last">,</span>
+                </ng-container>
+              </p>
+              <p class="tw-text-base tw-leading-5 tw-mt-2">
+                <span>{{ t('media.details.releaseYear') }}: </span>
+                <a class="hover:tw-underline focus-visible:tw-underline tw-font-semibold"
                   [routerLink]="['/list', 'year', media.releaseDate.year]">{{ media.releaseDate.year }}</a>
-                </p>
-              </p-tabPanel>
-              <p-tabPanel [header]="t('media.details.videos')">
-                @if (media.videos.length) {
-                  <div class="tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-2">
-                    @for (video of media.videos; track track_Id(index, video); let index = $index) {
-<button class="tw-group tw-aspect-w-16
+              </p>
+            </p-tabPanel>
+            <p-tabPanel [header]="t('media.details.videos')">
+              <ng-container *ngIf="media.videos.length; else noVideos">
+                <div class="tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-2">
+                  <button *ngFor="let video of media.videos; let index = index; trackBy: track_Id" class="tw-group tw-aspect-w-16
                   tw-aspect-h-9 tw-rounded-md tw-overflow-hidden tw-cursor-pointer focus-visible:tw-shadow-focus-box
                   focus-visible:tw-outline-none" (click)="viewVideo(index)">
-                        <img [src]="youtubeThumbnailUrl + video.key + '/hqdefault.jpg'" [alt]="video.key || ''"
-                          class="tw-object-cover" />
-                          <div
-                            class="tw-flex tw-justify-center tw-items-center tw-opacity-0 group-hover:tw-opacity-100 tw-transition-opacity tw-duration-200">
-                            <i class="ms ms-play-circle tw-text-white tw-text-5xl md:tw-text-6xl"></i>
-                          </div>
-                        </button>
-                      }
+                    <img [src]="youtubeThumbnailUrl + video.key + '/hqdefault.jpg'" [alt]="video.key || ''"
+                      class="tw-object-cover" />
+                    <div
+                      class="tw-flex tw-justify-center tw-items-center tw-opacity-0 group-hover:tw-opacity-100 tw-transition-opacity tw-duration-200">
+                      <i class="ms ms-play-circle tw-text-white tw-text-5xl md:tw-text-6xl"></i>
                     </div>
-                  } @else {
-                    <p class="tw-text-gray-400 tw-text-base tw-italic">{{ t('media.details.noVideos') }}</p>
-                  }
-                </p-tabPanel>
-                @if (media.type === MediaType.TV) {
-                  <p-tabPanel [header]="t('media.details.episodes')">
-                    <app-episode-list [media]="media" [episodeList]="media.tv.episodes">
-                    </app-episode-list>
-                  </p-tabPanel>
-                }
-                @if (media.inCollections) {
-                  <p-tabPanel [header]="t('media.details.collections')">
-                    <app-collection-list [t]="t" [collectionList]="media.inCollections"
-                    [currentMedia]="media"></app-collection-list>
-                  </p-tabPanel>
-                }
-              </p-tabView>
-            </ng-template>
-            <ng-template #mediaDetails2>
-              <div class="[&>*]:tw-align-middle">
-                <i class="ms tw-text-blue-300 tw-text-base sm:tw-text-lg"
-                [class]="media.type === MediaType.MOVIE ? 'ms-movie' : 'ms-tv'"></i>
-                <span class="tw-font-medium tw-ml-1.5">{{
-                media.type === MediaType.MOVIE ? t('media.mediaTypes.movie') : t('media.mediaTypes.tvShow') }}</span>
-              </div>
-              <div class="[&>*]:tw-align-middle tw-ml-3">
-                <i class="ms ms-schedule tw-text-gray-400 tw-text-base sm:tw-text-lg"></i>
-                <span class="tw-font-medium tw-ml-1.5">{{ media.runtime * 1000 | time:{ format:['hours', 'minutes'],
-                display:'short' } }}</span>
-              </div>
-              <div class="[&>*]:tw-align-middle tw-ml-3">
-                <i class="ms ms-calendar-today tw-text-base sm:tw-text-lg"></i>
-                <span class="tw-font-medium tw-ml-1.5">{{ media.releaseDate.year }}</span>
-              </div>
-            </ng-template>
-            <ng-template #mediaActions let-actionsStyleClass="actionsStyleClass">
-              <div class="tw-flex tw-flex-wrap" [ngClass]="actionsStyleClass">
-                <button type="button" role="navigation" aria-label="Play media" pButton icon="ms ms-play-arrow"
-                  iconPos="left" [label]="t('media.actions.play')" [routerLink]="['/watch', media._id]"
-                  class="p-button-shrink tw-flex-1 sm:tw-flex-none sm:tw-w-full tw-text-lg sm:tw-text-xl">
-                </button>
-                <button type="button" role="button" aria-label="Add media to playlist" pButton icon="ms ms-playlist-add"
-                  class="p-button-secondary p-button-shrink tw-text-lg sm:tw-text-xl tw-ml-2 sm:tw-ml-auto sm:tw-mt-2"
-                  (click)="showAddToPlaylistDialog()" [pTooltip]="t('media.playlists.addToPlaylists')">
-                </button>
-              </div>
-            </ng-template>
-            <ng-template #genreList let-genreListStyleClass="genreListStyleClass">
-              @if (media.genres.length) {
-                <div class="tw-text-white tw-flex tw-flex-wrap tw-gap-1"
-                  [ngClass]="genreListStyleClass">
-                  @for (genre of media.genres; track track_Id($index, genre); let first = $first) {
-                    <p-tag [value]="genre.name"
-                      [link]="['/list', 'genre', genre._id]"
-                    styleClass="p-tag-secondary tw-text-sm tw-font-medium tw-px-2.5 tw-rounded-full"></p-tag>
-                  }
+                  </button>
                 </div>
-              } @else {
-                <p class="tw-text-gray-400 tw-text-sm tw-font-medium tw-italic" [ngClass]="genreListStyleClass">{{
-                t('media.details.noGenres') }}</p>
-              }
-            </ng-template>
+              </ng-container>
+              <ng-template #noVideos>
+                <p class="tw-text-gray-400 tw-text-base tw-italic">{{ t('media.details.noVideos') }}</p>
+              </ng-template>
+            </p-tabPanel>
+            <p-tabPanel *ngIf="media.type === MediaType.TV" [header]="t('media.details.episodes')">
+              <app-episode-list [media]="media" [episodeList]="media.tv.episodes">
+              </app-episode-list>
+            </p-tabPanel>
+            <p-tabPanel *ngIf="media.inCollections" [header]="t('media.details.collections')">
+              <app-collection-list [t]="t" [collectionList]="media.inCollections"
+                [currentMedia]="media"></app-collection-list>
+            </p-tabPanel>
+          </p-tabView>
+        </ng-template>
+        <ng-template #mediaDetails2>
+          <div class="[&>*]:tw-align-middle">
+            <i class="ms tw-text-blue-300 tw-text-base sm:tw-text-lg"
+              [class]="media.type === MediaType.MOVIE ? 'ms-movie' : 'ms-tv'"></i>
+            <span class="tw-font-medium tw-ml-1.5">{{
+              media.type === MediaType.MOVIE ? t('media.mediaTypes.movie') : t('media.mediaTypes.tvShow') }}</span>
           </div>
+          <div class="[&>*]:tw-align-middle tw-ml-3">
+            <i class="ms ms-schedule tw-text-gray-400 tw-text-base sm:tw-text-lg"></i>
+            <span class="tw-font-medium tw-ml-1.5">{{ media.runtime * 1000 | time:{ format:['hours', 'minutes'],
+              display:'short' } }}</span>
+          </div>
+          <div class="[&>*]:tw-align-middle tw-ml-3">
+            <i class="ms ms-calendar-today tw-text-base sm:tw-text-lg"></i>
+            <span class="tw-font-medium tw-ml-1.5">{{ media.releaseDate.year }}</span>
+          </div>
+        </ng-template>
+        <ng-template #mediaActions let-actionsStyleClass="actionsStyleClass">
+          <div class="tw-flex tw-flex-wrap" [ngClass]="actionsStyleClass">
+            <button type="button" role="navigation" aria-label="Play media" pButton icon="ms ms-play-arrow"
+              iconPos="left" [label]="t('media.actions.play')" [routerLink]="['/watch', media._id]"
+              class="p-button-shrink tw-flex-1 sm:tw-flex-none sm:tw-w-full tw-text-lg sm:tw-text-xl">
+            </button>
+            <button type="button" role="button" aria-label="Add media to playlist" pButton icon="ms ms-playlist-add"
+              class="p-button-secondary p-button-shrink tw-text-lg sm:tw-text-xl tw-ml-2 sm:tw-ml-auto sm:tw-mt-2"
+              (click)="showAddToPlaylistDialog()" [pTooltip]="t('media.playlists.addToPlaylists')">
+            </button>
+          </div>
+        </ng-template>
+        <ng-template #genreList let-genreListStyleClass="genreListStyleClass">
+          <div *ngIf="media.genres.length; else noGenres" class="tw-text-white tw-flex tw-flex-wrap tw-gap-1"
+            [ngClass]="genreListStyleClass">
+            <p-tag *ngFor="let genre of media.genres; let first = first; trackBy: track_Id" [value]="genre.name"
+              [link]="['/list', 'genre', genre._id]"
+              styleClass="p-tag-secondary tw-text-sm tw-font-medium tw-px-2.5 tw-rounded-full"></p-tag>
+          </div>
+          <ng-template #noGenres>
+            <p class="tw-text-gray-400 tw-text-sm tw-font-medium tw-italic" [ngClass]="genreListStyleClass">{{
+              t('media.details.noGenres') }}</p>
+          </ng-template>
+        </ng-template>
+      </div>
+    </div>
+    <p-dialog *ngIf="media.videos[activeVideoIndex]" [header]="media.videos[activeVideoIndex].name"
+      [(visible)]="displayVideo" [modal]="true" styleClass="p-dialog-header-sm tw-w-2/3 tw-h-auto !tw-max-h-full"
+      [draggable]="false" [resizable]="false" [dismissableMask]="true" transitionOptions="0ms linear"
+      contentStyleClass="!tw-p-0">
+      <div class="tw-aspect-w-16 tw-aspect-h-9">
+        <iframe [src]="youtubeUrl + media.videos[activeVideoIndex].key + '?autoplay=1' | safeUrl: 'resourceUrl'"
+          allow="autoplay; fullscreen" width="100%" height="auto">
+        </iframe>
+      </div>
+    </p-dialog>
+  </ng-container>
+</ng-container>
+<ng-template #loadingMediaTpl>
+  <div role="banner" aria-label="Empty background" class="tw-bg-neutral-850 tw-w-full tw-h-72 sm:tw-h-80 -tw-z-1">
+  </div>
+  <div class="tw-mb-8 tw-max-w-7xl tw-mx-auto">
+    <div class="tw-mx-2 md:tw-mx-8">
+      <div class="tw-flex tw-items-center sm:tw-items-start">
+        <div class="tw-w-2/5 sm:tw-w-1/5 tw-mx-2 md:tw-mx-4 tw-max-w-115px sm:tw-max-w-none -tw-mt-48 sm:-tw-mt-56">
+          <div class="tw-aspect-w-2 tw-aspect-h-3">
+            <app-skeleton width="100%" height="100%" styleClass="tw-rounded-lg"></app-skeleton>
+          </div>
+          <ng-container *ngIf="!isMobile" [ngTemplateOutlet]="mediaActionSkeletons"
+            [ngTemplateOutletContext]="{ actionsStyleClass: 'tw-mt-2' }"></ng-container>
         </div>
-        @if (media.videos[activeVideoIndex]) {
-          <p-dialog [header]="media.videos[activeVideoIndex].name"
-            [(visible)]="displayVideo" [modal]="true" styleClass="p-dialog-header-sm tw-w-2/3 tw-h-auto !tw-max-h-full"
-            [draggable]="false" [resizable]="false" [dismissableMask]="true" transitionOptions="0ms linear"
-            contentStyleClass="!tw-p-0">
-            <div class="tw-aspect-w-16 tw-aspect-h-9">
-              <iframe [src]="youtubeUrl + media.videos[activeVideoIndex].key + '?autoplay=1' | safeUrl: 'resourceUrl'"
-                allow="autoplay; fullscreen" width="100%" height="auto">
-              </iframe>
-            </div>
-          </p-dialog>
-        }
-      } @else {
-        <div role="banner" aria-label="Empty background" class="tw-bg-neutral-850 tw-w-full tw-h-72 sm:tw-h-80 -tw-z-1">
-        </div>
-        <div class="tw-mb-8 tw-max-w-7xl tw-mx-auto">
-          <div class="tw-mx-2 md:tw-mx-8">
-            <div class="tw-flex tw-items-center sm:tw-items-start">
-              <div class="tw-w-2/5 sm:tw-w-1/5 tw-mx-2 md:tw-mx-4 tw-max-w-115px sm:tw-max-w-none -tw-mt-48 sm:-tw-mt-56">
-                <div class="tw-aspect-w-2 tw-aspect-h-3">
-                  <app-skeleton width="100%" height="100%" styleClass="tw-rounded-lg"></app-skeleton>
-                </div>
-                @if (!isMobile) {
-                  <ng-container [ngTemplateOutlet]="mediaActionSkeletons"
-                  [ngTemplateOutletContext]="{ actionsStyleClass: 'tw-mt-2' }"></ng-container>
-                }
-              </div>
-              <div class="tw-w-3/5 sm:tw-w-4/5 tw-ml-2 sm:tw-ml-4">
-                <div class="sm:tw-h-76 sm:tw-flex sm:tw-items-end -tw-mt-44 sm:-tw-mt-76">
-                  <!-- Primary info -->
-                  <div class="tw-mb-4 tw-w-full">
-                    <app-skeleton styleClass="tw-w-4/5 md:tw-w-80 tw-h-6 md:tw-h-10 tw-mt-2"></app-skeleton>
-                    <app-skeleton styleClass="tw-w-3/5 md:tw-w-64 tw-h-4 md:tw-h-8 tw-mt-2"></app-skeleton>
+        <div class="tw-w-3/5 sm:tw-w-4/5 tw-ml-2 sm:tw-ml-4">
+          <div class="sm:tw-h-76 sm:tw-flex sm:tw-items-end -tw-mt-44 sm:-tw-mt-76">
+            <!-- Primary info -->
+            <div class="tw-mb-4 tw-w-full">
+              <app-skeleton styleClass="tw-w-4/5 md:tw-w-80 tw-h-6 md:tw-h-10 tw-mt-2"></app-skeleton>
+              <app-skeleton styleClass="tw-w-3/5 md:tw-w-64 tw-h-4 md:tw-h-8 tw-mt-2"></app-skeleton>
               <div class="tw-text-white tw-flex tw-flex-wrap tw-text-xs xs:tw-text-sm md:tw-text-base tw-mt-2
                 sm:tw-mt-4">
-                      <div class="tw-w-full xs:tw-w-auto">
-                        <app-skeleton styleClass="tw-w-16 md:tw-w-20 tw-h-4 md:tw-h-6"></app-skeleton>
-                      </div>
-                      <div class="tw-w-full xs:tw-w-auto xs:tw-ml-2 tw-mt-1 xs:tw-mt-0">
-                        <app-skeleton styleClass="tw-w-14 md:tw-w-16 tw-h-4 md:tw-h-6"></app-skeleton>
-                      </div>
-                    </div>
-                    @if (!isMobile) {
-                      <ng-container [ngTemplateOutlet]="genreListSkeletons"
-                      [ngTemplateOutletContext]="{ genreListStyleClass: 'tw-mt-4' }"></ng-container>
-                    }
-                  </div>
+                <div class="tw-w-full xs:tw-w-auto">
+                  <app-skeleton styleClass="tw-w-16 md:tw-w-20 tw-h-4 md:tw-h-6"></app-skeleton>
                 </div>
-                @if (!isMobile) {
-                  <ng-container [ngTemplateOutlet]="mediaTabSkeletons"
-                  [ngTemplateOutletContext]="{ tabStyleClass: 'tw-mt-8' }"></ng-container>
-                }
+                <div class="tw-w-full xs:tw-w-auto xs:tw-ml-2 tw-mt-1 xs:tw-mt-0">
+                  <app-skeleton styleClass="tw-w-14 md:tw-w-16 tw-h-4 md:tw-h-6"></app-skeleton>
+                </div>
               </div>
+              <ng-container *ngIf="!isMobile" [ngTemplateOutlet]="genreListSkeletons"
+                [ngTemplateOutletContext]="{ genreListStyleClass: 'tw-mt-4' }"></ng-container>
             </div>
-            @if (isMobile) {
-              <ng-container [ngTemplateOutlet]="genreListSkeletons"
-              [ngTemplateOutletContext]="{ genreListStyleClass: 'tw-mt-1' }"></ng-container>
-              <ng-container [ngTemplateOutlet]="mediaActionSkeletons"
-              [ngTemplateOutletContext]="{ actionsStyleClass: 'tw-mt-1' }"></ng-container>
-              <ng-container [ngTemplateOutlet]="mediaTabSkeletons" [ngTemplateOutletContext]="{ tabStyleClass: 'tw-mt-4' }">
-              </ng-container>
-            }
-            <ng-template #mediaActionSkeletons let-actionsStyleClass="actionsStyleClass">
-              <div [class]="actionsStyleClass">
-                <app-skeleton height="48px" styleClass="tw-w-full"></app-skeleton>
-              </div>
-            </ng-template>
-            <ng-template #genreListSkeletons let-genreListStyleClass="genreListStyleClass">
-              <div class="tw-flex tw-flex-wrap tw-gap-1" [class]="genreListStyleClass">
-                <app-skeleton styleClass="tw-w-16 tw-h-7"></app-skeleton>
-                <app-skeleton styleClass="tw-w-24 tw-h-7"></app-skeleton>
-                <app-skeleton styleClass="tw-w-20 tw-h-7"></app-skeleton>
-                <app-skeleton styleClass="tw-w-32 tw-h-7"></app-skeleton>
-                <app-skeleton styleClass="tw-w-24 tw-h-7"></app-skeleton>
-              </div>
-            </ng-template>
-            <ng-template #mediaTabSkeletons let-tabStyleClass="tabStyleClass">
-              <div [class]="tabStyleClass">
-                <app-skeleton styleClass="tw-w-full tw-h-5"></app-skeleton>
-                <app-skeleton styleClass="tw-w-full tw-h-5 tw-mt-2"></app-skeleton>
-                <app-skeleton styleClass="tw-w-full tw-h-5 tw-mt-2"></app-skeleton>
-                <app-skeleton styleClass="tw-w-full tw-h-5 tw-mt-2"></app-skeleton>
-                <app-skeleton styleClass="tw-w-5/6 tw-h-5 tw-mt-2"></app-skeleton>
-              </div>
-            </ng-template>
           </div>
+          <ng-container *ngIf="!isMobile" [ngTemplateOutlet]="mediaTabSkeletons"
+            [ngTemplateOutletContext]="{ tabStyleClass: 'tw-mt-8' }"></ng-container>
         </div>
-      }
-    </ng-container>
+      </div>
+      <ng-container *ngIf="isMobile">
+        <ng-container [ngTemplateOutlet]="genreListSkeletons"
+          [ngTemplateOutletContext]="{ genreListStyleClass: 'tw-mt-1' }"></ng-container>
+        <ng-container [ngTemplateOutlet]="mediaActionSkeletons"
+          [ngTemplateOutletContext]="{ actionsStyleClass: 'tw-mt-1' }"></ng-container>
+        <ng-container [ngTemplateOutlet]="mediaTabSkeletons" [ngTemplateOutletContext]="{ tabStyleClass: 'tw-mt-4' }">
+        </ng-container>
+      </ng-container>
+      <ng-template #mediaActionSkeletons let-actionsStyleClass="actionsStyleClass">
+        <div [class]="actionsStyleClass">
+          <app-skeleton height="48px" styleClass="tw-w-full"></app-skeleton>
+        </div>
+      </ng-template>
+      <ng-template #genreListSkeletons let-genreListStyleClass="genreListStyleClass">
+        <div class="tw-flex tw-flex-wrap tw-gap-1" [class]="genreListStyleClass">
+          <app-skeleton styleClass="tw-w-16 tw-h-7"></app-skeleton>
+          <app-skeleton styleClass="tw-w-24 tw-h-7"></app-skeleton>
+          <app-skeleton styleClass="tw-w-20 tw-h-7"></app-skeleton>
+          <app-skeleton styleClass="tw-w-32 tw-h-7"></app-skeleton>
+          <app-skeleton styleClass="tw-w-24 tw-h-7"></app-skeleton>
+        </div>
+      </ng-template>
+      <ng-template #mediaTabSkeletons let-tabStyleClass="tabStyleClass">
+        <div [class]="tabStyleClass">
+          <app-skeleton styleClass="tw-w-full tw-h-5"></app-skeleton>
+          <app-skeleton styleClass="tw-w-full tw-h-5 tw-mt-2"></app-skeleton>
+          <app-skeleton styleClass="tw-w-full tw-h-5 tw-mt-2"></app-skeleton>
+          <app-skeleton styleClass="tw-w-full tw-h-5 tw-mt-2"></app-skeleton>
+          <app-skeleton styleClass="tw-w-5/6 tw-h-5 tw-mt-2"></app-skeleton>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>

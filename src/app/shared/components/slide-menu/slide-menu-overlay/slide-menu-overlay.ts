@@ -18,7 +18,7 @@ let nextId = 0;
     selector: 'app-slide-menu',
     exportAs: 'appSlideMenu',
     template: `
-    @if (menuStack.parentMenuRefs.length) {
+    <ng-container *ngIf="menuStack.parentMenuRefs.length">
       <div class="tw-flex">
         <button #previousButton="slideMenuTriggerFor" class="slide-menu-previous" slideMenuItemButton
           [slideMenuTriggerFor]="menuStack.parentMenuRefs[menuStack.parentMenuRefs.length - 1]">
@@ -28,9 +28,9 @@ let nextId = 0;
         <ng-content select="header-options"></ng-content>
       </div>
       <div class="tw-divider tw-my-2"></div>
-    }
+    </ng-container>
     <ng-content></ng-content>
-    `,
+  `,
     host: {
         'role': 'menu',
         'class': 'slide-menu p-scrollbar tw-overflow-y-auto',

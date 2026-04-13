@@ -20,37 +20,36 @@
           <button pButton class="p-panel-header-icon p-link tw-ml-2" icon="ms ms-close" (click)="hideUploadQueue()">
           </button>
         </ng-template>
-        @if (totalUploading) {
-          @if ((timeRemaining | async); as _timeRemaining) {
-            @if (_timeRemaining | time; as durationRemaining) {
-              <p
-                class="tw-px-4 tw-py-2 tw-text-base tw-text-right">{{ t('admin.uploadQueue.remaining', { time:
+        <ng-container *ngIf="totalUploading; else allFilesUploaded">
+          <ng-container *ngIf="(timeRemaining | async) as _timeRemaining; else preparingUpload">
+            <p *ngIf="_timeRemaining | time as durationRemaining; else finishingUpload"
+              class="tw-px-4 tw-py-2 tw-text-base tw-text-right">{{ t('admin.uploadQueue.remaining', { time:
               durationRemaining }) }}</p>
-            } @else {
+            <ng-template #finishingUpload>
               <p class="tw-px-4 tw-py-2 tw-text-base tw-text-right">{{ t('admin.uploadQueue.finishing') }}</p>
-            }
-          } @else {
+            </ng-template>
+          </ng-container>
+          <ng-template #preparingUpload>
             <p class="tw-px-4 tw-py-2 tw-text-base tw-text-right">{{ t('admin.uploadQueue.preparing') }}</p>
-          }
-        } @else {
+          </ng-template>
+        </ng-container>
+        <ng-template #allFilesUploaded>
           <p class="tw-px-4 tw-py-2 tw-text-base tw-text-right">{{ t('admin.uploadQueue.allFilesUploaded') }}</p>
-        }
+        </ng-template>
         <div class="p-scrollbar tw-max-h-64 tw-overflow-y-auto">
-          @for (upload of uploadQueue; track trackId($index, upload)) {
-            <div
-              class="tw-flex tw-items-center tw-px-4 tw-py-2 hover:tw-bg-neutral-700 tw-transition-colors tw-duration-200 tw-delay-75 hover:tw-transition-none">
-              <p class="tw-truncate tw-flex-1 tw-text-base tw-mr-2">{{ upload.file.name }}</p>
-              <div class="tw-relative tw-ml-auto tw-w-30px tw-h-30px">
-                <app-circular-progress class="tw-absolute tw-absolute-center" [percent]="upload.progress" [radius]="15"
-                  [strokeWidth]="5">
-                </app-circular-progress>
-                <button pButton type="text"
-                  class="p-button-success p-button-rounded p-button-xs tw-absolute tw-absolute-center tw-z-20 tw-opacity-0 hover:tw-opacity-100 tw-transition-opacity tw-duration-200"
-                  icon="ms ms-close" (click)="cancelUpload(upload)">
-                </button>
-              </div>
+          <div *ngFor="let upload of uploadQueue; trackBy: trackId"
+            class="tw-flex tw-items-center tw-px-4 tw-py-2 hover:tw-bg-neutral-700 tw-transition-colors tw-duration-200 tw-delay-75 hover:tw-transition-none">
+            <p class="tw-truncate tw-flex-1 tw-text-base tw-mr-2">{{ upload.file.name }}</p>
+            <div class="tw-relative tw-ml-auto tw-w-30px tw-h-30px">
+              <app-circular-progress class="tw-absolute tw-absolute-center" [percent]="upload.progress" [radius]="15"
+                [strokeWidth]="5">
+              </app-circular-progress>
+              <button pButton type="text"
+                class="p-button-success p-button-rounded p-button-xs tw-absolute tw-absolute-center tw-z-20 tw-opacity-0 hover:tw-opacity-100 tw-transition-opacity tw-duration-200"
+                icon="ms ms-close" (click)="cancelUpload(upload)">
+              </button>
             </div>
-          }
+          </div>
         </div>
       </p-panel>
     </div>
