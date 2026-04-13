@@ -4,8 +4,10 @@
     <div class="tw-my-8">
       <app-media-list [mediaList]="mediaList?.results" [loading]="loadingMediaList"></app-media-list>
     </div>
-    <p-paginator *ngIf="mediaList" [rows]="itemsPerPage" [totalRecords]="mediaList.totalResults"
-      (onPageChange)="onPageChange($event)">
-    </p-paginator>
+    @if (mediaList) {
+      <p-paginator [rows]="itemsPerPage" [totalRecords]="mediaList.totalResults"
+        (onPageChange)="onPageChange($event)">
+      </p-paginator>
+    }
   </div>
 </div>

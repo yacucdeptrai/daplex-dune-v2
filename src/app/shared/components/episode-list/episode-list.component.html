@@ -1,68 +1,72 @@
 <ng-container *transloco="let t; loadingTpl: episodeLoadingTpl">
-  <ng-container *ngIf="loading; then episodeLoadingTpl; else episodeListLoaded"></ng-container>
-  <ng-template #episodeListLoaded>
-    <ng-container *ngIf="episodeList?.length && media">
+  @if (loading) {
+    <ul class="tw-bg-neutral-850 tw-overflow-hidden tw-rounded-sm tw-list-none">
+      @for (item of skeletonArray; track item) {
+        <li class="tw-bg-neutral-850 tw-p-1">
+          <div class="tw-flex">
+            <div class="tw-w-1/5">
+              <app-skeleton width="100%" height="100%" shape="none" styleClass="tw-aspect-w-2 tw-aspect-h-3 tw-rounded-sm">
+              </app-skeleton>
+            </div>
+            <div class="tw-w-4/5 tw-px-2 tw-py-1">
+              <app-skeleton width="100%" height="20px"></app-skeleton>
+              <app-skeleton width="40%" height="20px" styleClass="tw-mt-2"></app-skeleton>
+            </div>
+          </div>
+        </li>
+      }
+    </ul>
+  } @else {
+    @if (episodeList?.length && media) {
       <ul class="tw-rounded-sm tw-list-none">
-        <li class="tw-transition-colors tw-duration-200 hover:tw-bg-neutral-800"
-          routerLinkActive="tw-bg-neutral-725 hover:!tw-bg-neutral-725"
-          *ngFor="let episode of episodeList; trackBy: trackId">
-          <a [routerLink]="['/watch', media._id]" [queryParams]="{ ep: episode.epNumber}"
-            class="tw-flex tw-p-1 tw-group focus-visible:tw-shadow-focus-box focus-visible:tw-rounded-md">
-            <div [ngClass]="stillStyleClass">
-              <div class="tw-aspect-w-16 tw-aspect-h-9 tw-rounded-md">
-                <img *ngIf="episode.thumbnailStillUrl; else noStill" class="tw-object-cover tw-rounded-md"
-                  [lazyLoad]="episode.thumbnailStillUrl" [defaultImage]="episode.stillPlaceholder | thumbhashUrl"
-                  placeholderStyleClass="tw-rounded-md" [alt]="episode.name"
-                  errorImage="assets/images/episode-image-md.png">
-                <ng-template #noStill>
-                  <img class="tw-object-cover tw-rounded-md" src="assets/images/episode-image-md.png" loading="lazy"
-                    [alt]="episode.name">
-                </ng-template>
+        @for (episode of episodeList; track trackId($index, episode)) {
+          <li class="tw-transition-colors tw-duration-200 hover:tw-bg-neutral-800"
+            routerLinkActive="tw-bg-neutral-725 hover:!tw-bg-neutral-725"
+            >
+            <a [routerLink]="['/watch', media._id]" [queryParams]="{ ep: episode.epNumber}"
+              class="tw-flex tw-p-1 tw-group focus-visible:tw-shadow-focus-box focus-visible:tw-rounded-md">
+              <div [ngClass]="stillStyleClass">
+                <div class="tw-aspect-w-16 tw-aspect-h-9 tw-rounded-md">
+                  @if (episode.thumbnailStillUrl) {
+                    <img class="tw-object-cover tw-rounded-md"
+                      [lazyLoad]="episode.thumbnailStillUrl" [defaultImage]="episode.stillPlaceholder | thumbhashUrl"
+                      placeholderStyleClass="tw-rounded-md" [alt]="episode.name"
+                      errorImage="assets/images/episode-image-md.png">
+                    } @else {
+                      <img class="tw-object-cover tw-rounded-md" src="assets/images/episode-image-md.png" loading="lazy"
+                        [alt]="episode.name">
+                      }
                 <div class="tw-flex tw-justify-center tw-items-center tw-opacity-0 group-hover:tw-opacity-100
                     group-focus-visible:tw-opacity-100 tw-transition-opacity tw-duration-200">
-                  <i class="ms ms-play-circle tw-text-white tw-text-5xl"></i>
-                </div>
-              </div>
-            </div>
-            <div [ngClass]="infoStyleClass">
-              <p class="tw-text-white tw-text-sm md:tw-text-base tw-leading-5 tw-font-bold tw-line-clamp-1">
-                <span *ngIf="episode.name; else noEpisodeName">{{ episode.epNumber }}. {{ episode.name }}</span>
-                <ng-template #noEpisodeName>
-                  <span>{{ t('media.episode.episodePrefix') }} {{ episode.epNumber }}</span>
-                </ng-template>
-              </p>
-              <p class="tw-text-gray-400 tw-flex tw-items-center tw-font-medium tw-mt-0.5"
-                [ngClass]="dateAiredStyleClass">
-                <!-- <i class="ms ms-calendar-today ms-icon-xs tw-mr-1.5"></i> -->
-                <span class="tw-font-semibold">{{ episode.airDate | shortDate:'P' }}</span>
-                <span class="tw-mx-2 before:tw-content-dot"></span>
-                <!-- <i class="ms ms-schedule ms-icon-xs tw-mr-1.5"></i> -->
-                <span class="tw-font-semibold">{{ episode.runtime * 1000 | time:{ format:['hours', 'minutes'],
-                  display:'short' } }}</span>
-              </p>
-            </div>
-          </a>
-        </li>
-      </ul>
+                        <i class="ms ms-play-circle tw-text-white tw-text-5xl"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div [ngClass]="infoStyleClass">
+                    <p class="tw-text-white tw-text-sm md:tw-text-base tw-leading-5 tw-font-bold tw-line-clamp-1">
+                      @if (episode.name) {
+                        <span>{{ episode.epNumber }}. {{ episode.name }}</span>
+                      } @else {
+                        <span>{{ t('media.episode.episodePrefix') }} {{ episode.epNumber }}</span>
+                      }
+                    </p>
+                    <p class="tw-text-gray-400 tw-flex tw-items-center tw-font-medium tw-mt-0.5"
+                      [ngClass]="dateAiredStyleClass">
+                      <!-- <i class="ms ms-calendar-today ms-icon-xs tw-mr-1.5"></i> -->
+                      <span class="tw-font-semibold">{{ episode.airDate | shortDate:'P' }}</span>
+                      <span class="tw-mx-2 before:tw-content-dot"></span>
+                      <!-- <i class="ms ms-schedule ms-icon-xs tw-mr-1.5"></i> -->
+                      <span class="tw-font-semibold">{{ episode.runtime * 1000 | time:{ format:['hours', 'minutes'],
+                      display:'short' } }}</span>
+                    </p>
+                  </div>
+                </a>
+              </li>
+            }
+          </ul>
+        }
+        <ng-template #noEpisodes>
+          <p class="tw-text-gray-400 tw-text-base tw-italic">{{ t('media.details.noEpisodes') }}</p>
+        </ng-template>
+      }
     </ng-container>
-    <ng-template #noEpisodes>
-      <p class="tw-text-gray-400 tw-text-base tw-italic">{{ t('media.details.noEpisodes') }}</p>
-    </ng-template>
-  </ng-template>
-</ng-container>
-<ng-template #episodeLoadingTpl>
-  <ul class="tw-bg-neutral-850 tw-overflow-hidden tw-rounded-sm tw-list-none">
-    <li *ngFor="let item of skeletonArray" class="tw-bg-neutral-850 tw-p-1">
-      <div class="tw-flex">
-        <div class="tw-w-1/5">
-          <app-skeleton width="100%" height="100%" shape="none" styleClass="tw-aspect-w-2 tw-aspect-h-3 tw-rounded-sm">
-          </app-skeleton>
-        </div>
-        <div class="tw-w-4/5 tw-px-2 tw-py-1">
-          <app-skeleton width="100%" height="20px"></app-skeleton>
-          <app-skeleton width="40%" height="20px" styleClass="tw-mt-2"></app-skeleton>
-        </div>
-      </div>
-    </li>
-  </ul>
-</ng-template>

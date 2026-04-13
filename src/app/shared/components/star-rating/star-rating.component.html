@@ -6,15 +6,15 @@
     [ngClass]="{ 'tw-cursor-pointer': !readonly && !disabled }"
     [ngStyle]="{ width: 'var(--star-width)', height: 'var(--star-height)' }" aria-hidden="true"
     (click)="!readonly && !disabled && onZeroStarClick()"
-    (mousemove)="!readonly && !disabled && onZeroStarHover()"></span>
+  (mousemove)="!readonly && !disabled && onZeroStarHover()"></span>
 
-  <div *ngFor="let star of editableStars;" class="tw-z-1" [ngClass]="{ 'tw-cursor-pointer': !readonly && !disabled }"
-    aria-hidden="true" (click)="!readonly && !disabled && onStarClick($event, star)"
-    (mousemove)="!readonly && !disabled && onStarHover($event, star)">
-
-    <span class="tw-inline-block tw-transition-colors tw-duration-200" [ngClass]="star.classname"
-      [ngStyle]="{ width: 'var(--star-width)', height: 'var(--star-height)', 'color': disabled ? '#464646' : color || 'yellow', 'font-size': 'var(--star-width)' }"
+  @for (star of editableStars; track star) {
+    <div class="tw-z-1" [ngClass]="{ 'tw-cursor-pointer': !readonly && !disabled }"
+      aria-hidden="true" (click)="!readonly && !disabled && onStarClick($event, star)"
+      (mousemove)="!readonly && !disabled && onStarHover($event, star)">
+      <span class="tw-inline-block tw-transition-colors tw-duration-200" [ngClass]="star.classname"
+        [ngStyle]="{ width: 'var(--star-width)', height: 'var(--star-height)', 'color': disabled ? '#464646' : color || 'yellow', 'font-size': 'var(--star-width)' }"
       aria-hidden="true"></span>
-
-  </div>
+    </div>
+  }
 </div>

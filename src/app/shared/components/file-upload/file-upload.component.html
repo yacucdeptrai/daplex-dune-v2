@@ -6,11 +6,15 @@
     <input #inputFile hidden="true" type="file" id="file-upload" onclick="this.value = null"
       (change)="onFileInputChange($event)" [attr.accept]="accept" [attr.aria-label]="ariaLabel"
       [attr.aria-describedby]="ariaDescribedby" />
-    <button pButton type="button" class="p-button-secondary p-button-shrink" [label]="label" icon="ms ms-file-upload"
-      iconPos="right" ariaLabel="Select file" (click)="inputFile.click()" [disabled]="disabled">
-    </button>
-    <p *ngIf="desciption" class="tw-text-sm tw-text-gray-400 tw-mt-2">{{ desciption }}</p>
-    <p *ngIf="selectedFile && showFilename" class="tw-text-base tw-font-medium tw-line-clamp-2 tw-mt-2">{{
-      selectedFile.name }}</p>
+      <button pButton type="button" class="p-button-secondary p-button-shrink" [label]="label" icon="ms ms-file-upload"
+        iconPos="right" ariaLabel="Select file" (click)="inputFile.click()" [disabled]="disabled">
+      </button>
+      @if (desciption) {
+        <p class="tw-text-sm tw-text-gray-400 tw-mt-2">{{ desciption }}</p>
+      }
+      @if (selectedFile && showFilename) {
+        <p class="tw-text-base tw-font-medium tw-line-clamp-2 tw-mt-2">{{
+        selectedFile.name }}</p>
+      }
+    </div>
   </div>
-</div>

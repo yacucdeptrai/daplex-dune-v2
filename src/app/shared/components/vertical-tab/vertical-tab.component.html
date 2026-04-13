@@ -18,21 +18,23 @@
         <div class="md:tw-mx-8">
           <div [ngClass]="panelStyleClass">
             <div [ngClass]="contentStyleClass">
-              <ng-container *ngFor="let tab of tabs; trackBy: trackId">
-                <ng-container *ngIf="tab.id === selectedTabId">
+              @for (tab of tabs; track trackId($index, tab)) {
+                @if (tab.id === selectedTabId) {
                   <ng-container [ngTemplateOutlet]="tab.template"></ng-container>
-                </ng-container>
-              </ng-container>
+                }
+              }
             </div>
           </div>
         </div>
       </div>
-      <ng-container *ngFor="let toast of toasts; trackBy: trackTabId">
-        <div *ngIf="toast.tabId === selectedTabId && toast.visible" class="tw-absolute" [ngClass]="toast.styleClass"
-          @tabPanelToast>
-          <ng-container [ngTemplateOutlet]="toast.template"></ng-container>
-        </div>
-      </ng-container>
+      @for (toast of toasts; track trackTabId($index, toast)) {
+        @if (toast.tabId === selectedTabId && toast.visible) {
+          <div class="tw-absolute" [ngClass]="toast.styleClass"
+            @tabPanelToast>
+            <ng-container [ngTemplateOutlet]="toast.template"></ng-container>
+          </div>
+        }
+      }
     </div>
   </div>
 </div>
