@@ -5,10 +5,11 @@ import { SharingOption } from './interfaces';
 import { trackLabel } from '../../../core/utils';
 
 @Component({
-  selector: 'app-share-media-link',
-  templateUrl: './share-media-link.component.html',
-  styleUrls: ['./share-media-link.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-share-media-link',
+    templateUrl: './share-media-link.component.html',
+    styleUrls: ['./share-media-link.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ShareMediaLinkComponent {
   trackLabel = trackLabel;

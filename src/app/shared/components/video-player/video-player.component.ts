@@ -3,7 +3,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { Platform } from '@angular/cdk/platform';
 import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { patchState } from '@ngrx/signals';
-import { DeepSignal } from '@ngrx/signals/src/deep-signal';
+import { DeepSignal } from '@ngrx/signals';
 import { type TextTrackInit, type MediaPlayEvent, type AudioTrack, type MediaLoadedMetadataEvent, type PlayerSrc, type TextTrack, MediaLoadedDataEvent, MediaCanPlayThroughEvent } from 'vidstack';
 import { debounceTime, filter, first, forkJoin, fromEvent, Observable, of, switchMap, takeUntil, takeWhile, tap } from 'rxjs';
 import { supportsMediaSource } from 'dashjs';
@@ -21,23 +21,24 @@ import { getFontFamily, getTextEdgeStyle, prepareColor, scaleFontWeight, track_I
 import { BaseVideoPlayerComponent } from './base-video-player/base-video-player.component';
 
 @Component({
-  selector: 'app-video-player',
-  templateUrl: './video-player.component.html',
-  styleUrls: ['./video-player.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    VideoPlayerService,
-    VideoPlayerStore,
-    DestroyService,
-    UsersService,
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: ['languages', 'media', 'player']
-    }
-  ],
-  host: {
-    class: 'tw-block'
-  }
+    selector: 'app-video-player',
+    templateUrl: './video-player.component.html',
+    styleUrls: ['./video-player.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        VideoPlayerService,
+        VideoPlayerStore,
+        DestroyService,
+        UsersService,
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: ['languages', 'media', 'player']
+        }
+    ],
+    host: {
+        class: 'tw-block'
+    },
+    standalone: false
 })
 export class VideoPlayerComponent implements OnInit {
   track_Id = track_Id;

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { SwiperModule } from 'swiper/angular';
+import { SwiperModule } from '../../shared/components/swiper';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 

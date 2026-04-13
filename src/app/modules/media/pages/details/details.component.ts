@@ -17,11 +17,12 @@ import { SITE_NAME, SITE_THEME_COLOR, YOUTUBE_EMBED_URL, YOUTUBE_THUMBNAIL_URL }
 import { toHexColor, track_Id } from '../../../../core/utils';
 
 @Component({
-  selector: 'app-details',
-  templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-details',
+    templateUrl: './details.component.html',
+    styleUrls: ['./details.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   track_Id = track_Id;

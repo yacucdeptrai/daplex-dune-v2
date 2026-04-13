@@ -1,5 +1,5 @@
-import { Inject, Injectable } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable, DOCUMENT } from '@angular/core';
+
 import { Platform } from '@angular/cdk/platform';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { signalState } from '@ngrx/signals';

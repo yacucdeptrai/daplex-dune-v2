@@ -2,7 +2,8 @@ import { NgForOf } from '@angular/common';
 import { Directive, Input } from '@angular/core';
 
 @Directive({
-  selector: '[ngFor][ngForRepeat]'
+    selector: '[ngFor][ngForRepeat]',
+    standalone: false
 })
 export class NgForRepeatDirective<T> extends NgForOf<T> {
   @Input() set ngForRepeat(count: number) {

@@ -10,27 +10,28 @@ import { fromEvent, filter, takeUntil, take, delay, asapScheduler } from 'rxjs';
 import { MenuDirective } from '../menu/menu.directive';
 
 @Directive({
-  selector: '[appMenuTriggerFor]',
-  exportAs: 'appMenuTriggerFor',
-  host: {
-    'class': 'cdk-menu-trigger',
-    '[attr.aria-haspopup]': 'menuTemplateRef ? "menu" : null',
-    '[attr.aria-expanded]': 'menuTemplateRef == null ? null : isOpen()',
-    '(focusin)': '_setHasFocus(true)',
-    '(focusout)': '_setHasFocus(false)',
-    '(keydown)': '_toggleOnKeydown($event)',
-    '(click)': 'toggle()',
-  },
-  inputs: [
-    'menuTemplateRef: appMenuTriggerFor',
-    'menuPosition: appMenuPosition',
-    'menuData: appMenuTriggerData',
-  ],
-  outputs: ['opened: cdkMenuOpened', 'closed: cdkMenuClosed'],
-  providers: [
-    { provide: MENU_TRIGGER, useExisting: MenuTriggerDirective },
-    PARENT_OR_NEW_MENU_STACK_PROVIDER,
-  ]
+    selector: '[appMenuTriggerFor]',
+    exportAs: 'appMenuTriggerFor',
+    host: {
+        'class': 'cdk-menu-trigger',
+        '[attr.aria-haspopup]': 'menuTemplateRef ? "menu" : null',
+        '[attr.aria-expanded]': 'menuTemplateRef == null ? null : isOpen()',
+        '(focusin)': '_setHasFocus(true)',
+        '(focusout)': '_setHasFocus(false)',
+        '(keydown)': '_toggleOnKeydown($event)',
+        '(click)': 'toggle()',
+    },
+    inputs: [
+        'menuTemplateRef: appMenuTriggerFor',
+        'menuPosition: appMenuPosition',
+        'menuData: appMenuTriggerData',
+    ],
+    outputs: ['opened: cdkMenuOpened', 'closed: cdkMenuClosed'],
+    providers: [
+        { provide: MENU_TRIGGER, useExisting: MenuTriggerDirective },
+        PARENT_OR_NEW_MENU_STACK_PROVIDER,
+    ],
+    standalone: false
 })
 export class MenuTriggerDirective extends CdkMenuTriggerBase implements OnDestroy {
   /** The host element. */

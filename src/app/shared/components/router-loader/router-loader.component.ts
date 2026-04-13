@@ -4,14 +4,15 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Rout
 import { RouterLoaderService } from './router-loader.service';
 
 @Component({
-  selector: 'app-router-loader',
-  templateUrl: './router-loader.component.html',
-  styleUrl: './router-loader.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[attr.fixed]': 'fixed',
-    '[style.color]': 'color',
-  }
+    selector: 'app-router-loader',
+    templateUrl: './router-loader.component.html',
+    styleUrl: './router-loader.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        '[attr.fixed]': 'fixed',
+        '[style.color]': 'color',
+    },
+    standalone: false
 })
 export class RouterLoaderComponent implements OnInit {
   @Input() fixed = true;

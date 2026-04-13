@@ -13,11 +13,12 @@ interface RecoverPasswordForm {
 }
 
 @Component({
-  selector: 'app-forgot-password',
-  templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-forgot-password',
+    templateUrl: './forgot-password.component.html',
+    styleUrls: ['./forgot-password.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class ForgotPasswordComponent implements OnInit {
   @ViewChild('reCaptcha') reCaptcha?: RecaptchaComponent;

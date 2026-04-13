@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, ViewChild, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, ViewChild, Inject, DOCUMENT } from '@angular/core';
+
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -36,18 +36,19 @@ interface CreateEpisodeForm {
 interface UpdateEpisodeForm extends CreateEpisodeForm { }
 
 @Component({
-  selector: 'app-create-episode',
-  templateUrl: './create-episode.component.html',
-  styleUrls: ['./create-episode.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    ItemDataService,
-    DestroyService,
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: 'common'
-    }
-  ]
+    selector: 'app-create-episode',
+    templateUrl: './create-episode.component.html',
+    styleUrls: ['./create-episode.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        ItemDataService,
+        DestroyService,
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: 'common'
+        }
+    ],
+    standalone: false
 })
 export class CreateEpisodeComponent implements OnInit {
   @ViewChild('stepper') stepper?: StepperComponent;

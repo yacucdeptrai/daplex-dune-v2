@@ -11,14 +11,15 @@ import { UsersStateService } from '../../services';
 import { SITE_NAME } from '../../../../../environments/config';
 
 @Component({
-  selector: 'app-users-layout',
-  templateUrl: './users-layout.component.html',
-  styleUrls: ['./users-layout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    UsersStateService,
-    DestroyService
-  ]
+    selector: 'app-users-layout',
+    templateUrl: './users-layout.component.html',
+    styleUrls: ['./users-layout.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        UsersStateService,
+        DestroyService
+    ],
+    standalone: false
 })
 export class UsersLayoutComponent implements OnInit, OnDestroy {
   user?: UserDetails;

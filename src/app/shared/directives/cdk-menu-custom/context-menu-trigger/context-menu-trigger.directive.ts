@@ -42,23 +42,24 @@ export class ContextMenuTracker {
  * It is aware of nested context menus and will trigger only the lowest level non-disabled context menu.
  */
 @Directive({
-  selector: '[appContextMenuTriggerFor]',
-  exportAs: 'appContextMenuTriggerFor',
-  host: {
-    '[attr.data-cdk-menu-stack-id]': 'null',
-    '(contextmenu)': '_openOnContextMenu($event)',
-    '(keydown)': '_toggleOnKeydown($event)',
-  },
-  inputs: [
-    'menuTemplateRef: appContextMenuTriggerFor',
-    'menuPosition: cdkContextMenuPosition',
-    'menuData: cdkContextMenuTriggerData',
-  ],
-  outputs: ['opened: cdkContextMenuOpened', 'closed: cdkContextMenuClosed'],
-  providers: [
-    { provide: MENU_TRIGGER, useExisting: ContextMenuTriggerDirective },
-    { provide: MENU_STACK, useClass: MenuStack },
-  ],
+    selector: '[appContextMenuTriggerFor]',
+    exportAs: 'appContextMenuTriggerFor',
+    host: {
+        '[attr.data-cdk-menu-stack-id]': 'null',
+        '(contextmenu)': '_openOnContextMenu($event)',
+        '(keydown)': '_toggleOnKeydown($event)',
+    },
+    inputs: [
+        'menuTemplateRef: appContextMenuTriggerFor',
+        'menuPosition: cdkContextMenuPosition',
+        'menuData: cdkContextMenuTriggerData',
+    ],
+    outputs: ['opened: cdkContextMenuOpened', 'closed: cdkContextMenuClosed'],
+    providers: [
+        { provide: MENU_TRIGGER, useExisting: ContextMenuTriggerDirective },
+        { provide: MENU_STACK, useClass: MenuStack },
+    ],
+    standalone: false
 })
 export class ContextMenuTriggerDirective extends CdkMenuTriggerBase implements OnDestroy {
   /** The CDK overlay service. */

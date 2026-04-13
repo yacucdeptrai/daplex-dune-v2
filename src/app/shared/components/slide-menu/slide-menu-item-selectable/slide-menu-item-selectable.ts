@@ -13,10 +13,11 @@ import { Directive, Input } from '@angular/core';
 import { SlideMenuItem } from '../slide-menu-item/slide-menu-item';
 
 @Directive({
-  host: {
-    '[attr.aria-checked]': '!!checked',
-    '[attr.aria-disabled]': 'disabled || null',
-  }
+    host: {
+        '[attr.aria-checked]': '!!checked',
+        '[attr.aria-disabled]': 'disabled || null',
+    },
+    standalone: false
 })
 export abstract class SlideMenuItemSelectable extends SlideMenuItem {
   /** Whether the element is checked */

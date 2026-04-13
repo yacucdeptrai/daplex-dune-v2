@@ -6,7 +6,8 @@ interface ConversionOptions {
 }
 
 @Pipe({
-  name: 'hslColor'
+    name: 'hslColor',
+    standalone: false
 })
 export class HslColorPipe implements PipeTransform {
 

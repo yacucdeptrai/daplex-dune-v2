@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inject, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inject, Input, OnInit, Renderer2, ViewChild, DOCUMENT } from '@angular/core';
+
 import { NavigationEnd, Router } from '@angular/router';
 import { AutoComplete } from 'primeng/autocomplete';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -12,11 +12,12 @@ import { track_Id } from '../../../core/utils';
 import { SearchOverlayComponent } from '../../dialogs/search-overlay';
 
 @Component({
-  selector: 'app-home-header',
-  templateUrl: './home-header.component.html',
-  styleUrls: ['./home-header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-home-header',
+    templateUrl: './home-header.component.html',
+    styleUrls: ['./home-header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class HomeHeaderComponent implements OnInit {
   @ViewChild('mediaSearch') mediaSearch?: AutoComplete;

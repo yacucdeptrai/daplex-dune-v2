@@ -4,7 +4,8 @@ import { PermissionPipeService } from '../permission-pipe.service';
 import { UserDetails } from '../../../../core/models';
 
 @Pipe({
-  name: 'isGranted'
+    name: 'isGranted',
+    standalone: false
 })
 export class IsGrantedPipe implements PipeTransform {
   constructor(private permissionPipeService: PermissionPipeService) { }

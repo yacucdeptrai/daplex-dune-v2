@@ -1,10 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
 
 @Component({
-  selector: 'app-tab-panel',
-  templateUrl: './tab-panel.component.html',
-  styleUrls: ['./tab-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-tab-panel',
+    templateUrl: './tab-panel.component.html',
+    styleUrls: ['./tab-panel.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class TabPanelComponent implements OnInit {
   @Input() header: string = '';

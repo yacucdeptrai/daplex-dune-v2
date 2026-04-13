@@ -12,11 +12,12 @@ interface CreateProductionForm {
 }
 
 @Component({
-  selector: 'app-create-production',
-  templateUrl: './create-production.component.html',
-  styleUrls: ['./create-production.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ItemDataService, DestroyService]
+    selector: 'app-create-production',
+    templateUrl: './create-production.component.html',
+    styleUrls: ['./create-production.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [ItemDataService, DestroyService],
+    standalone: false
 })
 export class CreateProductionComponent implements OnInit {
   createProductionForm: FormGroup<CreateProductionForm>;

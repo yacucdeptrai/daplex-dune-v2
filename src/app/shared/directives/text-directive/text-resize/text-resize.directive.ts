@@ -8,7 +8,8 @@ export interface TextResizeOption {
 }
 
 @Directive({
-  selector: '[appTextResize]'
+    selector: '[appTextResize]',
+    standalone: false
 })
 export class TextResizeDirective implements OnChanges {
   _originalSize: string | null = null;

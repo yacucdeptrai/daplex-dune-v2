@@ -26,16 +26,17 @@ interface FilterForm {
 }
 
 @Component({
-  selector: 'app-media-filter',
-  templateUrl: './media-filter.component.html',
-  styleUrls: ['./media-filter.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: 'media'
-    }
-  ]
+    selector: 'app-media-filter',
+    templateUrl: './media-filter.component.html',
+    styleUrls: ['./media-filter.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: 'media'
+        }
+    ],
+    standalone: false
 })
 export class MediaFilterComponent implements OnInit {
   @Output() onChange = new EventEmitter<MediaFilterOptionsDto>();

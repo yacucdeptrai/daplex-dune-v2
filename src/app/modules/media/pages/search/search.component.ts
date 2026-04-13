@@ -8,11 +8,12 @@ import { MediaFilterOptionsDto, PaginateMediaDto } from '../../../../core/dto/me
 import { Media, Paginated } from '../../../../core/models';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MediaService, DestroyService]
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [MediaService, DestroyService],
+    standalone: false
 })
 export class SearchComponent implements OnInit, AfterViewInit {
   @ViewChild('mediaFilter') mediaFilter?: MediaFilterComponent;

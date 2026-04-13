@@ -15,11 +15,12 @@ interface UpdatePasswordForm {
 }
 
 @Component({
-  selector: 'app-update-password',
-  templateUrl: './update-password.component.html',
-  styleUrls: ['./update-password.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-update-password',
+    templateUrl: './update-password.component.html',
+    styleUrls: ['./update-password.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class UpdatePasswordComponent {
   updatePasswordForm: FormGroup<UpdatePasswordForm>;

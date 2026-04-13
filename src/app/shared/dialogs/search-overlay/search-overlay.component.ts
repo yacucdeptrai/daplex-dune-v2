@@ -7,11 +7,12 @@ import { Media } from '../../../core/models';
 import { MediaType } from '../../../core/enums';
 
 @Component({
-  selector: 'app-search-overlay',
-  templateUrl: './search-overlay.component.html',
-  styleUrl: './search-overlay.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-search-overlay',
+    templateUrl: './search-overlay.component.html',
+    styleUrl: './search-overlay.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class SearchOverlayComponent {
   MediaType = MediaType;

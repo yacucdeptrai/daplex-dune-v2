@@ -6,10 +6,11 @@ import { HistoryGroupable, Media, UserDetails } from '../../../../core/models';
 import { AuthService, DestroyService } from '../../../../core/services';
 
 @Component({
-  selector: 'app-history-card [history]',
-  templateUrl: './history-card.component.html',
-  styleUrls: ['./history-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-history-card [history]',
+    templateUrl: './history-card.component.html',
+    styleUrls: ['./history-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class HistoryCardComponent implements OnInit {
   @Input() history!: HistoryGroupable;

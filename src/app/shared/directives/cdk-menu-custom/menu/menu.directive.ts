@@ -8,19 +8,20 @@ import { Subject, takeUntil } from 'rxjs';
 import { MenuBase } from '../menu-base/menu-base.directive';
 
 @Directive({
-  selector: '[appMenu]',
-  exportAs: 'appMenu',
-  host: {
-    'role': 'menu',
-    'class': 'cdk-menu',
-    '[class.cdk-menu-inline]': 'isInline',
-    '(keydown)': '_handleKeyEvent($event)',
-  },
-  providers: [
-    { provide: CdkMenuGroup, useExisting: MenuDirective },
-    { provide: CDK_MENU, useExisting: MenuDirective },
-    PARENT_OR_NEW_INLINE_MENU_STACK_PROVIDER('vertical'),
-  ]
+    selector: '[appMenu]',
+    exportAs: 'appMenu',
+    host: {
+        'role': 'menu',
+        'class': 'cdk-menu',
+        '[class.cdk-menu-inline]': 'isInline',
+        '(keydown)': '_handleKeyEvent($event)',
+    },
+    providers: [
+        { provide: CdkMenuGroup, useExisting: MenuDirective },
+        { provide: CDK_MENU, useExisting: MenuDirective },
+        PARENT_OR_NEW_INLINE_MENU_STACK_PROVIDER('vertical'),
+    ],
+    standalone: false
 })
 export class MenuDirective extends MenuBase implements AfterContentInit, OnDestroy {
   private _parentTrigger = inject(MENU_TRIGGER, { optional: true });

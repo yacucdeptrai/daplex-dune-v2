@@ -15,18 +15,19 @@ import { MenuTriggerDirective } from '../menu-trigger/menu-trigger.directive';
  * behavior when clicked.
  */
 @Directive({
-  selector: '[appMenuItem]',
-  exportAs: 'appMenuItem',
-  host: {
-    'role': 'menuitem',
-    'class': 'cdk-menu-item',
-    '[tabindex]': '_tabindex',
-    '[attr.aria-disabled]': 'disabled || null',
-    '(blur)': '_resetTabIndex()',
-    '(focus)': '_setTabIndex()',
-    '(click)': 'trigger()',
-    '(keydown)': '_onKeydown($event)',
-  }
+    selector: '[appMenuItem]',
+    exportAs: 'appMenuItem',
+    host: {
+        'role': 'menuitem',
+        'class': 'cdk-menu-item',
+        '[tabindex]': '_tabindex',
+        '[attr.aria-disabled]': 'disabled || null',
+        '(blur)': '_resetTabIndex()',
+        '(focus)': '_setTabIndex()',
+        '(click)': 'trigger()',
+        '(keydown)': '_onKeydown($event)',
+    },
+    standalone: false
 })
 export class MenuItemDirective implements FocusableOption, FocusableElement, Toggler, OnDestroy {
   /** The directionality (text direction) of the current page. */

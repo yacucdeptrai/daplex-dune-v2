@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, Inject, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, Inject, OnDestroy, ViewChild, AfterViewInit, DOCUMENT } from '@angular/core';
+
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ConfirmationService, MenuItem } from 'primeng/api';
@@ -55,18 +55,19 @@ interface UpdateMediaForm {
 }
 
 @Component({
-  selector: 'app-configure-media',
-  templateUrl: './configure-media.component.html',
-  styleUrls: ['./configure-media.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    ItemDataService,
-    DestroyService,
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: ['common', 'languages']
-    }
-  ]
+    selector: 'app-configure-media',
+    templateUrl: './configure-media.component.html',
+    styleUrls: ['./configure-media.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        ItemDataService,
+        DestroyService,
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: ['common', 'languages']
+        }
+    ],
+    standalone: false
 })
 export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;

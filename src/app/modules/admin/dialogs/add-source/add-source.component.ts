@@ -14,11 +14,12 @@ interface AddSourceForm {
 }
 
 @Component({
-  selector: 'app-add-source',
-  templateUrl: './add-source.component.html',
-  styleUrls: ['./add-source.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-add-source',
+    templateUrl: './add-source.component.html',
+    styleUrls: ['./add-source.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class AddSourceComponent implements OnInit {
   @ViewChild('addSourceFormElement') addSourceFormElement?: NgForm;

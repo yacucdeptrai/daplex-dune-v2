@@ -6,16 +6,17 @@ import { Media, Paginated } from '../../../core/models';
 import { track_Id } from '../../../core/utils';
 
 @Component({
-  selector: 'app-media-top',
-  templateUrl: './media-top.component.html',
-  styleUrls: ['./media-top.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: 'media'
-    }
-  ]
+    selector: 'app-media-top',
+    templateUrl: './media-top.component.html',
+    styleUrls: ['./media-top.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: 'media'
+        }
+    ],
+    standalone: false
 })
 export class MediaTopComponent implements OnInit {
   MediaType = MediaType;

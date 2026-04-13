@@ -13,11 +13,12 @@ interface UpdateProductionForm {
 }
 
 @Component({
-  selector: 'app-update-production',
-  templateUrl: './update-production.component.html',
-  styleUrls: ['./update-production.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ItemDataService, DestroyService]
+    selector: 'app-update-production',
+    templateUrl: './update-production.component.html',
+    styleUrls: ['./update-production.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [ItemDataService, DestroyService],
+    standalone: false
 })
 export class UpdateProductionComponent implements OnInit {
   isUpdatingProduction: boolean = false;

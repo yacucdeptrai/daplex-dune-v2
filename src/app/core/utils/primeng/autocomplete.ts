@@ -22,8 +22,8 @@ export const AUTOCOMPLETE_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  selector: 'p-altAutoComplete',
-  template: `
+    selector: 'p-altAutoComplete',
+    template: `
         <div #container [ngClass]="containerClass" [ngStyle]="style" [class]="styleClass!" (click)="onContainerClick($event)">
             <input
                 *ngIf="!multiple"
@@ -145,7 +145,7 @@ export const AUTOCOMPLETE_VALUE_ACCESSOR: any = {
             </button>
             <p-overlay
                 #overlay
-                [(visible)]="!!overlayVisible"
+                [visible]="!!overlayVisible" (visibleChange)="overlayVisible = $event"
                 [options]="overlayOptions"
                 [target]="'@parent'"
                 [appendTo]="appendTo"
@@ -232,17 +232,18 @@ export const AUTOCOMPLETE_VALUE_ACCESSOR: any = {
             </p-overlay>
         </div>
     `,
-  animations: [trigger('overlayAnimation', [transition(':enter', [style({ opacity: 0, transform: 'scaleY(0.8)' }), animate('{{showTransitionParams}}')]), transition(':leave', [animate('{{hideTransitionParams}}', style({ opacity: 0 }))])])],
-  host: {
-    class: 'p-element p-inputwrapper',
-    '[class.p-inputwrapper-filled]': 'filled',
-    '[class.p-inputwrapper-focus]': '((focus && !disabled) || autofocus) || overlayVisible',
-    '[class.p-autocomplete-clearable]': 'showClear && !disabled'
-  },
-  providers: [AUTOCOMPLETE_VALUE_ACCESSOR],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ['../../../../../node_modules/primeng/resources/components/autocomplete/autocomplete.css']
+    animations: [trigger('overlayAnimation', [transition(':enter', [style({ opacity: 0, transform: 'scaleY(0.8)' }), animate('{{showTransitionParams}}')]), transition(':leave', [animate('{{hideTransitionParams}}', style({ opacity: 0 }))])])],
+    host: {
+        class: 'p-element p-inputwrapper',
+        '[class.p-inputwrapper-filled]': 'filled',
+        '[class.p-inputwrapper-focus]': '((focus && !disabled) || autofocus) || overlayVisible',
+        '[class.p-autocomplete-clearable]': 'showClear && !disabled'
+    },
+    providers: [AUTOCOMPLETE_VALUE_ACCESSOR],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['../../../../../node_modules/primeng/resources/components/autocomplete/autocomplete.css'],
+    standalone: false
 })
 export class AltAutoComplete extends AutoComplete {
   modelLength: Signal<number> = computed(() => this.modelValue()?.length || 0);

@@ -22,10 +22,11 @@ export const SLIDE_MENU_TRIGGER = new InjectionToken<SlideMenuTriggerBase>('slid
  * This class can be extended to create custom menu trigger types.
  */
 @Directive({
-  host: {
-    '[attr.aria-controls]': 'childMenu?.id',
-    '[attr.data-slide-menu-stack-id]': 'menuStack.id',
-  },
+    host: {
+        '[attr.aria-controls]': 'childMenu?.id',
+        '[attr.data-slide-menu-stack-id]': 'menuStack.id',
+    },
+    standalone: false
 })
 export abstract class SlideMenuTriggerBase implements OnDestroy {
   /** The DI injector for this component. */

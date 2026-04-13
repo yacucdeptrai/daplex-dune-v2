@@ -3,10 +3,11 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map, startWith, tap } from 'rxjs';
 
 @Component({
-  selector: 'app-home-layout',
-  templateUrl: './home-layout.component.html',
-  styleUrls: ['./home-layout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-home-layout',
+    templateUrl: './home-layout.component.html',
+    styleUrls: ['./home-layout.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class HomeLayoutComponent implements OnInit {
   fixedNavbarSpacing: boolean = true;

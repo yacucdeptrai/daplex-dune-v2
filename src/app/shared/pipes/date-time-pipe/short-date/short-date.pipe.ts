@@ -8,7 +8,8 @@ import { ShortDate } from '../../../../core/models';
 const locales: { [key: string]: Locale } = { en: enUS, vi: vi };
 
 @Pipe({
-  name: 'shortDate'
+    name: 'shortDate',
+    standalone: false
 })
 export class ShortDatePipe implements PipeTransform {
   constructor(private translocoService: TranslocoService) { }

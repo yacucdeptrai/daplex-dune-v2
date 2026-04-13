@@ -6,7 +6,8 @@ import { enUS, vi } from 'date-fns/locale';
 const locales: { [key: string]: Locale } = { en: enUS, vi: vi };
 
 @Pipe({
-  name: 'dateAlt'
+    name: 'dateAlt',
+    standalone: false
 })
 export class DateAltPipe implements PipeTransform {
   constructor(private translocoService: TranslocoService) { }

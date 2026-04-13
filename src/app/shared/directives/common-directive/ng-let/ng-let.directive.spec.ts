@@ -4,7 +4,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CommonDirectiveModule } from '../common-directive.module';
 
-@Component({ template: '<div><ng-container *ngLet="value as data">{{data}}</ng-container><ng-container *ngLet="value; let data">{{data}}</ng-container></div>' })
+@Component({
+    template: '<div><ng-container *ngLet="value as data">{{data}}</ng-container><ng-container *ngLet="value; let data">{{data}}</ng-container></div>',
+    standalone: false
+})
 class TestSimpleComponent {
     value = 'test';
 }
@@ -34,7 +37,10 @@ describe('NgLet: simple', () => {
     });
 });
 
-@Component({ template: '<div *ngLet="value | async as data">{{data}}</div>' })
+@Component({
+    template: '<div *ngLet="value | async as data">{{data}}</div>',
+    standalone: false
+})
 class TestAsyncComponent {
     value: Observable<string> = of('test');
 }
@@ -65,7 +71,10 @@ describe('NgLet: async', () => {
 });
 
 // tslint:disable-next-line: max-line-length
-@Component({ template: '<div *ngLet="value as data"><ng-container *ngLet="nestedValue as nestedData">{{data}}-{{nestedData}}</ng-container></div>' })
+@Component({
+    template: '<div *ngLet="value as data"><ng-container *ngLet="nestedValue as nestedData">{{data}}-{{nestedData}}</ng-container></div>',
+    standalone: false
+})
 class TestNestedComponent {
     value = 'test';
     nestedValue = 'testNested';

@@ -2,20 +2,19 @@ import { Component, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/c
 import { Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
-import SwiperCore, { Autoplay, Navigation, Pagination, Swiper, SwiperOptions } from 'swiper';
 
 import { Media } from '../../../../core/models';
 import { AuthService } from '../../../../core/services';
 import { track_Id } from '../../../../core/utils';
 import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playlist';
-
-SwiperCore.use([Autoplay, Navigation, Pagination]);
+import { NativeSwiperOptions, NativeSwiperRef } from '../../../../shared/components/swiper';
 
 @Component({
-  selector: 'app-featured-media',
-  templateUrl: './featured-media.component.html',
-  styleUrls: ['./featured-media.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-featured-media',
+    templateUrl: './featured-media.component.html',
+    styleUrls: ['./featured-media.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class FeaturedMediaComponent implements OnDestroy {
   track_Id = track_Id;
@@ -24,7 +23,7 @@ export class FeaturedMediaComponent implements OnDestroy {
   @Input() mediaList?: Media[];
   activeTabIndex: number = 0;
   previousSlide?: Element;
-  swiperConfig: SwiperOptions;
+  swiperConfig: NativeSwiperOptions;
 
   constructor(private router: Router, private dialogService: DialogService, private translocoService: TranslocoService,
     private authService: AuthService) {
@@ -47,7 +46,7 @@ export class FeaturedMediaComponent implements OnDestroy {
     };
   }
 
-  onSwiperSlideChange([swiper]: [Swiper]): void {
+  onSwiperSlideChange([swiper]: [NativeSwiperRef]): void {
     if (this.previousSlide) {
       const buttons = this.previousSlide.querySelectorAll<HTMLButtonElement | HTMLAnchorElement>('button, a');
       buttons.forEach(button => {

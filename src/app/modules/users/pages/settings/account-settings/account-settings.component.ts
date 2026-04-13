@@ -10,11 +10,12 @@ import { UpdatePasswordComponent } from '../../../dialogs/update-password';
 import { UpdateUsernameComponent } from '../../../dialogs/update-username';
 
 @Component({
-  selector: 'app-account-settings',
-  templateUrl: './account-settings.component.html',
-  styleUrls: ['./account-settings.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DialogService, DestroyService]
+    selector: 'app-account-settings',
+    templateUrl: './account-settings.component.html',
+    styleUrls: ['./account-settings.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DialogService, DestroyService],
+    standalone: false
 })
 export class AccountSettingsComponent implements OnInit, OnDestroy {
   currentUser: UserDetails | null = null;

@@ -13,11 +13,12 @@ import { AddSubtitleForm } from '../../../../core/interfaces/forms';
 import { MediaType } from '../../../../core/enums';
 
 @Component({
-  selector: 'app-add-subtitle',
-  templateUrl: './add-subtitle.component.html',
-  styleUrls: ['./add-subtitle.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ItemDataService, DestroyService]
+    selector: 'app-add-subtitle',
+    templateUrl: './add-subtitle.component.html',
+    styleUrls: ['./add-subtitle.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [ItemDataService, DestroyService],
+    standalone: false
 })
 export class AddSubtitleComponent implements OnInit {
   languages?: DropdownOptionDto[];

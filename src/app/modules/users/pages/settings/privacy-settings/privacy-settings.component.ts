@@ -14,11 +14,12 @@ interface UpdatePrivacyForm {
 }
 
 @Component({
-  selector: 'app-privacy-settings',
-  templateUrl: './privacy-settings.component.html',
-  styleUrls: ['./privacy-settings.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-privacy-settings',
+    templateUrl: './privacy-settings.component.html',
+    styleUrls: ['./privacy-settings.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class PrivacySettingsComponent implements OnInit {
   currentUser: UserDetails | null = null;

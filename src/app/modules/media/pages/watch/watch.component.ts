@@ -19,11 +19,12 @@ import { toHexColor, trackId } from '../../../../core/utils';
 import { SITE_NAME, SITE_THEME_COLOR } from '../../../../../environments/config';
 
 @Component({
-  selector: 'app-watch',
-  templateUrl: './watch.component.html',
-  styleUrls: ['./watch.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [HistoryService, RatingsService, DestroyService]
+    selector: 'app-watch',
+    templateUrl: './watch.component.html',
+    styleUrls: ['./watch.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [HistoryService, RatingsService, DestroyService],
+    standalone: false
 })
 export class WatchComponent implements OnInit, OnDestroy {
   track_Id = trackId;

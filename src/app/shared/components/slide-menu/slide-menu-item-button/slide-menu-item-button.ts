@@ -11,16 +11,17 @@ import { Directive } from '@angular/core';
 import { SlideMenuItem } from '../slide-menu-item/slide-menu-item';
 
 @Directive({
-  selector: '[slideMenuItemButton]',
-  exportAs: 'slideMenuItemButton',
-  host: {
-    'role': 'menuitembutton',
-    '[class.slide-menu-button]': 'true',
-    '[class.slide-menu-button-checked]': '!!checked'
-  },
-  providers: [
-    { provide: SlideMenuItem, useExisting: SlideMenuItemButton }
-  ]
+    selector: '[slideMenuItemButton]',
+    exportAs: 'slideMenuItemButton',
+    host: {
+        'role': 'menuitembutton',
+        '[class.slide-menu-button]': 'true',
+        '[class.slide-menu-button-checked]': '!!checked'
+    },
+    providers: [
+        { provide: SlideMenuItem, useExisting: SlideMenuItemButton }
+    ],
+    standalone: false
 })
 export class SlideMenuItemButton extends SlideMenuItem {
   protected override keepOpen = true;
