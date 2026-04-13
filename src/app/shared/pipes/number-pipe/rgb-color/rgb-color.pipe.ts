@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'rgbColor'
+    name: 'rgbColor',
+    standalone: false
 })
 export class RgbColorPipe implements PipeTransform {
 

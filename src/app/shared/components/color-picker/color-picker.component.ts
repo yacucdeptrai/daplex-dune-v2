@@ -4,17 +4,18 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ColorPickerData } from '../../../core/interfaces/options';
 
 @Component({
-  selector: 'app-color-picker',
-  templateUrl: './color-picker.component.html',
-  styleUrls: ['./color-picker.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: ColorPickerComponent,
-      multi: true
-    }
-  ]
+    selector: 'app-color-picker',
+    templateUrl: './color-picker.component.html',
+    styleUrls: ['./color-picker.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: ColorPickerComponent,
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class ColorPickerComponent implements ControlValueAccessor {
   @Input() styleClass?: string;

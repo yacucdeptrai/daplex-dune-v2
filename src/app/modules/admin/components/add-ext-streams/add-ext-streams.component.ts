@@ -12,10 +12,11 @@ interface FindExtMediaForm {
 }
 
 @Component({
-  selector: 'app-add-ext-streams',
-  templateUrl: './add-ext-streams.component.html',
-  styleUrls: ['./add-ext-streams.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-add-ext-streams',
+    templateUrl: './add-ext-streams.component.html',
+    styleUrls: ['./add-ext-streams.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AddExtStreamsComponent implements OnInit {
   @Output() onSelect = new EventEmitter<ExtStreamSelected>();

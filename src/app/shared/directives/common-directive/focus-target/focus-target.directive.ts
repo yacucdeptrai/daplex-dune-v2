@@ -1,7 +1,8 @@
 import { Directive, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: '[focusTarget]'
+    selector: '[focusTarget]',
+    standalone: false
 })
 export class FocusTargetDirective {
   @Input() focusTarget: string | HTMLElement | null = 'none';

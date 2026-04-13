@@ -23,12 +23,13 @@ import 'vidstack/player';
 import 'vidstack/player/ui';
 
 @Component({
-  selector: 'app-base-video-player, [appBaseVideoPlayer]',
-  templateUrl: './base-video-player.component.html',
-  styleUrl: './base-video-player.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-base-video-player, [appBaseVideoPlayer]',
+    templateUrl: './base-video-player.component.html',
+    styleUrl: './base-video-player.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class BaseVideoPlayerComponent implements OnInit, OnDestroy {
   track_Id = track_Id;

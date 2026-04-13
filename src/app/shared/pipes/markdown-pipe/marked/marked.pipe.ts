@@ -6,7 +6,8 @@ import { SanitizeOptions } from '../interfaces';
 import { MarkedService } from './marked.service';
 
 @Pipe({
-  name: 'marked'
+    name: 'marked',
+    standalone: false
 })
 export class MarkedPipe implements PipeTransform {
   constructor(private markedService: MarkedService) { }

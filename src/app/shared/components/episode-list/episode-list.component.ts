@@ -5,16 +5,17 @@ import { MediaDetails, TVEpisode } from '../../../core/models';
 import { trackId } from '../../../core/utils';
 
 @Component({
-  selector: 'app-episode-list',
-  templateUrl: './episode-list.component.html',
-  styleUrls: ['./episode-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: 'media'
-    }
-  ]
+    selector: 'app-episode-list',
+    templateUrl: './episode-list.component.html',
+    styleUrls: ['./episode-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: 'media'
+        }
+    ],
+    standalone: false
 })
 export class EpisodeListComponent implements OnInit {
   @Input() media?: MediaDetails;

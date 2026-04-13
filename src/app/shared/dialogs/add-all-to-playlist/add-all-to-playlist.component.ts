@@ -13,10 +13,11 @@ interface AddAllItemsForm {
 }
 
 @Component({
-  selector: 'app-add-all-to-playlist',
-  templateUrl: './add-all-to-playlist.component.html',
-  styleUrls: ['./add-all-to-playlist.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-add-all-to-playlist',
+    templateUrl: './add-all-to-playlist.component.html',
+    styleUrls: ['./add-all-to-playlist.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AddAllToPlaylistComponent implements OnInit, OnDestroy {
   // Listen to input search keyup event with viewchild setter

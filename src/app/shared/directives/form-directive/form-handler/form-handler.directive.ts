@@ -3,7 +3,8 @@ import { Directive, ElementRef, HostListener, Inject } from '@angular/core';
 import { FormGroupDirective } from '@angular/forms';
 
 @Directive({
-  selector: '([formGroup])[formHandler]'
+    selector: '([formGroup])[formHandler]',
+    standalone: false
 })
 export class FormHandlerDirective {
 

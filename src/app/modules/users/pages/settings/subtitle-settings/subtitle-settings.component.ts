@@ -26,23 +26,24 @@ interface UpdateSubtitleForm {
 }
 
 @Component({
-  selector: 'app-subtitle-settings',
-  templateUrl: './subtitle-settings.component.html',
-  styleUrls: ['./subtitle-settings.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService],
-  animations: [
-    trigger('updateSubtitleToast', [
-      transition(':enter', [
-        style({ transform: 'translateY(100%)', opacity: 0 }),
-        animate('200ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 }))
-      ]),
-      transition(':leave', [
-        style({ transform: 'translateY(0)', opacity: 1 }),
-        animate('200ms ease-in-out', style({ transform: 'translateY(100%)', opacity: 0 }))
-      ])
-    ])
-  ]
+    selector: 'app-subtitle-settings',
+    templateUrl: './subtitle-settings.component.html',
+    styleUrls: ['./subtitle-settings.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    animations: [
+        trigger('updateSubtitleToast', [
+            transition(':enter', [
+                style({ transform: 'translateY(100%)', opacity: 0 }),
+                animate('200ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 }))
+            ]),
+            transition(':leave', [
+                style({ transform: 'translateY(0)', opacity: 1 }),
+                animate('200ms ease-in-out', style({ transform: 'translateY(100%)', opacity: 0 }))
+            ])
+        ])
+    ],
+    standalone: false
 })
 export class SubtitleSettingsComponent implements OnInit {
   currentUser: UserDetails | null = null;

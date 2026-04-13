@@ -50,8 +50,9 @@ const LONGPRESS_DELAY = 500;
  * ConnectedPositionStrategy.
  */
 @Directive({
-  selector: '[appOverlayOrigin]',
-  exportAs: 'appOverlayOrigin'
+    selector: '[appOverlayOrigin]',
+    exportAs: 'appOverlayOrigin',
+    standalone: false
 })
 export class AppOverlayOrigin implements AfterViewInit, OnChanges, OnDestroy {
   private injector = inject(Injector);
@@ -838,8 +839,9 @@ export class AppOverlayOrigin implements AfterViewInit, OnChanges, OnDestroy {
  * Overlay using a FlexibleConnectedPositionStrategy.
  */
 @Directive({
-  selector: '[appConnectedOverlay]',
-  exportAs: 'appConnectedOverlay'
+    selector: '[appConnectedOverlay]',
+    exportAs: 'appConnectedOverlay',
+    standalone: false
 })
 export class AppConnectedOverlay {
   constructor() { }

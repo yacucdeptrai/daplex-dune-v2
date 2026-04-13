@@ -10,11 +10,12 @@ import { SITE_NAME } from '../../../../../environments/config';
 import { DialogService } from 'primeng/dynamicdialog';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DialogService]
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DialogService],
+    standalone: false
 })
 export class HomeComponent implements OnInit, OnDestroy {
   loadingFeaturedMedia: boolean = false;

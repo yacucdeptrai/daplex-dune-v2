@@ -9,10 +9,11 @@ import { MediaType } from '../../../../core/enums';
 import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playlist';
 
 @Component({
-  selector: 'app-collection-media-list',
-  templateUrl: './collection-media-list.component.html',
-  styleUrl: './collection-media-list.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-collection-media-list',
+    templateUrl: './collection-media-list.component.html',
+    styleUrl: './collection-media-list.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CollectionMediaListComponent implements OnInit, OnDestroy {
   MediaType = MediaType;

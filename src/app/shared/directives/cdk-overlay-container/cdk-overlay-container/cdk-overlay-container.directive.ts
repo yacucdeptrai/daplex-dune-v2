@@ -4,7 +4,8 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { CustomOverlayContainer } from '../custom-overlay-container';
 
 @Directive({
-  selector: '[appCdkOverlayContainer]'
+    selector: '[appCdkOverlayContainer]',
+    standalone: false
 })
 export class CdkOverlayContainerDirective {
   constructor(private renderer: Renderer2, private elementRef: ElementRef,

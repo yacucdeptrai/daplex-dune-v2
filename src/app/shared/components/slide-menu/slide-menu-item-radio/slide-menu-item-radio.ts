@@ -22,17 +22,18 @@ let nextId = 0;
  */
 
 @Directive({
-  selector: '[slideMenuItemRadio]',
-  exportAs: 'slideMenuItemRadio',
-  host: {
-    'role': 'menuitemradio',
-    '[class.slide-menu-radio]': 'true',
-    '[class.slide-menu-radio-checked]': '!!checked'
-  },
-  providers: [
-    { provide: SlideMenuItemSelectable, useExisting: SlideMenuItemRadio },
-    { provide: SlideMenuItem, useExisting: SlideMenuItemSelectable },
-  ]
+    selector: '[slideMenuItemRadio]',
+    exportAs: 'slideMenuItemRadio',
+    host: {
+        'role': 'menuitemradio',
+        '[class.slide-menu-radio]': 'true',
+        '[class.slide-menu-radio-checked]': '!!checked'
+    },
+    providers: [
+        { provide: SlideMenuItemSelectable, useExisting: SlideMenuItemRadio },
+        { provide: SlideMenuItem, useExisting: SlideMenuItemSelectable },
+    ],
+    standalone: false
 })
 export class SlideMenuItemRadio extends SlideMenuItemSelectable implements OnDestroy {
   /** The unique selection dispatcher for this radio's `CdkMenuGroup`. */

@@ -7,17 +7,18 @@ import { remove } from 'lodash-es';
 import { SelectOption } from '../../../core/interfaces/primeng';
 
 @Component({
-  selector: 'app-select-order',
-  templateUrl: './select-order.component.html',
-  styleUrl: './select-order.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: SelectOrderComponent,
-      multi: true
-    }
-  ]
+    selector: 'app-select-order',
+    templateUrl: './select-order.component.html',
+    styleUrl: './select-order.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: SelectOrderComponent,
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class SelectOrderComponent implements ControlValueAccessor {
   t = input.required<TranslocoTranslateFn>();

@@ -1,7 +1,8 @@
 import { Directive, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 
 @Directive({
-  selector: '[appTabPanel]'
+    selector: '[appTabPanel]',
+    standalone: false
 })
 export class TabPanelDirective {
   @Input() label: string = '';

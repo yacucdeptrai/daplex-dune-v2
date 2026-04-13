@@ -9,11 +9,12 @@ import { QueueUploadStatus } from '../../../core/enums';
 import { FileUpload, trackId } from '../../../core/utils';
 
 @Component({
-  selector: 'app-admin-layout',
-  templateUrl: './admin-layout.component.html',
-  styleUrls: ['./admin-layout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-admin-layout',
+    templateUrl: './admin-layout.component.html',
+    styleUrls: ['./admin-layout.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class AdminLayoutComponent implements OnInit, OnDestroy, CanComponentDeactivate {
   trackId = trackId;

@@ -6,11 +6,12 @@ import { DestroyService } from '../../../../core/services';
 import { thumbHashToDataURL } from '../../../../core/utils';
 
 @Directive({
-  selector: '[lazyLoad][lazyLoadPlaceholder]',
-  providers: [DestroyService],
-  host: {
-    'class': 'ng-lazyload-extended-placeholder'
-  }
+    selector: '[lazyLoad][lazyLoadPlaceholder]',
+    providers: [DestroyService],
+    host: {
+        'class': 'ng-lazyload-extended-placeholder'
+    },
+    standalone: false
 })
 export class LazyLoadPlaceholderDirective implements AfterViewInit, AfterContentInit {
   @Input() lazyLoadPlaceholder: string = '#FFFFFF';

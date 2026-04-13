@@ -7,11 +7,12 @@ import { first, takeUntil } from 'rxjs';
 import { DestroyService } from '../../../../core/services';
 
 @Component({
-  selector: 'app-settings-layout',
-  templateUrl: './settings-layout.component.html',
-  styleUrls: ['./settings-layout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-settings-layout',
+    templateUrl: './settings-layout.component.html',
+    styleUrls: ['./settings-layout.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class SettingsLayoutComponent implements OnInit {
   settingItems: MenuItem[] = [];

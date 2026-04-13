@@ -12,11 +12,12 @@ interface UpdateUsernameForm {
 }
 
 @Component({
-  selector: 'app-update-username',
-  templateUrl: './update-username.component.html',
-  styleUrls: ['./update-username.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-update-username',
+    templateUrl: './update-username.component.html',
+    styleUrls: ['./update-username.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class UpdateUsernameComponent {
   updateUsernameForm: FormGroup<UpdateUsernameForm>;

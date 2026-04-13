@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'player-subtitle-icon',
-  templateUrl: './subtitle-icon.component.html',
-  styles: [
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'player-subtitle-icon',
+    templateUrl: './subtitle-icon.component.html',
+    styles: [],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SubtitleIconComponent {
   @Input() enabled: boolean = false;

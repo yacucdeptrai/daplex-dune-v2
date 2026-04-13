@@ -10,22 +10,23 @@ import { VerticalTabChange } from '../../../core/interfaces/events';
 import { trackId, trackTabId } from '../../../core/utils';
 
 @Component({
-  selector: 'app-vertical-tab',
-  templateUrl: './vertical-tab.component.html',
-  styleUrls: ['./vertical-tab.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('tabPanelToast', [
-      transition(':enter', [
-        style({ transform: 'translateY(100%)', opacity: 0 }),
-        animate('200ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 }))
-      ]),
-      transition(':leave', [
-        style({ transform: 'translateY(0)', opacity: 1 }),
-        animate('200ms ease-in-out', style({ transform: 'translateY(100%)', opacity: 0 }))
-      ])
-    ])
-  ]
+    selector: 'app-vertical-tab',
+    templateUrl: './vertical-tab.component.html',
+    styleUrls: ['./vertical-tab.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [
+        trigger('tabPanelToast', [
+            transition(':enter', [
+                style({ transform: 'translateY(100%)', opacity: 0 }),
+                animate('200ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 }))
+            ]),
+            transition(':leave', [
+                style({ transform: 'translateY(0)', opacity: 1 }),
+                animate('200ms ease-in-out', style({ transform: 'translateY(100%)', opacity: 0 }))
+            ])
+        ])
+    ],
+    standalone: false
 })
 export class VerticalTabComponent implements AfterViewInit, AfterContentInit {
   trackId = trackId;

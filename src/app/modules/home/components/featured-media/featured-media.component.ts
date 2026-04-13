@@ -12,10 +12,11 @@ import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playli
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
 @Component({
-  selector: 'app-featured-media',
-  templateUrl: './featured-media.component.html',
-  styleUrls: ['./featured-media.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-featured-media',
+    templateUrl: './featured-media.component.html',
+    styleUrls: ['./featured-media.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class FeaturedMediaComponent implements OnDestroy {
   track_Id = track_Id;

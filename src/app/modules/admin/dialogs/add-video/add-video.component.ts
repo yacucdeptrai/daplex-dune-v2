@@ -13,11 +13,12 @@ interface AddVideoForm {
 }
 
 @Component({
-  selector: 'app-add-video',
-  templateUrl: './add-video.component.html',
-  styleUrls: ['./add-video.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-add-video',
+    templateUrl: './add-video.component.html',
+    styleUrls: ['./add-video.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class AddVideoComponent implements OnInit {
   youtubeUrl = YOUTUBE_EMBED_URL;

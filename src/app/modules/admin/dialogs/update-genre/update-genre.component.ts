@@ -15,11 +15,12 @@ interface UpdateGenreForm {
 }
 
 @Component({
-  selector: 'app-update-genre',
-  templateUrl: './update-genre.component.html',
-  styleUrls: ['./update-genre.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ItemDataService, DestroyService]
+    selector: 'app-update-genre',
+    templateUrl: './update-genre.component.html',
+    styleUrls: ['./update-genre.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [ItemDataService, DestroyService],
+    standalone: false
 })
 export class UpdateGenreComponent implements OnInit {
   updateGenreForm: FormGroup<UpdateGenreForm>;

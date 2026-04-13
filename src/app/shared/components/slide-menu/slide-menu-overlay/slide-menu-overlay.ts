@@ -15,9 +15,9 @@ import { SLIDE_MENU, SlideMenu } from '../slide-menu-interface';
 let nextId = 0;
 
 @Component({
-  selector: 'app-slide-menu',
-  exportAs: 'appSlideMenu',
-  template: `
+    selector: 'app-slide-menu',
+    exportAs: 'appSlideMenu',
+    template: `
     <ng-container *ngIf="menuStack.parentMenuRefs.length">
       <div class="tw-flex">
         <button #previousButton="slideMenuTriggerFor" class="slide-menu-previous" slideMenuItemButton
@@ -31,25 +31,26 @@ let nextId = 0;
     </ng-container>
     <ng-content></ng-content>
   `,
-  host: {
-    'role': 'menu',
-    'class': 'slide-menu p-scrollbar tw-overflow-y-auto',
-    '[class.slide-menu-inline]': 'isInline',
-    '[tabindex]': '_getTabIndex()',
-    '[id]': 'id',
-    '[attr.aria-orientation]': 'orientation',
-    '[attr.data-slide-menu-stack-id]': 'menuStack.id',
-    '(focusin)': 'menuStack.setHasFocus(true)',
-    '(focusout)': 'menuStack.setHasFocus(false)',
-    '(keydown)': '_handleKeyEvent($event)'
-  },
-  styleUrl: './slide-menu-overlay.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    { provide: CdkMenuGroup, useExisting: SlideMenuOverlay },
-    { provide: SLIDE_MENU, useExisting: SlideMenuOverlay },
-    PARENT_OR_NEW_INLINE_SLIDE_MENU_STACK_PROVIDER('vertical'),
-  ]
+    host: {
+        'role': 'menu',
+        'class': 'slide-menu p-scrollbar tw-overflow-y-auto',
+        '[class.slide-menu-inline]': 'isInline',
+        '[tabindex]': '_getTabIndex()',
+        '[id]': 'id',
+        '[attr.aria-orientation]': 'orientation',
+        '[attr.data-slide-menu-stack-id]': 'menuStack.id',
+        '(focusin)': 'menuStack.setHasFocus(true)',
+        '(focusout)': 'menuStack.setHasFocus(false)',
+        '(keydown)': '_handleKeyEvent($event)'
+    },
+    styleUrl: './slide-menu-overlay.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        { provide: CdkMenuGroup, useExisting: SlideMenuOverlay },
+        { provide: SLIDE_MENU, useExisting: SlideMenuOverlay },
+        PARENT_OR_NEW_INLINE_SLIDE_MENU_STACK_PROVIDER('vertical'),
+    ],
+    standalone: false
 })
 export class SlideMenuOverlay extends CdkMenuGroup implements SlideMenu, AfterContentInit, OnDestroy {
   private _parentTrigger = inject(SLIDE_MENU_TRIGGER, { optional: true });

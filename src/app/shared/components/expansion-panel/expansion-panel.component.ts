@@ -4,12 +4,11 @@ import { AfterContentInit, ChangeDetectionStrategy, Component, contentChildren, 
 import { TemplateForDirective } from '../../directives/common-directive/template-for';
 
 @Component({
-  selector: 'app-expansion-panel',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './expansion-panel.component.html',
-  styleUrl: './expansion-panel.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-expansion-panel',
+    imports: [CommonModule],
+    templateUrl: './expansion-panel.component.html',
+    styleUrl: './expansion-panel.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExpansionPanelComponent implements OnInit, AfterContentInit {
   templates = contentChildren(TemplateForDirective);

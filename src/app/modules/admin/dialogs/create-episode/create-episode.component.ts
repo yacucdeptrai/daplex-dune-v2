@@ -36,18 +36,19 @@ interface CreateEpisodeForm {
 interface UpdateEpisodeForm extends CreateEpisodeForm { }
 
 @Component({
-  selector: 'app-create-episode',
-  templateUrl: './create-episode.component.html',
-  styleUrls: ['./create-episode.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    ItemDataService,
-    DestroyService,
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: 'common'
-    }
-  ]
+    selector: 'app-create-episode',
+    templateUrl: './create-episode.component.html',
+    styleUrls: ['./create-episode.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        ItemDataService,
+        DestroyService,
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: 'common'
+        }
+    ],
+    standalone: false
 })
 export class CreateEpisodeComponent implements OnInit {
   @ViewChild('stepper') stepper?: StepperComponent;

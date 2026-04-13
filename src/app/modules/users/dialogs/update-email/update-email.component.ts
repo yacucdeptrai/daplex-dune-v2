@@ -12,11 +12,12 @@ interface UpdateEmailForm {
 }
 
 @Component({
-  selector: 'app-update-email',
-  templateUrl: './update-email.component.html',
-  styleUrls: ['./update-email.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-update-email',
+    templateUrl: './update-email.component.html',
+    styleUrls: ['./update-email.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class UpdateEmailComponent {
   updateEmailForm: FormGroup<UpdateEmailForm>;

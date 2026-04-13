@@ -23,11 +23,12 @@ import { AddSourceComponent } from '../../dialogs/add-source';
 import { translocoEscape } from '../../../../core/utils';
 
 @Component({
-  selector: 'app-media',
-  templateUrl: './media.component.html',
-  styleUrls: ['./media.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-media',
+    templateUrl: './media.component.html',
+    styleUrls: ['./media.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class MediaComponent implements OnInit, OnDestroy {
   MediaType = MediaType;

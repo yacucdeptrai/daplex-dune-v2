@@ -8,10 +8,11 @@ import { EMPTY, filter, first, map, pairwise, switchMap } from 'rxjs';
 import { SITE_NAME } from '../environments/config';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AppComponent implements OnInit {
   constructor(private router: Router, private title: Title, private viewportScroller: ViewportScroller,

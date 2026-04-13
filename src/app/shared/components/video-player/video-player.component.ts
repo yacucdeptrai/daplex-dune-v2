@@ -21,23 +21,24 @@ import { getFontFamily, getTextEdgeStyle, prepareColor, scaleFontWeight, track_I
 import { BaseVideoPlayerComponent } from './base-video-player/base-video-player.component';
 
 @Component({
-  selector: 'app-video-player',
-  templateUrl: './video-player.component.html',
-  styleUrls: ['./video-player.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    VideoPlayerService,
-    VideoPlayerStore,
-    DestroyService,
-    UsersService,
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: ['languages', 'media', 'player']
-    }
-  ],
-  host: {
-    class: 'tw-block'
-  }
+    selector: 'app-video-player',
+    templateUrl: './video-player.component.html',
+    styleUrls: ['./video-player.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        VideoPlayerService,
+        VideoPlayerStore,
+        DestroyService,
+        UsersService,
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: ['languages', 'media', 'player']
+        }
+    ],
+    host: {
+        class: 'tw-block'
+    },
+    standalone: false
 })
 export class VideoPlayerComponent implements OnInit {
   track_Id = track_Id;

@@ -3,7 +3,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { thumbHashToDataURL } from '../../../../core/utils';
 
 @Pipe({
-  name: 'thumbhashUrl'
+    name: 'thumbhashUrl',
+    standalone: false
 })
 export class ThumbhashUrlPipe implements PipeTransform {
 

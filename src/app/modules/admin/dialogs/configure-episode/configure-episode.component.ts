@@ -35,18 +35,19 @@ interface UpdateEpisodeForm {
 }
 
 @Component({
-  selector: 'app-configure-episode',
-  templateUrl: './configure-episode.component.html',
-  styleUrls: ['./configure-episode.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    ItemDataService,
-    DestroyService,
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: ['common', 'media', 'languages']
-    }
-  ]
+    selector: 'app-configure-episode',
+    templateUrl: './configure-episode.component.html',
+    styleUrls: ['./configure-episode.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        ItemDataService,
+        DestroyService,
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: ['common', 'media', 'languages']
+        }
+    ],
+    standalone: false
 })
 export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;

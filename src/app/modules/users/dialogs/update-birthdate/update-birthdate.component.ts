@@ -14,11 +14,12 @@ interface UpdateBirthdateForm {
 }
 
 @Component({
-  selector: 'app-update-birthdate',
-  templateUrl: './update-birthdate.component.html',
-  styleUrls: ['./update-birthdate.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ItemDataService, DestroyService]
+    selector: 'app-update-birthdate',
+    templateUrl: './update-birthdate.component.html',
+    styleUrls: ['./update-birthdate.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [ItemDataService, DestroyService],
+    standalone: false
 })
 export class UpdateBirthdateComponent {
   updateBirthdateForm: FormGroup<UpdateBirthdateForm>;

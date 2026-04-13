@@ -12,11 +12,12 @@ import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playli
 import { track_Id, translocoEscape } from '../../../../core/utils';
 
 @Component({
-  selector: 'app-rated',
-  templateUrl: './rated.component.html',
-  styleUrls: ['./rated.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RatingsService, DestroyService]
+    selector: 'app-rated',
+    templateUrl: './rated.component.html',
+    styleUrls: ['./rated.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [RatingsService, DestroyService],
+    standalone: false
 })
 export class RatedComponent implements OnInit, OnDestroy {
   track_Id = track_Id;

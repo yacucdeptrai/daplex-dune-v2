@@ -24,17 +24,18 @@ interface UpdatePlaylistForm {
 }
 
 @Component({
-  selector: 'app-playlist-settings',
-  templateUrl: './playlist-settings.component.html',
-  styleUrls: ['./playlist-settings.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    DestroyService,
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: 'common'
-    }
-  ]
+    selector: 'app-playlist-settings',
+    templateUrl: './playlist-settings.component.html',
+    styleUrls: ['./playlist-settings.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        DestroyService,
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: 'common'
+        }
+    ],
+    standalone: false
 })
 export class PlaylistSettingsComponent implements OnInit {
   @ViewChild('updatePlaylistFormEl') updatePlaylistFormEl?: NgForm;

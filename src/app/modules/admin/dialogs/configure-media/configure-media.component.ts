@@ -55,18 +55,19 @@ interface UpdateMediaForm {
 }
 
 @Component({
-  selector: 'app-configure-media',
-  templateUrl: './configure-media.component.html',
-  styleUrls: ['./configure-media.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    ItemDataService,
-    DestroyService,
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: ['common', 'languages']
-    }
-  ]
+    selector: 'app-configure-media',
+    templateUrl: './configure-media.component.html',
+    styleUrls: ['./configure-media.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        ItemDataService,
+        DestroyService,
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: ['common', 'languages']
+        }
+    ],
+    standalone: false
 })
 export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;

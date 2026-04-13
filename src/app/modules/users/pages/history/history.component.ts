@@ -25,11 +25,12 @@ interface FilterHistoryForm {
 }
 
 @Component({
-  selector: 'app-history',
-  templateUrl: './history.component.html',
-  styleUrls: ['./history.component.scss'],
-  providers: [HistoryService, ItemDataService, DestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-history',
+    templateUrl: './history.component.html',
+    styleUrls: ['./history.component.scss'],
+    providers: [HistoryService, ItemDataService, DestroyService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class HistoryComponent implements OnInit, OnDestroy {
   filterHistoryForm: FormGroup<FilterHistoryForm>;

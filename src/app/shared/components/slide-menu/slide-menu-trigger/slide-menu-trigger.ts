@@ -12,34 +12,35 @@ import { SLIDE_MENU } from '../slide-menu-interface';
 import { PARENT_OR_NEW_SLIDE_MENU_STACK_PROVIDER } from '../slide-menu-stack/slide-menu-stack';
 
 @Directive({
-  selector: '[slideMenuTriggerFor]',
-  exportAs: 'slideMenuTriggerFor',
-  host: {
-    'class': 'slide-menu-trigger',
-    '[attr.aria-haspopup]': 'menuTemplateRef ? "menu" : null',
-    '[attr.aria-expanded]': 'menuTemplateRef == null ? null : isOpen()',
-    '(focusin)': '_setHasFocus(true)',
-    '(focusout)': '_setHasFocus(false)',
-    '(keydown)': '_toggleOnKeydown($event)',
-    '(click)': 'toggle()',
-  },
-  inputs: [
-    'menuTemplateRef: slideMenuTriggerFor',
-    'menuPosition: menuPosition',
-    'menuRelativeTo: menuRelativeTo',
-    'offsetX: offsetX',
-    'offsetY: offsetY',
-    'lockedPosition: lockedPosition',
-    'flexibleDimensions: flexibleDimensions',
-    'backdropClass: backdropClass',
-    'fixedBottom: fixedBottom',
-    'menuData: menuTriggerData',
-  ],
-  outputs: ['opened: menuOpened', 'closed: menuClosed'],
-  providers: [
-    { provide: SLIDE_MENU_TRIGGER, useExisting: SlideMenuTriggerDirective },
-    PARENT_OR_NEW_SLIDE_MENU_STACK_PROVIDER,
-  ]
+    selector: '[slideMenuTriggerFor]',
+    exportAs: 'slideMenuTriggerFor',
+    host: {
+        'class': 'slide-menu-trigger',
+        '[attr.aria-haspopup]': 'menuTemplateRef ? "menu" : null',
+        '[attr.aria-expanded]': 'menuTemplateRef == null ? null : isOpen()',
+        '(focusin)': '_setHasFocus(true)',
+        '(focusout)': '_setHasFocus(false)',
+        '(keydown)': '_toggleOnKeydown($event)',
+        '(click)': 'toggle()',
+    },
+    inputs: [
+        'menuTemplateRef: slideMenuTriggerFor',
+        'menuPosition: menuPosition',
+        'menuRelativeTo: menuRelativeTo',
+        'offsetX: offsetX',
+        'offsetY: offsetY',
+        'lockedPosition: lockedPosition',
+        'flexibleDimensions: flexibleDimensions',
+        'backdropClass: backdropClass',
+        'fixedBottom: fixedBottom',
+        'menuData: menuTriggerData',
+    ],
+    outputs: ['opened: menuOpened', 'closed: menuClosed'],
+    providers: [
+        { provide: SLIDE_MENU_TRIGGER, useExisting: SlideMenuTriggerDirective },
+        PARENT_OR_NEW_SLIDE_MENU_STACK_PROVIDER,
+    ],
+    standalone: false
 })
 export class SlideMenuTriggerDirective extends SlideMenuTriggerBase implements OnDestroy {
   /** The document. */

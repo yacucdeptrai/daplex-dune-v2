@@ -47,18 +47,19 @@ interface CreateMediaForm {
 interface UpdateMediaForm extends Omit<CreateMediaForm, 'type'> { }
 
 @Component({
-  selector: 'app-create-media',
-  templateUrl: './create-media.component.html',
-  styleUrls: ['./create-media.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    ItemDataService,
-    DestroyService,
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: 'common'
-    }
-  ]
+    selector: 'app-create-media',
+    templateUrl: './create-media.component.html',
+    styleUrls: ['./create-media.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        ItemDataService,
+        DestroyService,
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: 'common'
+        }
+    ],
+    standalone: false
 })
 export class CreateMediaComponent implements OnInit, AfterViewInit {
   @ViewChild('stepper') stepper?: StepperComponent;

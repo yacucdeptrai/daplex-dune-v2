@@ -6,10 +6,11 @@ import { Playlist, UserDetails } from '../../../../core/models';
 import { AuthService, DestroyService } from '../../../../core/services';
 
 @Component({
-  selector: 'app-playlist-card [playlist]',
-  templateUrl: './playlist-card.component.html',
-  styleUrls: ['./playlist-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-playlist-card [playlist]',
+    templateUrl: './playlist-card.component.html',
+    styleUrls: ['./playlist-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class PlaylistCardComponent implements OnInit, OnChanges {
   @Input() playlist!: Playlist;

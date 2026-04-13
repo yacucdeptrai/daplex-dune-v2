@@ -7,16 +7,17 @@ import { ImageEditorConfig } from './image-editor-config.interface';
 import { getImageFormat } from '../../../core/utils';
 
 @Component({
-  selector: 'app-image-editor',
-  templateUrl: './image-editor.component.html',
-  styleUrls: ['./image-editor.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: 'common'
-    }
-  ]
+    selector: 'app-image-editor',
+    templateUrl: './image-editor.component.html',
+    styleUrls: ['./image-editor.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: 'common'
+        }
+    ],
+    standalone: false
 })
 export class ImageEditorComponent {
   @ViewChild(ImageCropperComponent) imageCropper?: ImageCropperComponent;

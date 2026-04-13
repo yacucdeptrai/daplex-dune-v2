@@ -9,11 +9,12 @@ import { MediaType } from '../../../../core/enums';
 import { track_Id } from '../../../../core/utils';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [HistoryService, PlaylistsService, RatingsService, DestroyService]
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [HistoryService, PlaylistsService, RatingsService, DestroyService],
+    standalone: false
 })
 export class ProfileComponent implements OnInit {
   track_Id = track_Id;

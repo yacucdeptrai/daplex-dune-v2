@@ -12,11 +12,12 @@ import { track_Id } from '../../../core/utils';
 import { SearchOverlayComponent } from '../../dialogs/search-overlay';
 
 @Component({
-  selector: 'app-home-header',
-  templateUrl: './home-header.component.html',
-  styleUrls: ['./home-header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService]
+    selector: 'app-home-header',
+    templateUrl: './home-header.component.html',
+    styleUrls: ['./home-header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
+    standalone: false
 })
 export class HomeHeaderComponent implements OnInit {
   @ViewChild('mediaSearch') mediaSearch?: AutoComplete;
