@@ -21,6 +21,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { DropdownModule } from 'primeng/dropdown';
 import { MessageModule } from 'primeng/message';
 import { ChipModule } from 'primeng/chip';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminLayoutModule } from '../../shared/layouts/admin-layout';
@@ -29,6 +30,8 @@ import { GenresComponent } from './pages/genres/genres.component';
 import { ProductionsComponent } from './pages/productions/productions.component';
 import { CreateGenreComponent } from './dialogs/create-genre/create-genre.component';
 import { UpdateGenreComponent } from './dialogs/update-genre/update-genre.component';
+import { AuditLogComponent } from './pages/audit-log/audit-log.component';
+import { AuditLogDetailsComponent } from './dialogs/audit-log-details/audit-log-details.component';
 import { FileUploadModule } from '../../shared/components/file-upload';
 import { VerticalTabModule } from '../../shared/components/vertical-tab';
 import { VideoPlayerModule } from '../../shared/components/video-player';
@@ -61,8 +64,10 @@ import { AltAutoCompleteModule } from '../../core/utils/primeng';
     MediaComponent,
     GenresComponent,
     ProductionsComponent,
+    AuditLogComponent,
     CreateGenreComponent,
     UpdateGenreComponent,
+    AuditLogDetailsComponent,
     CreateProductionComponent,
     UpdateProductionComponent,
     CreateMediaComponent,
@@ -111,7 +116,8 @@ import { AltAutoCompleteModule } from '../../core/utils/primeng';
     DropdownModule,
     MessageModule,
     ChipModule,
-    WsModule
+    WsModule,
+    InfiniteScrollModule
   ],
   providers: [
     DialogService,

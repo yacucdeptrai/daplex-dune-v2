@@ -46,3 +46,4 @@ export * from './user-details.model';
 export * from './user-settings-options.model';
 export * from './user-settings.model';
 export * from './user.model';
+export * from './audit-log.model';

@@ -17,8 +17,7 @@
     "email": "Email",
     "emailValue": "support@daplex.net",
     "phone": "Phone",
-    "phoneValue": "0123456789",
-    "copyright": "Developed by Kam"
+    "phoneValue": "0123456789"
   },
   "homeHeader": {
     "home": "Home",
@@ -406,3 +405,5 @@
     "leaveSite": "Leave site? Changes you made may not be saved."
   }
 }
+
+

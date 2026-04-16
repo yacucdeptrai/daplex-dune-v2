@@ -1,0 +1,63 @@
+<ng-container *ngIf="loading; else loadedTpl">
+  <div class="tw-flex tw-items-center tw-justify-center tw-w-full tw-py-8">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</ng-container>
+
+<ng-template #loadedTpl>
+  <div class="tw-flex tw-flex-col tw-gap-3">
+    <div *ngIf="auditLog; else notFoundTpl" class="tw-flex tw-flex-col tw-gap-2">
+      <div class="tw-grid tw-grid-cols-2 tw-gap-x-4 tw-gap-y-2">
+        <div class="tw-text-neutral-300 tw-text-sm">Type</div>
+        <div class="tw-font-mono tw-text-sm">{{ auditLog.type }}</div>
+
+        <div class="tw-text-neutral-300 tw-text-sm">Target Ref</div>
+        <div class="tw-font-mono tw-text-sm">{{ auditLog.targetRef }}</div>
+
+        <div class="tw-text-neutral-300 tw-text-sm">User</div>
+        <div class="tw-font-mono tw-text-sm">{{ auditLog.user }}</div>
+
+        <div class="tw-text-neutral-300 tw-text-sm">Target</div>
+        <div class="tw-font-mono tw-text-sm">{{ auditLog.target }}</div>
+
+        <div class="tw-text-neutral-300 tw-text-sm">Created At</div>
+        <div class="tw-font-mono tw-text-sm">{{ auditLog.createdAt | date:'medium' }}</div>
+      </div>
+
+      <div class="tw-mt-3">
+        <div class="tw-text-neutral-200 tw-font-semibold tw-mb-2">Changes</div>
+        <ng-container *ngIf="auditLog.changes?.length; else noChangesTpl">
+          <div *ngFor="let change of auditLog.changes; let i = index; trackBy: trackChange"
+            class="tw-border-b tw-border-neutral-800 tw-pb-3 tw-mb-3">
+            <div class="tw-font-mono tw-text-sm tw-text-neutral-100">{{ change.key }}</div>
+            <div class="tw-text-sm tw-mt-1">
+              <div *ngIf="change.oldValue !== undefined" class="tw-text-neutral-300">
+                Old: <span class="tw-font-mono tw-text-neutral-100">{{ change.oldValue }}</span>
+              </div>
+              <div *ngIf="change.newValue !== undefined" class="tw-text-neutral-300">
+                New: <span class="tw-font-mono tw-text-neutral-100">{{ change.newValue }}</span>
+              </div>
+              <div *ngIf="change.oldValue === undefined && change.newValue === undefined"
+                class="tw-text-neutral-400 tw-italic">
+                No value change payload
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #noChangesTpl>
+          <div class="tw-text-neutral-400 tw-italic">No changes recorded</div>
+        </ng-template>
+      </div>
+    </div>
+
+    <ng-template #notFoundTpl>
+      <div class="tw-text-neutral-300 tw-italic">Audit log not found.</div>
+    </ng-template>
+  </div>
+
+  <div class="tw-mt-4 tw-flex tw-justify-end">
+    <button pButton type="button" class="p-button-sm" (click)="close()">Close</button>
+  </div>
+</ng-template>
+

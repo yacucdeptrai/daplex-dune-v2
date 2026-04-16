@@ -3,6 +3,7 @@ export * from './collection.service';
 export * from './destroy.service';
 export * from './genres.service';
 export * from './history.service';
+export * from './audit-log.service';
 export * from './item-data.service';
 export * from './media.service';
 export * from './playlists.service';

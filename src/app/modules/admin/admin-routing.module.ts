@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard, ConfirmDeactivateGuard, WsActivatorGuard } from '../../core/guards';
 import { AdminLayoutComponent } from '../../shared/layouts/admin-layout';
+import { AuditLogComponent } from './pages/audit-log/audit-log.component';
 import { GenresComponent } from './pages/genres/genres.component';
 import { MediaComponent } from './pages/media/media.component';
 import { ProductionsComponent } from './pages/productions/productions.component';
@@ -15,7 +16,7 @@ const routes: Routes = [
     canActivate: [AuthGuard, WsActivatorGuard],
     canDeactivate: [ConfirmDeactivateGuard, WsActivatorGuard],
     data: {
-      withPermissions: [UserPermission.MANAGE_MEDIA]
+      withPermissions: [UserPermission.MANAGE_MEDIA, UserPermission.ADMINISTRATOR]
     },
     children: [
       {
@@ -29,6 +30,14 @@ const routes: Routes = [
       {
         path: 'media',
         component: MediaComponent
+      },
+      {
+        path: 'audit-log',
+        component: AuditLogComponent,
+        canActivate: [AuthGuard],
+        data: {
+          withPermissions: [UserPermission.ADMINISTRATOR]
+        }
       }
     ]
   }
