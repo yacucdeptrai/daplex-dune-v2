@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { HttpParamsObject } from '../types/http-params.type';
 import { CursorPageAuditLogDto } from '../dto/audit-log';
 import { AuditLog, CursorPaginated } from '../models';
 
@@ -9,7 +10,7 @@ export class AuditLogService {
   constructor(private http: HttpClient) { }
 
   findPageCursor(cursorPageAuditLogDto: CursorPageAuditLogDto) {
-    const params: { [key: string]: any } = {};
+    const params: HttpParamsObject = {};
     const {
       pageToken,
       limit,

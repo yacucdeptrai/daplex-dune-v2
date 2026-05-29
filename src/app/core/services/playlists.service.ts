@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 
+import { HttpParamsObject } from '../types/http-params.type';
 import { AddPlaylistItemDto, CreatePlaylistDto, CursorPagePlaylistsDto, CursorPagePlaylistItemsDto, FindAddToPlaylistDto, UpdatePlaylistDto, DeletePlaylistItemDto, AddAllPlaylistItemsDto } from '../dto/playlists';
 import { CursorPagePlaylistItems, CursorPaginated, Playlist, PlaylistDetails, PlaylistToAdd } from '../models';
 import { getImageName } from '../utils';
@@ -16,7 +17,7 @@ export class PlaylistsService {
   }
 
   findPage(cursorPageHistoryDto?: CursorPagePlaylistsDto) {
-    const params: { [key: string]: any } = {};
+    const params: HttpParamsObject = {};
     if (cursorPageHistoryDto) {
       const { pageToken, limit, sort, author } = cursorPageHistoryDto;
       pageToken && (params['pageToken'] = pageToken);
@@ -50,8 +51,9 @@ export class PlaylistsService {
   }
 
   findAddToPlaylist(findAddToPlaylistDto: FindAddToPlaylistDto) {
-    const params: { [key: string]: any } = { mediaId: findAddToPlaylistDto.mediaId };
-    findAddToPlaylistDto.search && (params['search'] = findAddToPlaylistDto.search);
+    const params: HttpParamsObject = {};
+    if (findAddToPlaylistDto.mediaId) params['mediaId'] = findAddToPlaylistDto.mediaId;
+    if (findAddToPlaylistDto.search) params['search'] = findAddToPlaylistDto.search;
     return this.http.get<PlaylistToAdd[]>('playlists/add_to_playlist', { params });
   }
 
@@ -64,7 +66,7 @@ export class PlaylistsService {
   }
 
   findPageItems(id: string, cursorPagePlaylistItemsDto: CursorPagePlaylistItemsDto) {
-    const params: { [key: string]: any } = {};
+    const params: HttpParamsObject = {};
     if (cursorPagePlaylistItemsDto) {
       const { pageToken, limit, sort } = cursorPagePlaylistItemsDto;
       pageToken && (params['pageToken'] = pageToken);
@@ -83,7 +85,7 @@ export class PlaylistsService {
   }
 
   removePlaylistItem(id: string, deletePlaylistItemDto: DeletePlaylistItemDto) {
-    const params: { [key: string]: any } = {};
+    const params: HttpParamsObject = {};
     const { itemId, mediaId } = deletePlaylistItemDto;
     itemId && (params['itemId'] = itemId);
     mediaId && (params['mediaId'] = mediaId);

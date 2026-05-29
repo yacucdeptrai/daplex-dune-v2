@@ -8,6 +8,13 @@ import { ConfirmEmailDto, PasswordRecoveryDto, ResetPasswordDto, SignInDto, Sign
 import { UserPermission } from '../enums';
 import { CAN_INTERCEPT } from '../tokens';
 
+// Decoded access-token payload. The API signs { _id } and the standard exp/iat claims.
+interface JwtPayload {
+  _id: string;
+  exp: number;
+  iat: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -82,7 +89,7 @@ export class AuthService {
     const accessToken = this.accessTokenValue;
     if (accessToken) {
       // Parse json object from base64 encoded jwt token
-      const jwtToken = jwtDecode<any>(accessToken);
+      const jwtToken = jwtDecode<JwtPayload>(accessToken);
       // Set a timeout to refresh the token a minute before it expires
       const expires = new Date(jwtToken.exp * 1000);
       const timeout = expires.getTime() - Date.now() - (60 * 1000);

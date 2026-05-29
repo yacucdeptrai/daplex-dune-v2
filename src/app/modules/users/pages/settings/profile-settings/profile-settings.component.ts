@@ -8,7 +8,7 @@ import { debounceTime, finalize, first, forkJoin, map, of, takeUntil } from 'rxj
 import { AppErrorCode } from '../../../../../core/enums';
 import { UserDetails } from '../../../../../core/models';
 import { AuthService, DestroyService, UsersService } from '../../../../../core/services';
-import { ImageEditorComponent } from '../../../../../shared/dialogs/image-editor';
+import { ImageEditorComponent, ImageEditorConfig } from '../../../../../shared/dialogs/image-editor';
 import { dataURItoFile, detectFormChange } from '../../../../../core/utils';
 import {
   IMAGE_PREVIEW_SIZE, UPLOAD_AVATAR_MIN_HEIGHT, UPLOAD_AVATAR_MIN_WIDTH, UPLOAD_AVATAR_RATIO, UPLOAD_AVATAR_SIZE,
@@ -155,7 +155,7 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
     });
   }
 
-  editImage(data: any) {
+  editImage(data: Partial<ImageEditorConfig>) {
     const dialogRef = this.dialogService.open(ImageEditorComponent, {
       data: data,
       header: this.translocoService.translate('common.imageEditor.header'),

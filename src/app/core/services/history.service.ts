@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { retry } from 'rxjs';
 
+import { HttpParamsObject } from '../types/http-params.type';
 import { CursorPageHistoryDto, FindWatchTimeDto, UpdateHistoryDto, UpdateWatchTimeDto } from '../dto/history';
 import { History, HistoryGroupable, HistoryWatchTime, CursorPaginated } from '../models';
 import { StorageKey } from '../enums';
@@ -11,7 +12,7 @@ export class HistoryService {
   constructor(private http: HttpClient) { }
 
   findPage(cursorPageHistoryDto?: CursorPageHistoryDto) {
-    const params: { [key: string]: any } = {};
+    const params: HttpParamsObject = {};
     if (cursorPageHistoryDto) {
       const { pageToken, limit, startDate, endDate, mediaIds, mediaType, mediaOriginalLanguage, mediaYear, mediaAdult, mediaGenres } = cursorPageHistoryDto;
       pageToken && (params['pageToken'] = pageToken);
@@ -33,7 +34,7 @@ export class HistoryService {
   }
 
   findWatchTime(findWatchTimeDto: FindWatchTimeDto) {
-    const params: { [key: string]: any } = { media: findWatchTimeDto.media };
+    const params: HttpParamsObject = { media: findWatchTimeDto.media };
     findWatchTimeDto.episode && (params['episode'] = findWatchTimeDto.episode);
     return this.http.get<HistoryWatchTime>('history/watch_time', { params });
   }

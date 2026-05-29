@@ -10,7 +10,7 @@ import { cloneDeep } from 'lodash-es';
 import { AddSubtitleComponent } from '../add-subtitle';
 import { StepperComponent } from '../../../../shared/components/stepper';
 import { FileUploadComponent } from '../../../../shared/components/file-upload';
-import { ImageEditorComponent } from '../../../../shared/dialogs/image-editor';
+import { ImageEditorComponent, ImageEditorConfig } from '../../../../shared/dialogs/image-editor';
 import { AddTVEpisodeDto, DropdownOptionDto, UpdateTVEpisodeDto } from '../../../../core/dto/media';
 import { MediaDetails, MediaSubtitle, ShortDate, TVEpisode, TVEpisodeDetails } from '../../../../core/models';
 import { DestroyService, ItemDataService, MediaService, QueueUploadService } from '../../../../core/services';
@@ -263,7 +263,7 @@ export class CreateEpisodeComponent implements OnInit {
     });
   }
 
-  editImage(data: any): Observable<string[] | null> {
+  editImage(data: ImageEditorConfig): Observable<string[] | null> {
     const dialogRef = this.dialogService.open(ImageEditorComponent, {
       data: data,
       header: this.translocoService.translate('common.imageEditor.header'),

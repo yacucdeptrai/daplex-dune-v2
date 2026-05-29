@@ -24,7 +24,7 @@ import { FileUploadComponent } from '../../../../shared/components/file-upload';
 import { fileExtension, maxFileSize, shortDate } from '../../../../core/validators';
 import { AddSubtitleForm, ExternalIdsForm, MediaScannerForm, ShortDateForm } from '../../../../core/interfaces/forms';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
-import { ImageEditorComponent } from '../../../../shared/dialogs/image-editor';
+import { ImageEditorComponent, ImageEditorConfig } from '../../../../shared/dialogs/image-editor';
 import { dataURItoBlob, detectFormChange, translocoEscape, fixNestedDialogFocus, replaceDialogHideMethod, timeStringToSeconds, secondsToTimeString } from '../../../../core/utils';
 import { AppErrorCode, MediaPStatus, MediaSourceStatus, MediaStatus, MediaType, SocketMessage, SocketRoom } from '../../../../core/enums';
 import {
@@ -368,7 +368,7 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
     });
   }
 
-  editImage(data: any): Observable<string[] | null> {
+  editImage(data: ImageEditorConfig): Observable<string[] | null> {
     const dialogRef = this.dialogService.open(ImageEditorComponent, {
       data: data,
       header: this.translocoService.translate('common.imageEditor.header'),

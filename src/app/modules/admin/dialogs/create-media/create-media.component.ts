@@ -10,7 +10,7 @@ import { AddVideoComponent } from '../add-video';
 import { AddSubtitleComponent } from '../add-subtitle';
 import { CreateEpisodeComponent } from '../create-episode';
 import { StepperComponent } from '../../../../shared/components/stepper';
-import { ImageEditorComponent } from '../../../../shared/dialogs/image-editor';
+import { ImageEditorComponent, ImageEditorConfig } from '../../../../shared/dialogs/image-editor';
 import { FileUploadComponent } from '../../../../shared/components/file-upload';
 import { CreateMediaDto, DropdownOptionDto, UpdateMediaDto } from '../../../../core/dto/media';
 import { AppErrorCode, MediaStatus, MediaType } from '../../../../core/enums';
@@ -383,7 +383,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
     });
   }
 
-  editImage(data: any): Observable<string[] | null> {
+  editImage(data: ImageEditorConfig): Observable<string[] | null> {
     const dialogRef = this.dialogService.open(ImageEditorComponent, {
       data: data,
       header: this.translocoService.translate('common.imageEditor.header'),
