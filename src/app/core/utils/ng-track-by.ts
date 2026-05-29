@@ -1,23 +1,27 @@
-export function track_Id<T extends { _id?: unknown }>(_: number, item: T): unknown {
-  return item?._id;
+// trackBy helpers. The item is typed `unknown` (not a constrained generic) so these
+// stay assignable to Angular's TrackByFunction<T> for any list item type, then narrowed
+// via a cast to read the identity property.
+export function track_Id(_: number, item: unknown): unknown {
+  return (item as { _id?: unknown } | null)?._id;
 }
 
-export function trackId<T extends { id?: unknown }>(_: number, item: T): unknown {
-  return item?.id;
+export function trackId(_: number, item: unknown): unknown {
+  return (item as { id?: unknown } | null)?.id;
 }
 
-export function trackTabId<T extends { tabId?: unknown }>(_: number, item: T): unknown {
-  return item?.tabId;
+export function trackTabId(_: number, item: unknown): unknown {
+  return (item as { tabId?: unknown } | null)?.tabId;
 }
 
-export function trackLabel<T extends { label?: unknown }>(_: number, item: T): unknown {
-  return item?.label;
+export function trackLabel(_: number, item: unknown): unknown {
+  return (item as { label?: unknown } | null)?.label;
 }
 
-export function trackCreateUrl<T extends { createUrl?: unknown }>(_: number, item: T): unknown {
-  return item?.createUrl;
+export function trackCreateUrl(_: number, item: unknown): unknown {
+  return (item as { createUrl?: unknown } | null)?.createUrl;
 }
 
-export function trackHistoryGroup<T extends { groupByDate?: unknown; historyList?: ArrayLike<unknown> }>(_: number, item: T): unknown {
-  return item ? `${String(item.groupByDate)}${item.historyList?.length ?? 0}` : undefined;
+export function trackHistoryGroup(_: number, item: unknown): unknown {
+  const group = item as { groupByDate?: unknown; historyList?: ArrayLike<unknown> } | null;
+  return group ? `${String(group.groupByDate)}${group.historyList?.length ?? 0}` : undefined;
 }
