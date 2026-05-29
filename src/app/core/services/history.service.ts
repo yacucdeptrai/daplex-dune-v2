@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { retry } from 'rxjs';
 
 import { CursorPageHistoryDto, FindWatchTimeDto, UpdateHistoryDto, UpdateWatchTimeDto } from '../dto/history';
 import { History, HistoryGroupable, HistoryWatchTime, CursorPaginated } from '../models';
@@ -64,7 +65,7 @@ export class HistoryService {
   updateToServer() {
     const historyList = this.getLocalHistory();
     for (let i = 0; i < historyList.length; i++) {
-      this.updateWatchTime(historyList[i]).subscribe();
+      this.updateWatchTime(historyList[i]).pipe(retry({ count: 2, delay: 3000 })).subscribe();
       historyList.splice(i, 1);
     }
     localStorage.setItem(StorageKey.LOCAL_HISTORY_STORE, JSON.stringify(historyList));

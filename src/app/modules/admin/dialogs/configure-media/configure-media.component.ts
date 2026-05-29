@@ -243,6 +243,7 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
       includeUnprocessed: true
     }).subscribe(episodes => {
       this.episodes = episodes;
+    }).add(() => {
       showLoading && (this.loadingEpisodes = false);
       this.ref.markForCheck();
     });
