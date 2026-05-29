@@ -319,7 +319,7 @@ export class MediaComponent implements OnInit, OnDestroy {
           {
             label: t['configureMedia.addEpisode'],
             data: media,
-            command: (event) => this.showDeleteMediaDialog((<DataMenuItem<Media>>event.item)!.data!)
+            command: (event) => this.showConfigureMediaDialog((<DataMenuItem<Media>>event.item)!.data!)
           }
         );
       }
