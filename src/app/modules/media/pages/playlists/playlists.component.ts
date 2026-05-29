@@ -88,9 +88,6 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
       results: [...this.playlistItems.results, ...newList.results],
       mediaList: [...this.playlistItems.mediaList, ...newList.mediaList]
     };
-    this.playlistItems.nextPageToken = newList.nextPageToken;
-    this.playlistItems.prevPageToken = newList.prevPageToken;
-    this.playlistItems.results.push(...newList.results);
   }
 
   onPlaylistMenuClick(button: HTMLButtonElement, opened: boolean): void {
