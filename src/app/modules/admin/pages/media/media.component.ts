@@ -19,7 +19,7 @@ import { MediaPStatus, MediaSourceStatus, MediaType, SocketMessage, SocketRoom }
 import { AddVideoComponent } from '../../dialogs/add-video';
 import { AddSubtitleComponent } from '../../dialogs/add-subtitle';
 import { AddSourceComponent } from '../../dialogs/add-source';
-import { translocoEscape } from '../../../../core/utils';
+import { buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
 
 @Component({
     selector: 'app-media',
@@ -82,27 +82,13 @@ export class MediaComponent implements OnInit, OnDestroy {
   }
 
   loadMedia(showLoading: boolean = true): void {
-    const params: OffsetPageMediaDto = {};
-    params.includeHidden = true;
-    params.includeUnprocessed = true;
-    if (this.mediaTable) {
-      params.limit = this.mediaTable.rows || 0;
-      params.page = this.mediaTable.first ? this.mediaTable.first / params.limit + 1 : 1;
-      const sortOrder = this.mediaTable.sortOrder === -1 ? 'desc' : 'asc';
-      if (this.mediaTable.sortField) {
-        params.sort = `${sortOrder}(${this.mediaTable.sortField})`;
-      } else {
-        params.sort = 'desc(createdAt)';
-      }
-      if (this.mediaTable.filters['title'] && !Array.isArray(this.mediaTable.filters['title'])
-        && this.mediaTable.filters['title'].value.length >= 2) {
-        params.search = this.mediaTable.filters['title'].value;
-      }
-    } else {
-      params.page = 1;
-      params.limit = this.rowsPerPage;
-      params.sort = 'desc(createdAt)';
-    }
+    const params: OffsetPageMediaDto = {
+      includeHidden: true,
+      includeUnprocessed: true,
+      ...buildTablePaginationParams(this.mediaTable, {
+        rowsPerPage: this.rowsPerPage, searchField: 'title', minSearchLength: 2
+      })
+    };
     showLoading && (this.loadingMediaList = true);
     this.mediaService.findPage(params).subscribe({
       next: (mediaList) => {

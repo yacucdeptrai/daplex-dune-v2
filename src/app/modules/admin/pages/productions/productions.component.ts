@@ -9,7 +9,7 @@ import { Paginated, Production } from '../../../../core/models';
 import { PaginateProductionsDto } from '../../../../core/dto/productions';
 import { CreateProductionComponent } from '../../dialogs/create-production';
 import { UpdateProductionComponent } from '../../dialogs/update-production';
-import { translocoEscape } from '../../../../core/utils';
+import { buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
 
 @Component({
     selector: 'app-productions',
@@ -33,24 +33,9 @@ export class ProductionsComponent implements OnInit, OnDestroy {
   }
 
   loadProductions(): void {
-    const params: PaginateProductionsDto = {};
-    if (this.productionTable) {
-      params.limit = this.productionTable.rows || 0;
-      params.page = this.productionTable.first ? this.productionTable.first / params.limit + 1 : 1;
-      const sortOrder = this.productionTable.sortOrder === -1 ? 'desc' : 'asc';
-      if (this.productionTable.sortField) {
-        params.sort = `${sortOrder}(${this.productionTable.sortField})`;
-      } else {
-        params.sort = 'desc(createdAt)';
-      }
-      if (this.productionTable.filters['name'] && !Array.isArray(this.productionTable.filters['name'])) {
-        (params.search = this.productionTable.filters['name'].value);
-      }
-    } else {
-      params.page = 1;
-      params.limit = this.rowsPerPage;
-      params.sort = 'desc(createdAt)';
-    }
+    const params: PaginateProductionsDto = buildTablePaginationParams(this.productionTable, {
+      rowsPerPage: this.rowsPerPage, searchField: 'name'
+    });
     this.loadingProductionList = true;
     this.productionsService.findPage(params).subscribe({
       next: (productionList) => {

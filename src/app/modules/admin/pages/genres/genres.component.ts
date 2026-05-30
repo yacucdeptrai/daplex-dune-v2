@@ -9,7 +9,7 @@ import { Genre, Paginated } from '../../../../core/models';
 import { ConfirmActionService, GenresService } from '../../../../core/services';
 import { CreateGenreComponent } from '../../dialogs/create-genre';
 import { UpdateGenreComponent } from '../../dialogs/update-genre';
-import { translocoEscape } from '../../../../core/utils';
+import { buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
 
 @Component({
     selector: 'app-genres',
@@ -33,24 +33,9 @@ export class GenresComponent implements OnInit, OnDestroy {
   }
 
   loadGenres(): void {
-    const params: PaginateGenresDto = {};
-    if (this.genreTable) {
-      params.limit = this.genreTable.rows || 0;
-      params.page = this.genreTable.first ? this.genreTable.first / params.limit + 1 : 1;
-      const sortOrder = this.genreTable.sortOrder === -1 ? 'desc' : 'asc';
-      if (this.genreTable.sortField) {
-        params.sort = `${sortOrder}(${this.genreTable.sortField})`;
-      } else {
-        params.sort = 'desc(createdAt)';
-      }
-      if (this.genreTable.filters['name'] && !Array.isArray(this.genreTable.filters['name'])) {
-        (params.search = this.genreTable.filters['name'].value);
-      }
-    } else {
-      params.page = 1;
-      params.limit = this.rowsPerPage;
-      params.sort = 'desc(createdAt)';
-    }
+    const params: PaginateGenresDto = buildTablePaginationParams(this.genreTable, {
+      rowsPerPage: this.rowsPerPage, searchField: 'name'
+    });
     this.loadingGenreList = true;
     this.genresService.findPage(params).subscribe({
       next: (genreList) => {
