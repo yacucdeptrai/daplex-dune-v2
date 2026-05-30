@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { TranslocoService } from '@ngneat/transloco';
-import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { first, takeUntil } from 'rxjs';
 
@@ -11,7 +10,7 @@ import { HistoryCardComponent } from '../../components/history-card/history-card
 import { CursorPageHistoryDto } from '../../../../core/dto/history';
 import { DropdownOptionDto } from '../../../../core/dto/media';
 import { CursorPaginated, Genre, HistoryGroup, HistoryGroupable, Media, UserDetails } from '../../../../core/models';
-import { AuthService, DestroyService, GenresService, HistoryService, ItemDataService, MediaService } from '../../../../core/services';
+import { AuthService, ConfirmActionService, DestroyService, GenresService, HistoryService, ItemDataService, MediaService } from '../../../../core/services';
 import { trackHistoryGroup, track_Id, translocoEscape } from '../../../../core/utils';
 
 interface FilterHistoryForm {
@@ -57,7 +56,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   constructor(private ref: ChangeDetectorRef, private renderer: Renderer2, private route: ActivatedRoute,
     private translocoService: TranslocoService, private dialogService: DialogService,
-    private confirmationService: ConfirmationService, private authService: AuthService,
+    private confirmAction: ConfirmActionService, private authService: AuthService,
     private historyService: HistoryService, private genresService: GenresService,
     private mediaService: MediaService, private itemDataService: ItemDataService, private destroyService: DestroyService) {
     this.skeletonArray = new Array(this.historyLimit);
@@ -249,11 +248,9 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   showDeleteHistoryDialog(history: HistoryGroupable): void {
     const safeMediaName = translocoEscape(history.media.title);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       message: this.translocoService.translate('users.history.deleteConfirmation', { name: safeMediaName }),
       header: this.translocoService.translate('users.history.deleteConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => this.deleteHistory(history)
     });
   }

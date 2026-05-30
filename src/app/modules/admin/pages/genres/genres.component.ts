@@ -1,13 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, OnDestroy } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
-import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { first } from 'rxjs';
 
 import { PaginateGenresDto } from '../../../../core/dto/genres';
 import { Genre, Paginated } from '../../../../core/models';
-import { GenresService } from '../../../../core/services';
+import { ConfirmActionService, GenresService } from '../../../../core/services';
 import { CreateGenreComponent } from '../../dialogs/create-genre';
 import { UpdateGenreComponent } from '../../dialogs/update-genre';
 import { translocoEscape } from '../../../../core/utils';
@@ -27,7 +26,7 @@ export class GenresComponent implements OnInit, OnDestroy {
   selectedGenres?: Genre[];
 
   constructor(private ref: ChangeDetectorRef,
-    public dialogService: DialogService, private confirmationService: ConfirmationService, private genresService: GenresService,
+    public dialogService: DialogService, private confirmAction: ConfirmActionService, private genresService: GenresService,
     private translocoService: TranslocoService) { }
 
   ngOnInit(): void {
@@ -92,11 +91,9 @@ export class GenresComponent implements OnInit, OnDestroy {
 
   showDeleteGenreDialog(genre: Genre): void {
     const safeGenreName = translocoEscape(genre.name);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       message: this.translocoService.translate('admin.genres.deleteConfirmation', { name: safeGenreName }),
       header: this.translocoService.translate('admin.genres.deleteConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => this.removeGenre(genre._id)
     });
   }

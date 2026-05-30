@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
-import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
 import { CursorPaginated, Media, RatingDetails, UserDetails } from '../../../../core/models';
-import { AuthService, DestroyService, RatingsService } from '../../../../core/services';
+import { AuthService, ConfirmActionService, DestroyService, RatingsService } from '../../../../core/services';
 import { StarRatingComponent } from '../../../../shared/components/star-rating';
 import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playlist';
 import { track_Id, translocoEscape } from '../../../../core/utils';
@@ -34,7 +33,7 @@ export class RatedComponent implements OnInit, OnDestroy {
 
   constructor(private ref: ChangeDetectorRef, private renderer: Renderer2, private translocoService: TranslocoService,
     private route: ActivatedRoute, private router: Router, private dialogService: DialogService,
-    private confirmationService: ConfirmationService, private authService: AuthService,
+    private confirmAction: ConfirmActionService, private authService: AuthService,
     private ratingsService: RatingsService, private destroyService: DestroyService) {
     this.skeletonArray = new Array(this.ratingLimit);
   }
@@ -122,11 +121,9 @@ export class RatedComponent implements OnInit, OnDestroy {
 
   showDeleteRatingDialog(rating: RatingDetails): void {
     const safeMediaName = translocoEscape(rating.media.title);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       message: this.translocoService.translate('users.rating.deleteConfirmation', { name: safeMediaName }),
       header: this.translocoService.translate('users.rating.deleteConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => this.deleteRating(rating)
     });
   }

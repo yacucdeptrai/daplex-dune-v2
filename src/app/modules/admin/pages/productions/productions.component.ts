@@ -1,11 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, OnDestroy } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
-import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { first } from 'rxjs';
 
-import { ProductionsService } from '../../../../core/services';
+import { ConfirmActionService, ProductionsService } from '../../../../core/services';
 import { Paginated, Production } from '../../../../core/models';
 import { PaginateProductionsDto } from '../../../../core/dto/productions';
 import { CreateProductionComponent } from '../../dialogs/create-production';
@@ -27,7 +26,7 @@ export class ProductionsComponent implements OnInit, OnDestroy {
   selectedProductions?: Production[];
 
   constructor(private ref: ChangeDetectorRef,
-    public dialogService: DialogService, private confirmationService: ConfirmationService,
+    public dialogService: DialogService, private confirmAction: ConfirmActionService,
     private productionsService: ProductionsService, private translocoService: TranslocoService) { }
 
   ngOnInit(): void {
@@ -92,11 +91,9 @@ export class ProductionsComponent implements OnInit, OnDestroy {
 
   showDeleteProductionDialog(production: Production): void {
     const safeProductionName = translocoEscape(production.name);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       message: this.translocoService.translate('admin.productions.deleteConfirmation', { name: safeProductionName }),
       header: this.translocoService.translate('admin.productions.deleteConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => this.removeProduction(production._id)
     });
   }
