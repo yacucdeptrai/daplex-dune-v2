@@ -6,6 +6,7 @@ import { map } from 'rxjs';
 import { CreateTagDto, CursorPageMediaDto, CursorPageTagsDto, PaginateTagsDto, RemoveTagsDto, UpdateTagDto } from '../dto/tags';
 import { FindSuggestionsOptions } from '../interfaces/options';
 import { TagDetails, Paginated, Tag, CursorPaginated, Media } from '../models';
+import { toTruthyHttpParams } from '../utils';
 
 @Injectable({ providedIn: 'root' })
 export class TagsService {
@@ -16,22 +17,12 @@ export class TagsService {
   }
 
   findPage(paginateTagsDto: PaginateTagsDto) {
-    const { page, limit, search, sort } = paginateTagsDto;
-    const params: any = {};
-    page && (params['page'] = page);
-    limit && (params['limit'] = limit);
-    search && (params['search'] = search);
-    sort && (params['sort'] = sort);
+    const params = toTruthyHttpParams(paginateTagsDto);
     return this.http.get<Paginated<Tag>>('tags', { params });
   }
 
   findPageCursor(cursorPageTagsDto: CursorPageTagsDto) {
-    const { pageToken, limit, search, sort } = cursorPageTagsDto;
-    const params: any = {};
-    pageToken && (params['pageToken'] = pageToken);
-    limit && (params['limit'] = limit);
-    search && (params['search'] = search);
-    sort && (params['sort'] = sort);
+    const params = toTruthyHttpParams(cursorPageTagsDto);
     return this.http.get<Paginated<Tag>>('tags/cursor', { params });
   }
 
@@ -54,11 +45,7 @@ export class TagsService {
   }
 
   findAllMedia(id: string, cursorPageMediaDto: CursorPageMediaDto) {
-    const { pageToken, limit, sort } = cursorPageMediaDto;
-    const params: any = {};
-    pageToken && (params['pageToken'] = pageToken);
-    limit && (params['limit'] = limit);
-    sort && (params['sort'] = sort);
+    const params = toTruthyHttpParams(cursorPageMediaDto);
     return this.http.get<CursorPaginated<Media>>(`tags/${id}/media`, { params });
   }
 

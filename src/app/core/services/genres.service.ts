@@ -8,6 +8,7 @@ import { CreateGenreDto, CursorPageGenresDto, CursorPageMediaDto, FindGenresDto,
 import { CursorPaginated, Genre, GenreDetails, Media, Paginated } from '../models';
 import { FindSuggestionsOptions } from '../interfaces/options';
 import { CacheKey } from '../enums';
+import { toTruthyHttpParams } from '../utils';
 
 @Injectable({ providedIn: 'root' })
 export class GenresService {
@@ -20,30 +21,17 @@ export class GenresService {
   }
 
   findPage(paginateGenresDto: PaginateGenresDto) {
-    const { page, limit, search, sort } = paginateGenresDto;
-    const params: any = {};
-    page && (params['page'] = page);
-    limit && (params['limit'] = limit);
-    search && (params['search'] = search);
-    sort && (params['sort'] = sort);
+    const params = toTruthyHttpParams(paginateGenresDto);
     return this.http.get<Paginated<Genre>>('genres', { params });
   }
 
   findPageCursor(cursorPageGenresDto: CursorPageGenresDto) {
-    const { pageToken, limit, search, sort } = cursorPageGenresDto;
-    const params: any = {};
-    pageToken && (params['pageToken'] = pageToken);
-    limit && (params['limit'] = limit);
-    search && (params['search'] = search);
-    sort && (params['sort'] = sort);
+    const params = toTruthyHttpParams(cursorPageGenresDto);
     return this.http.get<CursorPaginated<Genre>>('genres/cursor', { params });
   }
 
   findAll(findGenresDto: FindGenresDto, context?: HttpContext) {
-    const { ids, sort } = findGenresDto;
-    const params: any = {};
-    ids && (params['ids'] = ids);
-    sort && (params['sort'] = sort);
+    const params = toTruthyHttpParams(findGenresDto);
     return this.http.get<Genre[]>('genres/all', { params, context });
   }
 
@@ -72,11 +60,7 @@ export class GenresService {
   }
 
   findAllMedia(id: string, cursorPageMediaDto: CursorPageMediaDto) {
-    const { pageToken, limit, sort } = cursorPageMediaDto;
-    const params: any = {};
-    pageToken && (params['pageToken'] = pageToken);
-    limit && (params['limit'] = limit);
-    sort && (params['sort'] = sort);
+    const params = toTruthyHttpParams(cursorPageMediaDto);
     return this.http.get<CursorPaginated<Media>>(`genres/${id}/media`, { params });
   }
 
