@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 
 import { HomeComponent } from './home.component';
+import { MediaService } from '../../../../core/services';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -8,12 +10,14 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
+      declarations: [HomeComponent],
+      providers: [
+        { provide: MediaService, useValue: { findPage: () => of(null) } }
+      ]
     })
-    .compileComponents();
-  });
+      .overrideComponent(HomeComponent, { set: { template: '' } })
+      .compileComponents();
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

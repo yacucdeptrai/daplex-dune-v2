@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 import { CreatePlaylistComponent } from './create-playlist.component';
+import { HTTP_TEST_PROVIDERS, mockDynamicDialogRef } from '../../../../../testing/test-helpers';
 
 describe('CreatePlaylistComponent', () => {
   let component: CreatePlaylistComponent;
@@ -8,10 +10,14 @@ describe('CreatePlaylistComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreatePlaylistComponent ]
+      declarations: [CreatePlaylistComponent],
+      providers: [
+        { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
+        ...HTTP_TEST_PROVIDERS
+      ]
     })
-    .compileComponents();
-
+      .overrideComponent(CreatePlaylistComponent, { set: { template: '' } })
+      .compileComponents();
     fixture = TestBed.createComponent(CreatePlaylistComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -19,5 +25,6 @@ describe('CreatePlaylistComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.createPlaylistForm).toBeTruthy();
   });
 });

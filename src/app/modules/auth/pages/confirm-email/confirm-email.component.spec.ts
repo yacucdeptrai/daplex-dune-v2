@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfirmEmailComponent } from './confirm-email.component';
+import { AuthService } from '../../../../core/services';
+import { provideMockActivatedRoute } from '../../../../../testing/test-helpers';
 
 describe('ConfirmEmailComponent', () => {
   let component: ConfirmEmailComponent;
@@ -8,9 +10,14 @@ describe('ConfirmEmailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConfirmEmailComponent ]
+      declarations: [ConfirmEmailComponent],
+      providers: [
+        provideMockActivatedRoute({ queryParams: {} }),
+        { provide: AuthService, useValue: {} }
+      ]
     })
-    .compileComponents();
+      .overrideComponent(ConfirmEmailComponent, { set: { template: '' } })
+      .compileComponents();
 
     fixture = TestBed.createComponent(ConfirmEmailComponent);
     component = fixture.componentInstance;

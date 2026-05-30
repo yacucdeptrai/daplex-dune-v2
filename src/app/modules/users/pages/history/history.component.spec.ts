@@ -1,6 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslocoService } from '@ngneat/transloco';
+import { ConfirmationService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
+import { of } from 'rxjs';
 
+import { AuthService, GenresService, MediaService } from '../../../../core/services';
 import { HistoryComponent } from './history.component';
+import { HTTP_TEST_PROVIDERS, mockTranslocoService, provideMockActivatedRoute } from '../../../../../testing/test-helpers';
 
 describe('HistoryComponent', () => {
   let component: HistoryComponent;
@@ -8,10 +14,20 @@ describe('HistoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HistoryComponent ]
+      declarations: [HistoryComponent],
+      providers: [
+        provideMockActivatedRoute(),
+        { provide: TranslocoService, useValue: { ...mockTranslocoService(), selectTranslation: () => of({}) } },
+        { provide: DialogService, useValue: { open: () => undefined, dialogComponentRefMap: new Map() } },
+        { provide: ConfirmationService, useValue: {} },
+        { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
+        { provide: GenresService, useValue: {} },
+        { provide: MediaService, useValue: {} },
+        ...HTTP_TEST_PROVIDERS
+      ]
     })
-    .compileComponents();
-
+      .overrideComponent(HistoryComponent, { set: { template: '' } })
+      .compileComponents();
     fixture = TestBed.createComponent(HistoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -19,5 +35,6 @@ describe('HistoryComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.filterHistoryForm).toBeTruthy();
   });
 });

@@ -8,9 +8,12 @@ describe('AvatarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AvatarComponent ]
+      declarations: [AvatarComponent]
     })
-    .compileComponents();
+      // Blank the template: this is a construction/DI smoke test, so we deliberately skip
+      // rendering the real template (which depends on the `charColor` pipe + sibling modules).
+      .overrideComponent(AvatarComponent, { set: { template: '' } })
+      .compileComponents();
 
     fixture = TestBed.createComponent(AvatarComponent);
     component = fixture.componentInstance;

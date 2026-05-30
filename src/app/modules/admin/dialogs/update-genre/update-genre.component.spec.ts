@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslocoService } from '@ngneat/transloco';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 import { UpdateGenreComponent } from './update-genre.component';
+import { GenresService } from '../../../../core/services';
+import { mockDynamicDialogConfig, mockDynamicDialogRef, mockTranslocoService } from '../../../../../testing/test-helpers';
 
 describe('UpdateGenreComponent', () => {
   let component: UpdateGenreComponent;
@@ -8,12 +12,16 @@ describe('UpdateGenreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UpdateGenreComponent ]
+      declarations: [UpdateGenreComponent],
+      providers: [
+        { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
+        { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig({ _id: 'g1', name: 'Action' }) },
+        { provide: GenresService, useValue: {} },
+        { provide: TranslocoService, useValue: mockTranslocoService() }
+      ]
     })
-    .compileComponents();
-  });
-
-  beforeEach(() => {
+      .overrideComponent(UpdateGenreComponent, { set: { template: '' } })
+      .compileComponents();
     fixture = TestBed.createComponent(UpdateGenreComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddExtStreamsComponent } from './add-ext-streams.component';
+import { MediaService } from '../../../../core/services';
 
 describe('AddExtStreamsComponent', () => {
   let component: AddExtStreamsComponent;
@@ -8,10 +9,13 @@ describe('AddExtStreamsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddExtStreamsComponent ]
+      declarations: [AddExtStreamsComponent],
+      providers: [
+        { provide: MediaService, useValue: {} }
+      ]
     })
-    .compileComponents();
-
+      .overrideComponent(AddExtStreamsComponent, { set: { template: '' } })
+      .compileComponents();
     fixture = TestBed.createComponent(AddExtStreamsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

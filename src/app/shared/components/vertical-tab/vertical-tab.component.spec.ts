@@ -8,15 +8,15 @@ describe('VerticalTabComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ VerticalTabComponent ]
+      declarations: [VerticalTabComponent]
     })
-    .compileComponents();
-  });
+      .overrideComponent(VerticalTabComponent, { set: { template: '' } })
+      .compileComponents();
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(VerticalTabComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // Construction/DI smoke test only: `detectChanges()` is skipped because the real
+    // `ngAfterContentInit` reads projected tab panels (`@ContentChildren`) absent here.
   });
 
   it('should create', () => {

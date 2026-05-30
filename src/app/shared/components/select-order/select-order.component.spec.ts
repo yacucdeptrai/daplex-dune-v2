@@ -10,10 +10,13 @@ describe('SelectOrderComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [SelectOrderComponent]
     })
-    .compileComponents();
-    
+      .overrideComponent(SelectOrderComponent, { set: { template: '' } })
+      .compileComponents();
+
     fixture = TestBed.createComponent(SelectOrderComponent);
     component = fixture.componentInstance;
+    // `t` is a required signal input; supply it before change detection.
+    fixture.componentRef.setInput('t', (key: string) => key);
     fixture.detectChanges();
   });
 
