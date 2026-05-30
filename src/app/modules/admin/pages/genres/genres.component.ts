@@ -1,16 +1,15 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, OnDestroy } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
-import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { first } from 'rxjs';
 
 import { PaginateGenresDto } from '../../../../core/dto/genres';
 import { Genre, Paginated } from '../../../../core/models';
-import { GenresService } from '../../../../core/services';
+import { ConfirmActionService, GenresService } from '../../../../core/services';
 import { CreateGenreComponent } from '../../dialogs/create-genre';
 import { UpdateGenreComponent } from '../../dialogs/update-genre';
-import { translocoEscape } from '../../../../core/utils';
+import { buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
 
 @Component({
     selector: 'app-genres',
@@ -27,31 +26,16 @@ export class GenresComponent implements OnInit, OnDestroy {
   selectedGenres?: Genre[];
 
   constructor(private ref: ChangeDetectorRef,
-    public dialogService: DialogService, private confirmationService: ConfirmationService, private genresService: GenresService,
+    public dialogService: DialogService, private confirmAction: ConfirmActionService, private genresService: GenresService,
     private translocoService: TranslocoService) { }
 
   ngOnInit(): void {
   }
 
   loadGenres(): void {
-    const params: PaginateGenresDto = {};
-    if (this.genreTable) {
-      params.limit = this.genreTable.rows || 0;
-      params.page = this.genreTable.first ? this.genreTable.first / params.limit + 1 : 1;
-      const sortOrder = this.genreTable.sortOrder === -1 ? 'desc' : 'asc';
-      if (this.genreTable.sortField) {
-        params.sort = `${sortOrder}(${this.genreTable.sortField})`;
-      } else {
-        params.sort = 'desc(createdAt)';
-      }
-      if (this.genreTable.filters['name'] && !Array.isArray(this.genreTable.filters['name'])) {
-        (params.search = this.genreTable.filters['name'].value);
-      }
-    } else {
-      params.page = 1;
-      params.limit = this.rowsPerPage;
-      params.sort = 'desc(createdAt)';
-    }
+    const params: PaginateGenresDto = buildTablePaginationParams(this.genreTable, {
+      rowsPerPage: this.rowsPerPage, searchField: 'name'
+    });
     this.loadingGenreList = true;
     this.genresService.findPage(params).subscribe({
       next: (genreList) => {
@@ -92,11 +76,9 @@ export class GenresComponent implements OnInit, OnDestroy {
 
   showDeleteGenreDialog(genre: Genre): void {
     const safeGenreName = translocoEscape(genre.name);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       message: this.translocoService.translate('admin.genres.deleteConfirmation', { name: safeGenreName }),
       header: this.translocoService.translate('admin.genres.deleteConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => this.removeGenre(genre._id)
     });
   }

@@ -2,14 +2,14 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Renderer
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { ConfirmationService, MenuItem } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Menu } from 'primeng/menu';
 import { first, map, merge, Observable, switchMap, takeUntil, tap } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
 
 import { MediaDetails, MediaStream, MediaVideo, MediaSubtitle, TVEpisode, Genre, Production, Tag } from '../../../../core/models';
-import { DestroyService, GenresService, ItemDataService, MediaService, ProductionsService, QueueUploadService, TagsService } from '../../../../core/services';
+import { ConfirmActionService, DestroyService, GenresService, ItemDataService, MediaService, ProductionsService, QueueUploadService, TagsService } from '../../../../core/services';
 import { WsService } from '../../../../shared/modules/ws';
 import { DropdownOptionDto, UpdateMediaDto } from '../../../../core/dto/media';
 import { MediaChange, MediaVideoChange } from '../../../../core/interfaces/ws';
@@ -112,7 +112,7 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
 
   constructor(@Inject(DOCUMENT) private document: Document, private ref: ChangeDetectorRef, private renderer: Renderer2,
     private dialogRef: DynamicDialogRef, private config: DynamicDialogConfig<MediaDetails>, private dialogService: DialogService,
-    private confirmationService: ConfirmationService, private mediaService: MediaService,
+    private confirmAction: ConfirmActionService, private mediaService: MediaService,
     private itemDataService: ItemDataService, private genresService: GenresService, private productionsService: ProductionsService,
     private tagsService: TagsService, private queueUploadService: QueueUploadService,
     private wsService: WsService, private translocoService: TranslocoService, private destroyService: DestroyService) {
@@ -433,12 +433,10 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   deletePoster(event: Event): void {
     const mediaId = this.config.data!._id;
     const safeMediaTitle = translocoEscape(this.config.data!.title);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModal',
       message: this.translocoService.translate('admin.media.deletePosterConfirmation', { name: safeMediaTitle }),
       header: this.translocoService.translate('admin.media.deletePosterConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
@@ -462,12 +460,10 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   deleteBackdrop(event: Event): void {
     const mediaId = this.config.data!._id;
     const safeMediaTitle = translocoEscape(this.config.data!.title);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModal',
       message: this.translocoService.translate('admin.media.deleteBackdropConfirmation', { name: safeMediaTitle }),
       header: this.translocoService.translate('admin.media.deleteBackdropConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
@@ -543,12 +539,10 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
 
   deleteVideo(video: MediaVideo, event: Event): void {
     const mediaId = this.config.data!._id;
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModal',
       message: this.translocoService.translate('admin.media.deleteVideoConfirmation'),
       header: this.translocoService.translate('admin.media.deleteVideoConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
@@ -593,12 +587,10 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
 
   deleteSubtitle(subtitle: MediaSubtitle, event: Event): void {
     const mediaId = this.config.data!._id;
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModal',
       message: this.translocoService.translate('admin.media.deleteSubtitleConfirmation'),
       header: this.translocoService.translate('admin.media.deleteSubtitleConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
@@ -655,12 +647,10 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   deleteSource(event: Event): void {
     const mediaId = this.config.data!._id;
     const safeMediaTitle = translocoEscape(this.config.data!.title);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModal',
       message: this.translocoService.translate('admin.media.deleteSourceConfirmation', { name: safeMediaTitle }),
       header: this.translocoService.translate('admin.media.deleteSourceConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
@@ -730,12 +720,10 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   showDeleteEpisodeDialog(episode: TVEpisode): void {
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModal',
       message: this.translocoService.translate('admin.media.deleteEpisodeConfirmation', { episodeNumber: episode.epNumber }),
       header: this.translocoService.translate('admin.media.deleteEpisodeConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => this.deleteEpisode(episode)
     });
   }

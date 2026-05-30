@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
-import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { first, takeUntil } from 'rxjs';
 
@@ -9,7 +8,7 @@ import { PlaylistCardComponent } from '../../components/playlist-card';
 import { CreatePlaylistComponent } from '../../dialogs/create-playlist';
 import { AddAllToPlaylistComponent } from '../../../../shared/dialogs/add-all-to-playlist';
 import { CursorPaginated, Playlist, PlaylistDetails, UserDetails } from '../../../../core/models';
-import { AuthService, DestroyService, PlaylistsService } from '../../../../core/services';
+import { AuthService, ConfirmActionService, DestroyService, PlaylistsService } from '../../../../core/services';
 import { track_Id, translocoEscape } from '../../../../core/utils';
 import { MediaVisibility } from '../../../../core/enums';
 import { PlaylistSettingsComponent } from '../../../../shared/dialogs/playlist-settings';
@@ -36,7 +35,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
 
   constructor(private ref: ChangeDetectorRef, private viewContainerRef: ViewContainerRef, private renderer: Renderer2,
     private route: ActivatedRoute, private router: Router, private dialogService: DialogService,
-    private confirmationService: ConfirmationService, private translocoService: TranslocoService, private authService: AuthService,
+    private confirmAction: ConfirmActionService, private translocoService: TranslocoService, private authService: AuthService,
     private playlistsService: PlaylistsService, private destroyService: DestroyService) {
     this.skeletonArray = new Array(this.playlistLimit);
   }
@@ -165,11 +164,9 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
 
   showDeletePlaylistDialog(playlist: Playlist): void {
     const safePlaylistName = translocoEscape(playlist.name);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       message: this.translocoService.translate('users.playlist.deleteConfirmation', { name: safePlaylistName }),
       header: this.translocoService.translate('users.playlist.deleteConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => this.deletePlaylist(playlist)
     });
   }

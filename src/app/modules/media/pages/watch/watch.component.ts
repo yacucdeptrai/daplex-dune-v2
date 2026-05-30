@@ -1,22 +1,22 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, ViewChild, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Meta, Title } from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Subscription, combineLatest, filter, first, interval, map, of, switchMap, takeUntil, timer } from 'rxjs';
 
 import { UpdateWatchTimeDto } from '../../../../core/dto/history';
-import { AuthService, MediaService, HistoryService, RatingsService, DestroyService } from '../../../../core/services';
+import { AuthService, MediaService, HistoryService, RatingsService, DestroyService, MediaMetaService } from '../../../../core/services';
 import { CursorPaginated, Media, MediaDetails, MediaStream, Rating, TVEpisode, UserDetails } from '../../../../core/models';
 import { VideoPlayerComponent } from '../../../../shared/components/video-player';
 import { StarRatingComponent } from '../../../../shared/components/star-rating';
 import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playlist';
 import { ShareMediaLinkComponent, SharingOption } from '../../../../shared/dialogs/share-media-link';
 import { MediaBreakpoints, MediaType } from '../../../../core/enums';
-import { toHexColor, trackId } from '../../../../core/utils';
-import { SITE_NAME, SITE_THEME_COLOR } from '../../../../../environments/config';
+import { trackId } from '../../../../core/utils';
+import { SITE_NAME } from '../../../../../environments/config';
 
 @Component({
     selector: 'app-watch',
@@ -60,7 +60,7 @@ export class WatchComponent implements OnInit, OnDestroy {
   watchTimeUpdateSub?: Subscription;
   serverWatchTimeUpdateSub?: Subscription;
 
-  constructor(private ref: ChangeDetectorRef, private title: Title, private meta: Meta, private location: Location,
+  constructor(private ref: ChangeDetectorRef, private title: Title, private mediaMeta: MediaMetaService, private location: Location,
     private breakpointObserver: BreakpointObserver, private dialogService: DialogService, private authService: AuthService,
     private mediaService: MediaService, private historyService: HistoryService, private ratingsService: RatingsService,
     private route: ActivatedRoute, private router: Router, private translocoService: TranslocoService,
@@ -175,7 +175,7 @@ export class WatchComponent implements OnInit, OnDestroy {
 
   watchMovie(media: MediaDetails): void {
     this.title.setTitle(`${media.title} - ${SITE_NAME}`);
-    this.setMediaMeta(media);
+    this.mediaMeta.setMediaMeta(media);
     this.mediaService.findMovieStreams(media._id).subscribe(movieStreams => {
       this.streams.set(movieStreams);
       this.ref.markForCheck();
@@ -189,7 +189,7 @@ export class WatchComponent implements OnInit, OnDestroy {
     this.translocoService.selectTranslation('media').pipe(first()).subscribe(t => {
       this.title.setTitle(`${media.title} ${t['episode.episodePrefix']} ${epNumber} - ${SITE_NAME}`);
     });
-    this.setMediaMeta(media);
+    this.mediaMeta.setMediaMeta(media);
     this.findPrevAndNextEpisodes(media.tv.episodes, epNumber);
     this.mediaService.findTVStreams(media._id, epNumber).subscribe(episodeStreams => {
       this.streams.set(episodeStreams);
@@ -210,23 +210,6 @@ export class WatchComponent implements OnInit, OnDestroy {
 
   toggleFitWindow(event: boolean): void {
     this.fitWindow.set(event);
-  }
-
-  setMediaMeta(media: MediaDetails): void {
-    this.meta.updateTag({ name: 'description', content: media.overview });
-    this.meta.updateTag({ property: 'og:site_name', content: SITE_NAME });
-    this.meta.updateTag({ property: 'og:title', content: media.title });
-    this.meta.updateTag({ property: 'og:description', content: media.overview });
-    media.posterColor && this.meta.updateTag({ name: 'theme-color', content: toHexColor(media.posterColor) });
-    if (media.posterUrl) {
-      this.meta.updateTag({ property: 'og:image', content: media.posterUrl });
-      this.meta.updateTag({ property: 'og:image:url', content: media.posterUrl });
-      this.meta.updateTag({ property: 'og:image:secure_url', content: media.posterUrl });
-      this.meta.updateTag({ property: 'og:image:width', content: '500' });
-      this.meta.updateTag({ property: 'og:image:height', content: '750' });
-      this.meta.updateTag({ property: 'og:image:type', content: 'image/jpeg' });
-      this.meta.updateTag({ property: 'og:image:alt', content: media.title });
-    }
   }
 
   showAddToPlaylistDialog() {
@@ -360,19 +343,7 @@ export class WatchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.title.setTitle(SITE_NAME);
-    this.meta.removeTag('name="description"');
-    this.meta.removeTag('property="og:site_name"');
-    this.meta.removeTag('property="og:title"');
-    this.meta.removeTag('property="og:description"');
-    this.meta.removeTag('property="og:image"');
-    this.meta.removeTag('property="og:image:url"');
-    this.meta.removeTag('property="og:image:secure_url"');
-    this.meta.removeTag('property="og:image:width"');
-    this.meta.removeTag('property="og:image:height"');
-    this.meta.removeTag('property="og:image:type"');
-    this.meta.removeTag('property="og:image:alt"');
-    this.meta.updateTag({ name: 'theme-color', content: SITE_THEME_COLOR });
+    this.mediaMeta.resetMediaMeta();
     this.currentUser() && this.updateWatchTimeToServer();
     this.watchTimeUpdateSub?.unsubscribe();
     this.serverWatchTimeUpdateSub?.unsubscribe();

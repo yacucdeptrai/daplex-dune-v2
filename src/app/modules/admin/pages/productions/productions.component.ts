@@ -1,16 +1,15 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, OnDestroy } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
-import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { first } from 'rxjs';
 
-import { ProductionsService } from '../../../../core/services';
+import { ConfirmActionService, ProductionsService } from '../../../../core/services';
 import { Paginated, Production } from '../../../../core/models';
 import { PaginateProductionsDto } from '../../../../core/dto/productions';
 import { CreateProductionComponent } from '../../dialogs/create-production';
 import { UpdateProductionComponent } from '../../dialogs/update-production';
-import { translocoEscape } from '../../../../core/utils';
+import { buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
 
 @Component({
     selector: 'app-productions',
@@ -27,31 +26,16 @@ export class ProductionsComponent implements OnInit, OnDestroy {
   selectedProductions?: Production[];
 
   constructor(private ref: ChangeDetectorRef,
-    public dialogService: DialogService, private confirmationService: ConfirmationService,
+    public dialogService: DialogService, private confirmAction: ConfirmActionService,
     private productionsService: ProductionsService, private translocoService: TranslocoService) { }
 
   ngOnInit(): void {
   }
 
   loadProductions(): void {
-    const params: PaginateProductionsDto = {};
-    if (this.productionTable) {
-      params.limit = this.productionTable.rows || 0;
-      params.page = this.productionTable.first ? this.productionTable.first / params.limit + 1 : 1;
-      const sortOrder = this.productionTable.sortOrder === -1 ? 'desc' : 'asc';
-      if (this.productionTable.sortField) {
-        params.sort = `${sortOrder}(${this.productionTable.sortField})`;
-      } else {
-        params.sort = 'desc(createdAt)';
-      }
-      if (this.productionTable.filters['name'] && !Array.isArray(this.productionTable.filters['name'])) {
-        (params.search = this.productionTable.filters['name'].value);
-      }
-    } else {
-      params.page = 1;
-      params.limit = this.rowsPerPage;
-      params.sort = 'desc(createdAt)';
-    }
+    const params: PaginateProductionsDto = buildTablePaginationParams(this.productionTable, {
+      rowsPerPage: this.rowsPerPage, searchField: 'name'
+    });
     this.loadingProductionList = true;
     this.productionsService.findPage(params).subscribe({
       next: (productionList) => {
@@ -92,11 +76,9 @@ export class ProductionsComponent implements OnInit, OnDestroy {
 
   showDeleteProductionDialog(production: Production): void {
     const safeProductionName = translocoEscape(production.name);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       message: this.translocoService.translate('admin.productions.deleteConfirmation', { name: safeProductionName }),
       header: this.translocoService.translate('admin.productions.deleteConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => this.removeProduction(production._id)
     });
   }

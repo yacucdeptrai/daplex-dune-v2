@@ -2,13 +2,12 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChil
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
-import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { Menu } from 'primeng/menu';
 import { first, map, merge, Observable, of, takeUntil, tap } from 'rxjs';
 
-import { DestroyService, MediaService, QueueUploadService } from '../../../../core/services';
+import { ConfirmActionService, DestroyService, MediaService, QueueUploadService } from '../../../../core/services';
 import { WsService } from '../../../../shared/modules/ws';
 import { Media, MediaDetails, Paginated } from '../../../../core/models';
 import { OffsetPageMediaDto } from '../../../../core/dto/media';
@@ -20,7 +19,7 @@ import { MediaPStatus, MediaSourceStatus, MediaType, SocketMessage, SocketRoom }
 import { AddVideoComponent } from '../../dialogs/add-video';
 import { AddSubtitleComponent } from '../../dialogs/add-subtitle';
 import { AddSourceComponent } from '../../dialogs/add-source';
-import { translocoEscape } from '../../../../core/utils';
+import { buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
 
 @Component({
     selector: 'app-media',
@@ -43,7 +42,7 @@ export class MediaComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(DOCUMENT) private document: Document, private ref: ChangeDetectorRef, private renderer: Renderer2,
     private route: ActivatedRoute, private router: Router, public dialogService: DialogService,
-    private confirmationService: ConfirmationService, private mediaService: MediaService,
+    private confirmAction: ConfirmActionService, private mediaService: MediaService,
     private queueUploadService: QueueUploadService, private wsService: WsService,
     private translocoService: TranslocoService, private destroyService: DestroyService) { }
 
@@ -83,27 +82,13 @@ export class MediaComponent implements OnInit, OnDestroy {
   }
 
   loadMedia(showLoading: boolean = true): void {
-    const params: OffsetPageMediaDto = {};
-    params.includeHidden = true;
-    params.includeUnprocessed = true;
-    if (this.mediaTable) {
-      params.limit = this.mediaTable.rows || 0;
-      params.page = this.mediaTable.first ? this.mediaTable.first / params.limit + 1 : 1;
-      const sortOrder = this.mediaTable.sortOrder === -1 ? 'desc' : 'asc';
-      if (this.mediaTable.sortField) {
-        params.sort = `${sortOrder}(${this.mediaTable.sortField})`;
-      } else {
-        params.sort = 'desc(createdAt)';
-      }
-      if (this.mediaTable.filters['title'] && !Array.isArray(this.mediaTable.filters['title'])
-        && this.mediaTable.filters['title'].value.length >= 2) {
-        params.search = this.mediaTable.filters['title'].value;
-      }
-    } else {
-      params.page = 1;
-      params.limit = this.rowsPerPage;
-      params.sort = 'desc(createdAt)';
-    }
+    const params: OffsetPageMediaDto = {
+      includeHidden: true,
+      includeUnprocessed: true,
+      ...buildTablePaginationParams(this.mediaTable, {
+        rowsPerPage: this.rowsPerPage, searchField: 'title', minSearchLength: 2
+      })
+    };
     showLoading && (this.loadingMediaList = true);
     this.mediaService.findPage(params).subscribe({
       next: (mediaList) => {
@@ -196,12 +181,10 @@ export class MediaComponent implements OnInit, OnDestroy {
 
   showDeleteMediaDialog(media: Media): void {
     const safeMediaTitle = translocoEscape(media.title).replace(/{/g, '&#123;').replace(/}/g, '&#125;');
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'default',
       message: this.translocoService.translate('admin.media.deleteConfirmation', { name: safeMediaTitle }),
       header: this.translocoService.translate('admin.media.deleteConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => this.removeMedia(media._id)
     });
   }
@@ -228,12 +211,10 @@ export class MediaComponent implements OnInit, OnDestroy {
 
   deletePoster(media: Media, event: Event) {
     const safeMediaTitle = translocoEscape(media.title);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'default',
       message: this.translocoService.translate('admin.media.deletePosterConfirmation', { name: safeMediaTitle }),
       header: this.translocoService.translate('admin.media.deletePosterConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = <HTMLButtonElement>event.target;
         this.renderer.setProperty(element, 'disabled', true);
@@ -260,12 +241,10 @@ export class MediaComponent implements OnInit, OnDestroy {
 
   deleteBackdrop(media: Media, event: Event) {
     const safeMediaTitle = translocoEscape(media.title);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'default',
       message: this.translocoService.translate('admin.media.deleteBackdropConfirmation', { name: safeMediaTitle }),
       header: this.translocoService.translate('admin.media.deleteBackdropConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = <HTMLButtonElement>event.target;
         this.renderer.setProperty(element, 'disabled', true);

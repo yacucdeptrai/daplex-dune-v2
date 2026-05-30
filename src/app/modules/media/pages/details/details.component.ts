@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
-import { Meta, Title } from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -9,12 +9,12 @@ import { takeUntil } from 'rxjs';
 
 import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playlist';
 import { MediaDetails } from '../../../../core/models';
-import { AuthService, MediaService } from '../../../../core/services';
+import { AuthService, MediaMetaService, MediaService } from '../../../../core/services';
 import { DestroyService } from '../../../../core/services';
 import { MediaBreakpoints, MediaStatus, MediaType } from '../../../../core/enums';
 import { TextResizeOption } from '../../../../shared/directives/text-directive/text-resize/text-resize.directive';
-import { SITE_NAME, SITE_THEME_COLOR, YOUTUBE_EMBED_URL, YOUTUBE_THUMBNAIL_URL } from '../../../../../environments/config';
-import { toHexColor, track_Id } from '../../../../core/utils';
+import { SITE_NAME, YOUTUBE_EMBED_URL, YOUTUBE_THUMBNAIL_URL } from '../../../../../environments/config';
+import { track_Id } from '../../../../core/utils';
 
 @Component({
     selector: 'app-details',
@@ -37,7 +37,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   youtubeUrl = YOUTUBE_EMBED_URL;
   youtubeThumbnailUrl = YOUTUBE_THUMBNAIL_URL;
 
-  constructor(private ref: ChangeDetectorRef, private title: Title, private meta: Meta, private breakpointObserver: BreakpointObserver,
+  constructor(private ref: ChangeDetectorRef, private title: Title, private mediaMeta: MediaMetaService, private breakpointObserver: BreakpointObserver,
     private location: Location, private dialogService: DialogService, private translocoService: TranslocoService,
     private authService: AuthService, private mediaService: MediaService, private route: ActivatedRoute, private router: Router,
     private destroyService: DestroyService) { }
@@ -60,20 +60,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.mediaService.findOne(mediaId, { appendToResponse: 'inCollections' }).subscribe(media => {
       this.media = media;
       this.title.setTitle(`${media.title} - ${SITE_NAME}`);
-      this.meta.updateTag({ name: 'description', content: media.overview });
-      this.meta.updateTag({ property: 'og:site_name', content: SITE_NAME });
-      this.meta.updateTag({ property: 'og:title', content: media.title });
-      this.meta.updateTag({ property: 'og:description', content: media.overview });
-      media.posterColor && this.meta.updateTag({ name: 'theme-color', content: toHexColor(media.posterColor) });
-      if (media.posterUrl) {
-        this.meta.updateTag({ property: 'og:image', content: media.posterUrl });
-        this.meta.updateTag({ property: 'og:image:url', content: media.posterUrl });
-        this.meta.updateTag({ property: 'og:image:secure_url', content: media.posterUrl });
-        this.meta.updateTag({ property: 'og:image:width', content: '500' });
-        this.meta.updateTag({ property: 'og:image:height', content: '750' });
-        this.meta.updateTag({ property: 'og:image:type', content: 'image/jpeg' });
-        this.meta.updateTag({ property: 'og:image:alt', content: media.title });
-      }
+      this.mediaMeta.setMediaMeta(media);
       const replacedUrlParams = new URLSearchParams({ ...this.route.snapshot.queryParams }).toString();
       this.location.replaceState('/details/' + media._id + '-' + media.slug.substring(0, 100), replacedUrlParams);
       this.ref.markForCheck();
@@ -126,19 +113,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.title.setTitle(SITE_NAME);
-    this.meta.removeTag('name="description"');
-    this.meta.removeTag('property="og:site_name"');
-    this.meta.removeTag('property="og:title"');
-    this.meta.removeTag('property="og:description"');
-    this.meta.removeTag('property="og:image"');
-    this.meta.removeTag('property="og:image:url"');
-    this.meta.removeTag('property="og:image:secure_url"');
-    this.meta.removeTag('property="og:image:width"');
-    this.meta.removeTag('property="og:image:height"');
-    this.meta.removeTag('property="og:image:type"');
-    this.meta.removeTag('property="og:image:alt"');
-    this.meta.updateTag({ name: 'theme-color', content: SITE_THEME_COLOR });
+    this.mediaMeta.resetMediaMeta();
     this.dialogService.dialogComponentRefMap.forEach(dialogRef => {
       dialogRef.instance.close();
     });

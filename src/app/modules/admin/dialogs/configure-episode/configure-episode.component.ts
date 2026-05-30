@@ -3,12 +3,11 @@ import { Component, OnInit, ChangeDetectionStrategy, Inject, ChangeDetectorRef, 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ConfirmationService } from 'primeng/api';
 import { first, takeUntil } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
 
 import { DropdownOptionDto, UpdateTVEpisodeDto } from '../../../../core/dto/media';
-import { DestroyService, ItemDataService, MediaService, QueueUploadService } from '../../../../core/services';
+import { ConfirmActionService, DestroyService, ItemDataService, MediaService, QueueUploadService } from '../../../../core/services';
 import { fileExtension, maxFileSize, shortDate } from '../../../../core/validators';
 import { MediaDetails, MediaStream, MediaSubtitle, TVEpisodeDetails } from '../../../../core/models';
 import { AddSubtitleForm, ShortDateForm } from '../../../../core/interfaces/forms';
@@ -73,7 +72,7 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
 
   constructor(@Inject(DOCUMENT) private document: Document, private ref: ChangeDetectorRef, private renderer: Renderer2,
     private dialogRef: DynamicDialogRef, private config: DynamicDialogConfig<{ media: MediaDetails, episode: TVEpisodeDetails }>,
-    private dialogService: DialogService, private confirmationService: ConfirmationService, private mediaService: MediaService,
+    private dialogService: DialogService, private confirmAction: ConfirmActionService, private mediaService: MediaService,
     private itemDataService: ItemDataService, private queueUploadService: QueueUploadService,
     private translocoService: TranslocoService, private destroyService: DestroyService) {
     const lang = this.translocoService.getActiveLang();
@@ -227,12 +226,10 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
     const mediaId = this.config.data!.media._id;
     const episodeId = this.config.data!.episode._id;
     const episodeNumber = this.config.data!.episode.epNumber;
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModalEpisode',
       message: this.translocoService.translate('admin.episode.deleteStillConfirmation', { episode: episodeNumber }),
       header: this.translocoService.translate('admin.episode.deleteStillConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
@@ -307,12 +304,10 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
   deleteSubtitle(subtitle: MediaSubtitle, event: Event): void {
     const mediaId = this.config.data!.media._id;
     const episodeId = this.config.data!.episode._id;
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModalEpisode',
       message: this.translocoService.translate('admin.media.deleteSubtitleConfirmation'),
       header: this.translocoService.translate('admin.media.deleteSubtitleConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
@@ -358,12 +353,10 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
     const mediaId = this.config.data!.media._id;
     const episodeId = this.config.data!.episode._id;
     const safeEpisodeName = translocoEscape(this.config.data!.episode.epNumber.toString());
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModalEpisode',
       message: this.translocoService.translate('admin.media.deleteSourceConfirmation', { name: safeEpisodeName }),
       header: this.translocoService.translate('admin.media.deleteSourceConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
