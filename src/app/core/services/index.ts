@@ -7,6 +7,7 @@ export * from './history.service';
 export * from './audit-log.service';
 export * from './item-data.service';
 export * from './media.service';
+export * from './media-meta.service';
 export * from './playlists.service';
 export * from './productions.service';
 export * from './queue-upload.service';
