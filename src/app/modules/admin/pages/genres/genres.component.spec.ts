@@ -4,7 +4,7 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { GenresComponent } from './genres.component';
-import { GenresService } from '../../../../core/services';
+import { ConfirmActionService, GenresService } from '../../../../core/services';
 import { mockDialogService, mockTranslocoService } from '../../../../../testing/test-helpers';
 
 describe('GenresComponent', () => {
@@ -17,6 +17,7 @@ describe('GenresComponent', () => {
       providers: [
         { provide: DialogService, useValue: mockDialogService() },
         ConfirmationService,
+        ConfirmActionService,
         { provide: GenresService, useValue: {} },
         { provide: TranslocoService, useValue: mockTranslocoService() }
       ]

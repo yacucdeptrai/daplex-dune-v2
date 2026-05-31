@@ -5,7 +5,7 @@ import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dy
 import { of } from 'rxjs';
 
 import { ConfigureEpisodeComponent } from './configure-episode.component';
-import { MediaService, QueueUploadService } from '../../../../core/services';
+import { ConfirmActionService, MediaService, QueueUploadService } from '../../../../core/services';
 import {
   mockDialogService,
   mockDynamicDialogConfig,
@@ -31,6 +31,7 @@ describe('ConfigureEpisodeComponent', () => {
         },
         { provide: DialogService, useValue: mockDialogService() },
         ConfirmationService,
+        ConfirmActionService,
         { provide: MediaService, useValue: { findOneTVEpisode: () => of() } },
         { provide: QueueUploadService, useValue: {} },
         { provide: TranslocoService, useValue: mockTranslocoService() }

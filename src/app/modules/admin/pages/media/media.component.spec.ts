@@ -6,7 +6,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { of } from 'rxjs';
 
 import { MediaComponent } from './media.component';
-import { MediaService, QueueUploadService } from '../../../../core/services';
+import { ConfirmActionService, MediaService, QueueUploadService } from '../../../../core/services';
 import { WsService } from '../../../../shared/modules/ws';
 import {
   mockDialogService,
@@ -27,6 +27,7 @@ describe('MediaComponent', () => {
         { provide: Router, useValue: mockRouter() },
         { provide: DialogService, useValue: mockDialogService() },
         ConfirmationService,
+        ConfirmActionService,
         { provide: MediaService, useValue: {} },
         { provide: QueueUploadService, useValue: {} },
         { provide: WsService, useValue: { fromEvent: () => of(), joinRoom: () => undefined, leaveRoom: () => undefined } },

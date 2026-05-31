@@ -58,7 +58,7 @@ import { MarkdownPipeModule } from '../../shared/pipes/markdown-pipe';
 import { HtmlPipeModule } from '../../shared/pipes/html-pipe';
 import { StringPipeModule } from '../../shared/pipes/string-pipe';
 import { PlaceholderPipeModule } from '../../shared/pipes/placeholder-pipe';
-import { UsersService } from '../../core/services';
+import { ConfirmActionService, UsersService } from '../../core/services';
 import { RatedComponent } from './pages/rated/rated.component';
 import { StarRatingModule } from '../../shared/components/star-rating';
 import { SkeletonModule } from '../../shared/components/skeleton';
@@ -139,6 +139,7 @@ import { AltAutoCompleteModule } from '../../core/utils/primeng';
     UsersService,
     DialogService,
     ConfirmationService,
+    ConfirmActionService,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: ['users', 'media']

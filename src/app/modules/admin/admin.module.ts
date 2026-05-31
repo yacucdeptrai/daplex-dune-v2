@@ -56,7 +56,7 @@ import { AddSourceComponent } from './dialogs/add-source/add-source.component';
 import { ConfigureEpisodeComponent } from './dialogs/configure-episode/configure-episode.component';
 import { AddExtStreamsComponent } from './components/add-ext-streams/add-ext-streams.component';
 import { AuthGuard, ConfirmDeactivateGuard, WsActivatorGuard } from '../../core/guards';
-import { QueueUploadService } from '../../core/services';
+import { ConfirmActionService, QueueUploadService } from '../../core/services';
 import { AltAutoCompleteModule } from '../../core/utils/primeng';
 
 @NgModule({
@@ -122,6 +122,7 @@ import { AltAutoCompleteModule } from '../../core/utils/primeng';
   providers: [
     DialogService,
     ConfirmationService,
+    ConfirmActionService,
     QueueUploadService,
     AuthGuard,
     ConfirmDeactivateGuard,

@@ -5,7 +5,7 @@ import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dy
 import { of } from 'rxjs';
 
 import { ConfigureMediaComponent } from './configure-media.component';
-import { GenresService, MediaService, ProductionsService, QueueUploadService, TagsService } from '../../../../core/services';
+import { ConfirmActionService, GenresService, MediaService, ProductionsService, QueueUploadService, TagsService } from '../../../../core/services';
 import { WsService } from '../../../../shared/modules/ws';
 import { MediaType } from '../../../../core/enums';
 import {
@@ -27,6 +27,7 @@ describe('ConfigureMediaComponent', () => {
         { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig({ _id: 'm1', type: MediaType.MOVIE }) },
         { provide: DialogService, useValue: mockDialogService() },
         ConfirmationService,
+        ConfirmActionService,
         { provide: MediaService, useValue: { findOne: () => of() } },
         { provide: GenresService, useValue: {} },
         { provide: ProductionsService, useValue: {} },

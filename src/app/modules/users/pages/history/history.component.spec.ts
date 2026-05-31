@@ -4,7 +4,7 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { of } from 'rxjs';
 
-import { AuthService, GenresService, MediaService } from '../../../../core/services';
+import { AuthService, ConfirmActionService, GenresService, MediaService } from '../../../../core/services';
 import { HistoryComponent } from './history.component';
 import { HTTP_TEST_PROVIDERS, mockTranslocoService, provideMockActivatedRoute } from '../../../../../testing/test-helpers';
 
@@ -20,6 +20,7 @@ describe('HistoryComponent', () => {
         { provide: TranslocoService, useValue: { ...mockTranslocoService(), selectTranslation: () => of({}) } },
         { provide: DialogService, useValue: { open: () => undefined, dialogComponentRefMap: new Map() } },
         { provide: ConfirmationService, useValue: {} },
+        ConfirmActionService,
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         { provide: GenresService, useValue: {} },
         { provide: MediaService, useValue: {} },

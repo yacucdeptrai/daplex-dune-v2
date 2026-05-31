@@ -4,7 +4,7 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { of } from 'rxjs';
 
-import { AuthService } from '../../../../core/services';
+import { AuthService, ConfirmActionService } from '../../../../core/services';
 import { PlaylistsComponent } from './playlists.component';
 import { HTTP_TEST_PROVIDERS, mockRouter, mockTranslocoService, provideMockActivatedRoute } from '../../../../../testing/test-helpers';
 import { Router } from '@angular/router';
@@ -21,6 +21,7 @@ describe('PlaylistsComponent', () => {
         { provide: Router, useValue: mockRouter() },
         { provide: DialogService, useValue: { open: () => undefined, dialogComponentRefMap: new Map() } },
         { provide: ConfirmationService, useValue: {} },
+        ConfirmActionService,
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         ...HTTP_TEST_PROVIDERS
