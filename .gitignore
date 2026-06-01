@@ -44,3 +44,11 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Playwright (Phase 6.12d route smoke)
+/playwright-report
+/test-results
+/blob-report
+/playwright/.cache
+# Local e2e credentials (never commit real creds; see e2e/.env.example)
+/e2e/.env

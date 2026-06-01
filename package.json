@@ -10,6 +10,8 @@
     "check:console": "node check-console.js",
     "pretest": "node check-console.js",
     "test": "ng test",
+    "e2e": "playwright test",
+    "e2e:report": "playwright show-report",
     "i18n:extract": "transloco-keys-manager extract -u",
     "i18n:find": "transloco-keys-manager find"
   },
