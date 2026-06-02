@@ -7,7 +7,7 @@ import { defineConfig, devices } from '@playwright/test';
 // env vars take precedence over the file.
 const envFile = resolve(__dirname, 'e2e/.env');
 if (existsSync(envFile)) {
-  for (const line of readFileSync(envFile, 'utf8').split('\n')) {
+  for (const line of readFileSync(envFile, 'utf8').split(/\r?\n/)) {
     const match = line.match(/^\s*([A-Za-z0-9_]+)\s*=\s*(.*)$/);
     if (!match) continue;
     const key = match[1];
