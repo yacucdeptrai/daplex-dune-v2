@@ -52,3 +52,6 @@ Thumbs.db
 /playwright/.cache
 # Local e2e credentials (never commit real creds; see e2e/.env.example)
 /e2e/.env
+
+# Ignore this file itself
+.gitignore
