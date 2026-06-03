@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
@@ -8,6 +8,13 @@ import { fileExtension, maxFileSize } from '../../../../core/validators';
 import { UPLOAD_MEDIA_SOURCE_EXT, UPLOAD_MEDIA_SOURCE_MAX_SIZE } from '../../../../../environments/config';
 import { MediaType } from '../../../../core/enums';
 import { MediaDetails, TVEpisodeDetails } from '../../../../core/models';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { FileUploadComponent } from '../../../../shared/components/file-upload/file-upload.component';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { ButtonModule } from 'primeng/button';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 
 interface AddSourceForm {
   file: FormControl<File | null>;
@@ -19,7 +26,7 @@ interface AddSourceForm {
     styleUrls: ['./add-source.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, FileUploadComponent, DisabledControlDirective, InvalidControlDirective, ButtonModule, FirstErrorKeyPipe]
 })
 export class AddSourceComponent implements OnInit {
   @ViewChild('addSourceFormElement') addSourceFormElement?: NgForm;

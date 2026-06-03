@@ -6,12 +6,12 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { HomeFooterComponent } from './home-footer.component';
 
 @NgModule({
-  declarations: [HomeFooterComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    TranslocoModule
-  ],
-  exports: [HomeFooterComponent]
+    imports: [
+        CommonModule,
+        RouterModule,
+        TranslocoModule,
+        HomeFooterComponent
+    ],
+    exports: [HomeFooterComponent]
 })
 export class HomeFooterModule { }

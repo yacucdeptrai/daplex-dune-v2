@@ -1,10 +1,17 @@
 import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, signal, untracked, viewChild, viewChildren } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { debounceTime, distinctUntilChanged, fromEvent, takeUntil } from 'rxjs';
 
 import { DestroyService, MediaService } from '../../../core/services';
 import { Media } from '../../../core/models';
 import { MediaType } from '../../../core/enums';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { InputTextModule } from 'primeng/inputtext';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { NgClass, NgIf } from '@angular/common';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { TimePipe } from '../../pipes/date-time-pipe/time/time.pipe';
+import { ThumbhashUrlPipe } from '../../pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 @Component({
     selector: 'app-search-overlay',
@@ -12,7 +19,7 @@ import { MediaType } from '../../../core/enums';
     styleUrl: './search-overlay.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, InputTextModule, DynamicDialogModule, NgClass, RouterLink, NgIf, LazyLoadImageModule, TimePipe, ThumbhashUrlPipe]
 })
 export class SearchOverlayComponent {
   MediaType = MediaType;

@@ -8,22 +8,20 @@ import { MenuTriggerDirective } from './menu-trigger/menu-trigger.directive';
 import { ContextMenuTriggerDirective } from './context-menu-trigger/context-menu-trigger.directive';
 
 @NgModule({
-  declarations: [
-    MenuDirective,
-    MenuItemDirective,
-    MenuTriggerDirective,
-    ContextMenuTriggerDirective
-  ],
-  imports: [
-    CommonModule,
-    CdkMenuModule
-  ],
-  exports: [
-    CdkMenuModule,
-    MenuDirective,
-    MenuItemDirective,
-    MenuTriggerDirective,
-    ContextMenuTriggerDirective
-  ]
+    imports: [
+        CommonModule,
+        CdkMenuModule,
+        MenuDirective,
+        MenuItemDirective,
+        MenuTriggerDirective,
+        ContextMenuTriggerDirective
+    ],
+    exports: [
+        CdkMenuModule,
+        MenuDirective,
+        MenuItemDirective,
+        MenuTriggerDirective,
+        ContextMenuTriggerDirective
+    ]
 })
 export class CdkMenuCustomModule { }

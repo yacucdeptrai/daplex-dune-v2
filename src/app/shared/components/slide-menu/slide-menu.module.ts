@@ -9,24 +9,22 @@ import { SlideMenuItemRadio } from './slide-menu-item-radio/slide-menu-item-radi
 import { SlideMenuItemButton } from './slide-menu-item-button/slide-menu-item-button';
 
 @NgModule({
-  declarations: [
-    SlideMenuTriggerDirective,
-    SlideMenuOverlay,
-    SlideMenuItem,
-    SlideMenuItemCheckbox,
-    SlideMenuItemRadio,
-    SlideMenuItemButton
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    SlideMenuTriggerDirective,
-    SlideMenuOverlay,
-    SlideMenuItem,
-    SlideMenuItemCheckbox,
-    SlideMenuItemRadio,
-    SlideMenuItemButton
-  ]
+    imports: [
+        CommonModule,
+        SlideMenuTriggerDirective,
+        SlideMenuOverlay,
+        SlideMenuItem,
+        SlideMenuItemCheckbox,
+        SlideMenuItemRadio,
+        SlideMenuItemButton
+    ],
+    exports: [
+        SlideMenuTriggerDirective,
+        SlideMenuOverlay,
+        SlideMenuItem,
+        SlideMenuItemCheckbox,
+        SlideMenuItemRadio,
+        SlideMenuItemButton
+    ]
 })
 export class SlideMenuModule { }

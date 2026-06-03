@@ -5,16 +5,14 @@ import { QueryListGetPipe } from './query-list-get/query-list-get.pipe';
 import { QueryListFindPipe } from './query-list-find/query-list-find.pipe';
 
 @NgModule({
-  declarations: [
-    QueryListGetPipe,
-    QueryListFindPipe
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    QueryListGetPipe,
-    QueryListFindPipe
-  ]
+    imports: [
+        CommonModule,
+        QueryListGetPipe,
+        QueryListFindPipe
+    ],
+    exports: [
+        QueryListGetPipe,
+        QueryListFindPipe
+    ]
 })
 export class TemplatePipeModule { }

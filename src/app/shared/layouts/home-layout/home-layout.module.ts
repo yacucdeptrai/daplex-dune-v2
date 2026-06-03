@@ -7,13 +7,13 @@ import { HomeHeaderModule } from '../../components/home-header';
 import { HomeFooterModule } from '../../components/home-footer';
 
 @NgModule({
-  declarations: [HomeLayoutComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    HomeHeaderModule,
-    HomeFooterModule
-  ],
-  exports: [HomeLayoutComponent]
+    imports: [
+        CommonModule,
+        RouterModule,
+        HomeHeaderModule,
+        HomeFooterModule,
+        HomeLayoutComponent
+    ],
+    exports: [HomeLayoutComponent]
 })
 export class HomeLayoutModule { }

@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ArrayIncludesPipe } from './array-includes/array-includes.pipe';
 
 @NgModule({
-  declarations: [ArrayIncludesPipe],
-  imports: [CommonModule],
-  exports: [ArrayIncludesPipe]
+    imports: [CommonModule, ArrayIncludesPipe],
+    exports: [ArrayIncludesPipe]
 })
 export class ArrayPipeModule { }

@@ -6,16 +6,13 @@ import { CharColorPipe } from './char-color/char-color.pipe';
 import { SplitPipe } from './split/split.pipe';
 
 @NgModule({
-  declarations: [
-    SubstringPipe,
-    CharColorPipe,
-    SplitPipe
-  ],
-  imports: [CommonModule],
-  exports: [
-    SubstringPipe,
-    CharColorPipe,
-    SplitPipe
-  ]
+    imports: [CommonModule, SubstringPipe,
+        CharColorPipe,
+        SplitPipe],
+    exports: [
+        SubstringPipe,
+        CharColorPipe,
+        SplitPipe
+    ]
 })
 export class StringPipeModule { }

@@ -10,23 +10,21 @@ import { PanelToastDirective } from './panel-toast.directive';
 import { TemplatePipeModule } from '../../pipes/template-pipe';
 
 @NgModule({
-  declarations: [
-    VerticalTabComponent,
-    //TabPanelComponent,
-    TabPanelDirective,
-    PanelToastDirective
-  ],
-  imports: [
-    CommonModule,
-    MenuModule,
-    TabMenuModule,
-    TemplatePipeModule
-  ],
-  exports: [
-    VerticalTabComponent,
-    //TabPanelComponent,
-    TabPanelDirective,
-    PanelToastDirective
-  ]
+    imports: [
+        CommonModule,
+        MenuModule,
+        TabMenuModule,
+        TemplatePipeModule,
+        VerticalTabComponent,
+        //TabPanelComponent,
+        TabPanelDirective,
+        PanelToastDirective
+    ],
+    exports: [
+        VerticalTabComponent,
+        //TabPanelComponent,
+        TabPanelDirective,
+        PanelToastDirective
+    ]
 })
 export class VerticalTabModule { }

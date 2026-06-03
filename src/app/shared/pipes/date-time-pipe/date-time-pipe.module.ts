@@ -7,18 +7,15 @@ import { RelativeDatePipe } from './relative-date/relative-date.pipe';
 import { TimePipe } from './time/time.pipe';
 
 @NgModule({
-  declarations: [
-    ShortDatePipe,
-    DateAltPipe,
-    RelativeDatePipe,
-    TimePipe
-  ],
-  imports: [CommonModule],
-  exports: [
-    ShortDatePipe,
-    DateAltPipe,
-    RelativeDatePipe,
-    TimePipe
-  ]
+    imports: [CommonModule, ShortDatePipe,
+        DateAltPipe,
+        RelativeDatePipe,
+        TimePipe],
+    exports: [
+        ShortDatePipe,
+        DateAltPipe,
+        RelativeDatePipe,
+        TimePipe
+    ]
 })
 export class DateTimePipeModule { }

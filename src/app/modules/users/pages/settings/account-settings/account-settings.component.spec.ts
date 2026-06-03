@@ -10,12 +10,12 @@ describe('AccountSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AccountSettingsComponent],
-      providers: [
+    imports: [AccountSettingsComponent],
+    providers: [
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         { provide: UsersService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(AccountSettingsComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(AccountSettingsComponent);

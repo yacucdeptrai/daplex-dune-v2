@@ -6,12 +6,12 @@ import { FileUploadComponent } from './file-upload.component';
 import { FormDirectiveModule } from '../../directives/form-directive';
 
 @NgModule({
-  declarations: [FileUploadComponent],
-  imports: [
-    CommonModule,
-    FormDirectiveModule,
-    ButtonModule
-  ],
-  exports: [FileUploadComponent]
+    imports: [
+        CommonModule,
+        FormDirectiveModule,
+        ButtonModule,
+        FileUploadComponent
+    ],
+    exports: [FileUploadComponent]
 })
 export class FileUploadModule { }

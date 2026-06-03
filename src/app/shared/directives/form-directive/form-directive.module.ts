@@ -9,22 +9,19 @@ import { DragDropFileDirective } from './drap-drop-file/drag-drop-file.directive
 import { InvalidControlDirective } from './invalid-control/invalid-control.directive';
 
 @NgModule({
-  declarations: [
-    AutofocusDirective,
-    FormAutofocusDirective,
-    DisabledControlDirective,
-    InvalidControlDirective,
-    FormHandlerDirective,
-    DragDropFileDirective,
-  ],
-  imports: [CommonModule],
-  exports: [
-    AutofocusDirective,
-    FormAutofocusDirective,
-    DisabledControlDirective,
-    InvalidControlDirective,
-    FormHandlerDirective,
-    DragDropFileDirective
-  ]
+    imports: [CommonModule, AutofocusDirective,
+        FormAutofocusDirective,
+        DisabledControlDirective,
+        InvalidControlDirective,
+        FormHandlerDirective,
+        DragDropFileDirective],
+    exports: [
+        AutofocusDirective,
+        FormAutofocusDirective,
+        DisabledControlDirective,
+        InvalidControlDirective,
+        FormHandlerDirective,
+        DragDropFileDirective
+    ]
 })
 export class FormDirectiveModule { }

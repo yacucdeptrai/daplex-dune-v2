@@ -7,17 +7,15 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ShareMediaLinkComponent } from './share-media-link.component';
 
 @NgModule({
-  declarations: [
-    ShareMediaLinkComponent
-  ],
-  imports: [
-    CommonModule,
-    ClipboardModule,
-    ButtonModule,
-    InputTextModule
-  ],
-  exports: [
-    ShareMediaLinkComponent
-  ]
+    imports: [
+        CommonModule,
+        ClipboardModule,
+        ButtonModule,
+        InputTextModule,
+        ShareMediaLinkComponent
+    ],
+    exports: [
+        ShareMediaLinkComponent
+    ]
 })
 export class ShareMediaLinkModule { }

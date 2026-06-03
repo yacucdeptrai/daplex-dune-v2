@@ -11,13 +11,13 @@ describe('UpdateEmailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpdateEmailComponent],
-      providers: [
+    imports: [UpdateEmailComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig({ _id: 'u1', email: 'a@b.co' }) },
         { provide: UsersService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(UpdateEmailComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(UpdateEmailComponent);

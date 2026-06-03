@@ -1,11 +1,20 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
 import { DestroyService, MediaService } from '../../../../core/services';
 import { YOUTUBE_EMBED_URL } from '../../../../../environments/config';
 import { MediaDetails } from '../../../../core/models';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { InputTextModule } from 'primeng/inputtext';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { NgIf } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
+import { SafeUrlPipe } from '../../../../shared/pipes/url-pipe/safe-url/safe-url.pipe';
 
 interface AddVideoForm {
   name: FormControl<string | null>;
@@ -18,7 +27,7 @@ interface AddVideoForm {
     styleUrls: ['./add-video.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, NgIf, ButtonModule, FirstErrorKeyPipe, SafeUrlPipe]
 })
 export class AddVideoComponent implements OnInit {
   youtubeUrl = YOUTUBE_EMBED_URL;

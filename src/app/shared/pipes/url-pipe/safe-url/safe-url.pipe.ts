@@ -3,10 +3,7 @@ import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl
 
 type urlType = 'html' | 'style' | 'script' | 'url' | 'resourceUrl';
 
-@Pipe({
-    name: 'safeUrl',
-    standalone: false
-})
+@Pipe({ name: 'safeUrl' })
 export class SafeUrlPipe implements PipeTransform {
 
   constructor(private sanitizer: DomSanitizer) { }

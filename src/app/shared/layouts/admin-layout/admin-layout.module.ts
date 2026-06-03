@@ -14,20 +14,20 @@ import { DateTimePipeModule } from '../../pipes/date-time-pipe';
 import { CommonDirectiveModule } from '../../directives/common-directive';
 
 @NgModule({
-  declarations: [AdminLayoutComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    TranslocoModule,
-    DateTimePipeModule,
-    CommonDirectiveModule,
-    TabMenuModule,
-    MenuModule,
-    OverlayPanelModule,
-    PanelModule,
-    ButtonModule,
-    CircularProgressModule
-  ],
-  exports: [AdminLayoutComponent]
+    imports: [
+        CommonModule,
+        RouterModule,
+        TranslocoModule,
+        DateTimePipeModule,
+        CommonDirectiveModule,
+        TabMenuModule,
+        MenuModule,
+        OverlayPanelModule,
+        PanelModule,
+        ButtonModule,
+        CircularProgressModule,
+        AdminLayoutComponent
+    ],
+    exports: [AdminLayoutComponent]
 })
 export class AdminLayoutModule { }

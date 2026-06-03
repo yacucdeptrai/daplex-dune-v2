@@ -23,10 +23,10 @@ let nextId = 0;
 export type RecaptchaErrorParameters = unknown[];
 
 @Component({
-  selector: 're-captcha',
-  exportAs: 'reCaptcha',
-  template: '',
-  standalone: false
+    selector: 're-captcha',
+    exportAs: 'reCaptcha',
+    template: '',
+    imports: []
 })
 export class RecaptchaComponent implements AfterViewInit, OnDestroy {
   @Input()

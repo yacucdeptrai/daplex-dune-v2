@@ -22,29 +22,29 @@ import { StringPipeModule } from '../../pipes/string-pipe';
 import { PlaceholderPipeModule } from '../../pipes/placeholder-pipe';
 
 @NgModule({
-  declarations: [HomeHeaderComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    TranslocoModule,
-    LazyLoadImageModule,
-    InfiniteScrollModule,
-    SkeletonModule,
-    AvatarModule,
-    SearchOverlayModule,
-    CdkMenuCustomModule,
-    CommonDirectiveModule,
-    PermissionPipeModule,
-    NumberPipeModule,
-    DateTimePipeModule,
-    StringPipeModule,
-    PlaceholderPipeModule,
-    AutoCompleteModule,
-    DynamicDialogModule,
-    ButtonModule,
-    SidebarModule
-  ],
-  providers: [DialogService],
-  exports: [HomeHeaderComponent]
+    imports: [
+        CommonModule,
+        RouterModule,
+        TranslocoModule,
+        LazyLoadImageModule,
+        InfiniteScrollModule,
+        SkeletonModule,
+        AvatarModule,
+        SearchOverlayModule,
+        CdkMenuCustomModule,
+        CommonDirectiveModule,
+        PermissionPipeModule,
+        NumberPipeModule,
+        DateTimePipeModule,
+        StringPipeModule,
+        PlaceholderPipeModule,
+        AutoCompleteModule,
+        DynamicDialogModule,
+        ButtonModule,
+        SidebarModule,
+        HomeHeaderComponent
+    ],
+    providers: [DialogService],
+    exports: [HomeHeaderComponent]
 })
 export class HomeHeaderModule { }

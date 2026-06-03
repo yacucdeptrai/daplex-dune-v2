@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { finalize, interval, switchMap, takeUntil, takeWhile, tap } from 'rxjs';
 
 import { RegexPattern } from '../../../../core/enums';
@@ -9,6 +9,18 @@ import { shortDate } from '../../../../core/validators';
 import { DropdownOptionDto } from '../../../../core/dto/media';
 import { ShortDateForm } from '../../../../core/interfaces/forms';
 import { SEND_CONFIRM_EMAIL_LIMIT_TTL } from '../../../../../environments/config';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { NgClass, NgIf } from '@angular/common';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { AutofocusDirective } from '../../../../shared/directives/form-directive/autofocus/autofocus.directive';
+import { InputTextModule } from 'primeng/inputtext';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
+import { TimePipe } from '../../../../shared/pipes/date-time-pipe/time/time.pipe';
 
 interface SignUpForm {
   username: FormControl<string>;
@@ -23,7 +35,7 @@ interface SignUpForm {
     styleUrls: ['./sign-up.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ItemDataService, DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, ProgressBarModule, NgClass, NgIf, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, AutofocusDirective, InputTextModule, InvalidControlDirective, ButtonModule, DropdownModule, RouterLink, FirstErrorKeyPipe, TimePipe]
 })
 export class SignUpComponent implements OnInit {
   signUpForm: FormGroup<SignUpForm>;

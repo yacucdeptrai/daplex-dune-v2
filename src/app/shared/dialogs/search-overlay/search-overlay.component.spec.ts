@@ -12,12 +12,12 @@ describe('SearchOverlayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SearchOverlayComponent],
-      providers: [
+    imports: [SearchOverlayComponent],
+    providers: [
         { provide: Router, useValue: mockRouter() },
         { provide: MediaService, useValue: { findPage: () => of({ results: [], totalResults: 0 }) } }
-      ]
-    })
+    ]
+})
       .overrideComponent(SearchOverlayComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(SearchOverlayComponent);

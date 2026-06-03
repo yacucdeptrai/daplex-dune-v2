@@ -11,13 +11,13 @@ describe('AddVideoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AddVideoComponent],
-      providers: [
+    imports: [AddVideoComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig({ _id: 'm1' }) },
         { provide: MediaService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(AddVideoComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(AddVideoComponent);

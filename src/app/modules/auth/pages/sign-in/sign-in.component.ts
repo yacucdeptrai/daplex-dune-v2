@@ -1,12 +1,28 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { finalize, takeUntil, timer } from 'rxjs';
 import { RecaptchaComponent } from '../../../../shared/components/recaptcha';
 
 import { AuthService, DestroyService } from '../../../../core/services';
 import { SIGN_IN_LIMIT_COUNT, SIGN_IN_LIMIT_TTL } from '../../../../../environments/config';
 import { UserDetails } from '../../../../core/models';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { NgClass, NgIf } from '@angular/common';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { AutofocusDirective } from '../../../../shared/directives/form-directive/autofocus/autofocus.directive';
+import { InputTextModule } from 'primeng/inputtext';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { RecaptchaComponent as RecaptchaComponent_1 } from '../../../../shared/components/recaptcha/recaptcha.component';
+import { RecaptchaValueAccessorDirective } from '../../../../shared/components/recaptcha/recaptcha-value-accessor.directive';
+import { ButtonModule } from 'primeng/button';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { AvatarComponent } from '../../../../shared/components/avatar/avatar.component';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
+import { SubstringPipe } from '../../../../shared/pipes/string-pipe/substring/substring.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 interface SignInForm {
   email: FormControl<string>;
@@ -20,7 +36,7 @@ interface SignInForm {
     styleUrls: ['./sign-in.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, ProgressBarModule, NgClass, NgIf, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, AutofocusDirective, InputTextModule, InvalidControlDirective, RecaptchaComponent_1, RecaptchaValueAccessorDirective, ButtonModule, RouterLink, LazyLoadImageModule, AvatarComponent, FirstErrorKeyPipe, SubstringPipe, ThumbhashUrlPipe]
 })
 export class SignInComponent implements OnInit {
   @ViewChild('reCaptcha') reCaptcha?: RecaptchaComponent;

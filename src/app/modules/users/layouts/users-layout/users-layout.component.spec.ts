@@ -12,14 +12,14 @@ describe('UsersLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UsersLayoutComponent],
-      providers: [
+    imports: [UsersLayoutComponent],
+    providers: [
         provideMockActivatedRoute(),
         { provide: TranslocoService, useValue: { ...mockTranslocoService(), selectTranslation: () => of({}) } },
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         { provide: UsersService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(UsersLayoutComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(UsersLayoutComponent);

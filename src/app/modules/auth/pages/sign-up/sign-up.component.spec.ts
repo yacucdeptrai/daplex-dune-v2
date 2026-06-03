@@ -17,15 +17,14 @@ describe('SignUpComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SignUpComponent],
-      imports: [ReactiveFormsModule],
-      providers: [
+    imports: [ReactiveFormsModule, SignUpComponent],
+    providers: [
         provideMockActivatedRoute({ queryParams: {} }),
         { provide: Router, useValue: mockRouter() },
         { provide: AuthService, useValue: {} },
         { provide: TranslocoService, useValue: mockTranslocoService() }
-      ]
-    })
+    ]
+})
       .overrideComponent(SignUpComponent, { set: { template: '' } })
       .compileComponents();
 

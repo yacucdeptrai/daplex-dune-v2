@@ -5,11 +5,11 @@ import { AvatarComponent } from './avatar.component';
 import { StringPipeModule } from '../../pipes/string-pipe';
 
 @NgModule({
-  declarations: [AvatarComponent],
-  imports: [
-    CommonModule,
-    StringPipeModule
-  ],
-  exports: [AvatarComponent]
+    imports: [
+        CommonModule,
+        StringPipeModule,
+        AvatarComponent
+    ],
+    exports: [AvatarComponent]
 })
 export class AvatarModule { }

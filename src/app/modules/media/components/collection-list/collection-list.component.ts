@@ -4,9 +4,16 @@ import { TranslocoTranslateFn } from '@ngneat/transloco';
 import { takeUntil } from 'rxjs';
 
 import { Media, MediaCollection, MediaDetails } from '../../../../core/models';
-import { TextResizeOption } from '../../../../shared/directives/text-directive/text-resize/text-resize.directive';
+import { TextResizeOption, TextResizeDirective } from '../../../../shared/directives/text-directive/text-resize/text-resize.directive';
 import { DestroyService } from '../../../../core/services';
 import { MediaBreakpoints } from '../../../../core/enums';
+import { NgLetDirective } from '../../../../shared/directives/common-directive/ng-let/ng-let.directive';
+import { NgClass, NgStyle, NgIf } from '@angular/common';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { RouterLink } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
+import { HslColorPipe } from '../../../../shared/pipes/number-pipe/hsl-color/hsl-color.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 @Component({
     selector: 'app-collection-list',
@@ -14,7 +21,7 @@ import { MediaBreakpoints } from '../../../../core/enums';
     styleUrl: './collection-list.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    standalone: false
+    imports: [NgLetDirective, NgClass, NgStyle, NgIf, LazyLoadImageModule, TextResizeDirective, RouterLink, ButtonModule, HslColorPipe, ThumbhashUrlPipe]
 })
 export class CollectionListComponent implements OnInit {
   t = input.required<TranslocoTranslateFn>();

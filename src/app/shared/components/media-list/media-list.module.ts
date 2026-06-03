@@ -16,22 +16,22 @@ import { DateTimePipeModule } from '../../pipes/date-time-pipe';
 import { PlaceholderPipeModule } from '../../pipes/placeholder-pipe';
 
 @NgModule({
-  declarations: [MediaListComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    LazyLoadImageModule,
-    SkeletonModule,
-    TranslocoModule,
-    NumberPipeModule,
-    DateTimePipeModule,
-    PlaceholderPipeModule,
-    CdkMenuCustomModule,
-    OverlayPanelModule,
-    ButtonModule,
-    TagModule,
-    DynamicDialogModule
-  ],
-  exports: [MediaListComponent]
+    imports: [
+        CommonModule,
+        RouterModule,
+        LazyLoadImageModule,
+        SkeletonModule,
+        TranslocoModule,
+        NumberPipeModule,
+        DateTimePipeModule,
+        PlaceholderPipeModule,
+        CdkMenuCustomModule,
+        OverlayPanelModule,
+        ButtonModule,
+        TagModule,
+        DynamicDialogModule,
+        MediaListComponent
+    ],
+    exports: [MediaListComponent]
 })
 export class MediaListModule { }

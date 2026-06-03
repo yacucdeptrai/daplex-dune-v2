@@ -8,8 +8,8 @@ describe('TabPanelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TabPanelComponent ]
-    })
+    declarations: [TabPanelComponent]
+})
     .compileComponents();
   });
 

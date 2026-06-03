@@ -18,8 +18,8 @@ describe('CreateMediaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CreateMediaComponent],
-      providers: [
+    imports: [CreateMediaComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig({ type: MediaType.MOVIE }) },
         { provide: DialogService, useValue: mockDialogService() },
@@ -29,8 +29,8 @@ describe('CreateMediaComponent', () => {
         { provide: ProductionsService, useValue: {} },
         { provide: TagsService, useValue: {} },
         { provide: QueueUploadService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(CreateMediaComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(CreateMediaComponent);

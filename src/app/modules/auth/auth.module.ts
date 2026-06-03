@@ -24,38 +24,36 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 @NgModule({
-  declarations: [
-    SignInComponent,
-    SignUpComponent,
-    ConfirmEmailComponent,
-    ForgotPasswordComponent,
-    ResetPasswordComponent
-  ],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    AvatarModule,
-    FormDirectiveModule,
-    ValidationPipeModule,
-    DateTimePipeModule,
-    StringPipeModule,
-    PlaceholderPipeModule,
-    ReactiveFormsModule,
-    TranslocoModule,
-    RecaptchaModule,
-    RecaptchaFormsModule,
-    LazyLoadImageModule,
-    ProgressSpinnerModule,
-    ProgressBarModule,
-    InputTextModule,
-    ButtonModule,
-    DropdownModule
-  ],
-  providers: [
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: 'auth'
-    }
-  ]
+    imports: [
+        CommonModule,
+        AuthRoutingModule,
+        AvatarModule,
+        FormDirectiveModule,
+        ValidationPipeModule,
+        DateTimePipeModule,
+        StringPipeModule,
+        PlaceholderPipeModule,
+        ReactiveFormsModule,
+        TranslocoModule,
+        RecaptchaModule,
+        RecaptchaFormsModule,
+        LazyLoadImageModule,
+        ProgressSpinnerModule,
+        ProgressBarModule,
+        InputTextModule,
+        ButtonModule,
+        DropdownModule,
+        SignInComponent,
+        SignUpComponent,
+        ConfirmEmailComponent,
+        ForgotPasswordComponent,
+        ResetPasswordComponent
+    ],
+    providers: [
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: 'auth'
+        }
+    ]
 })
 export class AuthModule { }

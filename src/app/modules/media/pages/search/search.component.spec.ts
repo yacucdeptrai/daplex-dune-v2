@@ -15,14 +15,14 @@ describe('SearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SearchComponent],
-      providers: [
+    imports: [SearchComponent],
+    providers: [
         ...HTTP_TEST_PROVIDERS,
         ...HTTP_CACHE_TEST_PROVIDERS,
         provideMockActivatedRoute({ queryParams: {} }),
         { provide: Router, useValue: mockRouter() }
-      ]
-    })
+    ]
+})
       .overrideComponent(SearchComponent, { set: { template: '' } })
       .compileComponents();
 

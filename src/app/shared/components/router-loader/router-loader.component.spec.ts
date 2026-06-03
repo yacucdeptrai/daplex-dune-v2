@@ -12,18 +12,18 @@ describe('RouterLoaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RouterLoaderComponent],
-      providers: [
+    imports: [RouterLoaderComponent],
+    providers: [
         { provide: Router, useValue: { ...mockRouter(), events: EMPTY, getCurrentNavigation: () => null } },
         {
-          provide: RouterLoaderService,
-          useValue: {
-            value$: of(0),
-            useRef: () => ({ value$: of(0), start: () => undefined, complete: () => undefined })
-          }
+            provide: RouterLoaderService,
+            useValue: {
+                value$: of(0),
+                useRef: () => ({ value$: of(0), start: () => undefined, complete: () => undefined })
+            }
         }
-      ]
-    })
+    ]
+})
       .overrideComponent(RouterLoaderComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(RouterLoaderComponent);

@@ -17,30 +17,28 @@ import { SkeletonModule } from '../../shared/components/skeleton';
 import { FeaturedMediaComponent } from './components/featured-media';
 
 @NgModule({
-  declarations: [
-    HomeComponent,
-    FeaturedMediaComponent
-  ],
-  imports: [
-    CommonModule,
-    HomeRoutingModule,
-    NumberPipeModule,
-    DateTimePipeModule,
-    PlaceholderPipeModule,
-    TranslocoModule,
-    LazyLoadImageModule,
-    SwiperModule,
-    MediaListModule,
-    MediaTopModule,
-    ButtonModule,
-    BadgeModule,
-    SkeletonModule
-  ],
-  providers: [
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: ['home', 'media']
-    }
-  ]
+    imports: [
+        CommonModule,
+        HomeRoutingModule,
+        NumberPipeModule,
+        DateTimePipeModule,
+        PlaceholderPipeModule,
+        TranslocoModule,
+        LazyLoadImageModule,
+        SwiperModule,
+        MediaListModule,
+        MediaTopModule,
+        ButtonModule,
+        BadgeModule,
+        SkeletonModule,
+        HomeComponent,
+        FeaturedMediaComponent
+    ],
+    providers: [
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: ['home', 'media']
+        }
+    ]
 })
 export class HomeModule { }

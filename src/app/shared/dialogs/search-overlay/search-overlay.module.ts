@@ -12,18 +12,18 @@ import { DateTimePipeModule } from '../../pipes/date-time-pipe';
 import { PlaceholderPipeModule } from '../../pipes/placeholder-pipe';
 
 @NgModule({
-  declarations: [SearchOverlayComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    LazyLoadImageModule,
-    TranslocoModule,
-    DateTimePipeModule,
-    FormDirectiveModule,
-    PlaceholderPipeModule,
-    DynamicDialogModule,
-    InputTextModule
-  ],
-  exports: [SearchOverlayComponent]
+    imports: [
+        CommonModule,
+        RouterModule,
+        LazyLoadImageModule,
+        TranslocoModule,
+        DateTimePipeModule,
+        FormDirectiveModule,
+        PlaceholderPipeModule,
+        DynamicDialogModule,
+        InputTextModule,
+        SearchOverlayComponent
+    ],
+    exports: [SearchOverlayComponent]
 })
 export class SearchOverlayModule { }

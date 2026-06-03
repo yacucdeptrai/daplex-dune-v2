@@ -13,19 +13,19 @@ import { FormDirectiveModule } from '../../directives/form-directive';
 import { ValidationPipeModule } from '../../pipes/validation-pipe';
 
 @NgModule({
-  declarations: [AddToPlaylistComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    TranslocoModule,
-    FormDirectiveModule,
-    ValidationPipeModule,
-    InputTextModule,
-    ButtonModule,
-    RadioButtonModule,
-    CheckboxModule,
-    ProgressSpinnerModule
-  ],
-  exports: [AddToPlaylistComponent]
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        TranslocoModule,
+        FormDirectiveModule,
+        ValidationPipeModule,
+        InputTextModule,
+        ButtonModule,
+        RadioButtonModule,
+        CheckboxModule,
+        ProgressSpinnerModule,
+        AddToPlaylistComponent
+    ],
+    exports: [AddToPlaylistComponent]
 })
 export class AddToPlaylistModule { }

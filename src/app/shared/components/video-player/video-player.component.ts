@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, inject, viewChild, effect, signal, computed, input, output } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Platform } from '@angular/cdk/platform';
-import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoService, TranslocoDirective } from '@ngneat/transloco';
 import { patchState } from '@ngrx/signals';
 import { DeepSignal } from '@ngrx/signals';
 import { type TextTrackInit, type MediaPlayEvent, type AudioTrack, type MediaLoadedMetadataEvent, type PlayerSrc, type TextTrack, MediaLoadedDataEvent, MediaCanPlayThroughEvent } from 'vidstack';
@@ -38,7 +38,7 @@ import { BaseVideoPlayerComponent } from './base-video-player/base-video-player.
     host: {
         class: 'tw-block'
     },
-    standalone: false
+    imports: [TranslocoDirective, BaseVideoPlayerComponent]
 })
 export class VideoPlayerComponent implements OnInit {
   track_Id = track_Id;

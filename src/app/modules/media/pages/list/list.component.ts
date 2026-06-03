@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@ngneat/transloco';
 import { map, takeUntil } from 'rxjs';
 
 import { CursorPageMediaDto, OffsetPageMediaDto } from '../../../../core/dto/media';
@@ -9,6 +9,9 @@ import { CursorPaginated, Media } from '../../../../core/models';
 import { DestroyService, GenresService, MediaService, ProductionsService, TagsService, CollectionService } from '../../../../core/services';
 import { SITE_NAME } from '../../../../../environments/config';
 import { MediaType } from '../../../../core/enums';
+import { NgIf } from '@angular/common';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { MediaListComponent } from '../../../../shared/components/media-list/media-list.component';
 
 type ListPath = 'movie' | 'tv' | 'added' | 'updated' | 'newReleases' | 'mostViewed' | 'topRated' | 'genre' | 'studio' | 'producer'
   | 'tag' | 'collection' | 'year';
@@ -38,7 +41,7 @@ interface HandleListSubPath extends HandleListBase {
     styleUrls: ['./list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, NgIf, InfiniteScrollDirective, MediaListComponent]
 })
 export class ListComponent implements OnInit, OnDestroy {
   itemsPerPage: number = 30;

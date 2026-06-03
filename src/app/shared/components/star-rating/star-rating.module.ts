@@ -5,11 +5,11 @@ import { StarRatingComponent } from './star-rating.component';
 import { CommonDirectiveModule } from '../../directives/common-directive';
 
 @NgModule({
-  declarations: [StarRatingComponent],
-  imports: [
-    CommonModule,
-    CommonDirectiveModule
-  ],
-  exports: [StarRatingComponent]
+    imports: [
+        CommonModule,
+        CommonDirectiveModule,
+        StarRatingComponent
+    ],
+    exports: [StarRatingComponent]
 })
 export class StarRatingModule { }

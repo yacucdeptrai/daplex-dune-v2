@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@a
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ColorPickerData } from '../../../core/interfaces/options';
+import { NgIf, NgFor, NgClass, NgStyle } from '@angular/common';
+import { ColorPickerModule } from 'primeng/colorpicker';
 
 @Component({
     selector: 'app-color-picker',
@@ -15,7 +17,7 @@ import { ColorPickerData } from '../../../core/interfaces/options';
             multi: true
         }
     ],
-    standalone: false
+    imports: [NgIf, ColorPickerModule, NgFor, NgClass, NgStyle]
 })
 export class ColorPickerComponent implements ControlValueAccessor {
   @Input() styleClass?: string;

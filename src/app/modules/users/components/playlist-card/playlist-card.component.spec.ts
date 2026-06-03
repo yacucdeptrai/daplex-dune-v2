@@ -11,13 +11,13 @@ describe('PlaylistCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PlaylistCardComponent],
-      providers: [
+    imports: [PlaylistCardComponent],
+    providers: [
         provideMockActivatedRoute(),
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         DestroyService
-      ]
-    })
+    ]
+})
       .overrideComponent(PlaylistCardComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(PlaylistCardComponent);

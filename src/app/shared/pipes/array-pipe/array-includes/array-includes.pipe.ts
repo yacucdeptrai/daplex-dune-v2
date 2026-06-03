@@ -1,9 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-    name: 'arrayIncludes',
-    standalone: false
-})
+@Pipe({ name: 'arrayIncludes' })
 export class ArrayIncludesPipe implements PipeTransform {
 
   transform(array: any[] | undefined | null, value: any): boolean {

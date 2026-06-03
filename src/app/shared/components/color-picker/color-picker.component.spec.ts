@@ -9,9 +9,9 @@ describe('ColorPickerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ColorPickerComponent ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
+    imports: [ColorPickerComponent],
+    schemas: [NO_ERRORS_SCHEMA]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ColorPickerComponent);

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Renderer2, OnDestroy, input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TranslocoService, TranslocoTranslateFn } from '@ngneat/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 
@@ -7,13 +7,20 @@ import { Media } from '../../../../core/models';
 import { AuthService } from '../../../../core/services';
 import { MediaType } from '../../../../core/enums';
 import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playlist';
+import { NgLetDirective } from '../../../../shared/directives/common-directive/ng-let/ng-let.directive';
+import { AppOverlayOrigin, AppConnectedOverlay } from '../../../../shared/directives/overlay-panel/overlay-panel/overlay-panel.directive';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { ButtonModule } from 'primeng/button';
+import { DecimalPipe } from '@angular/common';
+import { ShortDatePipe } from '../../../../shared/pipes/date-time-pipe/short-date/short-date.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 @Component({
     selector: 'app-collection-media-list',
     templateUrl: './collection-media-list.component.html',
     styleUrl: './collection-media-list.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [NgLetDirective, AppOverlayOrigin, RouterLink, LazyLoadImageModule, AppConnectedOverlay, ButtonModule, DecimalPipe, ShortDatePipe, ThumbhashUrlPipe]
 })
 export class CollectionMediaListComponent implements OnInit, OnDestroy {
   MediaType = MediaType;

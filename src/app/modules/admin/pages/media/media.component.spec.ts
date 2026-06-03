@@ -21,8 +21,8 @@ describe('MediaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MediaComponent],
-      providers: [
+    imports: [MediaComponent],
+    providers: [
         provideMockActivatedRoute(),
         { provide: Router, useValue: mockRouter() },
         { provide: DialogService, useValue: mockDialogService() },
@@ -32,8 +32,8 @@ describe('MediaComponent', () => {
         { provide: QueueUploadService, useValue: {} },
         { provide: WsService, useValue: { fromEvent: () => of(), joinRoom: () => undefined, leaveRoom: () => undefined } },
         { provide: TranslocoService, useValue: mockTranslocoService() }
-      ]
-    })
+    ]
+})
       .overrideComponent(MediaComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(MediaComponent);

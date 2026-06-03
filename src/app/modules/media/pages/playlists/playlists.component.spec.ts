@@ -19,16 +19,16 @@ describe('PlaylistsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PlaylistsComponent],
-      providers: [
+    imports: [PlaylistsComponent],
+    providers: [
         ...HTTP_TEST_PROVIDERS,
         provideMockActivatedRoute({ params: {} }),
         { provide: Router, useValue: mockRouter() },
         { provide: DialogService, useValue: mockDialogService() },
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: AuthService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(PlaylistsComponent, { set: { template: '' } })
       .compileComponents();
 

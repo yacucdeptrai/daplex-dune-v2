@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DynamicDialogConfig, DynamicDialogRef, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
 import { DropdownOptionDto } from '../../../../core/dto/media';
@@ -8,6 +8,13 @@ import { ShortDateForm } from '../../../../core/interfaces/forms';
 import { UserDetails } from '../../../../core/models';
 import { DestroyService, ItemDataService, UsersService } from '../../../../core/services';
 import { shortDate } from '../../../../core/validators';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { DropdownModule } from 'primeng/dropdown';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { ButtonModule } from 'primeng/button';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 
 interface UpdateBirthdateForm {
   birthdate: FormGroup<ShortDateForm>;
@@ -19,7 +26,7 @@ interface UpdateBirthdateForm {
     styleUrls: ['./update-birthdate.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ItemDataService, DestroyService],
-    standalone: false
+    imports: [DynamicDialogModule, TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DropdownModule, DisabledControlDirective, InvalidControlDirective, ButtonModule, FirstErrorKeyPipe]
 })
 export class UpdateBirthdateComponent {
   updateBirthdateForm: FormGroup<UpdateBirthdateForm>;

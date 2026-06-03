@@ -16,10 +16,7 @@ interface TimeOptions {
   fallbackToSeconds?: boolean;
 }
 
-@Pipe({
-    name: 'time',
-    standalone: false
-})
+@Pipe({ name: 'time' })
 export class TimePipe implements PipeTransform {
   locales: { [key: string]: Locale } = { en: enUS, vi: vi };
   shortLocales: { [key: string]: Pick<Locale, 'formatDistance'> } = { en: enUSShort };

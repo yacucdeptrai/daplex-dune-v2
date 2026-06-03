@@ -13,14 +13,14 @@ describe('ProfileSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProfileSettingsComponent],
-      providers: [
+    imports: [ProfileSettingsComponent],
+    providers: [
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: DialogService, useValue: { open: () => undefined, dialogComponentRefMap: new Map() } },
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         { provide: UsersService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(ProfileSettingsComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(ProfileSettingsComponent);

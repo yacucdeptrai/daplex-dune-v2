@@ -7,13 +7,13 @@ import { DropdownModule } from 'primeng/dropdown';
 import { SelectOrderComponent } from './select-order.component';
 
 @NgModule({
-  declarations: [SelectOrderComponent],
-  imports: [
-    CommonModule,
-    DragDropModule,
-    ButtonModule,
-    DropdownModule
-  ],
-  exports: [SelectOrderComponent]
+    imports: [
+        CommonModule,
+        DragDropModule,
+        ButtonModule,
+        DropdownModule,
+        SelectOrderComponent
+    ],
+    exports: [SelectOrderComponent]
 })
 export class SelectOrderModule { }

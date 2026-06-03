@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SafeUrlPipe } from './safe-url/safe-url.pipe';
 
 @NgModule({
-  declarations: [SafeUrlPipe],
-  imports: [CommonModule],
-  exports: [SafeUrlPipe]
+    imports: [CommonModule, SafeUrlPipe],
+    exports: [SafeUrlPipe]
 })
 export class UrlPipeModule { }

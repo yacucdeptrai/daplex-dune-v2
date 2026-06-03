@@ -7,20 +7,18 @@ import { RgbColorPipe } from './rgb-color/rgb-color.pipe';
 import { HslColorPipe } from './hsl-color/hsl-color.pipe';
 
 @NgModule({
-  declarations: [
-    ToStringPipe,
-    HexColorPipe,
-    RgbColorPipe,
-    HslColorPipe
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    ToStringPipe,
-    HexColorPipe,
-    RgbColorPipe,
-    HslColorPipe
-  ]
+    imports: [
+        CommonModule,
+        ToStringPipe,
+        HexColorPipe,
+        RgbColorPipe,
+        HslColorPipe
+    ],
+    exports: [
+        ToStringPipe,
+        HexColorPipe,
+        RgbColorPipe,
+        HslColorPipe
+    ]
 })
 export class NumberPipeModule { }

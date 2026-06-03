@@ -12,14 +12,14 @@ describe('UpdateGenreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpdateGenreComponent],
-      providers: [
+    imports: [UpdateGenreComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig({ _id: 'g1', name: 'Action' }) },
         { provide: GenresService, useValue: {} },
         { provide: TranslocoService, useValue: mockTranslocoService() }
-      ]
-    })
+    ]
+})
       .overrideComponent(UpdateGenreComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(UpdateGenreComponent);

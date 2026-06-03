@@ -20,8 +20,8 @@ describe('ListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ListComponent],
-      providers: [
+    imports: [ListComponent],
+    providers: [
         provideMockActivatedRoute({ params: {} }),
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: MediaService, useValue: {} },
@@ -29,8 +29,8 @@ describe('ListComponent', () => {
         { provide: ProductionsService, useValue: {} },
         { provide: TagsService, useValue: {} },
         { provide: CollectionService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(ListComponent, { set: { template: '' } })
       .compileComponents();
 

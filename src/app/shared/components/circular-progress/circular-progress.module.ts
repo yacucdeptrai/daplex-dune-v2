@@ -4,10 +4,10 @@ import { CommonModule } from '@angular/common';
 import { CircularProgressComponent } from './circular-progress.component';
 
 @NgModule({
-  declarations: [CircularProgressComponent],
-  imports: [
-    CommonModule
-  ],
-  exports: [CircularProgressComponent]
+    imports: [
+        CommonModule,
+        CircularProgressComponent
+    ],
+    exports: [CircularProgressComponent]
 })
 export class CircularProgressModule { }

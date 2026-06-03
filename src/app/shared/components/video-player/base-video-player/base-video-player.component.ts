@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, inject, input, OnDestroy, OnInit, output, Renderer2, signal, untracked, viewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, CUSTOM_ELEMENTS_SCHEMA, effect, ElementRef, inject, input, OnDestroy, OnInit, output, Renderer2, signal, untracked, viewChild, ViewEncapsulation } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Platform } from '@angular/cdk/platform';
 import { patchState } from '@ngrx/signals';
@@ -21,6 +21,33 @@ import { SUBTITLE_FALLBACK_FONT } from '../../../../../environments/config';
 
 import 'vidstack/player';
 import 'vidstack/player/ui';
+import { NgStyle, NgTemplateOutlet, NgClass, NgSwitch, NgSwitchCase, NgSwitchDefault, NgFor } from '@angular/common';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { FocusTargetDirective } from '../../../directives/common-directive/focus-target/focus-target.directive';
+import { PlayCircleIconComponent } from '../icons/play-circle-icon/play-circle-icon.component';
+import { MuteIconComponent } from '../icons/mute-icon/mute-icon.component';
+import { FillIconComponent } from '../icons/fill-icon/fill-icon.component';
+import { FitWindowIconComponent } from '../icons/fit-window-icon/fit-window-icon.component';
+import { FullscreenIconComponent } from '../icons/fullscreen-icon/fullscreen-icon.component';
+import { SkipNextIconComponent } from '../icons/skip-next-icon/skip-next-icon.component';
+import { SkipPreviousIconComponent } from '../icons/skip-previous-icon/skip-previous-icon.component';
+import { PlayIconComponent } from '../icons/play-icon/play-icon.component';
+import { SubtitleIconComponent } from '../icons/subtitle-icon/subtitle-icon.component';
+import { SlideMenuTriggerDirective } from '../../slide-menu/slide-menu-trigger/slide-menu-trigger';
+import { SettingsIconComponent } from '../icons/settings-icon/settings-icon.component';
+import { SlideMenuOverlay } from '../../slide-menu/slide-menu-overlay/slide-menu-overlay';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { SlideMenuItemCheckbox } from '../../slide-menu/slide-menu-item-checkbox/slide-menu-item-checkbox';
+import { FormsModule } from '@angular/forms';
+import { SlideMenuItem } from '../../slide-menu/slide-menu-item/slide-menu-item';
+import { SlideMenuItemRadio } from '../../slide-menu/slide-menu-item-radio/slide-menu-item-radio';
+import { SlideMenuItemButton } from '../../slide-menu/slide-menu-item-button/slide-menu-item-button';
+import { TooltipModule } from 'primeng/tooltip';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { SkeletonComponent } from '../../skeleton/skeleton.component';
+import { SplitPipe } from '../../../pipes/string-pipe/split/split.pipe';
+import { ThumbhashUrlPipe } from '../../../pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
+import { QualityLabelPipe } from '../pipes/quality-label.pipe';
 
 @Component({
     selector: 'app-base-video-player, [appBaseVideoPlayer]',
@@ -29,7 +56,8 @@ import 'vidstack/player/ui';
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
     encapsulation: ViewEncapsulation.None,
-    standalone: false
+    imports: [NgStyle, ProgressSpinnerModule, NgTemplateOutlet, FocusTargetDirective, PlayCircleIconComponent, NgClass, MuteIconComponent, FillIconComponent, FitWindowIconComponent, FullscreenIconComponent, SkipNextIconComponent, SkipPreviousIconComponent, PlayIconComponent, SubtitleIconComponent, SlideMenuTriggerDirective, SettingsIconComponent, SlideMenuOverlay, InputSwitchModule, SlideMenuItemCheckbox, FormsModule, SlideMenuItem, NgSwitch, NgSwitchCase, NgSwitchDefault, NgFor, SlideMenuItemRadio, SlideMenuItemButton, TooltipModule, SelectButtonModule, SkeletonComponent, SplitPipe, ThumbhashUrlPipe, QualityLabelPipe],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class BaseVideoPlayerComponent implements OnInit, OnDestroy {
   track_Id = track_Id;

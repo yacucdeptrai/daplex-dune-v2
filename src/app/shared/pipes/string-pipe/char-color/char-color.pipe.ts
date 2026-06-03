@@ -1,9 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-    name: 'charColor',
-    standalone: false
-})
+@Pipe({ name: 'charColor' })
 export class CharColorPipe implements PipeTransform {
 
   transform(value: string): string {

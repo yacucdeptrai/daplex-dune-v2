@@ -17,14 +17,14 @@ describe('CollectionMediaListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CollectionMediaListComponent],
-      providers: [
+    imports: [CollectionMediaListComponent],
+    providers: [
         { provide: Router, useValue: mockRouter() },
         { provide: DialogService, useValue: mockDialogService() },
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: AuthService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(CollectionMediaListComponent, { set: { template: '' } })
       .compileComponents();
 

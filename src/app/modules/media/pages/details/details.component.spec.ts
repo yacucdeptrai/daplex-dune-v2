@@ -21,8 +21,8 @@ describe('DetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DetailsComponent],
-      providers: [
+    imports: [DetailsComponent],
+    providers: [
         provideMockActivatedRoute({ params: {}, queryParams: {} }),
         { provide: Router, useValue: mockRouter() },
         { provide: BreakpointObserver, useValue: { observe: () => of({ matches: false, breakpoints: {} }) } },
@@ -31,8 +31,8 @@ describe('DetailsComponent', () => {
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: AuthService, useValue: {} },
         { provide: MediaService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(DetailsComponent, { set: { template: '' } })
       .compileComponents();
 

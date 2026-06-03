@@ -1,9 +1,6 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
-@Directive({
-    selector: '([formGroup])[formAutofocus]',
-    standalone: false
-})
+@Directive({ selector: '([formGroup])[formAutofocus]' })
 export class FormAutofocusDirective {
 
   focusables = ['input', 'select', 'textarea'];

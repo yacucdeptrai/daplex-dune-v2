@@ -18,24 +18,24 @@ import { PlaceholderPipeModule } from '../../pipes/placeholder-pipe';
 import { ImageEditorModule } from '../image-editor';
 
 @NgModule({
-  declarations: [PlaylistSettingsComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    TranslocoModule,
-    LazyLoadImageModule,
-    ImageEditorModule,
-    FormDirectiveModule,
-    ValidationPipeModule,
-    NumberPipeModule,
-    PlaceholderPipeModule,
-    DynamicDialogModule,
-    RadioButtonModule,
-    InputTextModule,
-    InputTextareaModule,
-    ProgressSpinnerModule,
-    ButtonModule,
-  ],
-  exports: [PlaylistSettingsComponent]
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        TranslocoModule,
+        LazyLoadImageModule,
+        ImageEditorModule,
+        FormDirectiveModule,
+        ValidationPipeModule,
+        NumberPipeModule,
+        PlaceholderPipeModule,
+        DynamicDialogModule,
+        RadioButtonModule,
+        InputTextModule,
+        InputTextareaModule,
+        ProgressSpinnerModule,
+        ButtonModule,
+        PlaylistSettingsComponent,
+    ],
+    exports: [PlaylistSettingsComponent]
 })
 export class PlaylistSettingsModule { }

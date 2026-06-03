@@ -15,18 +15,17 @@ describe('UpdateUsernameComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpdateUsernameComponent],
-      imports: [ReactiveFormsModule],
-      providers: [
+    imports: [ReactiveFormsModule, UpdateUsernameComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         // The constructor eagerly reads config.data.username / _id, so supply them.
         {
-          provide: DynamicDialogConfig,
-          useValue: mockDynamicDialogConfig({ _id: 'u1', username: 'alice' })
+            provide: DynamicDialogConfig,
+            useValue: mockDynamicDialogConfig({ _id: 'u1', username: 'alice' })
         },
         { provide: UsersService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(UpdateUsernameComponent, { set: { template: '' } })
       .compileComponents();
 

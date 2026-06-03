@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { combineLatest, filter, forkJoin, Observable, takeUntil, tap } from 'rxjs';
 
 import { CursorPaginated, History, Playlist, RatingDetails, UserDetails } from '../../../../core/models';
@@ -7,6 +7,11 @@ import { AuthService, DestroyService, HistoryService, PlaylistsService, RatingsS
 import { UsersStateService } from '../../services';
 import { MediaType } from '../../../../core/enums';
 import { track_Id } from '../../../../core/utils';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { NgIf, NgFor } from '@angular/common';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { MarkedPipe } from '../../../../shared/pipes/markdown-pipe/marked/marked.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 @Component({
     selector: 'app-profile',
@@ -14,7 +19,7 @@ import { track_Id } from '../../../../core/utils';
     styleUrls: ['./profile.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [HistoryService, PlaylistsService, RatingsService, DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, NgIf, NgFor, LazyLoadImageModule, RouterLink, MarkedPipe, ThumbhashUrlPipe]
 })
 export class ProfileComponent implements OnInit {
   track_Id = track_Id;

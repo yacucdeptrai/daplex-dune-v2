@@ -31,40 +31,38 @@ import { BaseVideoPlayerComponent } from './base-video-player/base-video-player.
 import { QualityLabelPipe } from './pipes/quality-label.pipe';
 
 @NgModule({
-  declarations: [
-    VideoPlayerComponent,
-    PlayIconComponent,
-    MuteIconComponent,
-    FitWindowIconComponent,
-    FullscreenIconComponent,
-    SkipNextIconComponent,
-    SkipPreviousIconComponent,
-    SubtitleIconComponent,
-    SettingsIconComponent,
-    FillIconComponent,
-    PlayCircleIconComponent,
-    BaseVideoPlayerComponent
-  ],
-  exports: [VideoPlayerComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    LayoutModule,
-    TranslocoModule,
-    SkeletonModule,
-    SlideMenuModule,
-    StringPipeModule,
-    PlaceholderPipeModule,
-    CommonDirectiveModule,
-    QualityLabelPipe,
-    InputSwitchModule,
-    RadioButtonModule,
-    SelectButtonModule,
-    ProgressSpinnerModule,
-    SliderAltModule,
-    TooltipModule
-  ]
+    exports: [VideoPlayerComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [
+        CommonModule,
+        FormsModule,
+        RouterModule,
+        LayoutModule,
+        TranslocoModule,
+        SkeletonModule,
+        SlideMenuModule,
+        StringPipeModule,
+        PlaceholderPipeModule,
+        CommonDirectiveModule,
+        QualityLabelPipe,
+        InputSwitchModule,
+        RadioButtonModule,
+        SelectButtonModule,
+        ProgressSpinnerModule,
+        SliderAltModule,
+        TooltipModule,
+        VideoPlayerComponent,
+        PlayIconComponent,
+        MuteIconComponent,
+        FitWindowIconComponent,
+        FullscreenIconComponent,
+        SkipNextIconComponent,
+        SkipPreviousIconComponent,
+        SubtitleIconComponent,
+        SettingsIconComponent,
+        FillIconComponent,
+        PlayCircleIconComponent,
+        BaseVideoPlayerComponent
+    ]
 })
 export class VideoPlayerModule { }

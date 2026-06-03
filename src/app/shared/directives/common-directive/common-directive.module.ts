@@ -7,18 +7,15 @@ import { FocusTargetDirective } from './focus-target/focus-target.directive';
 import { TemplateForDirective } from './template-for/template-for.directive';
 
 @NgModule({
-  declarations: [
-    NgLetDirective,
-    NgForRepeatDirective,
-    FocusTargetDirective,
-    TemplateForDirective
-  ],
-  imports: [CommonModule],
-  exports: [
-    NgLetDirective,
-    NgForRepeatDirective,
-    FocusTargetDirective,
-    TemplateForDirective
-  ]
+    imports: [CommonModule, NgLetDirective,
+        NgForRepeatDirective,
+        FocusTargetDirective,
+        TemplateForDirective],
+    exports: [
+        NgLetDirective,
+        NgForRepeatDirective,
+        FocusTargetDirective,
+        TemplateForDirective
+    ]
 })
 export class CommonDirectiveModule { }

@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common';
 import { ThumbhashUrlPipe } from './thumbhash-url/thumbhash-url.pipe';
 
 @NgModule({
-  declarations: [ThumbhashUrlPipe],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    ThumbhashUrlPipe
-  ]
+    imports: [
+        CommonModule,
+        ThumbhashUrlPipe
+    ],
+    exports: [
+        ThumbhashUrlPipe
+    ]
 })
 export class PlaceholderPipeModule { }

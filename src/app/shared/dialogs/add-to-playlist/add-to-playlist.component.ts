@@ -1,13 +1,24 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { Checkbox } from 'primeng/checkbox';
+import { Checkbox, CheckboxModule } from 'primeng/checkbox';
 
 import { Media, PlaylistToAdd } from '../../../core/models';
 import { PlaylistsService } from '../../../core/services';
 import { MediaVisibility } from '../../../core/enums';
 import { CreatePlaylistForm } from '../../../core/interfaces/forms';
 import { debounceTime, distinctUntilChanged, fromEvent, Subscription } from 'rxjs';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { InputTextModule } from 'primeng/inputtext';
+import { NgIf, NgFor } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { FormHandlerDirective } from '../../directives/form-directive/form-handler/form-handler.directive';
+import { DisabledControlDirective } from '../../directives/form-directive/disabled-control/disabled-control.directive';
+import { AutofocusDirective } from '../../directives/form-directive/autofocus/autofocus.directive';
+import { InvalidControlDirective } from '../../directives/form-directive/invalid-control/invalid-control.directive';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { FirstErrorKeyPipe } from '../../pipes/validation-pipe/first-error-key/first-error-key.pipe';
 
 @Component({
     selector: 'app-add-to-playlist',
@@ -15,7 +26,7 @@ import { debounceTime, distinctUntilChanged, fromEvent, Subscription } from 'rxj
     styleUrls: ['./add-to-playlist.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [PlaylistsService],
-    standalone: false
+    imports: [TranslocoDirective, InputTextModule, NgIf, NgFor, CheckboxModule, ButtonModule, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, AutofocusDirective, InvalidControlDirective, RadioButtonModule, ProgressSpinnerModule, FirstErrorKeyPipe]
 })
 export class AddToPlaylistComponent implements OnInit, OnDestroy {
   // Listen to input search keyup event with viewchild setter

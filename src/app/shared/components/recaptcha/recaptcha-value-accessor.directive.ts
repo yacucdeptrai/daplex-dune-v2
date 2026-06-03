@@ -4,15 +4,14 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RecaptchaComponent } from './recaptcha.component';
 
 @Directive({
-  selector: 're-captcha[formControlName],re-captcha[formControl],re-captcha[ngModel]',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => RecaptchaValueAccessorDirective),
-      multi: true
-    }
-  ],
-  standalone: false
+    selector: 're-captcha[formControlName],re-captcha[formControl],re-captcha[ngModel]',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => RecaptchaValueAccessorDirective),
+            multi: true
+        }
+    ]
 })
 export class RecaptchaValueAccessorDirective implements ControlValueAccessor {
   private onChange?: (value: string | null) => void;

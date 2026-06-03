@@ -17,23 +17,23 @@ import { CdkMenuCustomModule } from '../../directives/cdk-menu-custom';
 import { FormDirectiveModule } from '../../directives/form-directive';
 
 @NgModule({
-  declarations: [MediaFilterComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-    TranslocoModule,
-    CdkMenuCustomModule,
-    FormDirectiveModule,
-    ButtonModule,
-    DropdownModule,
-    AltAutoCompleteModule,
-    InputTextModule,
-    ToggleButtonModule,
-    TooltipModule,
-    ChipModule
-  ],
-  providers: [MediaFilterService],
-  exports: [MediaFilterComponent]
+    imports: [
+        CommonModule,
+        RouterModule,
+        ReactiveFormsModule,
+        TranslocoModule,
+        CdkMenuCustomModule,
+        FormDirectiveModule,
+        ButtonModule,
+        DropdownModule,
+        AltAutoCompleteModule,
+        InputTextModule,
+        ToggleButtonModule,
+        TooltipModule,
+        ChipModule,
+        MediaFilterComponent
+    ],
+    providers: [MediaFilterService],
+    exports: [MediaFilterComponent]
 })
 export class MediaFilterModule { }

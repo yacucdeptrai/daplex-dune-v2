@@ -3,8 +3,7 @@ import { Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Outpu
 
 @Directive({
     selector: '[dragDropFile]',
-    exportAs: 'dragDropFile',
-    standalone: false
+    exportAs: 'dragDropFile'
 })
 export class DragDropFileDirective {
   @Input() disabled: boolean = false;

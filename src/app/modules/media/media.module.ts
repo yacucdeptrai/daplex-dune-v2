@@ -42,56 +42,54 @@ import { UrlPipeModule } from '../../shared/pipes/url-pipe';
 import { PlaceholderPipeModule } from '../../shared/pipes/placeholder-pipe';
 
 @NgModule({
-  declarations: [
-    WatchComponent,
-    DetailsComponent,
-    SearchComponent,
-    PlaylistsComponent,
-    ListComponent,
-    CollectionListComponent,
-    CollectionMediaListComponent
-  ],
-  imports: [
-    CommonModule,
-    LayoutModule,
-    MediaRoutingModule,
-    MediaFilterModule,
-    MediaListModule,
-    MediaTopModule,
-    EpisodeListModule,
-    VideoPlayerModule,
-    StarRatingModule,
-    SkeletonModule,
-    ExpansionPanelComponent,
-    AddToPlaylistModule,
-    ShareMediaLinkModule,
-    TranslocoModule,
-    LazyLoadImageModule,
-    InfiniteScrollModule,
-    CdkMenuCustomModule,
-    CommonDirectiveModule,
-    OverlayPanelModule,
-    TextDirectiveModule,
-    NumberPipeModule,
-    DateTimePipeModule,
-    TypePipeModule,
-    UrlPipeModule,
-    PlaceholderPipeModule,
-    ButtonModule,
-    DialogModule,
-    DynamicDialogModule,
-    ToggleButtonModule,
-    PaginatorModule,
-    TooltipModule,
-    TabViewModule,
-    TagModule
-  ],
-  providers: [
-    DialogService,
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: 'media'
-    }
-  ]
+    imports: [
+        CommonModule,
+        LayoutModule,
+        MediaRoutingModule,
+        MediaFilterModule,
+        MediaListModule,
+        MediaTopModule,
+        EpisodeListModule,
+        VideoPlayerModule,
+        StarRatingModule,
+        SkeletonModule,
+        ExpansionPanelComponent,
+        AddToPlaylistModule,
+        ShareMediaLinkModule,
+        TranslocoModule,
+        LazyLoadImageModule,
+        InfiniteScrollModule,
+        CdkMenuCustomModule,
+        CommonDirectiveModule,
+        OverlayPanelModule,
+        TextDirectiveModule,
+        NumberPipeModule,
+        DateTimePipeModule,
+        TypePipeModule,
+        UrlPipeModule,
+        PlaceholderPipeModule,
+        ButtonModule,
+        DialogModule,
+        DynamicDialogModule,
+        ToggleButtonModule,
+        PaginatorModule,
+        TooltipModule,
+        TabViewModule,
+        TagModule,
+        WatchComponent,
+        DetailsComponent,
+        SearchComponent,
+        PlaylistsComponent,
+        ListComponent,
+        CollectionListComponent,
+        CollectionMediaListComponent
+    ],
+    providers: [
+        DialogService,
+        {
+            provide: TRANSLOCO_SCOPE,
+            useValue: 'media'
+        }
+    ]
 })
 export class MediaModule { }

@@ -12,22 +12,20 @@ import { NumberPipeModule } from '../../pipes/number-pipe';
 import { PlaceholderPipeModule } from '../../pipes/placeholder-pipe';
 
 @NgModule({
-  declarations: [
-    EpisodeListComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    TranslocoModule,
-    LazyLoadImageModule,
-    ButtonModule,
-    SkeletonModule,
-    DateTimePipeModule,
-    PlaceholderPipeModule,
-    NumberPipeModule
-  ],
-  exports: [
-    EpisodeListComponent
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        TranslocoModule,
+        LazyLoadImageModule,
+        ButtonModule,
+        SkeletonModule,
+        DateTimePipeModule,
+        PlaceholderPipeModule,
+        NumberPipeModule,
+        EpisodeListComponent
+    ],
+    exports: [
+        EpisodeListComponent
+    ]
 })
 export class EpisodeListModule { }

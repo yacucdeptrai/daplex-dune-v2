@@ -10,16 +10,16 @@ import { ImageEditorComponent } from './image-editor.component';
 import { UrlPipeModule } from '../../pipes/url-pipe';
 
 @NgModule({
-  declarations: [ImageEditorComponent],
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    ImageCropperModule,
-    ProgressSpinnerModule,
-    UrlPipeModule,
-    ButtonModule,
-    SliderAltModule
-  ],
-  exports: [ImageEditorComponent]
+    imports: [
+        CommonModule,
+        TranslocoModule,
+        ImageCropperModule,
+        ProgressSpinnerModule,
+        UrlPipeModule,
+        ButtonModule,
+        SliderAltModule,
+        ImageEditorComponent
+    ],
+    exports: [ImageEditorComponent]
 })
 export class ImageEditorModule { }

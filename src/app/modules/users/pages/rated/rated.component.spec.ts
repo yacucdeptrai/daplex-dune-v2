@@ -15,8 +15,8 @@ describe('RatedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RatedComponent],
-      providers: [
+    imports: [RatedComponent],
+    providers: [
         provideMockActivatedRoute(),
         { provide: Router, useValue: mockRouter() },
         { provide: DialogService, useValue: { open: () => undefined, dialogComponentRefMap: new Map() } },
@@ -25,8 +25,8 @@ describe('RatedComponent', () => {
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         ...HTTP_TEST_PROVIDERS
-      ]
-    })
+    ]
+})
       .overrideComponent(RatedComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(RatedComponent);

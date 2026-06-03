@@ -11,17 +11,17 @@ import { ArrayPipeModule } from '../../pipes/array-pipe/array-pipe.module';
 import { PlaceholderPipeModule } from '../../pipes/placeholder-pipe';
 
 @NgModule({
-  declarations: [MediaTopComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    TranslocoModule,
-    LazyLoadImageModule,
-    SkeletonModule,
-    NumberPipeModule,
-    ArrayPipeModule,
-    PlaceholderPipeModule
-  ],
-  exports: [MediaTopComponent]
+    imports: [
+        CommonModule,
+        RouterModule,
+        TranslocoModule,
+        LazyLoadImageModule,
+        SkeletonModule,
+        NumberPipeModule,
+        ArrayPipeModule,
+        PlaceholderPipeModule,
+        MediaTopComponent
+    ],
+    exports: [MediaTopComponent]
 })
 export class MediaTopModule { }

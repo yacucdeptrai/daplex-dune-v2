@@ -4,14 +4,12 @@ import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from './skeleton.component';
 
 @NgModule({
-  declarations: [
-    SkeletonComponent
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    SkeletonComponent
-  ]
+    imports: [
+        CommonModule,
+        SkeletonComponent
+    ],
+    exports: [
+        SkeletonComponent
+    ]
 })
 export class SkeletonModule { }
