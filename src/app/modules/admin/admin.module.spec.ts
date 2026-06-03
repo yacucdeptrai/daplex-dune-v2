@@ -5,7 +5,7 @@ import { AdminModule } from './admin.module';
 import { ConfirmActionService } from '../../core/services';
 
 /**
- * Real-module DI smoke test (Phase 6.12b).
+ * Real-module DI smoke test.
  *
  * The hand-rolled component specs mock their providers, so they cannot catch a
  * provider-scope regression like the NG0201 incident where ConfirmActionService

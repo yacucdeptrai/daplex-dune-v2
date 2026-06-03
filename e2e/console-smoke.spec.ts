@@ -1,7 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 
 /**
- * Phase 6.12d — browser-console route smoke.
+ * Browser-console route smoke.
  *
  * Navigates the key routes of the running app and fails if any `console.error`
  * or uncaught `pageerror` is emitted. This is the unit/Karma-proof catch for the

@@ -20,13 +20,13 @@ if (existsSync(envFile)) {
 }
 
 /**
- * Phase 6.12d — browser-console route smoke.
+ * Browser-console route smoke.
  *
  * Drives the REAL served frontend (which talks to the real API) and asserts
  * that no `console.error` / `pageerror` is emitted while navigating key routes.
  * This is the only check that reproduces the NG0201 blank-page class of bug
  * (build-green + Karma-green yet routes render blank because a runtime DI/render
- * error surfaces only in the browser console) — see the refactor plan, 6.12.
+ * error surfaces only in the browser console).
  *
  * Requires a running stack (API + MongoDB + Redis + served frontend). Nothing
  * is auto-spawned: the API cannot be started without its own datastores, so a

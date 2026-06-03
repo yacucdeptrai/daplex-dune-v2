@@ -19,7 +19,7 @@ describe('DompurifyService', () => {
   });
 
   it('sanitizes HTML through DOMPurify and returns trusted markup', () => {
-    // Regression guard for the dompurify default-import fix (Phase 6.12d):
+    // Regression guard for the dompurify default-import fix:
     // a missing/undefined DOMPurify binding would throw on this call.
     const result = service.sanitize('<b>safe</b><script>alert(1)</script>');
     const html = sanitizer.sanitize(SecurityContext.HTML, result) ?? '';

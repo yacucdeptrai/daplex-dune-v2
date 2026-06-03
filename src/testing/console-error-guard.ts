@@ -5,8 +5,7 @@
  * runtime failures that only surfaced in the browser console — most notably the
  * NG0201 `ConfirmActionService` DI-scope regression that left the `/admin` pages
  * blank while every check stayed green. Treating `console.error` as a spec
- * failure turns that whole class of silent error into a red test. See the repo
- * refactoring plan (Phase 6.12a).
+ * failure turns that whole class of silent error into a red test.
  *
  * Scope: `console.error` only. `console.warn` is deliberately NOT enforced
  * because bundled third-party libraries (vidstack, Lit) emit unavoidable

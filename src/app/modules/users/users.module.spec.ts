@@ -5,7 +5,7 @@ import { UsersModule } from './users.module';
 import { ConfirmActionService } from '../../core/services';
 
 /**
- * Real-module DI smoke test (Phase 6.12b) — see admin.module.spec.ts.
+ * Real-module DI smoke test — see admin.module.spec.ts.
  *
  * UsersModule also provides the module-scoped ConfirmationService +
  * ConfirmActionService pair. Resolving ConfirmActionService through the real

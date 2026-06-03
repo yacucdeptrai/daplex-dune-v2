@@ -15,5 +15,5 @@ getTestBed().initTestEnvironment(
 );
 
 // Fail any spec that emits console.error (e.g. Angular runtime/template errors).
-// See src/testing/console-error-guard.ts (Phase 6.12a).
+// See src/testing/console-error-guard.ts.
 installConsoleErrorGuard();
