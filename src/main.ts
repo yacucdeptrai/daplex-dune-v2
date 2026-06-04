@@ -12,7 +12,7 @@ import { BaseUrlInterceptor } from './app/core/interceptors/base-url.interceptor
 import { HttpErrorInterceptor } from './app/core/interceptors/http-error.interceptor';
 import { RECAPTCHA_SETTINGS, RecaptchaSettings } from './app/shared/components/recaptcha';
 import { OverlayContainer, FullscreenOverlayContainer } from '@angular/cdk/overlay';
-import { RouteReuseStrategy } from '@angular/router';
+import { provideRouter, RouteReuseStrategy } from '@angular/router';
 import { CustomRouteReuseStrategy } from './app/core/strategies';
 import { ROUTER_LOADER_CONFIG, RouterLoaderModule } from './app/shared/components/router-loader';
 import { withHttpCacheInterceptor, provideHttpCache } from '@ngneat/cashew';
@@ -20,12 +20,18 @@ import { HTTP_CACHE_TTL } from './environments/config';
 import { cloneDeep } from 'lodash-es';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app/app-routing.module';
+import { routes } from './app/app.routes';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { TranslocoRootModule } from './app/transloco-root.module';
 import { HomeLayoutModule } from './app/shared/layouts/home-layout';
 import { ToastModule } from 'primeng/toast';
 import { AppComponent } from './app/app.component';
+import { OverlayPanelModule } from './app/shared/directives/overlay-panel';
+import { MarkdownPipeModule } from './app/shared/pipes/markdown-pipe';
+import { HtmlPipeModule } from './app/shared/pipes/html-pipe';
+import { PermissionPipeModule } from './app/shared/pipes/permission-pipe';
+import { MediaFilterModule } from './app/shared/components/media-filter';
+import { RecaptchaModule } from './app/shared/components/recaptcha';
 
 if (environment.production) {
   enableProdMode();
@@ -34,10 +40,11 @@ if (environment.production) {
 bootstrapApplication(AppComponent, {
     providers: [
         provideZoneChangeDetection(),
-        importProvidersFrom(BrowserModule, BrowserAnimationsModule, AppRoutingModule, ServiceWorkerModule.register('ngsw-worker.js', {
+        provideRouter(routes),
+        importProvidersFrom(BrowserModule, BrowserAnimationsModule, ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: environment.production,
             registrationStrategy: 'registerWhenStable:30000'
-        }), TranslocoRootModule, RouterLoaderModule, HomeLayoutModule, ToastModule),
+        }), TranslocoRootModule, RouterLoaderModule, HomeLayoutModule, ToastModule, OverlayPanelModule, MarkdownPipeModule, HtmlPipeModule, PermissionPipeModule, MediaFilterModule, RecaptchaModule),
         MessageService,
         {
             provide: APP_INITIALIZER,
