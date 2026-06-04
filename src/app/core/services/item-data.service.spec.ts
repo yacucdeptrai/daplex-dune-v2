@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { ItemDataService } from './item-data.service';
 import { mockTranslocoService } from '../../../testing/test-helpers';

@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { NgStyle, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoService, TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { debounceTime, first, takeUntil } from 'rxjs';
 
 import { DropdownOptionDto } from '../../../../../core/dto/media';

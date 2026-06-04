@@ -6,7 +6,7 @@ import { debounceTime, distinctUntilChanged, fromEvent, Subscription } from 'rxj
 import { MediaVisibility } from '../../../core/enums';
 import { Playlist, PlaylistToAdd } from '../../../core/models';
 import { PlaylistsService } from '../../../core/services';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { InputTextModule } from 'primeng/inputtext';
 import { NgIf, NgFor } from '@angular/common';
 import { FormHandlerDirective } from '../../directives/form-directive/form-handler/form-handler.directive';

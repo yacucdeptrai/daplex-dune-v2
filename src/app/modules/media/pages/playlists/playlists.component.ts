@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { TranslocoService, TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 

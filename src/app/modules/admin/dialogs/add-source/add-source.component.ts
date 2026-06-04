@@ -8,7 +8,7 @@ import { fileExtension, maxFileSize } from '../../../../core/validators';
 import { UPLOAD_MEDIA_SOURCE_EXT, UPLOAD_MEDIA_SOURCE_MAX_SIZE } from '../../../../../environments/config';
 import { MediaType } from '../../../../core/enums';
 import { MediaDetails, TVEpisodeDetails } from '../../../../core/models';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { FileUploadComponent } from '../../../../shared/components/file-upload/file-upload.component';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';

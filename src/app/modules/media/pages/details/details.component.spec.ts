@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { of } from 'rxjs';
 

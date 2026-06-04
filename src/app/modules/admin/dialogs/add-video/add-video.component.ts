@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs';
 import { DestroyService, MediaService } from '../../../../core/services';
 import { YOUTUBE_EMBED_URL } from '../../../../../environments/config';
 import { MediaDetails } from '../../../../core/models';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { InputTextModule } from 'primeng/inputtext';

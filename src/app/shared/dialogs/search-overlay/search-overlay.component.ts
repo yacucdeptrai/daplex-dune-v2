@@ -5,7 +5,7 @@ import { debounceTime, distinctUntilChanged, fromEvent, takeUntil } from 'rxjs';
 import { DestroyService, MediaService } from '../../../core/services';
 import { Media } from '../../../core/models';
 import { MediaType } from '../../../core/enums';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { InputTextModule } from 'primeng/inputtext';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { NgClass, NgIf } from '@angular/common';

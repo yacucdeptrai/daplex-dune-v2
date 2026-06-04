@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { debounceTime, finalize, first, forkJoin, map, of, takeUntil } from 'rxjs';
 

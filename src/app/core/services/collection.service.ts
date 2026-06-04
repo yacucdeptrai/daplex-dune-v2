@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { map } from 'rxjs';
 
 import { CreateCollectionDto, CursorPageCollectionsDto, CursorPageMediaDto, PaginateCollectionsDto, RemoveCollectionsDto, UpdateCollectionDto } from '../dto/collections';

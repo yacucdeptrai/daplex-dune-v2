@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { TranslocoService, TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { first, takeUntil } from 'rxjs';
 

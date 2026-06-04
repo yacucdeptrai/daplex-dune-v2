@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, OnDestroy } from '@angular/core';
-import { TranslocoService, TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table, TableModule } from 'primeng/table';
 import { first } from 'rxjs';

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { BaseUrlInterceptor } from './base-url.interceptor';
 import { AuthService } from '../services';

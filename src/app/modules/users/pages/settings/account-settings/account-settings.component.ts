@@ -8,7 +8,7 @@ import { UpdateBirthdateComponent } from '../../../dialogs/update-birthdate';
 import { UpdateEmailComponent } from '../../../dialogs/update-email';
 import { UpdatePasswordComponent } from '../../../dialogs/update-password';
 import { UpdateUsernameComponent } from '../../../dialogs/update-username';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { NgIf } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';

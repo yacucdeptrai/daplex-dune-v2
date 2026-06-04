@@ -1,5 +1,5 @@
 import { TimePipe } from './time.pipe';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 describe('TimePipe', () => {
   it('create an instance', () => {

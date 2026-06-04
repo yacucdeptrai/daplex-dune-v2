@@ -7,7 +7,7 @@ import { AuthService, DestroyService, HistoryService, PlaylistsService, RatingsS
 import { UsersStateService } from '../../services';
 import { MediaType } from '../../../../core/enums';
 import { track_Id } from '../../../../core/utils';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { NgIf, NgFor } from '@angular/common';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { MarkedPipe } from '../../../../shared/pipes/markdown-pipe/marked/marked.pipe';

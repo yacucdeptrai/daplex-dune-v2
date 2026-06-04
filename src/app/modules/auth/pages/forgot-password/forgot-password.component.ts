@@ -6,7 +6,7 @@ import { finalize, interval, Observable, takeUntil, takeWhile, tap } from 'rxjs'
 
 import { AuthService, DestroyService } from '../../../../core/services';
 import { SEND_RECOVERY_EMAIL_LIMIT_TTL } from '../../../../../environments/config';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { NgClass, NgIf } from '@angular/common';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';

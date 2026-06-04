@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs';
 
 import { Media, RatingDetails, UserDetails } from '../../../../core/models';
 import { AuthService, DestroyService } from '../../../../core/services';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { ContextMenuTriggerDirective } from '../../../../shared/directives/cdk-menu-custom/context-menu-trigger/context-menu-trigger.directive';
 import { NgIf } from '@angular/common';
 import { LazyLoadImageModule } from 'ng-lazyload-image';

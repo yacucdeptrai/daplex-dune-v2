@@ -6,7 +6,7 @@ import { MediaService } from '../../../../core/services';
 import { ExtMediaProvider } from '../../../../core/enums';
 import { trackId, trackLabel } from '../../../../core/utils';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { InputTextModule } from 'primeng/inputtext';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AutoCompleteModule } from 'primeng/autocomplete';

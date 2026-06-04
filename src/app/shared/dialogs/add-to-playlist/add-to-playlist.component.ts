@@ -8,7 +8,7 @@ import { PlaylistsService } from '../../../core/services';
 import { MediaVisibility } from '../../../core/enums';
 import { CreatePlaylistForm } from '../../../core/interfaces/forms';
 import { debounceTime, distinctUntilChanged, fromEvent, Subscription } from 'rxjs';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { InputTextModule } from 'primeng/inputtext';
 import { NgIf, NgFor } from '@angular/common';
 import { ButtonModule } from 'primeng/button';

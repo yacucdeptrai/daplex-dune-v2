@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, Renderer2, Inject, AfterViewInit, DOCUMENT } from '@angular/core';
 
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EMPTY, first, Observable, switchMap, takeUntil } from 'rxjs';
 import { cloneDeep } from 'lodash-es';

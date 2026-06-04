@@ -1,8 +1,8 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { Translation, TranslocoLoader, TranslocoModule, provideTransloco } from '@ngneat/transloco';
+import { Translation, TranslocoLoader, TranslocoModule, provideTransloco } from '@jsverse/transloco';
 import { Injectable, NgModule } from '@angular/core';
-import { provideTranslocoMessageformat } from '@ngneat/transloco-messageformat';
-// import { TranslocoPersistTranslationsModule, PERSIST_TRANSLATIONS_STORAGE } from '@ngneat/transloco-persist-translations';
+import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
+// import { TranslocoPersistTranslationsModule, PERSIST_TRANSLATIONS_STORAGE } from '@jsverse/transloco-persist-translations';
 // import * as localForage from 'localforage';
 
 import { environment } from '../environments/environment';

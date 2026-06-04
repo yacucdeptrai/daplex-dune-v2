@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 
 import { AuthGuard, ConfirmDeactivateGuard, WsActivatorGuard } from '../../core/guards';
 import { ConfirmActionService, QueueUploadService } from '../../core/services';

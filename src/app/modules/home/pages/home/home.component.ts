@@ -8,7 +8,7 @@ import { CacheKey } from '../../../../core/enums';
 import { catchError, merge, of, tap } from 'rxjs';
 import { SITE_NAME } from '../../../../../environments/config';
 import { DialogService } from 'primeng/dynamicdialog';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { FeaturedMediaComponent } from '../../components/featured-media/featured-media.component';
 import { MediaListComponent } from '../../../../shared/components/media-list/media-list.component';
 import { MediaTopComponent } from '../../../../shared/components/media-top/media-top.component';

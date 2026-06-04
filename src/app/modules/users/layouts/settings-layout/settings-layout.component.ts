@@ -1,6 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { TranslocoService, TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { MenuItem } from 'primeng/api';
 import { first, takeUntil } from 'rxjs';
 

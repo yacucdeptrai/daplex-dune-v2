@@ -7,7 +7,7 @@ import { RecaptchaComponent } from '../../../../shared/components/recaptcha';
 import { AuthService, DestroyService } from '../../../../core/services';
 import { SIGN_IN_LIMIT_COUNT, SIGN_IN_LIMIT_TTL } from '../../../../../environments/config';
 import { UserDetails } from '../../../../core/models';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { NgClass, NgIf } from '@angular/common';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';

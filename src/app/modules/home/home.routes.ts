@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 
 import { HomeComponent } from './pages/home/home.component';
 

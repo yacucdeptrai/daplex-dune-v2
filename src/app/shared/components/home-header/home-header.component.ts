@@ -10,7 +10,7 @@ import { AuthService, DestroyService, GenresService, MediaService } from '../../
 import { MediaType, UserPermission } from '../../../core/enums';
 import { track_Id } from '../../../core/utils';
 import { SearchOverlayComponent } from '../../dialogs/search-overlay';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { NgClass, NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { MenuTriggerDirective } from '../../directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';

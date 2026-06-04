@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 import { CreateProductionComponent } from './create-production.component';

@@ -6,7 +6,7 @@ import type { DeepSignal } from '@ngrx/signals';
 import { isDASHProvider, isHLSProvider, LibASSTextRenderer } from 'vidstack';
 import type { MediaEndedEvent, MediaPauseRequestEvent, MediaPlayRequestEvent, MediaProviderChangeEvent, MediaProviderSetupEvent, MediaSeekRequestEvent, MediaVolumeChangeEvent, PlayerSrc } from 'vidstack';
 import { MediaPlayerElement, MediaSliderThumbnailElement } from 'vidstack/elements';
-import { TranslocoTranslateFn } from '@ngneat/transloco';
+import { TranslocoTranslateFn } from '@jsverse/transloco';
 import { buffer, debounceTime, filter, first, fromEvent, merge, Subject, takeUntil } from 'rxjs';
 import { MediaPlayer as DashMediaPlayer } from 'dashjs';
 

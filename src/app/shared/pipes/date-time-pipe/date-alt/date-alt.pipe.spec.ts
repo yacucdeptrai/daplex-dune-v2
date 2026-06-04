@@ -1,5 +1,5 @@
 import { DateAltPipe } from './date-alt.pipe';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 describe('DateAltPipe', () => {
   it('create an instance', () => {

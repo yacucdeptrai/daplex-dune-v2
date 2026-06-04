@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { MediaFilterService } from './media-filter.service';
 import { mockTranslocoService } from '../../../../testing/test-helpers';

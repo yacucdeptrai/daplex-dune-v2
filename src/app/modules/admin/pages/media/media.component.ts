@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, Renderer2, Inject, OnDestroy, DOCUMENT } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoService, TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table, TableModule } from 'primeng/table';
 import { Menu, MenuModule } from 'primeng/menu';

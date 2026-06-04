@@ -4,7 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { DialogService } from 'primeng/dynamicdialog';
-import { TranslocoService, TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { takeUntil } from 'rxjs';
 
 import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playlist';

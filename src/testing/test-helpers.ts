@@ -12,7 +12,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpCache } from '@ngneat/cashew';
 import { ActivatedRoute, convertToParamMap, Params } from '@angular/router';
 import { of } from 'rxjs';
-import { provideTransloco, TranslocoLoader } from '@ngneat/transloco';
+import { provideTransloco, TranslocoLoader } from '@jsverse/transloco';
 
 /**
  * HttpClient wired to the testing backend. Spread into `providers` for any service or
@@ -31,7 +31,7 @@ export const HTTP_CACHE_TEST_PROVIDERS: (Provider | EnvironmentProviders)[] = [
   provideHttpCache({ ttl: 0 })
 ];
 
-/** Minimal stub of `@ngneat/transloco` TranslocoService for units that translate. */
+/** Minimal stub of `@jsverse/transloco` TranslocoService for units that translate. */
 export function mockTranslocoService() {
   return {
     translate: (key: string) => key,
