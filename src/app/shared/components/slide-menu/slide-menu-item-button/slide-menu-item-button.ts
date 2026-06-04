@@ -20,8 +20,7 @@ import { SlideMenuItem } from '../slide-menu-item/slide-menu-item';
     },
     providers: [
         { provide: SlideMenuItem, useExisting: SlideMenuItemButton }
-    ],
-    standalone: false
+    ]
 })
 export class SlideMenuItemButton extends SlideMenuItem {
   protected override keepOpen = true;

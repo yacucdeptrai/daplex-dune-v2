@@ -11,12 +11,12 @@ describe('CollectionListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CollectionListComponent],
-      providers: [
+    imports: [CollectionListComponent],
+    providers: [
         DestroyService,
         { provide: BreakpointObserver, useValue: { observe: () => of({ matches: true, breakpoints: {} }) } }
-      ]
-    })
+    ]
+})
       .overrideComponent(CollectionListComponent, { set: { template: '' } })
       .compileComponents();
 

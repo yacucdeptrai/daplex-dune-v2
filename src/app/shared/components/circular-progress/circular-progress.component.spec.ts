@@ -8,8 +8,8 @@ describe('CircularProgressComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CircularProgressComponent ]
-    })
+    imports: [CircularProgressComponent]
+})
     .compileComponents();
   });
 

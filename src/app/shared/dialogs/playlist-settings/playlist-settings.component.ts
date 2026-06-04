@@ -1,8 +1,8 @@
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, Renderer2, ViewChild, DOCUMENT } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { FormControl, FormGroup, NgForm, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@ngneat/transloco';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { finalize, first, forkJoin, map, of, takeUntil } from 'rxjs';
 import { isEqual } from 'lodash-es';
 
@@ -16,6 +16,19 @@ import {
 import { AppErrorCode } from '../../../core/enums';
 import { dataURItoFile, fixNestedDialogFocus } from '../../../core/utils';
 import { UpdatePlaylistDto } from '../../../core/dto/playlists';
+import { NgIf, NgClass } from '@angular/common';
+import { DragDropFileDirective } from '../../directives/form-directive/drap-drop-file/drag-drop-file.directive';
+import { ButtonModule } from 'primeng/button';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { FormHandlerDirective } from '../../directives/form-directive/form-handler/form-handler.directive';
+import { DisabledControlDirective } from '../../directives/form-directive/disabled-control/disabled-control.directive';
+import { InputTextModule } from 'primeng/inputtext';
+import { InvalidControlDirective } from '../../directives/form-directive/invalid-control/invalid-control.directive';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { FirstErrorKeyPipe } from '../../pipes/validation-pipe/first-error-key/first-error-key.pipe';
+import { ThumbhashUrlPipe } from '../../pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 interface UpdatePlaylistForm {
   name: FormControl<string>;
@@ -35,7 +48,7 @@ interface UpdatePlaylistForm {
             useValue: 'common'
         }
     ],
-    standalone: false
+    imports: [DynamicDialogModule, TranslocoDirective, NgIf, DragDropFileDirective, ButtonModule, LazyLoadImageModule, NgClass, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, RadioButtonModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
 })
 export class PlaylistSettingsComponent implements OnInit {
   @ViewChild('updatePlaylistFormEl') updatePlaylistFormEl?: NgForm;

@@ -8,8 +8,8 @@ describe('AvatarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AvatarComponent]
-    })
+    imports: [AvatarComponent]
+})
       // Blank the template: this is a construction/DI smoke test, so we deliberately skip
       // rendering the real template (which depends on the `charColor` pipe + sibling modules).
       .overrideComponent(AvatarComponent, { set: { template: '' } })

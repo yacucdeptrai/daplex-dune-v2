@@ -1,13 +1,14 @@
 import { Component, ChangeDetectionStrategy, ContentChildren, QueryList, AfterContentInit, Input, Renderer2, ViewChild, SimpleChanges, OnChanges, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { MenuItem } from 'primeng/api';
-import { Menu } from 'primeng/menu';
-import { TabMenu } from 'primeng/tabmenu';
+import { Menu, MenuModule } from 'primeng/menu';
+import { TabMenu, TabMenuModule } from 'primeng/tabmenu';
 
 import { PanelToastDirective } from './panel-toast.directive';
 import { TabPanelDirective } from './tab-panel.directive';
 import { VerticalTabChange } from '../../../core/interfaces/events';
 import { trackId, trackTabId } from '../../../core/utils';
+import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
     selector: 'app-vertical-tab',
@@ -26,7 +27,7 @@ import { trackId, trackTabId } from '../../../core/utils';
             ])
         ])
     ],
-    standalone: false
+    imports: [TabMenuModule, MenuModule, NgClass, NgFor, NgIf, NgTemplateOutlet]
 })
 export class VerticalTabComponent implements AfterViewInit, AfterContentInit {
   trackId = trackId;

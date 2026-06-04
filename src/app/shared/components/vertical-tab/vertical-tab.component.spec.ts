@@ -8,8 +8,8 @@ describe('VerticalTabComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [VerticalTabComponent]
-    })
+    imports: [VerticalTabComponent]
+})
       .overrideComponent(VerticalTabComponent, { set: { template: '' } })
       .compileComponents();
 

@@ -11,13 +11,13 @@ describe('AddSourceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AddSourceComponent],
-      providers: [
+    imports: [AddSourceComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig({}) },
         { provide: QueueUploadService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(AddSourceComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(AddSourceComponent);

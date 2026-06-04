@@ -11,13 +11,12 @@ describe('ResetPasswordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ResetPasswordComponent],
-      imports: [ReactiveFormsModule],
-      providers: [
+    imports: [ReactiveFormsModule, ResetPasswordComponent],
+    providers: [
         provideMockActivatedRoute({ queryParams: {} }),
         { provide: AuthService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(ResetPasswordComponent, { set: { template: '' } })
       .compileComponents();
 

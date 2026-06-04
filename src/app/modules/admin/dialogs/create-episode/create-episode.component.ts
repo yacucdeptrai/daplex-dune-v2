@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, ViewChild, Inject, DOCUMENT } from '@angular/core';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@ngneat/transloco';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { addDays } from 'date-fns';
 import { EMPTY, first, Observable, switchMap, takeUntil } from 'rxjs';
@@ -23,6 +23,22 @@ import {
   UPLOAD_STILL_MIN_WIDTH, UPLOAD_STILL_SIZE, UPLOAD_SUBTITLE_SIZE
 } from '../../../../../environments/config';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
+import { StepperComponent as StepperComponent_1 } from '../../../../shared/components/stepper/stepper.component';
+import { CdkStep, CdkStepperPrevious, CdkStepperNext } from '@angular/cdk/stepper';
+import { NgIf } from '@angular/common';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { AutofocusDirective } from '../../../../shared/directives/form-directive/autofocus/autofocus.directive';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DropdownModule } from 'primeng/dropdown';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { ButtonModule } from 'primeng/button';
+import { FileUploadComponent as FileUploadComponent_1 } from '../../../../shared/components/file-upload/file-upload.component';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 
 interface CreateEpisodeForm {
   episodeNumber: FormControl<number>;
@@ -48,7 +64,7 @@ interface UpdateEpisodeForm extends CreateEpisodeForm { }
             useValue: 'common'
         }
     ],
-    standalone: false
+    imports: [TranslocoDirective, StepperComponent_1, CdkStep, NgIf, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, AutofocusDirective, InvalidControlDirective, InputMaskModule, InputTextModule, InputTextareaModule, DropdownModule, RadioButtonModule, ButtonModule, FileUploadComponent_1, CdkStepperPrevious, CdkStepperNext, FirstErrorKeyPipe]
 })
 export class CreateEpisodeComponent implements OnInit {
   @ViewChild('stepper') stepper?: StepperComponent;

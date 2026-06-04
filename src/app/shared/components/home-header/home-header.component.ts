@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inject, Input, OnInit, Renderer2, ViewChild, DOCUMENT } from '@angular/core';
 
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AutoComplete } from 'primeng/autocomplete';
 import { DialogService } from 'primeng/dynamicdialog';
 import { filter, first, Subscription, takeUntil } from 'rxjs';
@@ -10,6 +10,21 @@ import { AuthService, DestroyService, GenresService, MediaService } from '../../
 import { MediaType, UserPermission } from '../../../core/enums';
 import { track_Id } from '../../../core/utils';
 import { SearchOverlayComponent } from '../../dialogs/search-overlay';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { NgClass, NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { MenuTriggerDirective } from '../../directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
+import { MenuDirective } from '../../directives/cdk-menu-custom/menu/menu.directive';
+import { MenuItemDirective } from '../../directives/cdk-menu-custom/menu-item/menu-item.directive';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { SkeletonComponent } from '../skeleton/skeleton.component';
+import { SidebarModule } from 'primeng/sidebar';
+import { SharedModule } from 'primeng/api';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { AvatarComponent } from '../avatar/avatar.component';
+import { IsGrantedPipe } from '../../pipes/permission-pipe/is-granted/is-granted.pipe';
+import { SubstringPipe } from '../../pipes/string-pipe/substring/substring.pipe';
+import { ThumbhashUrlPipe } from '../../pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 @Component({
     selector: 'app-home-header',
@@ -17,7 +32,7 @@ import { SearchOverlayComponent } from '../../dialogs/search-overlay';
     styleUrls: ['./home-header.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, NgClass, ButtonModule, MenuTriggerDirective, RouterLink, RouterLinkActive, NgIf, NgTemplateOutlet, MenuDirective, MenuItemDirective, InfiniteScrollDirective, NgFor, SkeletonComponent, SidebarModule, SharedModule, LazyLoadImageModule, AvatarComponent, IsGrantedPipe, SubstringPipe, ThumbhashUrlPipe]
 })
 export class HomeHeaderComponent implements OnInit {
   @ViewChild('mediaSearch') mediaSearch?: AutoComplete;

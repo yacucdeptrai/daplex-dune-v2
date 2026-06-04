@@ -1,14 +1,18 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../../../core/services';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { NgIf } from '@angular/common';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
     selector: 'app-confirm-email',
     templateUrl: './confirm-email.component.html',
     styleUrls: ['./confirm-email.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [TranslocoDirective, NgIf, ProgressSpinnerModule, RouterLink, ButtonModule]
 })
 export class ConfirmEmailComponent implements OnInit {
   id: string | null;

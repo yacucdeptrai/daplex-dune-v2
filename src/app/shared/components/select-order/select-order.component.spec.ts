@@ -8,8 +8,8 @@ describe('SelectOrderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SelectOrderComponent]
-    })
+    imports: [SelectOrderComponent]
+})
       .overrideComponent(SelectOrderComponent, { set: { template: '' } })
       .compileComponents();
 

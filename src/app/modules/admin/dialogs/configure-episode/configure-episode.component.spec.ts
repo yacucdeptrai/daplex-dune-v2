@@ -19,15 +19,15 @@ describe('ConfigureEpisodeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ConfigureEpisodeComponent],
-      providers: [
+    imports: [ConfigureEpisodeComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         {
-          provide: DynamicDialogConfig,
-          useValue: mockDynamicDialogConfig({
-            media: { _id: 'm1' },
-            episode: { _id: 'e1', epNumber: 1 }
-          })
+            provide: DynamicDialogConfig,
+            useValue: mockDynamicDialogConfig({
+                media: { _id: 'm1' },
+                episode: { _id: 'e1', epNumber: 1 }
+            })
         },
         { provide: DialogService, useValue: mockDialogService() },
         ConfirmationService,
@@ -35,9 +35,9 @@ describe('ConfigureEpisodeComponent', () => {
         { provide: MediaService, useValue: { findOneTVEpisode: () => of() } },
         { provide: QueueUploadService, useValue: {} },
         { provide: TranslocoService, useValue: mockTranslocoService() }
-      ]
-    })
-      .overrideComponent(ConfigureEpisodeComponent, { set: { template: '' } })
+    ]
+})
+      .overrideComponent(ConfigureEpisodeComponent, { set: { template: '', imports: [] } })
       .compileComponents();
     fixture = TestBed.createComponent(ConfigureEpisodeComponent);
     component = fixture.componentInstance;

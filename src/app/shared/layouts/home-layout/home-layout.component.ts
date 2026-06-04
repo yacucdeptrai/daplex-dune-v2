@@ -1,13 +1,15 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map, startWith, tap } from 'rxjs';
+import { HomeHeaderComponent } from '../../components/home-header/home-header.component';
+import { HomeFooterComponent } from '../../components/home-footer/home-footer.component';
 
 @Component({
     selector: 'app-home-layout',
     templateUrl: './home-layout.component.html',
     styleUrls: ['./home-layout.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [HomeHeaderComponent, RouterOutlet, HomeFooterComponent]
 })
 export class HomeLayoutComponent implements OnInit {
   fixedNavbarSpacing: boolean = true;

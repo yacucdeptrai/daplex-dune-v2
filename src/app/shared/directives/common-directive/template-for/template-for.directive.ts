@@ -1,9 +1,6 @@
 import { Directive, input, TemplateRef } from '@angular/core';
 
-@Directive({
-    selector: '[appTemplateFor]',
-    standalone: false
-})
+@Directive({ selector: '[appTemplateFor]' })
 export class TemplateForDirective {
   type = input<string | undefined>();
   name = input<string | undefined>(undefined, { alias: 'appTemplateFor' });

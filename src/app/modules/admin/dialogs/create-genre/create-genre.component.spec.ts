@@ -11,12 +11,12 @@ describe('CreateGenreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CreateGenreComponent],
-      providers: [
+    imports: [CreateGenreComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         { provide: GenresService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(CreateGenreComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(CreateGenreComponent);

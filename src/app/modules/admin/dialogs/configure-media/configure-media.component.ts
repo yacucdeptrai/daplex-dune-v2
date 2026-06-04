@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, Inject, OnDestroy, ViewChild, AfterViewInit, DOCUMENT } from '@angular/core';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { MenuItem } from 'primeng/api';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@ngneat/transloco';
+import { MenuItem, SharedModule } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Menu } from 'primeng/menu';
+import { Menu, MenuModule } from 'primeng/menu';
 import { first, map, merge, Observable, switchMap, takeUntil, tap } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
 
@@ -33,6 +33,35 @@ import {
   UPLOAD_BACKDROP_MIN_HEIGHT, UPLOAD_POSTER_ASPECT_WIDTH, UPLOAD_POSTER_ASPECT_HEIGHT, UPLOAD_BACKDROP_ASPECT_WIDTH,
   UPLOAD_BACKDROP_ASPECT_HEIGHT
 } from '../../../../../environments/config';
+import { ButtonModule } from 'primeng/button';
+import { NgIf, NgFor, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
+import { VerticalTabComponent } from '../../../../shared/components/vertical-tab/vertical-tab.component';
+import { TabPanelDirective } from '../../../../shared/components/vertical-tab/tab-panel.directive';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { InputTextModule } from 'primeng/inputtext';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputMaskModule } from 'primeng/inputmask';
+import { DropdownModule } from 'primeng/dropdown';
+import { AltAutoComplete } from '../../../../core/utils/primeng/autocomplete';
+import { ChipModule } from 'primeng/chip';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { PanelToastDirective } from '../../../../shared/components/vertical-tab/panel-toast.directive';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { FileUploadComponent as FileUploadComponent_1 } from '../../../../shared/components/file-upload/file-upload.component';
+import { VideoPlayerComponent } from '../../../../shared/components/video-player/video-player.component';
+import { TooltipModule } from 'primeng/tooltip';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
+import { ShortDatePipe } from '../../../../shared/pipes/date-time-pipe/short-date/short-date.pipe';
+import { TimePipe } from '../../../../shared/pipes/date-time-pipe/time/time.pipe';
+import { SafeUrlPipe } from '../../../../shared/pipes/url-pipe/safe-url/safe-url.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 interface UpdateMediaForm {
   title: FormControl<string>;
@@ -67,7 +96,7 @@ interface UpdateMediaForm {
             useValue: ['common', 'languages']
         }
     ],
-    standalone: false
+    imports: [TranslocoDirective, ButtonModule, NgIf, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, NgFor, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, LazyLoadImageModule, TableModule, DialogModule, FileUploadComponent_1, NgSwitch, NgSwitchCase, NgTemplateOutlet, VideoPlayerComponent, TooltipModule, ConfirmDialogModule, MenuModule, ProgressSpinnerModule, FirstErrorKeyPipe, ShortDatePipe, TimePipe, SafeUrlPipe, ThumbhashUrlPipe]
 })
 export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;

@@ -11,13 +11,13 @@ describe('HistoryCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HistoryCardComponent],
-      providers: [
+    imports: [HistoryCardComponent],
+    providers: [
         provideMockActivatedRoute(),
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         DestroyService
-      ]
-    })
+    ]
+})
       .overrideComponent(HistoryCardComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(HistoryCardComponent);

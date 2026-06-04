@@ -1,12 +1,27 @@
 import { Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@ngneat/transloco';
 import { first } from 'rxjs';
 
 import { DropdownOptionDto, MediaFilterOptionsDto } from '../../../core/dto/media';
 import { Genre, Tag } from '../../../core/models';
 import { GenresService, TagsService } from '../../../core/services';
 import { MediaFilterService } from './media-filter.service';
+import { FormHandlerDirective } from '../../directives/form-directive/form-handler/form-handler.directive';
+import { InputTextModule } from 'primeng/inputtext';
+import { DisabledControlDirective } from '../../directives/form-directive/disabled-control/disabled-control.directive';
+import { AltAutoComplete } from '../../../core/utils/primeng/autocomplete';
+import { SharedModule } from 'primeng/api';
+import { DropdownModule } from 'primeng/dropdown';
+import { ButtonModule } from 'primeng/button';
+import { MenuTriggerDirective } from '../../directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
+import { TooltipModule } from 'primeng/tooltip';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { NgIf, NgFor } from '@angular/common';
+import { ChipModule } from 'primeng/chip';
+import { MenuDirective } from '../../directives/cdk-menu-custom/menu/menu.directive';
+import { MenuItemDirective } from '../../directives/cdk-menu-custom/menu-item/menu-item.directive';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 interface FilterRecord {
   key: 'genres' | 'tags' | 'search' | 'type' | 'status' | 'originalLanguage' | 'year';
@@ -36,7 +51,7 @@ interface FilterForm {
             useValue: 'media'
         }
     ],
-    standalone: false
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputTextModule, DisabledControlDirective, AltAutoComplete, SharedModule, DropdownModule, ButtonModule, MenuTriggerDirective, TooltipModule, ToggleButtonModule, NgIf, ChipModule, NgFor, MenuDirective, MenuItemDirective, RouterLink, RouterLinkActive]
 })
 export class MediaFilterComponent implements OnInit {
   @Output() onChange = new EventEmitter<MediaFilterOptionsDto>();

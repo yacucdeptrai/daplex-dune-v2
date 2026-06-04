@@ -1,16 +1,26 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntil } from 'rxjs';
 
 import { HistoryGroupable, Media, UserDetails } from '../../../../core/models';
 import { AuthService, DestroyService } from '../../../../core/services';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { ContextMenuTriggerDirective } from '../../../../shared/directives/cdk-menu-custom/context-menu-trigger/context-menu-trigger.directive';
+import { NgIf, NgClass } from '@angular/common';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { ButtonModule } from 'primeng/button';
+import { MenuTriggerDirective } from '../../../../shared/directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
+import { MenuDirective } from '../../../../shared/directives/cdk-menu-custom/menu/menu.directive';
+import { MenuItemDirective } from '../../../../shared/directives/cdk-menu-custom/menu-item/menu-item.directive';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 @Component({
     selector: 'app-history-card [history]',
     templateUrl: './history-card.component.html',
     styleUrls: ['./history-card.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [TranslocoDirective, ContextMenuTriggerDirective, RouterLink, NgIf, LazyLoadImageModule, ProgressBarModule, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, NgClass, ThumbhashUrlPipe]
 })
 export class HistoryCardComponent implements OnInit {
   @Input() history!: HistoryGroupable;

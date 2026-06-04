@@ -12,12 +12,12 @@ describe('SettingsLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SettingsLayoutComponent],
-      providers: [
+    imports: [SettingsLayoutComponent],
+    providers: [
         { provide: TranslocoService, useValue: { ...mockTranslocoService(), selectTranslation: () => of({}) } },
         { provide: BreakpointObserver, useValue: { observe: () => of({ matches: true, breakpoints: {} }) } }
-      ]
-    })
+    ]
+})
       .overrideComponent(SettingsLayoutComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(SettingsLayoutComponent);

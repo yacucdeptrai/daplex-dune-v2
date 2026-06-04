@@ -13,21 +13,21 @@ describe('AddSubtitleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AddSubtitleComponent],
-      providers: [
+    imports: [AddSubtitleComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         {
-          provide: DynamicDialogConfig,
-          useValue: mockDynamicDialogConfig({
-            media: { _id: 'm1', type: MediaType.MOVIE, movie: { subtitles: [] } },
-            episode: { _id: 'e1', subtitles: [] },
-            file: null
-          })
+            provide: DynamicDialogConfig,
+            useValue: mockDynamicDialogConfig({
+                media: { _id: 'm1', type: MediaType.MOVIE, movie: { subtitles: [] } },
+                episode: { _id: 'e1', subtitles: [] },
+                file: null
+            })
         },
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: MediaService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(AddSubtitleComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(AddSubtitleComponent);

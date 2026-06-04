@@ -13,13 +13,13 @@ describe('MediaListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MediaListComponent],
-      providers: [
+    imports: [MediaListComponent],
+    providers: [
         { provide: Router, useValue: mockRouter() },
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: AuthService, useValue: { currentUser: null } }
-      ]
-    })
+    ]
+})
       // DialogService is a component-level provider; replace the whole provider set and blank
       // the template in the SAME `set` (mixing `set` with `add`/`remove` is not allowed).
       .overrideComponent(MediaListComponent, {

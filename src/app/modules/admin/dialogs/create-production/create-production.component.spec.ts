@@ -12,13 +12,13 @@ describe('CreateProductionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CreateProductionComponent],
-      providers: [
+    imports: [CreateProductionComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         { provide: ProductionsService, useValue: {} },
         { provide: TranslocoService, useValue: mockTranslocoService() }
-      ]
-    })
+    ]
+})
       .overrideComponent(CreateProductionComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(CreateProductionComponent);

@@ -10,11 +10,11 @@ describe('ShareMediaLinkComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ShareMediaLinkComponent],
-      providers: [
+    imports: [ShareMediaLinkComponent],
+    providers: [
         { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig([]) }
-      ]
-    })
+    ]
+})
       .overrideComponent(ShareMediaLinkComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(ShareMediaLinkComponent);

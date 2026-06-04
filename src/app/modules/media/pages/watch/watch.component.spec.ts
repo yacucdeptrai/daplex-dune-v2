@@ -22,8 +22,8 @@ describe('WatchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [WatchComponent],
-      providers: [
+    imports: [WatchComponent],
+    providers: [
         ...HTTP_TEST_PROVIDERS,
         provideMockActivatedRoute({ params: {}, queryParams: {} }),
         { provide: Router, useValue: mockRouter() },
@@ -33,8 +33,8 @@ describe('WatchComponent', () => {
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: AuthService, useValue: { currentUser$: of(null) } },
         { provide: MediaService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(WatchComponent, { set: { template: '' } })
       .compileComponents();
 

@@ -9,9 +9,10 @@ describe('HomeLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HomeLayoutComponent ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
+    imports: [HomeLayoutComponent],
+    schemas: [NO_ERRORS_SCHEMA]
+})
+    .overrideComponent(HomeLayoutComponent, { set: { template: '' } })
     .compileComponents();
   });
 

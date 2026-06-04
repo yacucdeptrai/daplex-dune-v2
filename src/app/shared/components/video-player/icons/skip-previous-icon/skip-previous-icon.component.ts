@@ -4,8 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     selector: 'player-skip-previous-icon',
     templateUrl: './skip-previous-icon.component.html',
     styles: [],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkipPreviousIconComponent {
 

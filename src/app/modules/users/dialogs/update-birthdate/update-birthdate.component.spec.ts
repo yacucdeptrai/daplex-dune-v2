@@ -12,14 +12,14 @@ describe('UpdateBirthdateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpdateBirthdateComponent],
-      providers: [
+    imports: [UpdateBirthdateComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig({ _id: 'u1', birthdate: { day: 1, month: 1, year: 2000 } }) },
         { provide: UsersService, useValue: {} },
         { provide: TranslocoService, useValue: mockTranslocoService() }
-      ]
-    })
+    ]
+})
       .overrideComponent(UpdateBirthdateComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(UpdateBirthdateComponent);

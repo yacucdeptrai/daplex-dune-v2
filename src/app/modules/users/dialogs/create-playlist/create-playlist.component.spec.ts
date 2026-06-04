@@ -10,12 +10,12 @@ describe('CreatePlaylistComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CreatePlaylistComponent],
-      providers: [
+    imports: [CreatePlaylistComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         ...HTTP_TEST_PROVIDERS
-      ]
-    })
+    ]
+})
       .overrideComponent(CreatePlaylistComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(CreatePlaylistComponent);

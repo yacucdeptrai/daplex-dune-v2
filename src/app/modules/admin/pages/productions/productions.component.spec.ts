@@ -13,15 +13,15 @@ describe('ProductionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProductionsComponent],
-      providers: [
+    imports: [ProductionsComponent],
+    providers: [
         { provide: DialogService, useValue: mockDialogService() },
         ConfirmationService,
         ConfirmActionService,
         { provide: ProductionsService, useValue: {} },
         { provide: TranslocoService, useValue: mockTranslocoService() }
-      ]
-    })
+    ]
+})
       .overrideComponent(ProductionsComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(ProductionsComponent);

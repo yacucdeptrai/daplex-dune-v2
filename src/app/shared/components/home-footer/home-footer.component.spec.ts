@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeFooterComponent } from './home-footer.component';
+import { provideTranslocoTesting } from '../../../../testing/test-helpers';
 
 describe('HomeFooterComponent', () => {
   let component: HomeFooterComponent;
@@ -8,8 +9,10 @@ describe('HomeFooterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HomeFooterComponent ]
-    })
+    imports: [HomeFooterComponent],
+    providers: [provideTranslocoTesting()]
+})
+    .overrideComponent(HomeFooterComponent, { set: { template: '' } })
     .compileComponents();
   });
 

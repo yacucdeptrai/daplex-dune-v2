@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgClass, NgStyle, NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, forwardRef, NgModule, Signal, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SharedModule } from 'primeng/api';
@@ -243,15 +243,10 @@ export const AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     styleUrls: ['../../../../../node_modules/primeng/resources/components/autocomplete/autocomplete.css'],
-    standalone: false
+    imports: [NgClass, NgStyle, NgIf, AutoFocusModule, TimesIcon, NgTemplateOutlet, SpinnerIcon, ButtonModule, RippleModule, ChevronDownIcon, OverlayModule, ScrollerModule, NgFor]
 })
 export class AltAutoComplete extends AutoComplete {
   modelLength: Signal<number> = computed(() => this.modelValue()?.length || 0);
 }
 
-@NgModule({
-  imports: [CommonModule, OverlayModule, InputTextModule, ButtonModule, SharedModule, RippleModule, ScrollerModule, AutoFocusModule, TimesCircleIcon, SpinnerIcon, TimesIcon, ChevronDownIcon],
-  exports: [AltAutoComplete, OverlayModule, SharedModule, ScrollerModule, AutoFocusModule],
-  declarations: [AltAutoComplete]
-})
-export class AltAutoCompleteModule { }
+

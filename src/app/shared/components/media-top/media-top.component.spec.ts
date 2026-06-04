@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { MediaTopComponent } from './media-top.component';
+import { provideTranslocoTesting } from '../../../../testing/test-helpers';
 
 describe('MediaTopComponent', () => {
   let component: MediaTopComponent;
@@ -9,9 +10,10 @@ describe('MediaTopComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MediaTopComponent ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
+    imports: [MediaTopComponent],
+    schemas: [NO_ERRORS_SCHEMA],
+    providers: [provideTranslocoTesting()]
+})
     .compileComponents();
   });
 

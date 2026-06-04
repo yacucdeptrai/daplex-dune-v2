@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, Renderer2, Inject, OnDestroy, DOCUMENT } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@ngneat/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
-import { Table } from 'primeng/table';
-import { Menu } from 'primeng/menu';
+import { Table, TableModule } from 'primeng/table';
+import { Menu, MenuModule } from 'primeng/menu';
 import { first, map, merge, Observable, of, takeUntil, tap } from 'rxjs';
 
 import { ConfirmActionService, DestroyService, MediaService, QueueUploadService } from '../../../../core/services';
@@ -20,6 +20,16 @@ import { AddVideoComponent } from '../../dialogs/add-video';
 import { AddSubtitleComponent } from '../../dialogs/add-subtitle';
 import { AddSourceComponent } from '../../dialogs/add-source';
 import { buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { SharedModule } from 'primeng/api';
+import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { TooltipModule } from 'primeng/tooltip';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ShortDatePipe } from '../../../../shared/pipes/date-time-pipe/short-date/short-date.pipe';
+import { TimePipe } from '../../../../shared/pipes/date-time-pipe/time/time.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 @Component({
     selector: 'app-media',
@@ -27,7 +37,7 @@ import { buildTablePaginationParams, translocoEscape } from '../../../../core/ut
     styleUrls: ['./media.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, InputTextModule, ButtonModule, TableModule, SharedModule, NgIf, LazyLoadImageModule, NgSwitch, NgSwitchCase, TooltipModule, ConfirmDialogModule, MenuModule, ShortDatePipe, TimePipe, ThumbhashUrlPipe]
 })
 export class MediaComponent implements OnInit, OnDestroy {
   MediaType = MediaType;

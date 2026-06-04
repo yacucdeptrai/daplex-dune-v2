@@ -3,10 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { PermissionPipeService } from '../permission-pipe.service';
 import { UserDetails } from '../../../../core/models';
 
-@Pipe({
-    name: 'isGranted',
-    standalone: false
-})
+@Pipe({ name: 'isGranted' })
 export class IsGrantedPipe implements PipeTransform {
   constructor(private permissionPipeService: PermissionPipeService) { }
 

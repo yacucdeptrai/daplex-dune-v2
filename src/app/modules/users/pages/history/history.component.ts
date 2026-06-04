@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoService, TranslocoDirective } from '@ngneat/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { first, takeUntil } from 'rxjs';
 
@@ -12,6 +12,29 @@ import { DropdownOptionDto } from '../../../../core/dto/media';
 import { CursorPaginated, Genre, HistoryGroup, HistoryGroupable, Media, UserDetails } from '../../../../core/models';
 import { AuthService, ConfirmActionService, DestroyService, GenresService, HistoryService, ItemDataService, MediaService } from '../../../../core/services';
 import { trackHistoryGroup, track_Id, translocoEscape } from '../../../../core/utils';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { TooltipModule } from 'primeng/tooltip';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { NgIf, NgClass, NgFor } from '@angular/common';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { CalendarModule } from 'primeng/calendar';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { AltAutoComplete } from '../../../../core/utils/primeng/autocomplete';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { DropdownModule } from 'primeng/dropdown';
+import { ButtonModule } from 'primeng/button';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { TableModule } from 'primeng/table';
+import { SharedModule } from 'primeng/api';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { MenuTriggerDirective } from '../../../../shared/directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
+import { MenuDirective } from '../../../../shared/directives/cdk-menu-custom/menu/menu.directive';
+import { MenuItemDirective } from '../../../../shared/directives/cdk-menu-custom/menu-item/menu-item.directive';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DateAltPipe } from '../../../../shared/pipes/date-time-pipe/date-alt/date-alt.pipe';
+import { RelativeDatePipe } from '../../../../shared/pipes/date-time-pipe/relative-date/relative-date.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 interface FilterHistoryForm {
   startDate: FormControl<Date | null>;
@@ -29,7 +52,7 @@ interface FilterHistoryForm {
     styleUrls: ['./history.component.scss'],
     providers: [HistoryService, ItemDataService, DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [TranslocoDirective, ToggleButtonModule, TooltipModule, SelectButtonModule, NgIf, FormsModule, ReactiveFormsModule, FormHandlerDirective, CalendarModule, DisabledControlDirective, AltAutoComplete, RadioButtonModule, DropdownModule, ButtonModule, NgClass, InfiniteScrollDirective, NgFor, HistoryCardComponent, TableModule, SharedModule, LazyLoadImageModule, ProgressBarModule, RouterLink, MenuTriggerDirective, MenuDirective, MenuItemDirective, ConfirmDialogModule, DateAltPipe, RelativeDatePipe, ThumbhashUrlPipe]
 })
 export class HistoryComponent implements OnInit, OnDestroy {
   filterHistoryForm: FormGroup<FilterHistoryForm>;

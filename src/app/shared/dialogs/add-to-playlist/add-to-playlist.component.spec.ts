@@ -12,11 +12,11 @@ describe('AddToPlaylistComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AddToPlaylistComponent],
-      providers: [
+    imports: [AddToPlaylistComponent],
+    providers: [
         { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig({ _id: 'media-1' }) }
-      ]
-    })
+    ]
+})
       // PlaylistsService is a component-level provider; replace it and blank the template in the
       // SAME `set` (mixing `set` with `add`/`remove` is not allowed).
       .overrideComponent(AddToPlaylistComponent, {

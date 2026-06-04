@@ -13,18 +13,18 @@ describe('HomeHeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HomeHeaderComponent],
-      providers: [
+    imports: [HomeHeaderComponent],
+    providers: [
         { provide: Router, useValue: mockRouter() },
         { provide: DialogService, useValue: mockDialogService() },
         { provide: AuthService, useValue: { currentUser$: EMPTY } },
         { provide: MediaService, useValue: {} },
         {
-          provide: GenresService,
-          useValue: { findPageCursor: () => of({ results: [], totalResults: 0, hasNextPage: false }) }
+            provide: GenresService,
+            useValue: { findPageCursor: () => of({ results: [], totalResults: 0, hasNextPage: false }) }
         }
-      ]
-    })
+    ]
+})
       .overrideComponent(HomeHeaderComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(HomeHeaderComponent);

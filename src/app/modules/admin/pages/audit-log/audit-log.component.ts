@@ -1,11 +1,19 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AuditLogDetailsComponent } from '../../dialogs/audit-log-details/audit-log-details.component';
 
 import { CursorPageAuditLogDto } from '../../../../core/dto/audit-log';
 import { AuditLog, CursorPaginated } from '../../../../core/models';
 import { AuditLogService } from '../../../../core/services';
+import { InputTextModule } from 'primeng/inputtext';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { ButtonModule } from 'primeng/button';
+import { NgIf, DatePipe } from '@angular/common';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { TableModule } from 'primeng/table';
+import { SharedModule } from 'primeng/api';
 
 interface AuditLogFilterForm {
   type: FormControl<number | null>;
@@ -17,11 +25,11 @@ interface AuditLogFilterForm {
 }
 
 @Component({
-  selector: 'app-audit-log',
-  templateUrl: './audit-log.component.html',
-  styleUrls: ['./audit-log.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false
+    selector: 'app-audit-log',
+    templateUrl: './audit-log.component.html',
+    styleUrls: ['./audit-log.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [FormsModule, ReactiveFormsModule, InputTextModule, DisabledControlDirective, ButtonModule, NgIf, ProgressSpinnerModule, InfiniteScrollDirective, TableModule, SharedModule, DatePipe]
 })
 export class AuditLogComponent implements OnInit, OnDestroy {
   loadingAuditList: boolean = false;

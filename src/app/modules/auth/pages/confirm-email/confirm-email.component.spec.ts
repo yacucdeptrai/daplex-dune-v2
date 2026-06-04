@@ -10,12 +10,12 @@ describe('ConfirmEmailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ConfirmEmailComponent],
-      providers: [
+    imports: [ConfirmEmailComponent],
+    providers: [
         provideMockActivatedRoute({ queryParams: {} }),
         { provide: AuthService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(ConfirmEmailComponent, { set: { template: '' } })
       .compileComponents();
 

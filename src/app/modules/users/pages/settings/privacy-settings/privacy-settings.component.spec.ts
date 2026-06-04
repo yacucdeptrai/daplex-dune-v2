@@ -10,12 +10,12 @@ describe('PrivacySettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PrivacySettingsComponent],
-      providers: [
+    imports: [PrivacySettingsComponent],
+    providers: [
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         { provide: UsersService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(PrivacySettingsComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(PrivacySettingsComponent);

@@ -17,14 +17,14 @@ describe('FeaturedMediaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FeaturedMediaComponent],
-      providers: [
+    imports: [FeaturedMediaComponent],
+    providers: [
         { provide: Router, useValue: mockRouter() },
         { provide: DialogService, useValue: mockDialogService() },
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: AuthService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(FeaturedMediaComponent, { set: { template: '' } })
       .compileComponents();
 

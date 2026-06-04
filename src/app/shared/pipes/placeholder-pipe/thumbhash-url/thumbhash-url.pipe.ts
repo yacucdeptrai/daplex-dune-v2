@@ -2,10 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 import { thumbHashToDataURL } from '../../../../core/utils';
 
-@Pipe({
-    name: 'thumbhashUrl',
-    standalone: false
-})
+@Pipe({ name: 'thumbhashUrl' })
 export class ThumbhashUrlPipe implements PipeTransform {
 
   transform(value: string | null | undefined): string {

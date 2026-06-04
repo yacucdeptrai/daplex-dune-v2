@@ -9,11 +9,11 @@ describe('AddExtStreamsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AddExtStreamsComponent],
-      providers: [
+    imports: [AddExtStreamsComponent],
+    providers: [
         { provide: MediaService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(AddExtStreamsComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(AddExtStreamsComponent);

@@ -12,13 +12,13 @@ describe('MediaSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MediaSettingsComponent],
-      providers: [
+    imports: [MediaSettingsComponent],
+    providers: [
         { provide: TranslocoService, useValue: { ...mockTranslocoService(), selectTranslation: () => of({}) } },
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         { provide: UsersService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(MediaSettingsComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(MediaSettingsComponent);
