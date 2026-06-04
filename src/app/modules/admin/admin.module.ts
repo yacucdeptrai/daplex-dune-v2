@@ -24,7 +24,7 @@ import { ChipModule } from 'primeng/chip';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { AdminRoutingModule } from './admin-routing.module';
-import { AdminLayoutModule } from '../../shared/layouts/admin-layout';
+
 import { MediaComponent } from './pages/media/media.component';
 import { GenresComponent } from './pages/genres/genres.component';
 import { ProductionsComponent } from './pages/productions/productions.component';
@@ -32,17 +32,17 @@ import { CreateGenreComponent } from './dialogs/create-genre/create-genre.compon
 import { UpdateGenreComponent } from './dialogs/update-genre/update-genre.component';
 import { AuditLogComponent } from './pages/audit-log/audit-log.component';
 import { AuditLogDetailsComponent } from './dialogs/audit-log-details/audit-log-details.component';
-import { FileUploadModule } from '../../shared/components/file-upload';
-import { VerticalTabModule } from '../../shared/components/vertical-tab';
-import { VideoPlayerModule } from '../../shared/components/video-player';
-import { StepperModule } from '../../shared/components/stepper';
-import { ImageEditorModule } from '../../shared/dialogs/image-editor';
-import { FormDirectiveModule } from '../../shared/directives/form-directive';
-import { ValidationPipeModule } from '../../shared/pipes/validation-pipe';
-import { DateTimePipeModule } from '../../shared/pipes/date-time-pipe';
-import { NumberPipeModule } from '../../shared/pipes/number-pipe';
-import { UrlPipeModule } from '../../shared/pipes/url-pipe/url-pipe.module';
-import { PlaceholderPipeModule } from '../../shared/pipes/placeholder-pipe';
+
+
+
+
+
+
+
+
+
+
+
 import { WS_AUTH, WS_NAMESPACE, WsModule } from '../../shared/modules/ws';
 import { CreateProductionComponent } from './dialogs/create-production/create-production.component';
 import { UpdateProductionComponent } from './dialogs/update-production/update-production.component';
@@ -57,66 +57,53 @@ import { ConfigureEpisodeComponent } from './dialogs/configure-episode/configure
 import { AddExtStreamsComponent } from './components/add-ext-streams/add-ext-streams.component';
 import { AuthGuard, ConfirmDeactivateGuard, WsActivatorGuard } from '../../core/guards';
 import { ConfirmActionService, QueueUploadService } from '../../core/services';
-import { AltAutoCompleteModule } from '../../core/utils/primeng';
+
 
 @NgModule({
     imports: [
-        CommonModule,
-        AdminRoutingModule,
-        ReactiveFormsModule,
-        TranslocoModule,
-        AdminLayoutModule,
-        FileUploadModule,
-        VerticalTabModule,
-        VideoPlayerModule,
-        StepperModule,
-        ImageEditorModule,
-        FormDirectiveModule,
-        ValidationPipeModule,
-        DateTimePipeModule,
-        NumberPipeModule,
-        UrlPipeModule,
-        PlaceholderPipeModule,
-        AltAutoCompleteModule,
-        LazyLoadImageModule,
-        ButtonModule,
-        InputTextModule,
-        InputTextareaModule,
-        MenuModule,
-        TooltipModule,
-        TableModule,
-        DialogModule,
-        DynamicDialogModule,
-        ProgressSpinnerModule,
-        ConfirmDialogModule,
-        RadioButtonModule,
-        InputSwitchModule,
-        InputNumberModule,
-        InputMaskModule,
-        DropdownModule,
-        MessageModule,
-        ChipModule,
-        WsModule,
-        InfiniteScrollModule,
-        MediaComponent,
-        GenresComponent,
-        ProductionsComponent,
-        AuditLogComponent,
-        CreateGenreComponent,
-        UpdateGenreComponent,
-        AuditLogDetailsComponent,
-        CreateProductionComponent,
-        UpdateProductionComponent,
-        CreateMediaComponent,
-        ConfigureMediaComponent,
-        AddVideoComponent,
-        UpdateVideoComponent,
-        CreateEpisodeComponent,
-        AddSubtitleComponent,
-        AddSourceComponent,
-        ConfigureEpisodeComponent,
-        AddExtStreamsComponent
-    ],
+    CommonModule,
+    AdminRoutingModule,
+    ReactiveFormsModule,
+    TranslocoModule,
+    LazyLoadImageModule,
+    ButtonModule,
+    InputTextModule,
+    InputTextareaModule,
+    MenuModule,
+    TooltipModule,
+    TableModule,
+    DialogModule,
+    DynamicDialogModule,
+    ProgressSpinnerModule,
+    ConfirmDialogModule,
+    RadioButtonModule,
+    InputSwitchModule,
+    InputNumberModule,
+    InputMaskModule,
+    DropdownModule,
+    MessageModule,
+    ChipModule,
+    WsModule,
+    InfiniteScrollModule,
+    MediaComponent,
+    GenresComponent,
+    ProductionsComponent,
+    AuditLogComponent,
+    CreateGenreComponent,
+    UpdateGenreComponent,
+    AuditLogDetailsComponent,
+    CreateProductionComponent,
+    UpdateProductionComponent,
+    CreateMediaComponent,
+    ConfigureMediaComponent,
+    AddVideoComponent,
+    UpdateVideoComponent,
+    CreateEpisodeComponent,
+    AddSubtitleComponent,
+    AddSourceComponent,
+    ConfigureEpisodeComponent,
+    AddExtStreamsComponent
+],
     providers: [
         DialogService,
         ConfirmationService,

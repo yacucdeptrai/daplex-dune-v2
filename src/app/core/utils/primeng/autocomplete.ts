@@ -249,8 +249,4 @@ export class AltAutoComplete extends AutoComplete {
   modelLength: Signal<number> = computed(() => this.modelValue()?.length || 0);
 }
 
-@NgModule({
-    imports: [CommonModule, OverlayModule, InputTextModule, ButtonModule, SharedModule, RippleModule, ScrollerModule, AutoFocusModule, TimesCircleIcon, SpinnerIcon, TimesIcon, ChevronDownIcon, AltAutoComplete],
-    exports: [AltAutoComplete, OverlayModule, SharedModule, ScrollerModule, AutoFocusModule]
-})
-export class AltAutoCompleteModule { }
+

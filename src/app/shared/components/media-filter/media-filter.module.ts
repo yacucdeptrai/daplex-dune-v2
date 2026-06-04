@@ -12,27 +12,24 @@ import { ChipModule } from 'primeng/chip';
 
 import { MediaFilterComponent } from './media-filter.component';
 import { MediaFilterService } from './media-filter.service';
-import { AltAutoCompleteModule } from '../../../core/utils/primeng';
-import { CdkMenuCustomModule } from '../../directives/cdk-menu-custom';
-import { FormDirectiveModule } from '../../directives/form-directive';
+
+
+
 
 @NgModule({
     imports: [
-        CommonModule,
-        RouterModule,
-        ReactiveFormsModule,
-        TranslocoModule,
-        CdkMenuCustomModule,
-        FormDirectiveModule,
-        ButtonModule,
-        DropdownModule,
-        AltAutoCompleteModule,
-        InputTextModule,
-        ToggleButtonModule,
-        TooltipModule,
-        ChipModule,
-        MediaFilterComponent
-    ],
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    TranslocoModule,
+    ButtonModule,
+    DropdownModule,
+    InputTextModule,
+    ToggleButtonModule,
+    TooltipModule,
+    ChipModule,
+    MediaFilterComponent
+],
     providers: [MediaFilterService],
     exports: [MediaFilterComponent]
 })

@@ -38,101 +38,84 @@ import { SubtitleSettingsComponent } from './pages/settings/subtitle-settings/su
 import { PlaylistCardComponent } from './components/playlist-card';
 import { HistoryCardComponent } from './components/history-card';
 import { RatingCardComponent } from './components/rating-card';
-import { ColorPickerModule } from '../../shared/components/color-picker';
+
 import { CreatePlaylistComponent } from './dialogs/create-playlist';
 import { UpdateUsernameComponent } from './dialogs/update-username';
 import { UpdateEmailComponent } from './dialogs/update-email';
 import { UpdatePasswordComponent } from './dialogs/update-password';
 import { UpdateBirthdateComponent } from './dialogs/update-birthdate';
-import { AddToPlaylistModule } from '../../shared/dialogs/add-to-playlist';
-import { AddAllToPlaylistModule } from '../../shared/dialogs/add-all-to-playlist';
-import { PlaylistSettingsModule } from '../../shared/dialogs/playlist-settings';
-import { CommonDirectiveModule } from '../../shared/directives/common-directive';
-import { FormDirectiveModule } from '../../shared/directives/form-directive';
-import { CdkMenuCustomModule } from '../../shared/directives/cdk-menu-custom';
+
+
+
+
+
+
 import { OverlayPanelModule } from '../../shared/directives/overlay-panel';
-import { DateTimePipeModule } from '../../shared/pipes/date-time-pipe';
-import { NumberPipeModule } from '../../shared/pipes/number-pipe';
-import { ValidationPipeModule } from '../../shared/pipes/validation-pipe';
+
+
+
 import { MarkdownPipeModule } from '../../shared/pipes/markdown-pipe';
 import { HtmlPipeModule } from '../../shared/pipes/html-pipe';
-import { StringPipeModule } from '../../shared/pipes/string-pipe';
-import { PlaceholderPipeModule } from '../../shared/pipes/placeholder-pipe';
+
+
 import { ConfirmActionService, UsersService } from '../../core/services';
 import { RatedComponent } from './pages/rated/rated.component';
-import { StarRatingModule } from '../../shared/components/star-rating';
-import { SkeletonModule } from '../../shared/components/skeleton';
-import { AvatarModule } from '../../shared/components/avatar';
-import { SelectOrderModule } from '../../shared/components/select-order';
-import { AltAutoCompleteModule } from '../../core/utils/primeng';
+
+
+
+
+
 
 @NgModule({
     imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        LayoutModule,
-        DragDropModule,
-        TranslocoModule,
-        UsersRoutingModule,
-        AddToPlaylistModule,
-        AddAllToPlaylistModule,
-        PlaylistSettingsModule,
-        ColorPickerModule,
-        AvatarModule,
-        SelectOrderModule,
-        NumberPipeModule,
-        DateTimePipeModule,
-        ValidationPipeModule,
-        MarkdownPipeModule,
-        HtmlPipeModule,
-        StringPipeModule,
-        PlaceholderPipeModule,
-        CommonDirectiveModule,
-        LazyLoadImageModule,
-        InfiniteScrollModule,
-        FormDirectiveModule,
-        CdkMenuCustomModule,
-        OverlayPanelModule,
-        StarRatingModule,
-        SkeletonModule,
-        AltAutoCompleteModule,
-        ButtonModule,
-        InputTextModule,
-        InputTextareaModule,
-        CalendarModule,
-        DropdownModule,
-        ConfirmDialogModule,
-        DynamicDialogModule,
-        RadioButtonModule,
-        ProgressBarModule,
-        InputSwitchModule,
-        SelectButtonModule,
-        ToggleButtonModule,
-        TooltipModule,
-        TabMenuModule,
-        SliderAltModule,
-        TableModule,
-        UsersLayoutComponent,
-        SettingsLayoutComponent,
-        ProfileComponent,
-        PlaylistsComponent,
-        HistoryComponent,
-        RatedComponent,
-        CreatePlaylistComponent,
-        PlaylistCardComponent,
-        HistoryCardComponent,
-        RatingCardComponent,
-        AccountSettingsComponent,
-        ProfileSettingsComponent,
-        PrivacySettingsComponent,
-        MediaSettingsComponent,
-        UpdateUsernameComponent,
-        UpdateEmailComponent,
-        UpdatePasswordComponent,
-        UpdateBirthdateComponent,
-        SubtitleSettingsComponent
-    ],
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    LayoutModule,
+    DragDropModule,
+    TranslocoModule,
+    UsersRoutingModule,
+    MarkdownPipeModule,
+    HtmlPipeModule,
+    LazyLoadImageModule,
+    InfiniteScrollModule,
+    OverlayPanelModule,
+    ButtonModule,
+    InputTextModule,
+    InputTextareaModule,
+    CalendarModule,
+    DropdownModule,
+    ConfirmDialogModule,
+    DynamicDialogModule,
+    RadioButtonModule,
+    ProgressBarModule,
+    InputSwitchModule,
+    SelectButtonModule,
+    ToggleButtonModule,
+    TooltipModule,
+    TabMenuModule,
+    SliderAltModule,
+    TableModule,
+    UsersLayoutComponent,
+    SettingsLayoutComponent,
+    ProfileComponent,
+    PlaylistsComponent,
+    HistoryComponent,
+    RatedComponent,
+    CreatePlaylistComponent,
+    PlaylistCardComponent,
+    HistoryCardComponent,
+    RatingCardComponent,
+    AccountSettingsComponent,
+    ProfileSettingsComponent,
+    PrivacySettingsComponent,
+    MediaSettingsComponent,
+    UpdateUsernameComponent,
+    UpdateEmailComponent,
+    UpdatePasswordComponent,
+    UpdateBirthdateComponent,
+    SubtitleSettingsComponent
+],
     providers: [
         UsersService,
         DialogService,

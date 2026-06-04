@@ -8,30 +8,25 @@ import { TagModule } from 'primeng/tag';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 import { MediaListComponent } from './media-list.component';
-import { SkeletonModule } from '../skeleton';
-import { CdkMenuCustomModule } from '../../directives/cdk-menu-custom';
+
+
 import { OverlayPanelModule } from '../../directives/overlay-panel';
-import { NumberPipeModule } from '../../pipes/number-pipe';
-import { DateTimePipeModule } from '../../pipes/date-time-pipe';
-import { PlaceholderPipeModule } from '../../pipes/placeholder-pipe';
+
+
+
 
 @NgModule({
     imports: [
-        CommonModule,
-        RouterModule,
-        LazyLoadImageModule,
-        SkeletonModule,
-        TranslocoModule,
-        NumberPipeModule,
-        DateTimePipeModule,
-        PlaceholderPipeModule,
-        CdkMenuCustomModule,
-        OverlayPanelModule,
-        ButtonModule,
-        TagModule,
-        DynamicDialogModule,
-        MediaListComponent
-    ],
+    CommonModule,
+    RouterModule,
+    LazyLoadImageModule,
+    TranslocoModule,
+    OverlayPanelModule,
+    ButtonModule,
+    TagModule,
+    DynamicDialogModule,
+    MediaListComponent
+],
     exports: [MediaListComponent]
 })
 export class MediaListModule { }
