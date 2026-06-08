@@ -1,9 +1,9 @@
 <ng-container *transloco="let t; loadingTpl: noMediaList">
   <div class="tw-relative">
     @if (mediaList?.length) {
-      <swiper [config]="swiperConfig" [ngClass]="swiperClass || ''" (slideChange)="onSwiperSlideChange($event)">
+      <swiper-container #swiperRef init="false" [ngClass]="swiperClass || ''" (swiperslidechange)="onSwiperSlideChange($event)">
         @for (media of mediaList; track track_Id($index, media)) {
-          <ng-template swiperSlide>
+          <swiper-slide>
             <div class="tw-flex">
               <div class="tw-hidden md:tw-block tw-w-full sm:tw-w-1/6 tw-flex-shrink-0 tw-min-w-[220px]">
                 <div class="tw-aspect-w-2 tw-aspect-h-3">
@@ -95,9 +95,9 @@
                   </div>
                 </div>
               </div>
-            </ng-template>
+          </swiper-slide>
           }
-        </swiper>
+        </swiper-container>
         <div class="tw-absolute tw-right-4 tw-bottom-4 tw-z-2">
           <button id="swiper-nav-prev" type="button" role="navigation" aria-label="Previous show" pButton
             icon="ms ms-navigate-before"

@@ -1,16 +1,15 @@
-import { Component, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, OnDestroy, CUSTOM_ELEMENTS_SCHEMA, ViewChild, ElementRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
+import { Swiper, SwiperOptions } from 'swiper/types';
+import { register } from 'swiper/element/bundle';
 
 import { Media } from '../../../../core/models';
 import { AuthService } from '../../../../core/services';
 import { track_Id } from '../../../../core/utils';
 import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playlist';
-import { NativeSwiperOptions, NativeSwiperRef } from '../../../../shared/components/swiper';
 import { NgTemplateOutlet, NgClass, NgStyle } from '@angular/common';
-import { SwiperComponent } from '../../../../shared/components/swiper/swiper.component';
-import { SwiperSlideDirective } from '../../../../shared/components/swiper/swiper-slide.directive';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonComponent } from '../../../../shared/components/skeleton/skeleton.component';
@@ -18,12 +17,15 @@ import { RgbColorPipe } from '../../../../shared/pipes/number-pipe/rgb-color/rgb
 import { TimePipe } from '../../../../shared/pipes/date-time-pipe/time/time.pipe';
 import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
+register();
+
 @Component({
     selector: 'app-featured-media',
     templateUrl: './featured-media.component.html',
     styleUrls: ['./featured-media.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgTemplateOutlet, TranslocoDirective, SwiperComponent, NgClass, SwiperSlideDirective, LazyLoadImageModule, NgStyle, RouterLink, ButtonModule, SkeletonComponent, RgbColorPipe, TimePipe, ThumbhashUrlPipe]
+    imports: [NgTemplateOutlet, TranslocoDirective, NgClass, LazyLoadImageModule, NgStyle, RouterLink, ButtonModule, SkeletonComponent, RgbColorPipe, TimePipe, ThumbhashUrlPipe],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class FeaturedMediaComponent implements OnDestroy {
   track_Id = track_Id;
@@ -32,7 +34,17 @@ export class FeaturedMediaComponent implements OnDestroy {
   @Input() mediaList?: Media[];
   activeTabIndex: number = 0;
   previousSlide?: Element;
-  swiperConfig: NativeSwiperOptions;
+  swiperConfig: SwiperOptions;
+
+  private _swiperRef?: ElementRef;
+
+  @ViewChild('swiperRef', { static: false }) set swiperRef(ref: ElementRef | undefined) {
+    if (ref && !this._swiperRef) {
+      this._swiperRef = ref;
+      Object.assign(this._swiperRef.nativeElement, this.swiperConfig);
+      this._swiperRef.nativeElement.initialize();
+    }
+  }
 
   constructor(private router: Router, private dialogService: DialogService, private translocoService: TranslocoService,
     private authService: AuthService) {
@@ -55,7 +67,10 @@ export class FeaturedMediaComponent implements OnDestroy {
     };
   }
 
-  onSwiperSlideChange([swiper]: [NativeSwiperRef]): void {
+  onSwiperSlideChange(event: Event): void {
+    const swiper = (event.target as any).swiper as Swiper;
+    if (!swiper) return;
+
     if (this.previousSlide) {
       const buttons = this.previousSlide.querySelectorAll<HTMLButtonElement | HTMLAnchorElement>('button, a');
       buttons.forEach(button => {
@@ -63,11 +78,13 @@ export class FeaturedMediaComponent implements OnDestroy {
       });
     }
     const slide = swiper.slides[swiper.activeIndex];
-    const buttons = slide.querySelectorAll<HTMLButtonElement | HTMLAnchorElement>('button, a');
-    buttons.forEach(button => {
-      button.tabIndex = 0;
-    });
-    this.previousSlide = slide;
+    if (slide) {
+      const buttons = slide.querySelectorAll<HTMLButtonElement | HTMLAnchorElement>('button, a');
+      buttons.forEach(button => {
+        button.tabIndex = 0;
+      });
+      this.previousSlide = slide;
+    }
   }
 
   showAddToPlaylistDialog(media: Media) {
