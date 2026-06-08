@@ -8,7 +8,7 @@ import { MediaFilterOptionsDto, PaginateMediaDto } from '../../../../core/dto/me
 import { Media, Paginated } from '../../../../core/models';
 import { MediaFilterComponent as MediaFilterComponent_1 } from '../../../../shared/components/media-filter/media-filter.component';
 import { MediaListComponent } from '../../../../shared/components/media-list/media-list.component';
-import { NgIf } from '@angular/common';
+
 import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
@@ -17,7 +17,7 @@ import { PaginatorModule } from 'primeng/paginator';
     styleUrls: ['./search.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [MediaService, DestroyService],
-    imports: [MediaFilterComponent_1, MediaListComponent, NgIf, PaginatorModule]
+    imports: [MediaFilterComponent_1, MediaListComponent, PaginatorModule]
 })
 export class SearchComponent implements OnInit, AfterViewInit {
   @ViewChild('mediaFilter') mediaFilter?: MediaFilterComponent;

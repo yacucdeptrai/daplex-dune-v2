@@ -15,7 +15,7 @@ import { trackHistoryGroup, track_Id, translocoEscape } from '../../../../core/u
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { NgIf, NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { CalendarModule } from 'primeng/calendar';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
@@ -52,7 +52,7 @@ interface FilterHistoryForm {
     styleUrls: ['./history.component.scss'],
     providers: [HistoryService, ItemDataService, DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoDirective, ToggleButtonModule, TooltipModule, SelectButtonModule, NgIf, FormsModule, ReactiveFormsModule, FormHandlerDirective, CalendarModule, DisabledControlDirective, AltAutoComplete, RadioButtonModule, DropdownModule, ButtonModule, NgClass, InfiniteScrollDirective, NgFor, HistoryCardComponent, TableModule, SharedModule, LazyLoadImageModule, ProgressBarModule, RouterLink, MenuTriggerDirective, MenuDirective, MenuItemDirective, ConfirmDialogModule, DateAltPipe, RelativeDatePipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ToggleButtonModule, TooltipModule, SelectButtonModule, FormsModule, ReactiveFormsModule, FormHandlerDirective, CalendarModule, DisabledControlDirective, AltAutoComplete, RadioButtonModule, DropdownModule, ButtonModule, NgClass, InfiniteScrollDirective, HistoryCardComponent, TableModule, SharedModule, LazyLoadImageModule, ProgressBarModule, RouterLink, MenuTriggerDirective, MenuDirective, MenuItemDirective, ConfirmDialogModule, DateAltPipe, RelativeDatePipe, ThumbhashUrlPipe]
 })
 export class HistoryComponent implements OnInit, OnDestroy {
   filterHistoryForm: FormGroup<FilterHistoryForm>;

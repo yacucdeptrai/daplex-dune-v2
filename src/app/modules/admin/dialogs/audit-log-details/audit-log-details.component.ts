@@ -3,7 +3,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 import { AuditLogService } from '../../../../core/services';
 import { AuditLog, AuditLogChange } from '../../../../core/models';
-import { NgIf, NgFor, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ButtonModule } from 'primeng/button';
 
@@ -16,7 +16,7 @@ interface AuditLogDetailsDialogData {
     templateUrl: './audit-log-details.component.html',
     styleUrls: ['./audit-log-details.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgIf, ProgressSpinnerModule, NgFor, ButtonModule, DatePipe]
+    imports: [ProgressSpinnerModule, ButtonModule, DatePipe]
 })
 export class AuditLogDetailsComponent implements OnInit {
   loading: boolean = true;

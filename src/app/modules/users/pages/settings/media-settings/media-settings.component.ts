@@ -14,7 +14,7 @@ import { SliderAltModule } from 'primeng/slideralt';
 import { DisabledControlDirective } from '../../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { SelectOrderComponent } from '../../../../../shared/components/select-order/select-order.component';
-import { NgIf } from '@angular/common';
+
 import { ButtonModule } from 'primeng/button';
 
 interface UpdateMediaForm {
@@ -44,7 +44,7 @@ interface UpdateMediaForm {
             ])
         ])
     ],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, SliderAltModule, DisabledControlDirective, InputSwitchModule, SelectOrderComponent, NgIf, ButtonModule]
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, SliderAltModule, DisabledControlDirective, InputSwitchModule, SelectOrderComponent, ButtonModule]
 })
 export class MediaSettingsComponent implements OnInit {
   currentUser: UserDetails | null = null;

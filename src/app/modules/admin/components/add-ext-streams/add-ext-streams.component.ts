@@ -11,7 +11,7 @@ import { FormHandlerDirective } from '../../../../shared/directives/form-directi
 import { InputTextModule } from 'primeng/inputtext';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { ButtonModule } from 'primeng/button';
-import { NgIf, NgFor, NgSwitch, NgSwitchCase } from '@angular/common';
+
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
@@ -24,7 +24,7 @@ interface FindExtMediaForm {
     templateUrl: './add-ext-streams.component.html',
     styleUrls: ['./add-ext-streams.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputTextModule, DisabledControlDirective, ButtonModule, NgIf, NgFor, NgSwitch, NgSwitchCase, LazyLoadImageModule, ProgressSpinnerModule]
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputTextModule, DisabledControlDirective, ButtonModule, LazyLoadImageModule, ProgressSpinnerModule]
 })
 export class AddExtStreamsComponent implements OnInit {
   @Output() onSelect = new EventEmitter<ExtStreamSelected>();

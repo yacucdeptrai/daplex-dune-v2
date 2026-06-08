@@ -5,7 +5,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RegexPattern } from '../../../../core/enums';
 import { AuthService } from '../../../../core/services';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
@@ -23,7 +23,7 @@ interface ResetPasswordForm {
     templateUrl: './reset-password.component.html',
     styleUrls: ['./reset-password.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoDirective, NgIf, ProgressBarModule, NgClass, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, ButtonModule, InvalidControlDirective, RouterLink, FirstErrorKeyPipe]
+    imports: [TranslocoDirective, ProgressBarModule, NgClass, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, ButtonModule, InvalidControlDirective, RouterLink, FirstErrorKeyPipe]
 })
 export class ResetPasswordComponent {
   resetPasswordForm: FormGroup<ResetPasswordForm>;

@@ -6,7 +6,7 @@ import { HistoryGroupable, Media, UserDetails } from '../../../../core/models';
 import { AuthService, DestroyService } from '../../../../core/services';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ContextMenuTriggerDirective } from '../../../../shared/directives/cdk-menu-custom/context-menu-trigger/context-menu-trigger.directive';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ButtonModule } from 'primeng/button';
@@ -20,7 +20,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
     templateUrl: './history-card.component.html',
     styleUrls: ['./history-card.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoDirective, ContextMenuTriggerDirective, RouterLink, NgIf, LazyLoadImageModule, ProgressBarModule, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, NgClass, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ContextMenuTriggerDirective, RouterLink, LazyLoadImageModule, ProgressBarModule, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, NgClass, ThumbhashUrlPipe]
 })
 export class HistoryCardComponent implements OnInit {
   @Input() history!: HistoryGroupable;

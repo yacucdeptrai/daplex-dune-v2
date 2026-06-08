@@ -14,7 +14,7 @@ import {
   IMAGE_PREVIEW_SIZE, UPLOAD_AVATAR_MIN_HEIGHT, UPLOAD_AVATAR_MIN_WIDTH, UPLOAD_AVATAR_RATIO, UPLOAD_AVATAR_SIZE,
   UPLOAD_AVATAR_TYPES, UPLOAD_BANNER_MIN_HEIGHT, UPLOAD_BANNER_MIN_WIDTH, UPLOAD_BANNER_SIZE, UPLOAD_BANNER_TYPES
 } from '../../../../../../environments/config';
-import { NgIf, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ContextMenuTriggerDirective } from '../../../../../shared/directives/cdk-menu-custom/context-menu-trigger/context-menu-trigger.directive';
 import { ButtonModule } from 'primeng/button';
@@ -62,7 +62,7 @@ interface UpdateProfileForm {
             ])
         ])
     ],
-    imports: [TranslocoDirective, NgIf, LazyLoadImageModule, NgStyle, ContextMenuTriggerDirective, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, AvatarComponent, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, RgbColorPipe, FirstErrorKeyPipe, MarkedPipe, SubstringPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, ContextMenuTriggerDirective, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, AvatarComponent, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, RgbColorPipe, FirstErrorKeyPipe, MarkedPipe, SubstringPipe, ThumbhashUrlPipe]
 })
 export class ProfileSettingsComponent implements OnInit, OnDestroy {
   currentUser: UserDetails | null = null;

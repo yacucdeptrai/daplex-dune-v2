@@ -8,7 +8,7 @@ import { AuthService, DestroyService } from '../../../../core/services';
 import { SEND_RECOVERY_EMAIL_LIMIT_TTL } from '../../../../../environments/config';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { AutofocusDirective } from '../../../../shared/directives/form-directive/autofocus/autofocus.directive';
@@ -31,7 +31,7 @@ interface RecoverPasswordForm {
     styleUrls: ['./forgot-password.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [TranslocoDirective, ProgressBarModule, NgClass, NgIf, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, AutofocusDirective, InputTextModule, InvalidControlDirective, RecaptchaComponent_1, RecaptchaValueAccessorDirective, ButtonModule, RouterLink, FirstErrorKeyPipe, TimePipe]
+    imports: [TranslocoDirective, ProgressBarModule, NgClass, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, AutofocusDirective, InputTextModule, InvalidControlDirective, RecaptchaComponent_1, RecaptchaValueAccessorDirective, ButtonModule, RouterLink, FirstErrorKeyPipe, TimePipe]
 })
 export class ForgotPasswordComponent implements OnInit {
   @ViewChild('reCaptcha') reCaptcha?: RecaptchaComponent;

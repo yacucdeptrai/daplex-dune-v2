@@ -4,7 +4,8 @@
       class="p-button-outlined p-button-rounded p-button-secondary p-button-text tw-ml-auto" (click)="closeDialog()">
     </button>
   </div>
-  <div *ngIf="media; else loadingSpinner">
+  @if (media) {
+    <div>
     <app-vertical-tab class="configure-media-tab" height="var(--vert-tab-height)"
       panelStyleClass="tw-max-w-8xl tw-mx-auto tw-my-8" contentStyleClass="tw-ml-8 tw-mr-8 md:tw-mr-24 md:tw-ml-0">
       <!--General info-->
@@ -83,9 +84,10 @@
               </div>
               <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
               <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-gap-2 tw-content-center">
-                <p-chip *ngFor="let genre of updateMediaForm.value.genres" [label]="genre.name" [removable]="true"
-                  styleClass="p-chip-sm tw-rounded-full"
-                  (onRemove)="genreAC.removeOptionByObject(genre); genreAC.cd.markForCheck()"></p-chip>
+                @for (genre of updateMediaForm.value.genres; track genre._id || $index) {
+                  <p-chip [label]="genre.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full"
+                    (onRemove)="genreAC.removeOptionByObject(genre); genreAC.cd.markForCheck()"></p-chip>
+                }
               </div>
             </div>
             <div class="tw-flex max-md:tw-flex-wrap tw-my-2">
@@ -103,9 +105,10 @@
               </div>
               <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
               <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-gap-2 tw-content-center">
-                <p-chip *ngFor="let studio of updateMediaForm.value.studios" [label]="studio.name" [removable]="true"
-                  styleClass="p-chip-sm tw-rounded-full"
-                  (onRemove)="studioAC.removeOptionByObject(studio); studioAC.cd.markForCheck()"></p-chip>
+                @for (studio of updateMediaForm.value.studios; track studio._id || $index) {
+                  <p-chip [label]="studio.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full"
+                    (onRemove)="studioAC.removeOptionByObject(studio); studioAC.cd.markForCheck()"></p-chip>
+                }
               </div>
             </div>
             <div class="tw-flex max-md:tw-flex-wrap tw-my-2">
@@ -123,9 +126,10 @@
               </div>
               <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
               <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-gap-2 tw-content-center">
-                <p-chip *ngFor="let producer of updateMediaForm.value.producers" [label]="producer.name"
-                  [removable]="true" styleClass="p-chip-sm tw-rounded-full"
-                  (onRemove)="producerAC.removeOptionByObject(producer); producerAC.cd.markForCheck()"></p-chip>
+                @for (producer of updateMediaForm.value.producers; track producer._id || $index) {
+                  <p-chip [label]="producer.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full"
+                    (onRemove)="producerAC.removeOptionByObject(producer); producerAC.cd.markForCheck()"></p-chip>
+                }
               </div>
             </div>
             <div class="tw-flex max-md:tw-flex-wrap tw-my-2">
@@ -143,9 +147,10 @@
               </div>
               <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
               <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-gap-2 tw-content-center">
-                <p-chip *ngFor="let tag of updateMediaForm.value.tags" [label]="tag.name" [removable]="true"
-                  styleClass="p-chip-sm tw-rounded-full"
-                  (onRemove)="tagAC.removeOptionByObject(tag); tagAC.cd.markForCheck()"></p-chip>
+                @for (tag of updateMediaForm.value.tags; track tag._id || $index) {
+                  <p-chip [label]="tag.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full"
+                    (onRemove)="tagAC.removeOptionByObject(tag); tagAC.cd.markForCheck()"></p-chip>
+                }
               </div>
             </div>
             <label for="release-date" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
@@ -168,7 +173,7 @@
             <small id="release-date-error" class="p-error tw-text-xs tw-block tw-my-2"
               [invalidControl]="updateMediaForm.controls.releaseDate">{{ updateMediaForm.controls.releaseDate.errors
               | firstErrorKey:'updateMedia':'releaseDate' }}</small>
-            <ng-container *ngIf="media.type === MediaType.TV">
+            @if (media.type === MediaType.TV) {
               <label for="last-air-date" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
                 t('admin.updateMedia.lastAirDate') }}</label>
               <div id="last-air-date" formGroupName="lastAirDate" class="dropdown-group tw-flex tw-flex-wrap tw-w-full"
@@ -187,10 +192,12 @@
                   scrollHeight="300px">
                 </p-dropdown>
               </div>
-              <small id="last-air-date-error" *ngIf="updateMediaForm.controls.lastAirDate"
-                class="p-error tw-text-xs tw-block tw-my-2" [invalidControl]="updateMediaForm.controls.lastAirDate">{{
-                updateMediaForm.controls.lastAirDate.errors | firstErrorKey:'updateMedia':'lastAirDate' }}</small>
-            </ng-container>
+              @if (updateMediaForm.controls.lastAirDate) {
+                <small id="last-air-date-error" class="p-error tw-text-xs tw-block tw-my-2"
+                  [invalidControl]="updateMediaForm.controls.lastAirDate">{{
+                  updateMediaForm.controls.lastAirDate.errors | firstErrorKey:'updateMedia':'lastAirDate' }}</small>
+              }
+            }
             <div class="tw-flex tw-flex-wrap">
               <div class="tw-w-full sm:tw-w-1/3">
                 <label for="visibility" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
@@ -223,7 +230,7 @@
                 <label for="status" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
                   t('admin.updateMedia.status') }}</label>
                 <div id="status">
-                  <ng-container *ngIf="media.type === MediaType.TV; else isMovie">
+                  @if (media.type === MediaType.TV) {
                     <p-radioButton name="status" value="upcoming" [label]="t('media.statusOptions.upcoming')"
                       formControlName="status" class="tw-block tw-mb-2">
                     </p-radioButton>
@@ -233,15 +240,14 @@
                     <p-radioButton name="status" value="aired" [label]="t('media.statusOptions.aired')"
                       formControlName="status" class="tw-block tw-mb-2">
                     </p-radioButton>
-                  </ng-container>
-                  <ng-template #isMovie>
+                  } @else {
                     <p-radioButton name="status" value="upcoming" [label]="t('media.statusOptions.upcoming')"
                       formControlName="status" class="tw-block tw-mb-2">
                     </p-radioButton>
                     <p-radioButton name="status" value="released" [label]="t('media.statusOptions.released')"
                       formControlName="status" class="tw-block">
                     </p-radioButton>
-                  </ng-template>
+                  }
                 </div>
               </div>
             </div>
@@ -298,12 +304,14 @@
                   t('admin.mediaScanner.enabled') }}</label>
                 <p-inputSwitch formControlName="enabled" inputId="scanner-enabled" class="tw-ml-4"></p-inputSwitch>
               </div>
-              <div *ngIf="media.type === MediaType.TV" class="tw-flex tw-mt-2">
-                <label for="scanner-tv-season" class="tw-inline-block tw-text-base tw-font-medium">{{
-                  t('admin.mediaScanner.tvSeason') }}</label>
-                <input formControlName="tvSeason" class="tw-ml-4" id="scanner-tv-season" type="text"
-                  aria-describedby="scanner-tv-season-error" pInputText>
-              </div>
+              @if (media.type === MediaType.TV) {
+                <div class="tw-flex tw-mt-2">
+                  <label for="scanner-tv-season" class="tw-inline-block tw-text-base tw-font-medium">{{
+                    t('admin.mediaScanner.tvSeason') }}</label>
+                  <input formControlName="tvSeason" class="tw-ml-4" id="scanner-tv-season" type="text"
+                    aria-describedby="scanner-tv-season-error" pInputText>
+                </div>
+              }
             </div>
           </form>
         </div>
@@ -336,23 +344,25 @@
           <div class="tw-w-full md:tw-w-1/4">
             <p class="tw-text-white tw-text-base tw-font-medium tw-text-center">{{ t('admin.media.poster') }}</p>
             <div class="tw-aspect-w-2 tw-aspect-h-3 tw-rounded-xl tw-overflow-hidden tw-mt-2">
-              <ng-container *ngIf="!posterPreviewName; else posterPreview">
-                <img *ngIf="media.thumbnailPosterUrl; else noPoster" class="tw-object-cover tw-rounded-xl"
-                  [lazyLoad]="media.thumbnailPosterUrl" [defaultImage]="media.posterPlaceholder | thumbhashUrl"
-                  [alt]="media.title" errorImage="assets/images/media-poster-error-md.png">
-                <ng-template #noPoster>
+              @if (!posterPreviewName) {
+                @if (media.thumbnailPosterUrl) {
+                  <img class="tw-object-cover tw-rounded-xl" [lazyLoad]="media.thumbnailPosterUrl"
+                    [defaultImage]="media.posterPlaceholder | thumbhashUrl" [alt]="media.title"
+                    errorImage="assets/images/media-poster-error-md.png">
+                } @else {
                   <img class="tw-object-cover tw-rounded-xl" src="assets/images/media-poster-md.png" loading="lazy"
                     [alt]="media.title">
-                </ng-template>
-              </ng-container>
-              <ng-template #posterPreview>
-                <img *ngIf="posterPreviewUri" class="tw-object-cover tw-rounded-xl" [src]="posterPreviewUri">
-              </ng-template>
+                }
+              } @else {
+                @if (posterPreviewUri) {
+                  <img class="tw-object-cover tw-rounded-xl" [src]="posterPreviewUri">
+                }
+              }
             </div>
             <!--Upload and delete the poster-->
             <div class="tw-flex tw-mt-2">
               <div class="tw-mx-auto">
-                <ng-container *ngIf="!posterPreviewName; else posterPreviewActions">
+                @if (!posterPreviewName) {
                   <input #inputUploadPoster hidden="true" type="file" id="file-upload-poster"
                     onclick="this.value = null" (change)="onInputPosterChange($event)" accept=".jpg, .jpeg, .png"
                     aria-label="Upload a poster" />
@@ -363,9 +373,8 @@
                     class="p-button-rounded p-button-text p-button-danger tw-ml-1" (click)="deletePoster($event)"
                     [disabled]="!media.posterUrl">
                   </button>
-                </ng-container>
-                <!--Save and cancel poster upload-->
-                <ng-template #posterPreviewActions>
+                } @else {
+                  <!--Save and cancel poster upload-->
                   <button pButton type="button" [label]="t('admin.configureMedia.saveImage')" class="p-button-sm"
                     (click)="onUpdatePosterSubmit()" [disabled]="isUpdatingPoster">
                   </button>
@@ -373,7 +382,7 @@
                     class="p-button-sm p-button-secondary p-button-text tw-ml-1" (click)="onUpdatePosterCancel()"
                     [disabled]="isUpdatingPoster">
                   </button>
-                </ng-template>
+                }
               </div>
             </div>
           </div>
@@ -381,24 +390,25 @@
             <p class="tw-text-white tw-text-base tw-font-medium tw-text-center">{{
               t('admin.media.backdrop') }}</p>
             <div class="tw-aspect-w-16 tw-aspect-h-9 tw-rounded-xl tw-overflow-hidden tw-mt-2">
-              <ng-container *ngIf="!backdropPreviewName; else backdropPreview">
-                <img *ngIf="media.thumbnailBackdropUrl; else noBackdrop" class="tw-object-cover tw-rounded-xl"
-                  [lazyLoad]="media.thumbnailBackdropUrl" [defaultImage]="media.backdropPlaceholder | thumbhashUrl"
-                  placeholderStyleClass="tw-rounded-xl" [alt]="media.title"
-                  errorImage="assets/images/media-backdrop-error-md.png">
-                <ng-template #noBackdrop>
+              @if (!backdropPreviewName) {
+                @if (media.thumbnailBackdropUrl) {
+                  <img class="tw-object-cover tw-rounded-xl" [lazyLoad]="media.thumbnailBackdropUrl"
+                    [defaultImage]="media.backdropPlaceholder | thumbhashUrl" placeholderStyleClass="tw-rounded-xl"
+                    [alt]="media.title" errorImage="assets/images/media-backdrop-error-md.png">
+                } @else {
                   <img class="tw-object-cover tw-rounded-xl" src="assets/images/media-backdrop-md.png" loading="lazy"
                     [alt]="media.title">
-                </ng-template>
-              </ng-container>
-              <ng-template #backdropPreview>
-                <img *ngIf="backdropPreviewUri" class="tw-object-cover tw-rounded-xl" [src]="backdropPreviewUri">
-              </ng-template>
+                }
+              } @else {
+                @if (backdropPreviewUri) {
+                  <img class="tw-object-cover tw-rounded-xl" [src]="backdropPreviewUri">
+                }
+              }
             </div>
             <!--Upload and delete the backdrop-->
             <div class="tw-flex tw-mt-2">
               <div class="tw-mx-auto">
-                <ng-container *ngIf="!backdropPreviewName; else backdropPreviewActions">
+                @if (!backdropPreviewName) {
                   <input #inputUploadBackdrop hidden="true" type="file" id="file-upload-backdrop"
                     onclick="this.value = null" (change)="onInputBackdropChange($event)" accept=".jpg, .jpeg, .png"
                     aria-label="Upload a backdrop" />
@@ -409,9 +419,8 @@
                     class="p-button-rounded p-button-text p-button-danger tw-ml-1" (click)="deleteBackdrop($event)"
                     [disabled]="!media.backdropUrl">
                   </button>
-                </ng-container>
-                <!--Save and cancel backdrop upload-->
-                <ng-template #backdropPreviewActions>
+                } @else {
+                  <!--Save and cancel backdrop upload-->
                   <button pButton type="button" [label]="t('admin.configureMedia.saveImage')" class="p-button-sm"
                     (click)="onUpdateBackdropSubmit()" [disabled]="isUpdatingBackdrop">
                   </button>
@@ -419,7 +428,7 @@
                     class="p-button-sm p-button-secondary p-button-text tw-ml-1" (click)="onUpdateBackdropCancel()"
                     [disabled]="isUpdatingBackdrop">
                   </button>
-                </ng-template>
+                }
               </div>
             </div>
           </div>
@@ -434,7 +443,7 @@
             (click)="showAddVideoDialog()">
           </button>
         </div>
-        <ng-container *ngIf="media.videos.length; else noVideos">
+        @if (media.videos.length) {
           <p-table styleClass="p-datatable-sm tw-bg-neutral-875 tw-p-4 tw-rounded-md" [value]="media.videos"
             responsiveLayout="scroll" [rowTrackBy]="trackId" [rowHover]="true">
             <ng-template pTemplate="header">
@@ -466,11 +475,12 @@
                   </div>
                 </td>
                 <td>
-                  <p *ngIf="video.name; else untitledVideo" class="tw-text-lg tw-font-semibold">{{ video.name }}</p>
-                  <ng-template #untitledVideo>
+                  @if (video.name) {
+                    <p class="tw-text-lg tw-font-semibold">{{ video.name }}</p>
+                  } @else {
                     <p class="tw-text-gray-400 tw-text-lg tw-font-semibold tw-italic">{{ t('media.video.untitled')
                       }}</p>
-                  </ng-template>
+                  }
                 </td>
                 <td class="tw-w-32">
                   <button pButton icon="ms ms-edit"
@@ -485,25 +495,26 @@
               </tr>
             </ng-template>
           </p-table>
-          <p-dialog *ngIf="media.videos[activeVideoIndex]" [header]="media.videos[activeVideoIndex].name || ''"
-            [(visible)]="displayVideo" (onHide)="blockScroll()" [modal]="true"
-            styleClass="p-dialog-header-sm tw-w-2/3 tw-h-auto !tw-max-h-full" [draggable]="false" [resizable]="false"
-            [dismissableMask]="true" transitionOptions="0ms linear" contentStyleClass="!tw-p-0">
-            <div class="tw-aspect-w-16 tw-aspect-h-9">
-              <iframe [src]="youtubeUrl + media.videos[activeVideoIndex].key + '?autoplay=1' | safeUrl: 'resourceUrl'"
-                allowfullscreen width="100%" height="auto">
-              </iframe>
-            </div>
-          </p-dialog>
-        </ng-container>
-        <ng-template #noVideos>
+          @if (media.videos[activeVideoIndex]) {
+            <p-dialog [header]="media.videos[activeVideoIndex].name || ''"
+              [(visible)]="displayVideo" (onHide)="blockScroll()" [modal]="true"
+              styleClass="p-dialog-header-sm tw-w-2/3 tw-h-auto !tw-max-h-full" [draggable]="false" [resizable]="false"
+              [dismissableMask]="true" transitionOptions="0ms linear" contentStyleClass="!tw-p-0">
+              <div class="tw-aspect-w-16 tw-aspect-h-9">
+                <iframe [src]="youtubeUrl + media.videos[activeVideoIndex].key + '?autoplay=1' | safeUrl: 'resourceUrl'"
+                  allowfullscreen width="100%" height="auto">
+                </iframe>
+              </div>
+            </p-dialog>
+          }
+        } @else {
           <p class="tw-text-gray-400 tw-text-base tw-italic">
             {{ t('media.details.noVideos') }}
           </p>
-        </ng-template>
+        }
       </ng-template>
       <!--Subtitles-->
-      <ng-container *ngIf="media.type === MediaType.MOVIE; else isTV">
+      @if (media.type === MediaType.MOVIE) {
         <ng-template appTabPanel [label]="t('admin.configureMedia.subtitles')">
           <p class="tw-text-white tw-font-bold tw-text-2xl">{{ t('admin.configureMedia.subtitles')
             }}</p>
@@ -514,7 +525,7 @@
               (fileChange)="showAddSubtitleDialog($event)">
             </app-file-upload>
           </div>
-          <ng-container *ngIf="media.movie.subtitles.length; else noSubtitles">
+          @if (media.movie.subtitles.length) {
             <p-table styleClass="p-datatable-sm tw-bg-neutral-875 tw-p-4 tw-rounded-md" [value]="media.movie.subtitles"
               responsiveLayout="scroll" [rowTrackBy]="trackId" [rowHover]="true">
               <ng-template pTemplate="header">
@@ -545,70 +556,80 @@
                 </tr>
               </ng-template>
             </p-table>
-          </ng-container>
-          <ng-template #noSubtitles>
+          } @else {
             <p class="tw-text-gray-400 tw-text-base tw-italic">
               {{ t('admin.configureMedia.noSubtitles') }}
             </p>
-          </ng-template>
+          }
         </ng-template>
         <!--Source-->
         <ng-template appTabPanel [label]="t('admin.configureMedia.source')">
           <p class="tw-text-white tw-font-bold tw-text-2xl">{{ t('admin.configureMedia.source')
             }}</p>
           <p class="tw-text-base tw-font-medium tw-mt-3 tw-mb-2">{{ t('admin.configureMedia.addMovieSourceLabel') }}</p>
-          <ng-container [ngSwitch]="media.movie.status">
-            <ng-container *ngSwitchCase="MediaSourceStatus.PENDING">
+          @switch (media.movie.status) {
+            @case (MediaSourceStatus.PENDING) {
               <app-file-upload accept=".mp4, .mkv, .webm, .m2ts" [label]="t('admin.addMediaSource.chooseFile')"
                 [disabled]="isUploadingSource" [desciption]="t('admin.configureMedia.addMovieSourceDescription')"
                 styleClass="tw-max-w-xl tw-h-40 tw-mx-auto" ariaLabel="Upload movie source"
                 (fileChange)="uploadSource($event)">
               </app-file-upload>
-            </ng-container>
-            <div *ngSwitchCase="MediaSourceStatus.PROCESSING" class="tw-text-center">
-              <i class="ms ms-hourglass-empty tw-text-5xl"></i>
-              <p class="tw-text-lg tw-mt-2">{{ t('admin.media.statusProcessingDescription') }}</p>
-              <div class="tw-mt-2">
-                <ng-container [ngTemplateOutlet]="deleteSourceButtonTpl"></ng-container>
+            }
+            @case (MediaSourceStatus.PROCESSING) {
+              <div class="tw-text-center">
+                <i class="ms ms-hourglass-empty tw-text-5xl"></i>
+                <p class="tw-text-lg tw-mt-2">{{ t('admin.media.statusProcessingDescription') }}</p>
+                <div class="tw-mt-2">
+                  <ng-container [ngTemplateOutlet]="deleteSourceButtonTpl"></ng-container>
+                </div>
               </div>
-            </div>
-            <ng-container *ngSwitchCase="MediaSourceStatus.READY">
+            }
+            @case (MediaSourceStatus.READY) {
               <div class="tw-flex tw-mb-4">
                 <p class="tw-text-base">{{ t('admin.media.statusReadyDescription') }}</p>
                 <div class="tw-ml-auto">
-                  <ng-container *ngIf="!showMoviePlayer; then sourcePreviewButton"></ng-container>
+                  @if (!showMoviePlayer) {
+                    <ng-container [ngTemplateOutlet]="sourcePreviewButton"></ng-container>
+                  }
                   <ng-container [ngTemplateOutlet]="deleteSourceButtonTpl"></ng-container>
                 </div>
               </div>
-              <ng-container *ngIf="showMoviePlayer; then sourcePreview"></ng-container>
-            </ng-container>
-            <ng-container *ngSwitchCase="MediaSourceStatus.DONE">
+              @if (showMoviePlayer) {
+                <ng-container [ngTemplateOutlet]="sourcePreview"></ng-container>
+              }
+            }
+            @case (MediaSourceStatus.DONE) {
               <div class="tw-flex tw-mb-4">
                 <p class="tw-text-base">{{ t('admin.media.statusDoneDescription') }}</p>
                 <div class="tw-ml-auto">
-                  <ng-container *ngIf="!showMoviePlayer; then sourcePreviewButton"></ng-container>
+                  @if (!showMoviePlayer) {
+                    <ng-container [ngTemplateOutlet]="sourcePreviewButton"></ng-container>
+                  }
                   <ng-container [ngTemplateOutlet]="deleteSourceButtonTpl"></ng-container>
                 </div>
               </div>
-              <ng-container *ngIf="showMoviePlayer; then sourcePreview"></ng-container>
-            </ng-container>
-          </ng-container>
+              @if (showMoviePlayer) {
+                <ng-container [ngTemplateOutlet]="sourcePreview"></ng-container>
+              }
+            }
+          }
           <ng-template #deleteSourceButtonTpl>
             <button pButton type="button" class="p-button-danger p-button-outlined tw-ml-2"
               [label]="t('admin.configureMedia.deleteSource')" (click)="deleteSource($event)">
             </button>
           </ng-template>
           <ng-template #sourcePreviewButton>
-            <button *ngIf="!showMoviePlayer" pButton type="button" class="p-button-secondary"
-              [label]="t('admin.configureMedia.previewSource')" (click)="showSourcePreview()">
-            </button>
+            @if (!showMoviePlayer) {
+              <button pButton type="button" class="p-button-secondary"
+                [label]="t('admin.configureMedia.previewSource')" (click)="showSourcePreview()">
+              </button>
+            }
           </ng-template>
           <ng-template #sourcePreview>
             <app-video-player [stream]="previewStream"></app-video-player>
           </ng-template>
         </ng-template>
-      </ng-container>
-      <ng-template #isTV>
+      } @else {
         <!--Episodes-->
         <ng-template appTabPanel [label]="t('admin.configureMedia.episodes')">
           <p class="tw-text-white tw-font-bold tw-text-2xl">{{ t('admin.configureMedia.episodes')
@@ -618,7 +639,7 @@
               (click)="showCreateEpisodeDialog()">
             </button>
           </div>
-          <ng-container *ngIf="episodes && episodes.length; else noEpisodes">
+          @if (episodes && episodes.length) {
             <p-table styleClass="p-datatable-sm tw-bg-neutral-875 tw-p-4 tw-rounded-md" [value]="episodes"
               responsiveLayout="scroll" [rowTrackBy]="trackId" [rowHover]="true" [loading]="loadingEpisodes">
               <ng-template pTemplate="header">
@@ -648,14 +669,14 @@
                     <div class="tw-flex">
                       <div class="tw-w-24 tw-flex-shrink-0">
                         <div class="tw-aspect-w-16 tw-aspect-h-9 tw-rounded-md tw-overflow-hidden">
-                          <img *ngIf="episode.thumbnailStillUrl; else noStill" class="tw-object-cover"
-                            [lazyLoad]="episode.thumbnailStillUrl"
-                            [defaultImage]="episode.stillPlaceholder | thumbhashUrl" [alt]="episode.name"
-                            errorImage="assets/images/episode-image-error-md.png">
-                          <ng-template #noStill>
+                          @if (episode.thumbnailStillUrl) {
+                            <img class="tw-object-cover" [lazyLoad]="episode.thumbnailStillUrl"
+                              [defaultImage]="episode.stillPlaceholder | thumbhashUrl" [alt]="episode.name"
+                              errorImage="assets/images/episode-image-error-md.png">
+                          } @else {
                             <img class="tw-rounded-md" src="assets/images/episode-image-md.png" loading="lazy"
                               [alt]="episode.name">
-                          </ng-template>
+                          }
                         </div>
                       </div>
                       <p class="tw-ml-2 tw-text-base tw-font-medium tw-line-clamp-4">{{ episode.name }}</p>
@@ -663,19 +684,21 @@
                   </td>
                   <td class="tw-w-32 tw-text-sm">{{ episode.runtime * 1000 | time }}</td>
                   <td class="tw-w-40 tw-text-sm">{{ episode.airDate | shortDate }}</td>
-                  <td class="tw-w-24 tw-text-sm" [ngSwitch]="episode.pStatus">
+                  <td class="tw-w-24 tw-text-sm">
                     <div class="tw-text-center">
-                      <ng-container *ngSwitchCase="MediaPStatus.PENDING">
-                        <i class="ms ms-draft ms-opsz-lg tw-text-4xl" [pTooltip]="t('admin.media.statusPending')"></i>
-                      </ng-container>
-                      <ng-container *ngSwitchCase="MediaPStatus.PROCESSING">
-                        <i class="ms ms-hourglass-empty ms-opsz-lg tw-text-4xl"
-                          [pTooltip]="t('admin.media.statusProcessing')"></i>
-                      </ng-container>
-                      <ng-container *ngSwitchCase="MediaPStatus.DONE">
-                        <i class="ms ms-check-circle ms-opsz-lg tw-text-4xl"
-                          [pTooltip]="t('admin.media.statusDone')"></i>
-                      </ng-container>
+                      @switch (episode.pStatus) {
+                        @case (MediaPStatus.PENDING) {
+                          <i class="ms ms-draft ms-opsz-lg tw-text-4xl" [pTooltip]="t('admin.media.statusPending')"></i>
+                        }
+                        @case (MediaPStatus.PROCESSING) {
+                          <i class="ms ms-hourglass-empty ms-opsz-lg tw-text-4xl"
+                            [pTooltip]="t('admin.media.statusProcessing')"></i>
+                        }
+                        @case (MediaPStatus.DONE) {
+                          <i class="ms ms-check-circle ms-opsz-lg tw-text-4xl"
+                            [pTooltip]="t('admin.media.statusDone')"></i>
+                        }
+                      }
                     </div>
                   </td>
                   <td>
@@ -691,21 +714,23 @@
                 </tr>
               </ng-template>
             </p-table>
-          </ng-container>
-          <ng-template #noEpisodes>
+          } @else {
             <p class="tw-text-gray-400 tw-text-base tw-italic">
               {{ t('admin.configureMedia.noEpisodes') }}
             </p>
-          </ng-template>
+          }
         </ng-template>
-      </ng-template>
+      }
     </app-vertical-tab>
     <p-confirmDialog [blockScroll]="false" key="inModal" [style]="{width: '500px'}" [baseZIndex]="1000"
       acceptButtonStyleClass="p-button-danger p-button-sm"
       rejectButtonStyleClass="p-button-text p-button-secondary p-button-sm" rejectIcon="" acceptIcon=""
       [dismissableMask]="true">
     </p-confirmDialog>
-  </div>
+    </div>
+  } @else {
+    <ng-container *ngTemplateOutlet="loadingSpinner"></ng-container>
+  }
   <p-menu #episodeMenu [popup]="true" appendTo="body" [model]="episodeMenuItems"></p-menu>
 </ng-container>
 <ng-template #loadingSpinner>

@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { NgStyle, NgIf } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
@@ -49,7 +49,7 @@ interface UpdateSubtitleForm {
             ])
         ])
     ],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, SliderAltModule, DisabledControlDirective, DropdownModule, ColorPickerComponent, NgStyle, NgIf, ButtonModule]
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, SliderAltModule, DisabledControlDirective, DropdownModule, ColorPickerComponent, NgStyle, ButtonModule]
 })
 export class SubtitleSettingsComponent implements OnInit {
   currentUser: UserDetails | null = null;

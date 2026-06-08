@@ -12,7 +12,7 @@ import { MenuModule } from 'primeng/menu';
 import { RouterOutlet } from '@angular/router';
 import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { CircularProgressComponent } from '../../components/circular-progress/circular-progress.component';
 import { TimePipe } from '../../pipes/date-time-pipe/time/time.pipe';
 
@@ -22,7 +22,7 @@ import { TimePipe } from '../../pipes/date-time-pipe/time/time.pipe';
     styleUrls: ['./admin-layout.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [TabMenuModule, MenuModule, RouterOutlet, TranslocoDirective, PanelModule, SharedModule, ButtonModule, NgIf, NgFor, CircularProgressComponent, AsyncPipe, TimePipe]
+    imports: [TabMenuModule, MenuModule, RouterOutlet, TranslocoDirective, PanelModule, SharedModule, ButtonModule, CircularProgressComponent, AsyncPipe, TimePipe]
 })
 export class AdminLayoutComponent implements OnInit, OnDestroy, CanComponentDeactivate {
   trackId = trackId;

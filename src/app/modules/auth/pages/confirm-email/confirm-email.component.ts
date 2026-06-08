@@ -3,7 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../../../core/services';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { NgIf } from '@angular/common';
+
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ButtonModule } from 'primeng/button';
 
@@ -12,7 +12,7 @@ import { ButtonModule } from 'primeng/button';
     templateUrl: './confirm-email.component.html',
     styleUrls: ['./confirm-email.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoDirective, NgIf, ProgressSpinnerModule, RouterLink, ButtonModule]
+    imports: [TranslocoDirective, ProgressSpinnerModule, RouterLink, ButtonModule]
 })
 export class ConfirmEmailComponent implements OnInit {
   id: string | null;

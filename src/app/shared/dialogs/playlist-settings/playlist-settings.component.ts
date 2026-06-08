@@ -16,7 +16,7 @@ import {
 import { AppErrorCode } from '../../../core/enums';
 import { dataURItoFile, fixNestedDialogFocus } from '../../../core/utils';
 import { UpdatePlaylistDto } from '../../../core/dto/playlists';
-import { NgIf, NgClass } from '@angular/common';
+import { NgTemplateOutlet, NgClass } from '@angular/common';
 import { DragDropFileDirective } from '../../directives/form-directive/drap-drop-file/drag-drop-file.directive';
 import { ButtonModule } from 'primeng/button';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
@@ -48,7 +48,7 @@ interface UpdatePlaylistForm {
             useValue: 'common'
         }
     ],
-    imports: [DynamicDialogModule, TranslocoDirective, NgIf, DragDropFileDirective, ButtonModule, LazyLoadImageModule, NgClass, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, RadioButtonModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
+    imports: [NgTemplateOutlet, DynamicDialogModule, TranslocoDirective, DragDropFileDirective, ButtonModule, LazyLoadImageModule, NgClass, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, RadioButtonModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
 })
 export class PlaylistSettingsComponent implements OnInit {
   @ViewChild('updatePlaylistFormEl') updatePlaylistFormEl?: NgForm;

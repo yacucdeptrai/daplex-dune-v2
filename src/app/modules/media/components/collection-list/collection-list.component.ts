@@ -8,7 +8,7 @@ import { TextResizeOption, TextResizeDirective } from '../../../../shared/direct
 import { DestroyService } from '../../../../core/services';
 import { MediaBreakpoints } from '../../../../core/enums';
 import { NgLetDirective } from '../../../../shared/directives/common-directive/ng-let/ng-let.directive';
-import { NgClass, NgStyle, NgIf } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -21,7 +21,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
     styleUrl: './collection-list.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [NgLetDirective, NgClass, NgStyle, NgIf, LazyLoadImageModule, TextResizeDirective, RouterLink, ButtonModule, HslColorPipe, ThumbhashUrlPipe]
+    imports: [NgLetDirective, NgClass, NgStyle, LazyLoadImageModule, TextResizeDirective, RouterLink, ButtonModule, HslColorPipe, ThumbhashUrlPipe]
 })
 export class CollectionListComponent implements OnInit {
   t = input.required<TranslocoTranslateFn>();

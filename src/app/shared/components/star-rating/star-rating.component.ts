@@ -1,12 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
-import { NgStyle, NgClass, NgFor } from '@angular/common';
+import { NgStyle, NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-star-rating',
     templateUrl: './star-rating.component.html',
     styleUrls: ['./star-rating.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgStyle, NgClass, NgFor]
+    imports: [NgStyle, NgClass]
 })
 export class StarRatingComponent implements OnInit, OnDestroy {
 

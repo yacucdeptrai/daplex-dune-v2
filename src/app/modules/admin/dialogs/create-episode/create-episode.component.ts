@@ -25,7 +25,7 @@ import {
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
 import { StepperComponent as StepperComponent_1 } from '../../../../shared/components/stepper/stepper.component';
 import { CdkStep, CdkStepperPrevious, CdkStepperNext } from '@angular/cdk/stepper';
-import { NgIf } from '@angular/common';
+
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
@@ -64,7 +64,7 @@ interface UpdateEpisodeForm extends CreateEpisodeForm { }
             useValue: 'common'
         }
     ],
-    imports: [TranslocoDirective, StepperComponent_1, CdkStep, NgIf, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, AutofocusDirective, InvalidControlDirective, InputMaskModule, InputTextModule, InputTextareaModule, DropdownModule, RadioButtonModule, ButtonModule, FileUploadComponent_1, CdkStepperPrevious, CdkStepperNext, FirstErrorKeyPipe]
+    imports: [TranslocoDirective, StepperComponent_1, CdkStep, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, AutofocusDirective, InvalidControlDirective, InputMaskModule, InputTextModule, InputTextareaModule, DropdownModule, RadioButtonModule, ButtonModule, FileUploadComponent_1, CdkStepperPrevious, CdkStepperNext, FirstErrorKeyPipe]
 })
 export class CreateEpisodeComponent implements OnInit {
   @ViewChild('stepper') stepper?: StepperComponent;

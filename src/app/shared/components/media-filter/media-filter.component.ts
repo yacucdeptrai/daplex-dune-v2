@@ -17,7 +17,7 @@ import { ButtonModule } from 'primeng/button';
 import { MenuTriggerDirective } from '../../directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { NgIf, NgFor } from '@angular/common';
+
 import { ChipModule } from 'primeng/chip';
 import { MenuDirective } from '../../directives/cdk-menu-custom/menu/menu.directive';
 import { MenuItemDirective } from '../../directives/cdk-menu-custom/menu-item/menu-item.directive';
@@ -51,7 +51,7 @@ interface FilterForm {
             useValue: 'media'
         }
     ],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputTextModule, DisabledControlDirective, AltAutoComplete, SharedModule, DropdownModule, ButtonModule, MenuTriggerDirective, TooltipModule, ToggleButtonModule, NgIf, ChipModule, NgFor, MenuDirective, MenuItemDirective, RouterLink, RouterLinkActive]
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputTextModule, DisabledControlDirective, AltAutoComplete, SharedModule, DropdownModule, ButtonModule, MenuTriggerDirective, TooltipModule, ToggleButtonModule, ChipModule, MenuDirective, MenuItemDirective, RouterLink, RouterLinkActive]
 })
 export class MediaFilterComponent implements OnInit {
   @Output() onChange = new EventEmitter<MediaFilterOptionsDto>();

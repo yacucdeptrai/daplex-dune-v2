@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { Location, NgIf, NgStyle, NgTemplateOutlet, NgFor, NgClass, DecimalPipe } from '@angular/common';
+import { Location, NgStyle, NgTemplateOutlet, NgClass, DecimalPipe } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -36,7 +36,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
     styleUrls: ['./details.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [TranslocoDirective, NgIf, LazyLoadImageModule, NgStyle, NgTemplateOutlet, TextResizeDirective, TabViewModule, NgFor, RouterLink, EpisodeListComponent, CollectionListComponent, NgClass, ButtonModule, TooltipModule, TagModule, DialogModule, SkeletonComponent, DecimalPipe, ToStringPipe, ShortDatePipe, TimePipe, SafeUrlPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, NgTemplateOutlet, TextResizeDirective, TabViewModule, RouterLink, EpisodeListComponent, CollectionListComponent, NgClass, ButtonModule, TooltipModule, TagModule, DialogModule, SkeletonComponent, DecimalPipe, ToStringPipe, ShortDatePipe, TimePipe, SafeUrlPipe, ThumbhashUrlPipe]
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   track_Id = track_Id;

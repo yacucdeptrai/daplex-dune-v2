@@ -11,7 +11,7 @@ import { MediaType, UserPermission } from '../../../core/enums';
 import { track_Id } from '../../../core/utils';
 import { SearchOverlayComponent } from '../../dialogs/search-overlay';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { NgClass, NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { MenuTriggerDirective } from '../../directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
 import { MenuDirective } from '../../directives/cdk-menu-custom/menu/menu.directive';
@@ -32,7 +32,7 @@ import { ThumbhashUrlPipe } from '../../pipes/placeholder-pipe/thumbhash-url/thu
     styleUrls: ['./home-header.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [TranslocoDirective, NgClass, ButtonModule, MenuTriggerDirective, RouterLink, RouterLinkActive, NgIf, NgTemplateOutlet, MenuDirective, MenuItemDirective, InfiniteScrollDirective, NgFor, SkeletonComponent, SidebarModule, SharedModule, LazyLoadImageModule, AvatarComponent, IsGrantedPipe, SubstringPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, NgClass, ButtonModule, MenuTriggerDirective, RouterLink, RouterLinkActive, NgTemplateOutlet, MenuDirective, MenuItemDirective, InfiniteScrollDirective, SkeletonComponent, SidebarModule, SharedModule, LazyLoadImageModule, AvatarComponent, IsGrantedPipe, SubstringPipe, ThumbhashUrlPipe]
 })
 export class HomeHeaderComponent implements OnInit {
   @ViewChild('mediaSearch') mediaSearch?: AutoComplete;

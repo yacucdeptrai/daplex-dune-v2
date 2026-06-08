@@ -6,7 +6,7 @@ import { Media, RatingDetails, UserDetails } from '../../../../core/models';
 import { AuthService, DestroyService } from '../../../../core/services';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ContextMenuTriggerDirective } from '../../../../shared/directives/cdk-menu-custom/context-menu-trigger/context-menu-trigger.directive';
-import { NgIf } from '@angular/common';
+
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ButtonModule } from 'primeng/button';
 import { MenuTriggerDirective } from '../../../../shared/directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
@@ -20,7 +20,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
     templateUrl: './rating-card.component.html',
     styleUrls: ['./rating-card.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoDirective, ContextMenuTriggerDirective, RouterLink, NgIf, LazyLoadImageModule, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, RelativeDatePipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ContextMenuTriggerDirective, RouterLink, LazyLoadImageModule, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, RelativeDatePipe, ThumbhashUrlPipe]
 })
 export class RatingCardComponent implements OnInit {
   @Input() rating!: RatingDetails;

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { debounceTime, distinctUntilChanged, fromEvent, Subscription } from 'rxjs';
@@ -8,7 +9,7 @@ import { Playlist, PlaylistToAdd } from '../../../core/models';
 import { PlaylistsService } from '../../../core/services';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { InputTextModule } from 'primeng/inputtext';
-import { NgIf, NgFor } from '@angular/common';
+
 import { FormHandlerDirective } from '../../directives/form-directive/form-handler/form-handler.directive';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { DisabledControlDirective } from '../../directives/form-directive/disabled-control/disabled-control.directive';
@@ -25,7 +26,7 @@ interface AddAllItemsForm {
     templateUrl: './add-all-to-playlist.component.html',
     styleUrls: ['./add-all-to-playlist.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoDirective, InputTextModule, NgIf, FormsModule, ReactiveFormsModule, FormHandlerDirective, NgFor, RadioButtonModule, DisabledControlDirective, ButtonModule, ProgressSpinnerModule]
+    imports: [NgTemplateOutlet, TranslocoDirective, InputTextModule, FormsModule, ReactiveFormsModule, FormHandlerDirective, RadioButtonModule, DisabledControlDirective, ButtonModule, ProgressSpinnerModule]
 })
 export class AddAllToPlaylistComponent implements OnInit, OnDestroy {
   // Listen to input search keyup event with viewchild setter

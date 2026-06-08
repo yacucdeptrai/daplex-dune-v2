@@ -9,7 +9,7 @@ import { CursorPaginated, Media } from '../../../../core/models';
 import { DestroyService, GenresService, MediaService, ProductionsService, TagsService, CollectionService } from '../../../../core/services';
 import { SITE_NAME } from '../../../../../environments/config';
 import { MediaType } from '../../../../core/enums';
-import { NgIf } from '@angular/common';
+
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { MediaListComponent } from '../../../../shared/components/media-list/media-list.component';
 
@@ -41,7 +41,7 @@ interface HandleListSubPath extends HandleListBase {
     styleUrls: ['./list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [TranslocoDirective, NgIf, InfiniteScrollDirective, MediaListComponent]
+    imports: [TranslocoDirective, InfiniteScrollDirective, MediaListComponent]
 })
 export class ListComponent implements OnInit, OnDestroy {
   itemsPerPage: number = 30;

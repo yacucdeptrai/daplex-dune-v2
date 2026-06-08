@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DragDropFileDirective } from '../../directives/form-directive/drap-drop-file/drag-drop-file.directive';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -16,7 +16,7 @@ import { ButtonModule } from 'primeng/button';
             multi: true
         }
     ],
-    imports: [DragDropFileDirective, NgClass, ButtonModule, NgIf]
+    imports: [DragDropFileDirective, NgClass, ButtonModule]
 })
 export class FileUploadComponent implements ControlValueAccessor {
   @Input() styleClass: string;

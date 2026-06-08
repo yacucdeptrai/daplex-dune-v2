@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Checkbox, CheckboxModule } from 'primeng/checkbox';
@@ -10,7 +11,7 @@ import { CreatePlaylistForm } from '../../../core/interfaces/forms';
 import { debounceTime, distinctUntilChanged, fromEvent, Subscription } from 'rxjs';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { InputTextModule } from 'primeng/inputtext';
-import { NgIf, NgFor } from '@angular/common';
+
 import { ButtonModule } from 'primeng/button';
 import { FormHandlerDirective } from '../../directives/form-directive/form-handler/form-handler.directive';
 import { DisabledControlDirective } from '../../directives/form-directive/disabled-control/disabled-control.directive';
@@ -26,7 +27,7 @@ import { FirstErrorKeyPipe } from '../../pipes/validation-pipe/first-error-key/f
     styleUrls: ['./add-to-playlist.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [PlaylistsService],
-    imports: [TranslocoDirective, InputTextModule, NgIf, NgFor, CheckboxModule, ButtonModule, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, AutofocusDirective, InvalidControlDirective, RadioButtonModule, ProgressSpinnerModule, FirstErrorKeyPipe]
+    imports: [NgTemplateOutlet, TranslocoDirective, InputTextModule, CheckboxModule, ButtonModule, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, AutofocusDirective, InvalidControlDirective, RadioButtonModule, ProgressSpinnerModule, FirstErrorKeyPipe]
 })
 export class AddToPlaylistComponent implements OnInit, OnDestroy {
   // Listen to input search keyup event with viewchild setter

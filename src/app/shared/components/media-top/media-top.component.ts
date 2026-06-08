@@ -4,7 +4,7 @@ import { TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { MediaType } from '../../../core/enums';
 import { Media, Paginated } from '../../../core/models';
 import { track_Id } from '../../../core/utils';
-import { NgIf, NgFor, DecimalPipe } from '@angular/common';
+import { NgTemplateOutlet, DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { SkeletonComponent } from '../skeleton/skeleton.component';
@@ -21,7 +21,7 @@ import { ThumbhashUrlPipe } from '../../pipes/placeholder-pipe/thumbhash-url/thu
             useValue: 'media'
         }
     ],
-    imports: [TranslocoDirective, NgIf, NgFor, RouterLink, LazyLoadImageModule, SkeletonComponent, DecimalPipe, ThumbhashUrlPipe]
+    imports: [NgTemplateOutlet, TranslocoDirective, RouterLink, LazyLoadImageModule, SkeletonComponent, DecimalPipe, ThumbhashUrlPipe]
 })
 export class MediaTopComponent implements OnInit {
   MediaType = MediaType;
