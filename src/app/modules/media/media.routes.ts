@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
-import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 
 import { SearchComponent } from './pages/search/search.component';
 import { DetailsComponent } from './pages/details/details.component';

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, Inject, OnDestroy, ViewChild, AfterViewInit, DOCUMENT } from '@angular/core';
 
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { MenuItem, SharedModule } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Menu, MenuModule } from 'primeng/menu';

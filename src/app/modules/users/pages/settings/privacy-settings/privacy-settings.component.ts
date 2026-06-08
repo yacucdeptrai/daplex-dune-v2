@@ -6,7 +6,7 @@ import { catchError, debounceTime, first, of, switchMap, takeUntil, tap } from '
 import { MediaVisibility, UserVisibility } from '../../../../../core/enums';
 import { UserDetails } from '../../../../../core/models';
 import { AuthService, DestroyService, UsersService } from '../../../../../core/services';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { FormHandlerDirective } from '../../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { DisabledControlDirective } from '../../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';

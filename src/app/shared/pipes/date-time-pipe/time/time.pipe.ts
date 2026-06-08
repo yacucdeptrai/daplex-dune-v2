@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { DurationUnit, formatDuration, intervalToDuration, Locale } from 'date-fns';
 import { enUS, vi } from 'date-fns/locale';
 

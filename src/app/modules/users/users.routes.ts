@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ConfirmationService } from 'primeng/api';
-import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 
 import { ConfirmActionService, UsersService } from '../../core/services';
 import { UsersLayoutComponent } from './layouts/users-layout';

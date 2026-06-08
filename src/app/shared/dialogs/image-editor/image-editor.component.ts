@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageCroppedEvent, ImageCropperComponent, ImageTransform, LoadedImage, OutputFormat, ImageCropperModule } from '@ktt45678/ngx-image-cropper';
-import { TRANSLOCO_SCOPE, TranslocoDirective } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 
 import { ImageEditorConfig } from './image-editor-config.interface';
 import { getImageFormat } from '../../../core/utils';

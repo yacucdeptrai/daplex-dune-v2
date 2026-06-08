@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { first, map, Observable } from 'rxjs';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { LANGUAGE_CODES } from '../../../core/data';
 import { DropdownOptionDto } from '../../../core/dto/media';

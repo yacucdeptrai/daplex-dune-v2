@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { TRANSLOCO_SCOPE, TranslocoDirective } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 
 import { MediaDetails, TVEpisode } from '../../../core/models';
 import { trackId } from '../../../core/utils';

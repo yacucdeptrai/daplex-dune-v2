@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { TranslocoService, TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { MediaListComponent } from './media-list.component';

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, input, OnInit, signal } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { TranslocoTranslateFn } from '@ngneat/transloco';
+import { TranslocoTranslateFn } from '@jsverse/transloco';
 import { takeUntil } from 'rxjs';
 
 import { Media, MediaCollection, MediaDetails } from '../../../../core/models';

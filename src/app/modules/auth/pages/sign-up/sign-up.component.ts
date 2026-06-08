@@ -9,7 +9,7 @@ import { shortDate } from '../../../../core/validators';
 import { DropdownOptionDto } from '../../../../core/dto/media';
 import { ShortDateForm } from '../../../../core/interfaces/forms';
 import { SEND_CONFIRM_EMAIL_LIMIT_TTL } from '../../../../../environments/config';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { NgClass, NgIf } from '@angular/common';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';

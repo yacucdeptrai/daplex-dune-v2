@@ -3,7 +3,7 @@ import { Location, NgClass, DecimalPipe } from '@angular/common';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { TranslocoService, TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Subscription, combineLatest, filter, first, interval, map, of, switchMap, takeUntil, timer } from 'rxjs';
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TitleStrategy, RouterStateSnapshot } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { first } from 'rxjs';
 
 import { SITE_NAME } from '../../../environments/config';

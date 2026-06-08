@@ -1,5 +1,5 @@
 import { ErrorHandler, Injectable, NgZone } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { MessageService } from 'primeng/api';
 
 @Injectable()

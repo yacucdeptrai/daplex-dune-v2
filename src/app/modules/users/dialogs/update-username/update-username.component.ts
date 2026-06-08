@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs';
 
 import { UserDetails } from '../../../../core/models';
 import { DestroyService, UsersService } from '../../../../core/services';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { AutofocusDirective } from '../../../../shared/directives/form-directive/autofocus/autofocus.directive';

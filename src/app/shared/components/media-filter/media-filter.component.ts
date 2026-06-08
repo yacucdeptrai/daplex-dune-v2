@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { first } from 'rxjs';
 
 import { DropdownOptionDto, MediaFilterOptionsDto } from '../../../core/dto/media';

@@ -4,7 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { RegexPattern } from '../../../../core/enums';
 import { AuthService } from '../../../../core/services';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { NgIf, NgClass } from '@angular/common';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';

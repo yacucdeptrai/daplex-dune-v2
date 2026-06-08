@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Renderer2, OnDestroy, input } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { TranslocoService, TranslocoTranslateFn } from '@ngneat/transloco';
+import { TranslocoService, TranslocoTranslateFn } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { Media } from '../../../../core/models';

@@ -1,5 +1,5 @@
 import { RelativeDatePipe } from './relative-date.pipe';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 describe('RelativeDatePipe', () => {
   it('create an instance', () => {

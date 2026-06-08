@@ -8,7 +8,7 @@ import { ShortDateForm } from '../../../../core/interfaces/forms';
 import { UserDetails } from '../../../../core/models';
 import { DestroyService, ItemDataService, UsersService } from '../../../../core/services';
 import { shortDate } from '../../../../core/validators';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { DropdownModule } from 'primeng/dropdown';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';

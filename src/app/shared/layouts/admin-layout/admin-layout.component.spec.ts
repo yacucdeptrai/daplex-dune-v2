@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { EMPTY, of } from 'rxjs';
 
 import { AdminLayoutComponent } from './admin-layout.component';
