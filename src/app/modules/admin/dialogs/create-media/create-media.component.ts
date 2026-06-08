@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, Renderer2, Inject, AfterViewInit, DOCUMENT } from '@angular/core';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EMPTY, first, Observable, switchMap, takeUntil } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
@@ -10,7 +10,7 @@ import { AddVideoComponent } from '../add-video';
 import { AddSubtitleComponent } from '../add-subtitle';
 import { CreateEpisodeComponent } from '../create-episode';
 import { StepperComponent } from '../../../../shared/components/stepper';
-import { ImageEditorComponent } from '../../../../shared/dialogs/image-editor';
+import { ImageEditorComponent, ImageEditorConfig } from '../../../../shared/dialogs/image-editor';
 import { FileUploadComponent } from '../../../../shared/components/file-upload';
 import { CreateMediaDto, DropdownOptionDto, UpdateMediaDto } from '../../../../core/dto/media';
 import { AppErrorCode, MediaStatus, MediaType } from '../../../../core/enums';
@@ -25,6 +25,23 @@ import {
   UPLOAD_BACKDROP_MIN_WIDTH, UPLOAD_BACKDROP_SIZE, UPLOAD_POSTER_ASPECT_HEIGHT, UPLOAD_POSTER_ASPECT_WIDTH, UPLOAD_POSTER_MIN_HEIGHT,
   UPLOAD_POSTER_MIN_WIDTH, UPLOAD_POSTER_SIZE, UPLOAD_SUBTITLE_SIZE
 } from '../../../../../environments/config';
+import { StepperComponent as StepperComponent_1 } from '../../../../shared/components/stepper/stepper.component';
+import { CdkStep, CdkStepperPrevious, CdkStepperNext } from '@angular/cdk/stepper';
+import { NgTemplateOutlet } from '@angular/common';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { InputTextModule } from 'primeng/inputtext';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputMaskModule } from 'primeng/inputmask';
+import { DropdownModule } from 'primeng/dropdown';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { ButtonModule } from 'primeng/button';
+import { AltAutoComplete } from '../../../../core/utils/primeng/autocomplete';
+import { SharedModule } from 'primeng/api';
+import { ChipModule } from 'primeng/chip';
+import { FileUploadComponent as FileUploadComponent_1 } from '../../../../shared/components/file-upload/file-upload.component';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 
 interface CreateMediaForm {
   type: FormControl<string>;
@@ -59,7 +76,7 @@ interface UpdateMediaForm extends Omit<CreateMediaForm, 'type'> { }
             useValue: 'common'
         }
     ],
-    standalone: false
+    imports: [TranslocoDirective, StepperComponent_1, CdkStep, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, NgTemplateOutlet, RadioButtonModule, ButtonModule, AltAutoComplete, SharedModule, ChipModule, FileUploadComponent_1, CdkStepperPrevious, CdkStepperNext, FirstErrorKeyPipe]
 })
 export class CreateMediaComponent implements OnInit, AfterViewInit {
   @ViewChild('stepper') stepper?: StepperComponent;
@@ -383,7 +400,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
     });
   }
 
-  editImage(data: any): Observable<string[] | null> {
+  editImage(data: ImageEditorConfig): Observable<string[] | null> {
     const dialogRef = this.dialogService.open(ImageEditorComponent, {
       data: data,
       header: this.translocoService.translate('common.imageEditor.header'),

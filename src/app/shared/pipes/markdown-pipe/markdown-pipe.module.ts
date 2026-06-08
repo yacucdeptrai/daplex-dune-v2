@@ -6,14 +6,12 @@ import { MarkedService } from './marked/marked.service';
 import { HtmlPipeModule } from '../html-pipe';
 
 @NgModule({
-  declarations: [
-    MarkedPipe
-  ],
-  imports: [
-    CommonModule,
-    HtmlPipeModule
-  ],
-  providers: [MarkedService],
-  exports: [MarkedPipe]
+    imports: [
+        CommonModule,
+        HtmlPipeModule,
+        MarkedPipe
+    ],
+    providers: [MarkedService],
+    exports: [MarkedPipe]
 })
 export class MarkdownPipeModule { }

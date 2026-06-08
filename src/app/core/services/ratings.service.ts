@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { HttpParamsObject } from '../types/http-params.type';
 import { CreateRatingDto, CursorPageRatingsDto, FindRatedMediaDto } from '../dto/ratings';
 import { CursorPaginated, Rating, RatingDetails } from '../models';
 
@@ -13,7 +14,7 @@ export class RatingsService {
   }
 
   findPage(cursorPageRatingsDto?: CursorPageRatingsDto) {
-    const params: { [key: string]: any } = {};
+    const params: HttpParamsObject = {};
     if (cursorPageRatingsDto) {
       const { pageToken, limit, sort, user } = cursorPageRatingsDto;
       pageToken && (params['pageToken'] = pageToken);
@@ -29,6 +30,7 @@ export class RatingsService {
   }
 
   findMedia(findRatedMediaDto: FindRatedMediaDto) {
-    return this.http.get<Rating | null>('ratings/find_media', { params: <{ [key: string]: any }>findRatedMediaDto });
+    const params: HttpParamsObject = { media: findRatedMediaDto.media };
+    return this.http.get<Rating | null>('ratings/find_media', { params });
   }
 }

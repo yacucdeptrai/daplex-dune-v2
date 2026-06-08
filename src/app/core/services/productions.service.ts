@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { map } from 'rxjs';
 
 import { CreateProductionDto, CursorPageMediaDto, CursorPageProductionsDto, PaginateProductionsDto, RemoveProductionsDto, UpdateProductionDto } from '../dto/productions';
 import { FindSuggestionsOptions } from '../interfaces/options';
 import { CursorPaginated, Media, Paginated, Production, ProductionDetails } from '../models';
+import { toTruthyHttpParams } from '../utils';
 
 @Injectable({ providedIn: 'root' })
 export class ProductionsService {
@@ -17,22 +18,12 @@ export class ProductionsService {
   }
 
   findPage(paginateProductionsDto: PaginateProductionsDto) {
-    const { page, limit, search, sort } = paginateProductionsDto;
-    const params: any = {};
-    page && (params['page'] = page);
-    limit && (params['limit'] = limit);
-    search && (params['search'] = search);
-    sort && (params['sort'] = sort);
+    const params = toTruthyHttpParams(paginateProductionsDto);
     return this.http.get<Paginated<Production>>('productions', { params });
   }
 
   findPageCursor(cursorPageProductionsDto: CursorPageProductionsDto) {
-    const { pageToken, limit, search, sort } = cursorPageProductionsDto;
-    const params: any = {};
-    pageToken && (params['pageToken'] = pageToken);
-    limit && (params['limit'] = limit);
-    search && (params['search'] = search);
-    sort && (params['sort'] = sort);
+    const params = toTruthyHttpParams(cursorPageProductionsDto);
     return this.http.get<Paginated<Production>>('productions/cursor', { params });
   }
 
@@ -55,12 +46,7 @@ export class ProductionsService {
   }
 
   findAllMedia(id: string, cursorPageMediaDto: CursorPageMediaDto) {
-    const { pageToken, limit, sort, type } = cursorPageMediaDto;
-    const params: any = {};
-    pageToken && (params['pageToken'] = pageToken);
-    limit && (params['limit'] = limit);
-    sort && (params['sort'] = sort);
-    type && (params['type'] = type);
+    const params = toTruthyHttpParams(cursorPageMediaDto);
     return this.http.get<CursorPaginated<Media>>(`productions/${id}/media`, { params });
   }
 

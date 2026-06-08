@@ -1,5 +1,5 @@
-import '@ngneat/transloco';
+import '@jsverse/transloco';
 
-declare module '@ngneat/transloco' {
+declare module '@jsverse/transloco' {
   type TranslocoTranslateFn = (key: string, params?: HashMap) => any;
 }

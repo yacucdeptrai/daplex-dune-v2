@@ -6,11 +6,9 @@ interface NgLetContext<T> {
     $implicit: T;
 }
 
-@Directive({
+@Directive({ 
     // tslint:disable-next-line: directive-selector
-    selector: '[ngLet]',
-    standalone: false
-})
+    selector: '[ngLet]' })
 export class NgLetDirective<T> {
 
     private context: NgLetContext<T | null> = { ngLet: null, $implicit: null };

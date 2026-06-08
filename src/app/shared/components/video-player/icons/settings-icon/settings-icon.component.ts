@@ -4,8 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     selector: 'player-settings-icon',
     templateUrl: './settings-icon.component.html',
     styles: [],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsIconComponent {
 

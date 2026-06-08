@@ -8,7 +8,7 @@ export {
   OnExecuteErrorData,
   ReCaptchaV3Service
 } from './recaptcha-v3.service';
-export { RecaptchaFormsModule } from './recaptcha-forms.module';
+
 export { RecaptchaValueAccessorDirective } from './recaptcha-value-accessor.directive';
 export {
   RECAPTCHA_LANGUAGE,

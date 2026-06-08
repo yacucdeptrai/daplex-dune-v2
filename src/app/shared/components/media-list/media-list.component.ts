@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Renderer2, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { Router, RouterLink } from '@angular/router';
+import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { Media } from '../../../core/models';
@@ -8,6 +8,17 @@ import { AuthService } from '../../../core/services';
 import { MediaType } from '../../../core/enums';
 import { AddToPlaylistComponent } from '../../dialogs/add-to-playlist';
 import { track_Id } from '../../../core/utils';
+import { SkeletonComponent } from '../skeleton/skeleton.component';
+import { NgTemplateOutlet, DecimalPipe } from '@angular/common';
+import { AppOverlayOrigin, AppConnectedOverlay } from '../../directives/overlay-panel/overlay-panel/overlay-panel.directive';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { ButtonModule } from 'primeng/button';
+import { MenuTriggerDirective } from '../../directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
+import { MenuDirective } from '../../directives/cdk-menu-custom/menu/menu.directive';
+import { MenuItemDirective } from '../../directives/cdk-menu-custom/menu-item/menu-item.directive';
+import { ShortDatePipe } from '../../pipes/date-time-pipe/short-date/short-date.pipe';
+import { TimePipe } from '../../pipes/date-time-pipe/time/time.pipe';
+import { ThumbhashUrlPipe } from '../../pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 @Component({
     selector: 'app-media-list',
@@ -21,7 +32,7 @@ import { track_Id } from '../../../core/utils';
             useValue: 'media'
         }
     ],
-    standalone: false
+    imports: [TranslocoDirective, SkeletonComponent, NgTemplateOutlet, RouterLink, AppOverlayOrigin, LazyLoadImageModule, ButtonModule, MenuTriggerDirective, AppConnectedOverlay, MenuDirective, MenuItemDirective, DecimalPipe, ShortDatePipe, TimePipe, ThumbhashUrlPipe]
 })
 export class MediaListComponent implements OnInit, OnDestroy {
   track_Id = track_Id;

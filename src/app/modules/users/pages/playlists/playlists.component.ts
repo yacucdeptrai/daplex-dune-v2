@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
-import { ConfirmationService } from 'primeng/api';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { first, takeUntil } from 'rxjs';
 
@@ -9,10 +8,25 @@ import { PlaylistCardComponent } from '../../components/playlist-card';
 import { CreatePlaylistComponent } from '../../dialogs/create-playlist';
 import { AddAllToPlaylistComponent } from '../../../../shared/dialogs/add-all-to-playlist';
 import { CursorPaginated, Playlist, PlaylistDetails, UserDetails } from '../../../../core/models';
-import { AuthService, DestroyService, PlaylistsService } from '../../../../core/services';
+import { AuthService, ConfirmActionService, DestroyService, PlaylistsService } from '../../../../core/services';
 import { track_Id, translocoEscape } from '../../../../core/utils';
 import { MediaVisibility } from '../../../../core/enums';
 import { PlaylistSettingsComponent } from '../../../../shared/dialogs/playlist-settings';
+import { DecimalPipe } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { PlaylistCardComponent as PlaylistCardComponent_1 } from '../../components/playlist-card/playlist-card.component';
+import { TableModule } from 'primeng/table';
+import { SharedModule } from 'primeng/api';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { TooltipModule } from 'primeng/tooltip';
+import { MenuTriggerDirective } from '../../../../shared/directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
+import { MenuDirective } from '../../../../shared/directives/cdk-menu-custom/menu/menu.directive';
+import { MenuItemDirective } from '../../../../shared/directives/cdk-menu-custom/menu-item/menu-item.directive';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DateAltPipe } from '../../../../shared/pipes/date-time-pipe/date-alt/date-alt.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 @Component({
     selector: 'app-playlists',
@@ -20,7 +34,7 @@ import { PlaylistSettingsComponent } from '../../../../shared/dialogs/playlist-s
     styleUrls: ['./playlists.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [PlaylistsService, DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, ButtonModule, SelectButtonModule, InfiniteScrollDirective, PlaylistCardComponent_1, TableModule, SharedModule, LazyLoadImageModule, TooltipModule, RouterLink, MenuTriggerDirective, MenuDirective, MenuItemDirective, ConfirmDialogModule, DecimalPipe, DateAltPipe, ThumbhashUrlPipe]
 })
 export class PlaylistsComponent implements OnInit, OnDestroy {
   track_Id = track_Id;
@@ -36,7 +50,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
 
   constructor(private ref: ChangeDetectorRef, private viewContainerRef: ViewContainerRef, private renderer: Renderer2,
     private route: ActivatedRoute, private router: Router, private dialogService: DialogService,
-    private confirmationService: ConfirmationService, private translocoService: TranslocoService, private authService: AuthService,
+    private confirmAction: ConfirmActionService, private translocoService: TranslocoService, private authService: AuthService,
     private playlistsService: PlaylistsService, private destroyService: DestroyService) {
     this.skeletonArray = new Array(this.playlistLimit);
   }
@@ -165,11 +179,9 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
 
   showDeletePlaylistDialog(playlist: Playlist): void {
     const safePlaylistName = translocoEscape(playlist.name);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       message: this.translocoService.translate('users.playlist.deleteConfirmation', { name: safePlaylistName }),
       header: this.translocoService.translate('users.playlist.deleteConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => this.deletePlaylist(playlist)
     });
   }

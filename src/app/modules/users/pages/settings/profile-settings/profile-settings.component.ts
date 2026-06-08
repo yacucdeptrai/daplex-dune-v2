@@ -1,19 +1,37 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { debounceTime, finalize, first, forkJoin, map, of, takeUntil } from 'rxjs';
 
 import { AppErrorCode } from '../../../../../core/enums';
 import { UserDetails } from '../../../../../core/models';
 import { AuthService, DestroyService, UsersService } from '../../../../../core/services';
-import { ImageEditorComponent } from '../../../../../shared/dialogs/image-editor';
+import { ImageEditorComponent, ImageEditorConfig } from '../../../../../shared/dialogs/image-editor';
 import { dataURItoFile, detectFormChange } from '../../../../../core/utils';
 import {
   IMAGE_PREVIEW_SIZE, UPLOAD_AVATAR_MIN_HEIGHT, UPLOAD_AVATAR_MIN_WIDTH, UPLOAD_AVATAR_RATIO, UPLOAD_AVATAR_SIZE,
   UPLOAD_AVATAR_TYPES, UPLOAD_BANNER_MIN_HEIGHT, UPLOAD_BANNER_MIN_WIDTH, UPLOAD_BANNER_SIZE, UPLOAD_BANNER_TYPES
 } from '../../../../../../environments/config';
+import { NgStyle } from '@angular/common';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { ContextMenuTriggerDirective } from '../../../../../shared/directives/cdk-menu-custom/context-menu-trigger/context-menu-trigger.directive';
+import { ButtonModule } from 'primeng/button';
+import { MenuTriggerDirective } from '../../../../../shared/directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
+import { MenuDirective } from '../../../../../shared/directives/cdk-menu-custom/menu/menu.directive';
+import { MenuItemDirective } from '../../../../../shared/directives/cdk-menu-custom/menu-item/menu-item.directive';
+import { AvatarComponent } from '../../../../../shared/components/avatar/avatar.component';
+import { FormHandlerDirective } from '../../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { DisabledControlDirective } from '../../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { InputTextModule } from 'primeng/inputtext';
+import { InvalidControlDirective } from '../../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { RgbColorPipe } from '../../../../../shared/pipes/number-pipe/rgb-color/rgb-color.pipe';
+import { FirstErrorKeyPipe } from '../../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
+import { MarkedPipe } from '../../../../../shared/pipes/markdown-pipe/marked/marked.pipe';
+import { SubstringPipe } from '../../../../../shared/pipes/string-pipe/substring/substring.pipe';
+import { ThumbhashUrlPipe } from '../../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 interface UpdateProfileForm {
   nickname: FormControl<string | null>;
@@ -44,7 +62,7 @@ interface UpdateProfileForm {
             ])
         ])
     ],
-    standalone: false
+    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, ContextMenuTriggerDirective, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, AvatarComponent, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, RgbColorPipe, FirstErrorKeyPipe, MarkedPipe, SubstringPipe, ThumbhashUrlPipe]
 })
 export class ProfileSettingsComponent implements OnInit, OnDestroy {
   currentUser: UserDetails | null = null;
@@ -155,7 +173,7 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
     });
   }
 
-  editImage(data: any) {
+  editImage(data: Partial<ImageEditorConfig>) {
     const dialogRef = this.dialogService.open(ImageEditorComponent, {
       data: data,
       header: this.translocoService.translate('common.imageEditor.header'),

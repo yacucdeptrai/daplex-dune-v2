@@ -1,8 +1,8 @@
-import { MenuBaseDirective } from './menu-base.directive';
+import { MenuBase } from './menu-base.directive';
 
-describe('MenuBaseDirective', () => {
-  it('should create an instance', () => {
-    const directive = new MenuBaseDirective();
-    expect(directive).toBeTruthy();
+// Abstract CDK menu base class — assert it is defined rather than instantiating it.
+describe('MenuBase', () => {
+  it('should be defined', () => {
+    expect(MenuBase).toBeTruthy();
   });
 });

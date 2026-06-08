@@ -2,10 +2,7 @@
 import { Directive, ElementRef, HostListener, Inject, DOCUMENT } from '@angular/core';
 import { FormGroupDirective } from '@angular/forms';
 
-@Directive({
-    selector: '([formGroup])[formHandler]',
-    standalone: false
-})
+@Directive({ selector: '([formGroup])[formHandler]' })
 export class FormHandlerDirective {
 
   focusables = ['input', 'select', 'textarea'];

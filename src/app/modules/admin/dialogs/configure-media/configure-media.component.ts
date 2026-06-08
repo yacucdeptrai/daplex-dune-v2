@@ -1,15 +1,15 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, Inject, OnDestroy, ViewChild, AfterViewInit, DOCUMENT } from '@angular/core';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { ConfirmationService, MenuItem } from 'primeng/api';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
+import { MenuItem, SharedModule } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Menu } from 'primeng/menu';
+import { Menu, MenuModule } from 'primeng/menu';
 import { first, map, merge, Observable, switchMap, takeUntil, tap } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
 
 import { MediaDetails, MediaStream, MediaVideo, MediaSubtitle, TVEpisode, Genre, Production, Tag } from '../../../../core/models';
-import { DestroyService, GenresService, ItemDataService, MediaService, ProductionsService, QueueUploadService, TagsService } from '../../../../core/services';
+import { ConfirmActionService, DestroyService, GenresService, ItemDataService, MediaService, ProductionsService, QueueUploadService, TagsService } from '../../../../core/services';
 import { WsService } from '../../../../shared/modules/ws';
 import { DropdownOptionDto, UpdateMediaDto } from '../../../../core/dto/media';
 import { MediaChange, MediaVideoChange } from '../../../../core/interfaces/ws';
@@ -24,7 +24,7 @@ import { FileUploadComponent } from '../../../../shared/components/file-upload';
 import { fileExtension, maxFileSize, shortDate } from '../../../../core/validators';
 import { AddSubtitleForm, ExternalIdsForm, MediaScannerForm, ShortDateForm } from '../../../../core/interfaces/forms';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
-import { ImageEditorComponent } from '../../../../shared/dialogs/image-editor';
+import { ImageEditorComponent, ImageEditorConfig } from '../../../../shared/dialogs/image-editor';
 import { dataURItoBlob, detectFormChange, translocoEscape, fixNestedDialogFocus, replaceDialogHideMethod, timeStringToSeconds, secondsToTimeString } from '../../../../core/utils';
 import { AppErrorCode, MediaPStatus, MediaSourceStatus, MediaStatus, MediaType, SocketMessage, SocketRoom } from '../../../../core/enums';
 import {
@@ -33,6 +33,35 @@ import {
   UPLOAD_BACKDROP_MIN_HEIGHT, UPLOAD_POSTER_ASPECT_WIDTH, UPLOAD_POSTER_ASPECT_HEIGHT, UPLOAD_BACKDROP_ASPECT_WIDTH,
   UPLOAD_BACKDROP_ASPECT_HEIGHT
 } from '../../../../../environments/config';
+import { ButtonModule } from 'primeng/button';
+import { NgTemplateOutlet } from '@angular/common';
+import { VerticalTabComponent } from '../../../../shared/components/vertical-tab/vertical-tab.component';
+import { TabPanelDirective } from '../../../../shared/components/vertical-tab/tab-panel.directive';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { InputTextModule } from 'primeng/inputtext';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputMaskModule } from 'primeng/inputmask';
+import { DropdownModule } from 'primeng/dropdown';
+import { AltAutoComplete } from '../../../../core/utils/primeng/autocomplete';
+import { ChipModule } from 'primeng/chip';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { PanelToastDirective } from '../../../../shared/components/vertical-tab/panel-toast.directive';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { FileUploadComponent as FileUploadComponent_1 } from '../../../../shared/components/file-upload/file-upload.component';
+import { VideoPlayerComponent } from '../../../../shared/components/video-player/video-player.component';
+import { TooltipModule } from 'primeng/tooltip';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
+import { ShortDatePipe } from '../../../../shared/pipes/date-time-pipe/short-date/short-date.pipe';
+import { TimePipe } from '../../../../shared/pipes/date-time-pipe/time/time.pipe';
+import { SafeUrlPipe } from '../../../../shared/pipes/url-pipe/safe-url/safe-url.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 interface UpdateMediaForm {
   title: FormControl<string>;
@@ -67,7 +96,7 @@ interface UpdateMediaForm {
             useValue: ['common', 'languages']
         }
     ],
-    standalone: false
+    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, LazyLoadImageModule, TableModule, DialogModule, FileUploadComponent_1, NgTemplateOutlet, VideoPlayerComponent, TooltipModule, ConfirmDialogModule, MenuModule, ProgressSpinnerModule, FirstErrorKeyPipe, ShortDatePipe, TimePipe, SafeUrlPipe, ThumbhashUrlPipe]
 })
 export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;
@@ -112,7 +141,7 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
 
   constructor(@Inject(DOCUMENT) private document: Document, private ref: ChangeDetectorRef, private renderer: Renderer2,
     private dialogRef: DynamicDialogRef, private config: DynamicDialogConfig<MediaDetails>, private dialogService: DialogService,
-    private confirmationService: ConfirmationService, private mediaService: MediaService,
+    private confirmAction: ConfirmActionService, private mediaService: MediaService,
     private itemDataService: ItemDataService, private genresService: GenresService, private productionsService: ProductionsService,
     private tagsService: TagsService, private queueUploadService: QueueUploadService,
     private wsService: WsService, private translocoService: TranslocoService, private destroyService: DestroyService) {
@@ -243,6 +272,7 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
       includeUnprocessed: true
     }).subscribe(episodes => {
       this.episodes = episodes;
+    }).add(() => {
       showLoading && (this.loadingEpisodes = false);
       this.ref.markForCheck();
     });
@@ -367,7 +397,7 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
     });
   }
 
-  editImage(data: any): Observable<string[] | null> {
+  editImage(data: ImageEditorConfig): Observable<string[] | null> {
     const dialogRef = this.dialogService.open(ImageEditorComponent, {
       data: data,
       header: this.translocoService.translate('common.imageEditor.header'),
@@ -432,12 +462,10 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   deletePoster(event: Event): void {
     const mediaId = this.config.data!._id;
     const safeMediaTitle = translocoEscape(this.config.data!.title);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModal',
       message: this.translocoService.translate('admin.media.deletePosterConfirmation', { name: safeMediaTitle }),
       header: this.translocoService.translate('admin.media.deletePosterConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
@@ -461,12 +489,10 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   deleteBackdrop(event: Event): void {
     const mediaId = this.config.data!._id;
     const safeMediaTitle = translocoEscape(this.config.data!.title);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModal',
       message: this.translocoService.translate('admin.media.deleteBackdropConfirmation', { name: safeMediaTitle }),
       header: this.translocoService.translate('admin.media.deleteBackdropConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
@@ -542,12 +568,10 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
 
   deleteVideo(video: MediaVideo, event: Event): void {
     const mediaId = this.config.data!._id;
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModal',
       message: this.translocoService.translate('admin.media.deleteVideoConfirmation'),
       header: this.translocoService.translate('admin.media.deleteVideoConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
@@ -592,12 +616,10 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
 
   deleteSubtitle(subtitle: MediaSubtitle, event: Event): void {
     const mediaId = this.config.data!._id;
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModal',
       message: this.translocoService.translate('admin.media.deleteSubtitleConfirmation'),
       header: this.translocoService.translate('admin.media.deleteSubtitleConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
@@ -654,12 +676,10 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   deleteSource(event: Event): void {
     const mediaId = this.config.data!._id;
     const safeMediaTitle = translocoEscape(this.config.data!.title);
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModal',
       message: this.translocoService.translate('admin.media.deleteSourceConfirmation', { name: safeMediaTitle }),
       header: this.translocoService.translate('admin.media.deleteSourceConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
@@ -729,12 +749,10 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   showDeleteEpisodeDialog(episode: TVEpisode): void {
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModal',
       message: this.translocoService.translate('admin.media.deleteEpisodeConfirmation', { episodeNumber: episode.epNumber }),
       header: this.translocoService.translate('admin.media.deleteEpisodeConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => this.deleteEpisode(episode)
     });
   }

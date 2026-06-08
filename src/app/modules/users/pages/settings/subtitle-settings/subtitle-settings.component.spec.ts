@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslocoService } from '@jsverse/transloco';
+import { of } from 'rxjs';
 
+import { AuthService, UsersService } from '../../../../../core/services';
 import { SubtitleSettingsComponent } from './subtitle-settings.component';
+import { mockTranslocoService } from '../../../../../../testing/test-helpers';
 
 describe('SubtitleSettingsComponent', () => {
   let component: SubtitleSettingsComponent;
@@ -8,10 +12,15 @@ describe('SubtitleSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SubtitleSettingsComponent ]
-    })
-    .compileComponents();
-
+    imports: [SubtitleSettingsComponent],
+    providers: [
+        { provide: TranslocoService, useValue: mockTranslocoService() },
+        { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
+        { provide: UsersService, useValue: {} }
+    ]
+})
+      .overrideComponent(SubtitleSettingsComponent, { set: { template: '' } })
+      .compileComponents();
     fixture = TestBed.createComponent(SubtitleSettingsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -19,5 +28,6 @@ describe('SubtitleSettingsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.updateSubtitleForm).toBeTruthy();
   });
 });

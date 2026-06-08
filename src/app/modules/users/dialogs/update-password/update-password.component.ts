@@ -1,12 +1,20 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DynamicDialogConfig, DynamicDialogRef, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
 import { RegexPattern } from '../../../../core/enums';
 import { UserDetails } from '../../../../core/models';
 import { DestroyService, UsersService } from '../../../../core/services';
 import { controlMatches } from '../../../../core/validators';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { AutofocusDirective } from '../../../../shared/directives/form-directive/autofocus/autofocus.directive';
+import { InputTextModule } from 'primeng/inputtext';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { ButtonModule } from 'primeng/button';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 
 interface UpdatePasswordForm {
   currentPassword: FormControl<string>;
@@ -20,7 +28,7 @@ interface UpdatePasswordForm {
     styleUrls: ['./update-password.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    standalone: false
+    imports: [DynamicDialogModule, TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, AutofocusDirective, InputTextModule, InvalidControlDirective, ButtonModule, FirstErrorKeyPipe]
 })
 export class UpdatePasswordComponent {
   updatePasswordForm: FormGroup<UpdatePasswordForm>;

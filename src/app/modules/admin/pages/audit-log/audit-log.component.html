@@ -33,71 +33,68 @@
     <div class="tw-w-full sm:tw-w-auto tw-ml-auto tw-flex tw-items-end tw-gap-2 tw-justify-end">
       <button pButton type="submit" label="Filter" icon="ms ms-filter-list" class="p-button-sm"></button>
       <button pButton type="button" label="Clear" icon="ms ms-delete" class="p-button-secondary p-button-sm"
-        (click)="clearFilters()"></button>
+      (click)="clearFilters()"></button>
     </div>
   </form>
 
-  <ng-container *ngIf="loadingAuditList; else auditLogsLoaded">
+  @if (loadingAuditList) {
     <div class="tw-flex tw-items-center tw-justify-center tw-w-full tw-py-10">
       <p-progressSpinner></p-progressSpinner>
     </div>
-  </ng-container>
-
-  <ng-template #auditLogsLoaded>
-    <div *ngIf="auditLogList?.results?.length; else noAuditLogs"
-      infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollDisabled]="!auditLogList?.hasNextPage"
-      (scrolled)="onScroll()">
-
-      <p-table
-        [value]="auditLogList?.results || []"
-        [rowTrackBy]="trackId"
-        responsiveLayout="scroll"
-        [rowHover]="true"
-        styleClass="p-datatable-sm tw-bg-neutral-875 tw-p-4 tw-rounded-md"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th class="tw-w-44">Created At</th>
-            <th class="tw-w-16">Type</th>
-            <th class="tw-w-56">Target Ref</th>
-            <th class="tw-w-28">User</th>
-            <th class="tw-w-28">Target</th>
-            <th class="tw-w-12"></th>
-          </tr>
-        </ng-template>
-
-        <ng-template pTemplate="body" let-log>
-          <tr>
-            <td class="tw-text-sm">{{ log.createdAt | date:'medium' }}</td>
-            <td class="tw-text-sm tw-font-mono">{{ log.type }}</td>
-            <td class="tw-text-sm tw-font-mono">{{ log.targetRef }}</td>
-            <td class="tw-text-sm tw-font-mono">{{ log.user }}</td>
-            <td class="tw-text-sm tw-font-mono">{{ log.target }}</td>
-            <td class="tw-text-right">
-              <button
-                pButton
-                icon="ms ms-info"
-                class="p-button-rounded p-button-sm p-button-sm-icon"
-                (click)="showAuditLogDetails(log)"
-              ></button>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-
-      <div *ngIf="loadingMoreAuditList" class="tw-flex tw-items-center tw-justify-center tw-py-4 tw-w-full">
-        <p-progressSpinner styleClass="tw-scale-75"></p-progressSpinner>
+  } @else {
+    @if (auditLogList?.results?.length) {
+      <div
+        infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollDisabled]="!auditLogList?.hasNextPage"
+        (scrolled)="onScroll()">
+        <p-table
+          [value]="auditLogList?.results || []"
+          [rowTrackBy]="trackId"
+          responsiveLayout="scroll"
+          [rowHover]="true"
+          styleClass="p-datatable-sm tw-bg-neutral-875 tw-p-4 tw-rounded-md"
+          >
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="tw-w-44">Created At</th>
+              <th class="tw-w-16">Type</th>
+              <th class="tw-w-56">Target Ref</th>
+              <th class="tw-w-28">User</th>
+              <th class="tw-w-28">Target</th>
+              <th class="tw-w-12"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-log>
+            <tr>
+              <td class="tw-text-sm">{{ log.createdAt | date:'medium' }}</td>
+              <td class="tw-text-sm tw-font-mono">{{ log.type }}</td>
+              <td class="tw-text-sm tw-font-mono">{{ log.targetRef }}</td>
+              <td class="tw-text-sm tw-font-mono">{{ log.user }}</td>
+              <td class="tw-text-sm tw-font-mono">{{ log.target }}</td>
+              <td class="tw-text-right">
+                <button
+                  pButton
+                  icon="ms ms-info"
+                  class="p-button-rounded p-button-sm p-button-sm-icon"
+                  (click)="showAuditLogDetails(log)"
+                ></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        @if (loadingMoreAuditList) {
+          <div class="tw-flex tw-items-center tw-justify-center tw-py-4 tw-w-full">
+            <p-progressSpinner styleClass="tw-scale-75"></p-progressSpinner>
+          </div>
+        }
       </div>
-    </div>
-
-    <ng-template #noAuditLogs>
-      <ng-container *ngIf="auditLogsFailed; else emptyTpl">
+    } @else {
+      @if (auditLogsFailed) {
         <p class="tw-text-red-300 tw-text-base tw-italic">Failed to load audit logs.</p>
-      </ng-container>
-      <ng-template #emptyTpl>
+      } @else {
         <p class="tw-text-gray-400 tw-text-base tw-italic">No audit logs found.</p>
-      </ng-template>
-    </ng-template>
-  </ng-template>
+      }
+    }
+  }
+
 </div>
 

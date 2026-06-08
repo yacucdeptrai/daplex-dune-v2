@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { cloneDeep } from 'lodash-es';
 import { catchError, debounceTime, first, of, switchMap, takeUntil, tap } from 'rxjs';
 
 import { MediaVisibility, UserVisibility } from '../../../../../core/enums';
 import { UserDetails } from '../../../../../core/models';
 import { AuthService, DestroyService, UsersService } from '../../../../../core/services';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { FormHandlerDirective } from '../../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { DisabledControlDirective } from '../../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 
 interface UpdatePrivacyForm {
   historyVisibility: FormControl<number>;
@@ -19,7 +23,7 @@ interface UpdatePrivacyForm {
     styleUrls: ['./privacy-settings.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, RadioButtonModule, DisabledControlDirective]
 })
 export class PrivacySettingsComponent implements OnInit {
   currentUser: UserDetails | null = null;

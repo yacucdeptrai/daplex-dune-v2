@@ -1,8 +1,8 @@
-import { SlidePointerFocusTrackerDirective } from './slide-pointer-focus-tracker';
+import { SlidePointerFocusTracker } from './slide-pointer-focus-tracker';
 
-describe('SlidePointerFocusTrackerDirective', () => {
-  it('should create an instance', () => {
-    const directive = new SlidePointerFocusTrackerDirective();
-    expect(directive).toBeTruthy();
+// Generic helper requiring constructor dependencies — assert the class is defined.
+describe('SlidePointerFocusTracker', () => {
+  it('should be defined', () => {
+    expect(SlidePointerFocusTracker).toBeTruthy();
   });
 });

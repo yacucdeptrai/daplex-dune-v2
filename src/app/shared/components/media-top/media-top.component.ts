@@ -1,9 +1,14 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 
 import { MediaType } from '../../../core/enums';
 import { Media, Paginated } from '../../../core/models';
 import { track_Id } from '../../../core/utils';
+import { NgTemplateOutlet, DecimalPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { SkeletonComponent } from '../skeleton/skeleton.component';
+import { ThumbhashUrlPipe } from '../../pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 @Component({
     selector: 'app-media-top',
@@ -16,7 +21,7 @@ import { track_Id } from '../../../core/utils';
             useValue: 'media'
         }
     ],
-    standalone: false
+    imports: [NgTemplateOutlet, TranslocoDirective, RouterLink, LazyLoadImageModule, SkeletonComponent, DecimalPipe, ThumbhashUrlPipe]
 })
 export class MediaTopComponent implements OnInit {
   MediaType = MediaType;

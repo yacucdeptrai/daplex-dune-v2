@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { AuthService } from '../services';
 import { ToastKey } from '../enums';
 import { CAN_INTERCEPT, RETRY_COUNT } from '../tokens';
+import { AUTH_COOKIE_MARKER } from '../constants';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
@@ -38,7 +39,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           switch (error.status) {
             case 401:
               // Check if the authenticated flag exist in the cookie
-              const authenticated = document.cookie.indexOf('authenticated=true') > -1;
+              const authenticated = document.cookie.indexOf(AUTH_COOKIE_MARKER) > -1;
               if (authenticated) {
                 this.authService.signOut().subscribe().add(() => {
                   location.reload();

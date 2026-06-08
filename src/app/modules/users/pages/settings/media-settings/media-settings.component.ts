@@ -1,14 +1,21 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, OnInit, signal } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { first, map, takeUntil } from 'rxjs';
 
 import { UserDetails } from '../../../../../core/models';
 import { LanguageOptionDto } from '../../../../../core/dto/common';
 import { AuthService, UsersService, DestroyService } from '../../../../../core/services';
 import { detectFormChange } from '../../../../../core/utils';
+import { FormHandlerDirective } from '../../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { SliderAltModule } from 'primeng/slideralt';
+import { DisabledControlDirective } from '../../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { SelectOrderComponent } from '../../../../../shared/components/select-order/select-order.component';
+
+import { ButtonModule } from 'primeng/button';
 
 interface UpdateMediaForm {
   historyLimit: FormControl<number>;
@@ -37,7 +44,7 @@ interface UpdateMediaForm {
             ])
         ])
     ],
-    standalone: false
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, SliderAltModule, DisabledControlDirective, InputSwitchModule, SelectOrderComponent, ButtonModule]
 })
 export class MediaSettingsComponent implements OnInit {
   currentUser: UserDetails | null = null;

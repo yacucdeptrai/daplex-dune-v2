@@ -20,8 +20,7 @@ import { MenuBase } from '../menu-base/menu-base.directive';
         { provide: CdkMenuGroup, useExisting: MenuDirective },
         { provide: CDK_MENU, useExisting: MenuDirective },
         PARENT_OR_NEW_INLINE_MENU_STACK_PROVIDER('vertical'),
-    ],
-    standalone: false
+    ]
 })
 export class MenuDirective extends MenuBase implements AfterContentInit, OnDestroy {
   private _parentTrigger = inject(MENU_TRIGGER, { optional: true });

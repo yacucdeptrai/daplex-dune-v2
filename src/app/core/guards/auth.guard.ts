@@ -19,9 +19,10 @@ export class AuthGuard {
       return false;
     }
     // Logged in
-    const allowedPerms = <UserPermission[]>route.data['withPermissions'];
+    const withPermissions = route.data['withPermissions'];
+    const allowedPerms: UserPermission[] = Array.isArray(withPermissions) ? withPermissions : [];
     // No permission required so return true
-    if (!allowedPerms?.length) return true;
+    if (!allowedPerms.length) return true;
     // Always return true for the owner
     if (user.owner) return true;
     // Return false for users with no granted permissions

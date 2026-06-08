@@ -55,16 +55,16 @@
           <td class="tw-w-96">
             <div class="tw-flex">
               <div class="tw-w-16 tw-flex-shrink-0">
-                <div *ngIf="media.thumbnailPosterUrl; else noPoster"
-                  class="tw-aspect-w-2 tw-aspect-h-3 tw-rounded-md tw-overflow-hidden">
-                  <img class="tw-object-cover" [lazyLoad]="media.smallPosterUrl"
-                    [defaultImage]="media.posterPlaceholder | thumbhashUrl"
-                    errorImage="assets/images/media-poster-error-sm.png" [alt]="media.title">
-                </div>
-                <ng-template #noPoster>
+                @if (media.thumbnailPosterUrl) {
+                  <div class="tw-aspect-w-2 tw-aspect-h-3 tw-rounded-md tw-overflow-hidden">
+                    <img class="tw-object-cover" [lazyLoad]="media.smallPosterUrl"
+                      [defaultImage]="media.posterPlaceholder | thumbhashUrl"
+                      errorImage="assets/images/media-poster-error-sm.png" [alt]="media.title">
+                  </div>
+                } @else {
                   <img class="tw-object-cover tw-rounded-md" src="assets/images/media-poster-sm.png" loading="lazy"
                     [alt]="media.title">
-                </ng-template>
+                }
               </div>
               <div class="tw-ml-2">
                 <p class="tw-text-base tw-font-semibold tw-line-clamp-2">{{ media.title }}</p>
@@ -72,17 +72,16 @@
               </div>
             </div>
           </td>
-          <ng-container *ngIf="media.type === MediaType.MOVIE; else isTV">
+          @if (media.type === MediaType.MOVIE) {
             <td class="tw-w-24 tw-text-sm">{{ t('admin.media.movie') }}</td>
             <td class="tw-w-40 tw-text-sm">{{ media.runtime * 1000 | time:{ display:'short' } }}</td>
-          </ng-container>
-          <ng-template #isTV>
+          } @else {
             <td class="tw-w-24 tw-text-sm">{{ t('admin.media.tv') }}</td>
             <td class="tw-w-40 tw-text-sm">
               <p>{{ t('admin.media.episodeCountValue', { episodeCount: media.tv.episodeCount }) }}</p>
               <p>{{ media.runtime * 1000 | time:{ display:'short' } }} {{ t('admin.media.episodeRuntimeValue') }}</p>
             </td>
-          </ng-template>
+          }
           <td class="tw-w-36 tw-text-sm">{{ media.releaseDate | shortDate }}</td>
           <td class="tw-w-auto">
             <div class="tw-text-center">
@@ -90,18 +89,20 @@
               <p class="tw-text-lg">{{ media.ratingAverage }}</p>
             </div>
           </td>
-          <td class="tw-w-20" [ngSwitch]="media.pStatus">
+          <td class="tw-w-20">
             <div class="tw-text-center">
-              <ng-container *ngSwitchCase="MediaPStatus.PENDING">
-                <i class="ms ms-draft ms-opsz-lg tw-text-4xl" [pTooltip]="t('admin.media.statusPending')"></i>
-              </ng-container>
-              <ng-container *ngSwitchCase="MediaPStatus.PROCESSING">
-                <i class="ms ms-hourglass-empty ms-opsz-lg tw-text-4xl"
-                  [pTooltip]="t('admin.media.statusProcessing')"></i>
-              </ng-container>
-              <ng-container *ngSwitchCase="MediaPStatus.DONE">
-                <i class="ms ms-check-circle ms-opsz-lg tw-text-4xl" [pTooltip]="t('admin.media.statusDone')"></i>
-              </ng-container>
+              @switch (media.pStatus) {
+                @case (MediaPStatus.PENDING) {
+                  <i class="ms ms-draft ms-opsz-lg tw-text-4xl" [pTooltip]="t('admin.media.statusPending')"></i>
+                }
+                @case (MediaPStatus.PROCESSING) {
+                  <i class="ms ms-hourglass-empty ms-opsz-lg tw-text-4xl"
+                    [pTooltip]="t('admin.media.statusProcessing')"></i>
+                }
+                @case (MediaPStatus.DONE) {
+                  <i class="ms ms-check-circle ms-opsz-lg tw-text-4xl" [pTooltip]="t('admin.media.statusDone')"></i>
+                }
+              }
             </div>
           </td>
           <td>

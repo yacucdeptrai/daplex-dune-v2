@@ -4,16 +4,15 @@ import { RouterModule } from '@angular/router';
 
 import { HomeLayoutComponent } from './home-layout.component';
 import { HomeHeaderModule } from '../../components/home-header';
-import { HomeFooterModule } from '../../components/home-footer';
+
 
 @NgModule({
-  declarations: [HomeLayoutComponent],
-  imports: [
+    imports: [
     CommonModule,
     RouterModule,
     HomeHeaderModule,
-    HomeFooterModule
-  ],
-  exports: [HomeLayoutComponent]
+    HomeLayoutComponent
+],
+    exports: [HomeLayoutComponent]
 })
 export class HomeLayoutModule { }

@@ -58,8 +58,7 @@ export class ContextMenuTracker {
     providers: [
         { provide: MENU_TRIGGER, useExisting: ContextMenuTriggerDirective },
         { provide: MENU_STACK, useClass: MenuStack },
-    ],
-    standalone: false
+    ]
 })
 export class ContextMenuTriggerDirective extends CdkMenuTriggerBase implements OnDestroy {
   /** The CDK overlay service. */

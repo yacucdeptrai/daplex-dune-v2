@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { forkJoin, map, Observable, tap } from 'rxjs';
 import { HttpCacheManager } from '@ngneat/cashew';
 
+import { HttpParamsObject } from '../types/http-params.type';
 import { AddMediaSubtitleDto, AddMediaVideoDto, AddTVEpisodeDto, CreateMediaDto, CursorPageMediaDto, FindMediaStreamDto, FindOneMediaDto, FindTVEpisodesDto, OffsetPageMediaDto, PaginateMediaDto, UpdateMediaDto, UpdateMediaVideoDto, UpdateTVEpisodeDto } from '../dto/media';
 import { CursorPaginated, ExtMediaSuggestions, FlixHQInfo, FlixHQSearch, GogoanimeInfo, GogoanimeSearch, Media, MediaDetails, MediaStream, MediaSubtitle, MediaVideo, Paginated, TVEpisode, TVEpisodeDetails, ZoroInfo, ZoroSearch } from '../models';
 import { CacheKey, ExtMediaProvider } from '../../core/enums';
@@ -18,7 +19,7 @@ export class MediaService {
   }
 
   findPage(paginateMediaDto?: OffsetPageMediaDto, context?: HttpContext) {
-    const params: { [key: string]: any } = {};
+    const params: HttpParamsObject = {};
     if (paginateMediaDto) {
       const { page, limit, search, sort, genres, tags, type, status, originalLang, year, includeHidden, includeUnprocessed } = paginateMediaDto;
       page && (params['page'] = page);
@@ -38,7 +39,7 @@ export class MediaService {
   }
 
   findPageCursor(paginateMediaDto?: CursorPageMediaDto, context?: HttpContext) {
-    const params: { [key: string]: any } = {};
+    const params: HttpParamsObject = {};
     if (paginateMediaDto) {
       const { pageToken, limit, search, sort, genres, tags, genreMatch, tagMatch, excludeIds, type, status, originalLang, year,
         preset, presetParams, includeHidden, includeUnprocessed } = paginateMediaDto;
@@ -64,7 +65,7 @@ export class MediaService {
   }
 
   findOne(id: string, findOneMediaDto?: FindOneMediaDto) {
-    const params: { [key: string]: any } = {};
+    const params: HttpParamsObject = {};
     if (findOneMediaDto) {
       const { includeHiddenEps, includeUnprocessedEps, includeHiddenMedia, includeUnprocessedMedia, appendToResponse } = findOneMediaDto;
       includeHiddenEps !== undefined && (params['includeHiddenEps'] = includeHiddenEps);
@@ -81,7 +82,7 @@ export class MediaService {
   }
 
   findMovieStreams(id: string, findMediaStreamDto: FindMediaStreamDto = {}) {
-    const params: { [key: string]: any } = {};
+    const params: HttpParamsObject = {};
     const { preview } = findMediaStreamDto;
     preview !== undefined && (params['preview'] = preview);
     return this.http.get<MediaStream>(`media/${id}/movie/streams`, { params });
@@ -157,7 +158,7 @@ export class MediaService {
   }
 
   findAllTVEpisodes(id: string, findTVEpisodesDto: FindTVEpisodesDto) {
-    const params: { [key: string]: any } = {};
+    const params: HttpParamsObject = {};
     const { includeHidden, includeUnprocessed } = findTVEpisodesDto;
     includeHidden !== undefined && (params['includeHidden'] = includeHidden);
     includeUnprocessed !== undefined && (params['includeUnprocessed'] = includeUnprocessed);
@@ -204,7 +205,7 @@ export class MediaService {
   }
 
   findTVStreams(id: string, episodeNumber: string | number, findMediaStreamDto: FindMediaStreamDto = {}) {
-    const params: { [key: string]: any } = {};
+    const params: HttpParamsObject = {};
     const { preview } = findMediaStreamDto;
     preview !== undefined && (params['preview'] = preview);
     return this.http.get<MediaStream>(`media/${id}/tv/episodes/${episodeNumber}/streams`, { params });

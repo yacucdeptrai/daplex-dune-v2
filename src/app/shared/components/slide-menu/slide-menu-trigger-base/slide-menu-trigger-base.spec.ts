@@ -1,8 +1,8 @@
 import { SlideMenuTriggerBase } from './slide-menu-trigger-base';
 
-describe('SlideMenuTriggerBaseDirective', () => {
-  it('should create an instance', () => {
-    const directive = new SlideMenuTriggerBase();
-    expect(directive).toBeTruthy();
+// Abstract base class — assert it is defined rather than instantiating it.
+describe('SlideMenuTriggerBase', () => {
+  it('should be defined', () => {
+    expect(SlideMenuTriggerBase).toBeTruthy();
   });
 });

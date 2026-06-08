@@ -1,14 +1,13 @@
 
 import { Component, OnInit, ChangeDetectionStrategy, Inject, ChangeDetectorRef, Renderer2, ViewChild, AfterViewInit, DOCUMENT } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ConfirmationService } from 'primeng/api';
 import { first, takeUntil } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
 
 import { DropdownOptionDto, UpdateTVEpisodeDto } from '../../../../core/dto/media';
-import { DestroyService, ItemDataService, MediaService, QueueUploadService } from '../../../../core/services';
+import { ConfirmActionService, DestroyService, ItemDataService, MediaService, QueueUploadService } from '../../../../core/services';
 import { fileExtension, maxFileSize, shortDate } from '../../../../core/validators';
 import { MediaDetails, MediaStream, MediaSubtitle, TVEpisodeDetails } from '../../../../core/models';
 import { AddSubtitleForm, ShortDateForm } from '../../../../core/interfaces/forms';
@@ -22,6 +21,29 @@ import {
   UPLOAD_STILL_MIN_WIDTH, UPLOAD_STILL_SIZE, UPLOAD_SUBTITLE_EXT, UPLOAD_SUBTITLE_SIZE
 } from '../../../../../environments/config';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
+import { ButtonModule } from 'primeng/button';
+import { NgTemplateOutlet } from '@angular/common';
+import { VerticalTabComponent } from '../../../../shared/components/vertical-tab/vertical-tab.component';
+import { TabPanelDirective } from '../../../../shared/components/vertical-tab/tab-panel.directive';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputTextModule } from 'primeng/inputtext';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DropdownModule } from 'primeng/dropdown';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { PanelToastDirective } from '../../../../shared/components/vertical-tab/panel-toast.directive';
+import { FileUploadComponent as FileUploadComponent_1 } from '../../../../shared/components/file-upload/file-upload.component';
+import { TableModule } from 'primeng/table';
+import { SharedModule } from 'primeng/api';
+import { VideoPlayerComponent } from '../../../../shared/components/video-player/video-player.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 
 interface UpdateEpisodeForm {
@@ -47,7 +69,7 @@ interface UpdateEpisodeForm {
             useValue: ['common', 'media', 'languages']
         }
     ],
-    standalone: false
+    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, InvalidControlDirective, InputMaskModule, InputTextModule, LazyLoadImageModule, InputTextareaModule, DropdownModule, RadioButtonModule, PanelToastDirective, FileUploadComponent_1, TableModule, SharedModule, NgTemplateOutlet, VideoPlayerComponent, ConfirmDialogModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
 })
 export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;
@@ -73,7 +95,7 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
 
   constructor(@Inject(DOCUMENT) private document: Document, private ref: ChangeDetectorRef, private renderer: Renderer2,
     private dialogRef: DynamicDialogRef, private config: DynamicDialogConfig<{ media: MediaDetails, episode: TVEpisodeDetails }>,
-    private dialogService: DialogService, private confirmationService: ConfirmationService, private mediaService: MediaService,
+    private dialogService: DialogService, private confirmAction: ConfirmActionService, private mediaService: MediaService,
     private itemDataService: ItemDataService, private queueUploadService: QueueUploadService,
     private translocoService: TranslocoService, private destroyService: DestroyService) {
     const lang = this.translocoService.getActiveLang();
@@ -227,12 +249,10 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
     const mediaId = this.config.data!.media._id;
     const episodeId = this.config.data!.episode._id;
     const episodeNumber = this.config.data!.episode.epNumber;
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModalEpisode',
       message: this.translocoService.translate('admin.episode.deleteStillConfirmation', { episode: episodeNumber }),
       header: this.translocoService.translate('admin.episode.deleteStillConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
@@ -307,12 +327,10 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
   deleteSubtitle(subtitle: MediaSubtitle, event: Event): void {
     const mediaId = this.config.data!.media._id;
     const episodeId = this.config.data!.episode._id;
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModalEpisode',
       message: this.translocoService.translate('admin.media.deleteSubtitleConfirmation'),
       header: this.translocoService.translate('admin.media.deleteSubtitleConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);
@@ -358,12 +376,10 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
     const mediaId = this.config.data!.media._id;
     const episodeId = this.config.data!.episode._id;
     const safeEpisodeName = translocoEscape(this.config.data!.episode.epNumber.toString());
-    this.confirmationService.confirm({
+    this.confirmAction.confirmDelete({
       key: 'inModalEpisode',
       message: this.translocoService.translate('admin.media.deleteSourceConfirmation', { name: safeEpisodeName }),
       header: this.translocoService.translate('admin.media.deleteSourceConfirmationHeader'),
-      icon: 'ms ms-delete',
-      defaultFocus: 'reject',
       accept: () => {
         const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
         this.renderer.setProperty(element, 'disabled', true);

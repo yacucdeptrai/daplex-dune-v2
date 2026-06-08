@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { map } from 'rxjs';
 
 import { CreateCollectionDto, CursorPageCollectionsDto, CursorPageMediaDto, PaginateCollectionsDto, RemoveCollectionsDto, UpdateCollectionDto } from '../dto/collections';
 import { CursorPaginated, Media, MediaCollection, MediaCollectionDetails, Paginated } from '../models';
 import { FindSuggestionsOptions } from '../interfaces/options';
+import { toTruthyHttpParams } from '../utils';
 
 @Injectable({
   providedIn: 'root'
@@ -18,22 +19,12 @@ export class CollectionService {
   }
 
   findPage(paginateCollectionsDto: PaginateCollectionsDto) {
-    const { page, limit, search, sort } = paginateCollectionsDto;
-    const params: any = {};
-    page && (params['page'] = page);
-    limit && (params['limit'] = limit);
-    search && (params['search'] = search);
-    sort && (params['sort'] = sort);
+    const params = toTruthyHttpParams(paginateCollectionsDto);
     return this.http.get<Paginated<MediaCollection>>('collections', { params });
   }
 
   findPageCursor(cursorPageCollectionsDto: CursorPageCollectionsDto) {
-    const { pageToken, limit, search, sort } = cursorPageCollectionsDto;
-    const params: any = {};
-    pageToken && (params['pageToken'] = pageToken);
-    limit && (params['limit'] = limit);
-    search && (params['search'] = search);
-    sort && (params['sort'] = sort);
+    const params = toTruthyHttpParams(cursorPageCollectionsDto);
     return this.http.get<CursorPaginated<MediaCollection>>('collections/cursor', { params });
   }
 
@@ -56,11 +47,7 @@ export class CollectionService {
   }
 
   findAllMedia(id: string, cursorPageMediaDto: CursorPageMediaDto) {
-    const { pageToken, limit, sort } = cursorPageMediaDto;
-    const params: any = {};
-    pageToken && (params['pageToken'] = pageToken);
-    limit && (params['limit'] = limit);
-    sort && (params['sort'] = sort);
+    const params = toTruthyHttpParams(cursorPageMediaDto);
     return this.http.get<CursorPaginated<Media>>(`collections/${id}/media`, { params });
   }
 

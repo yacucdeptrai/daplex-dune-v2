@@ -2,11 +2,12 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CommonDirectiveModule } from '../common-directive.module';
+import { AsyncPipe } from '@angular/common';
+import { NgLetDirective } from './ng-let.directive';
 
 @Component({
     template: '<div><ng-container *ngLet="value as data">{{data}}</ng-container><ng-container *ngLet="value; let data">{{data}}</ng-container></div>',
-    standalone: false
+    imports: [NgLetDirective]
 })
 class TestSimpleComponent {
     value = 'test';
@@ -19,9 +20,8 @@ describe('NgLet: simple', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [TestSimpleComponent],
-            imports: [CommonDirectiveModule]
-        });
+    imports: [NgLetDirective, TestSimpleComponent]
+});
         fixture = TestBed.createComponent(TestSimpleComponent);
         debugElement = fixture.debugElement;
         element = debugElement.nativeElement;
@@ -39,7 +39,7 @@ describe('NgLet: simple', () => {
 
 @Component({
     template: '<div *ngLet="value | async as data">{{data}}</div>',
-    standalone: false
+    imports: [NgLetDirective, AsyncPipe]
 })
 class TestAsyncComponent {
     value: Observable<string> = of('test');
@@ -52,9 +52,8 @@ describe('NgLet: async', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [TestAsyncComponent],
-            imports: [CommonDirectiveModule]
-        });
+    imports: [NgLetDirective, TestAsyncComponent]
+});
         fixture = TestBed.createComponent(TestAsyncComponent);
         debugElement = fixture.debugElement;
         element = debugElement.nativeElement;
@@ -73,7 +72,7 @@ describe('NgLet: async', () => {
 // tslint:disable-next-line: max-line-length
 @Component({
     template: '<div *ngLet="value as data"><ng-container *ngLet="nestedValue as nestedData">{{data}}-{{nestedData}}</ng-container></div>',
-    standalone: false
+    imports: [NgLetDirective]
 })
 class TestNestedComponent {
     value = 'test';
@@ -87,9 +86,8 @@ describe('NgLet: nested', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [TestNestedComponent],
-            imports: [CommonDirectiveModule]
-        });
+    imports: [NgLetDirective, TestNestedComponent]
+});
         fixture = TestBed.createComponent(TestNestedComponent);
         debugElement = fixture.debugElement;
         element = debugElement.nativeElement;
@@ -102,11 +100,5 @@ describe('NgLet: nested', () => {
     it('test', () => {
         fixture.detectChanges();
         expect(element.textContent).toBe('test-testNested');
-    });
-});
-
-describe('NgLetModule', () => {
-    it('should create NgLetModule', () => {
-        expect(new CommonDirectiveModule()).toBeTruthy();
     });
 });

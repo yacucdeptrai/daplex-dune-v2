@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { format as dateFormat, Locale } from 'date-fns';
 import { enUS, vi } from 'date-fns/locale';
 
@@ -7,10 +7,7 @@ import { ShortDate } from '../../../../core/models';
 
 const locales: { [key: string]: Locale } = { en: enUS, vi: vi };
 
-@Pipe({
-    name: 'shortDate',
-    standalone: false
-})
+@Pipe({ name: 'shortDate' })
 export class ShortDatePipe implements PipeTransform {
   constructor(private translocoService: TranslocoService) { }
 

@@ -5,6 +5,7 @@ export * from './date-fns-locales';
 export * from './device-helper';
 export * from './file-upload-info';
 export * from './form-helper';
+export * from './http-params-helper';
 export * from './ng-track-by';
 export * from './number-helper';
 export * from './object-helper';

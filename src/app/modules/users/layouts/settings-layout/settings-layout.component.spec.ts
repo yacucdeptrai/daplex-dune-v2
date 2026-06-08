@@ -1,6 +1,10 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslocoService } from '@jsverse/transloco';
+import { of } from 'rxjs';
 
 import { SettingsLayoutComponent } from './settings-layout.component';
+import { mockTranslocoService } from '../../../../../testing/test-helpers';
 
 describe('SettingsLayoutComponent', () => {
   let component: SettingsLayoutComponent;
@@ -8,10 +12,14 @@ describe('SettingsLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SettingsLayoutComponent ]
-    })
-    .compileComponents();
-
+    imports: [SettingsLayoutComponent],
+    providers: [
+        { provide: TranslocoService, useValue: { ...mockTranslocoService(), selectTranslation: () => of({}) } },
+        { provide: BreakpointObserver, useValue: { observe: () => of({ matches: true, breakpoints: {} }) } }
+    ]
+})
+      .overrideComponent(SettingsLayoutComponent, { set: { template: '' } })
+      .compileComponents();
     fixture = TestBed.createComponent(SettingsLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,9 +1,18 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { RegexPattern } from '../../../../core/enums';
 import { AuthService } from '../../../../core/services';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { NgClass } from '@angular/common';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 
 interface ResetPasswordForm {
   password: FormControl<string>;
@@ -14,7 +23,7 @@ interface ResetPasswordForm {
     templateUrl: './reset-password.component.html',
     styleUrls: ['./reset-password.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [TranslocoDirective, ProgressBarModule, NgClass, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, ButtonModule, InvalidControlDirective, RouterLink, FirstErrorKeyPipe]
 })
 export class ResetPasswordComponent {
   resetPasswordForm: FormGroup<ResetPasswordForm>;

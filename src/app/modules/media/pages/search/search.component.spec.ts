@@ -1,6 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 import { SearchComponent } from './search.component';
+import {
+  HTTP_TEST_PROVIDERS,
+  HTTP_CACHE_TEST_PROVIDERS,
+  provideMockActivatedRoute,
+  mockRouter
+} from '../../../../../testing/test-helpers';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -8,12 +15,17 @@ describe('SearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SearchComponent ]
-    })
-    .compileComponents();
-  });
+    imports: [SearchComponent],
+    providers: [
+        ...HTTP_TEST_PROVIDERS,
+        ...HTTP_CACHE_TEST_PROVIDERS,
+        provideMockActivatedRoute({ queryParams: {} }),
+        { provide: Router, useValue: mockRouter() }
+    ]
+})
+      .overrideComponent(SearchComponent, { set: { template: '' } })
+      .compileComponents();
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

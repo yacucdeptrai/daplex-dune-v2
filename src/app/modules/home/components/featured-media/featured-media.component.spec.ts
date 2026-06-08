@@ -1,6 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { TranslocoService } from '@jsverse/transloco';
+import { DialogService } from 'primeng/dynamicdialog';
 
 import { FeaturedMediaComponent } from './featured-media.component';
+import { AuthService } from '../../../../core/services';
+import {
+  mockRouter,
+  mockDialogService,
+  mockTranslocoService
+} from '../../../../../testing/test-helpers';
 
 describe('FeaturedMediaComponent', () => {
   let component: FeaturedMediaComponent;
@@ -8,12 +17,17 @@ describe('FeaturedMediaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FeaturedMediaComponent ]
-    })
-    .compileComponents();
-  });
+    imports: [FeaturedMediaComponent],
+    providers: [
+        { provide: Router, useValue: mockRouter() },
+        { provide: DialogService, useValue: mockDialogService() },
+        { provide: TranslocoService, useValue: mockTranslocoService() },
+        { provide: AuthService, useValue: {} }
+    ]
+})
+      .overrideComponent(FeaturedMediaComponent, { set: { template: '' } })
+      .compileComponents();
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(FeaturedMediaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

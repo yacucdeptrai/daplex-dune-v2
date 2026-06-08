@@ -1,11 +1,19 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ExtMediaEpisode, ExtMediaInfo, ExtMediaSuggestions } from '../../../../core/models';
 import { MediaService } from '../../../../core/services';
 import { ExtMediaProvider } from '../../../../core/enums';
 import { trackId, trackLabel } from '../../../../core/utils';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { InputTextModule } from 'primeng/inputtext';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { ButtonModule } from 'primeng/button';
+
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 interface FindExtMediaForm {
   query: FormControl<string>;
@@ -16,7 +24,7 @@ interface FindExtMediaForm {
     templateUrl: './add-ext-streams.component.html',
     styleUrls: ['./add-ext-streams.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputTextModule, DisabledControlDirective, ButtonModule, LazyLoadImageModule, ProgressSpinnerModule]
 })
 export class AddExtStreamsComponent implements OnInit {
   @Output() onSelect = new EventEmitter<ExtStreamSelected>();

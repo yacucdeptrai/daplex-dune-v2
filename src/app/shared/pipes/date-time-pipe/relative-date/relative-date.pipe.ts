@@ -1,15 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { formatRelative, Locale } from 'date-fns';
 
 import { enUSDateRelative, viDateRelative } from '../../../../core/utils/date-fns-locales';
 
 const locales: { [key: string]: Locale } = { en: enUSDateRelative, vi: viDateRelative };
 
-@Pipe({
-    name: 'relativeDate',
-    standalone: false
-})
+@Pipe({ name: 'relativeDate' })
 export class RelativeDatePipe implements PipeTransform {
   constructor(private translocoService: TranslocoService) { }
 

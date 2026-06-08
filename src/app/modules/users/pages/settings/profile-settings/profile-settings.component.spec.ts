@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslocoService } from '@jsverse/transloco';
+import { DialogService } from 'primeng/dynamicdialog';
+import { of } from 'rxjs';
 
+import { AuthService, UsersService } from '../../../../../core/services';
 import { ProfileSettingsComponent } from './profile-settings.component';
+import { mockTranslocoService } from '../../../../../../testing/test-helpers';
 
 describe('ProfileSettingsComponent', () => {
   let component: ProfileSettingsComponent;
@@ -8,10 +13,16 @@ describe('ProfileSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProfileSettingsComponent ]
-    })
-    .compileComponents();
-
+    imports: [ProfileSettingsComponent],
+    providers: [
+        { provide: TranslocoService, useValue: mockTranslocoService() },
+        { provide: DialogService, useValue: { open: () => undefined, dialogComponentRefMap: new Map() } },
+        { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
+        { provide: UsersService, useValue: {} }
+    ]
+})
+      .overrideComponent(ProfileSettingsComponent, { set: { template: '' } })
+      .compileComponents();
     fixture = TestBed.createComponent(ProfileSettingsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -19,5 +30,6 @@ describe('ProfileSettingsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.updateProfileForm).toBeTruthy();
   });
 });

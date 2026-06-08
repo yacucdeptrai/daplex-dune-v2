@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
@@ -10,6 +10,15 @@ import { AuthService, DestroyService, PlaylistsService } from '../../../../core/
 import { SITE_NAME } from '../../../../../environments/config';
 import { track_Id } from '../../../../core/utils';
 import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playlist';
+import { NgStyle } from '@angular/common';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { ButtonModule } from 'primeng/button';
+import { MenuTriggerDirective } from '../../../../shared/directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
+import { MenuDirective } from '../../../../shared/directives/cdk-menu-custom/menu/menu.directive';
+import { MenuItemDirective } from '../../../../shared/directives/cdk-menu-custom/menu-item/menu-item.directive';
+import { RgbColorPipe } from '../../../../shared/pipes/number-pipe/rgb-color/rgb-color.pipe';
+import { IsTypeOfPipe } from '../../../../shared/pipes/type-pipe/is-type-of/is-type-of.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 @Component({
     selector: 'app-playlists',
@@ -17,7 +26,7 @@ import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playli
     styleUrls: ['./playlists.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [PlaylistsService, DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, RouterLink, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, RgbColorPipe, IsTypeOfPipe, ThumbhashUrlPipe]
 })
 export class PlaylistsComponent implements OnInit, OnDestroy {
   loadingPlaylist: boolean = false;
@@ -88,9 +97,6 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
       results: [...this.playlistItems.results, ...newList.results],
       mediaList: [...this.playlistItems.mediaList, ...newList.mediaList]
     };
-    this.playlistItems.nextPageToken = newList.nextPageToken;
-    this.playlistItems.prevPageToken = newList.prevPageToken;
-    this.playlistItems.results.push(...newList.results);
   }
 
   onPlaylistMenuClick(button: HTMLButtonElement, opened: boolean): void {
