@@ -27,7 +27,7 @@ import {
 } from '../../../../../environments/config';
 import { StepperComponent as StepperComponent_1 } from '../../../../shared/components/stepper/stepper.component';
 import { CdkStep, CdkStepperPrevious, CdkStepperNext } from '@angular/cdk/stepper';
-import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { InputTextModule } from 'primeng/inputtext';
@@ -76,7 +76,7 @@ interface UpdateMediaForm extends Omit<CreateMediaForm, 'type'> { }
             useValue: 'common'
         }
     ],
-    imports: [TranslocoDirective, StepperComponent_1, CdkStep, NgIf, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, NgTemplateOutlet, RadioButtonModule, ButtonModule, AltAutoComplete, SharedModule, NgFor, ChipModule, FileUploadComponent_1, CdkStepperPrevious, CdkStepperNext, FirstErrorKeyPipe]
+    imports: [TranslocoDirective, StepperComponent_1, CdkStep, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, NgTemplateOutlet, RadioButtonModule, ButtonModule, AltAutoComplete, SharedModule, ChipModule, FileUploadComponent_1, CdkStepperPrevious, CdkStepperNext, FirstErrorKeyPipe]
 })
 export class CreateMediaComponent implements OnInit, AfterViewInit {
   @ViewChild('stepper') stepper?: StepperComponent;

@@ -23,7 +23,6 @@ import { buildTablePaginationParams, translocoEscape } from '../../../../core/ut
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { SharedModule } from 'primeng/api';
-import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -37,7 +36,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
     styleUrls: ['./media.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [TranslocoDirective, InputTextModule, ButtonModule, TableModule, SharedModule, NgIf, LazyLoadImageModule, NgSwitch, NgSwitchCase, TooltipModule, ConfirmDialogModule, MenuModule, ShortDatePipe, TimePipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, InputTextModule, ButtonModule, TableModule, SharedModule, LazyLoadImageModule, TooltipModule, ConfirmDialogModule, MenuModule, ShortDatePipe, TimePipe, ThumbhashUrlPipe]
 })
 export class MediaComponent implements OnInit, OnDestroy {
   MediaType = MediaType;

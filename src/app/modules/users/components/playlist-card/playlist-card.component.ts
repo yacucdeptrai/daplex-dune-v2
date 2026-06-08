@@ -6,7 +6,7 @@ import { Playlist, UserDetails } from '../../../../core/models';
 import { AuthService, DestroyService } from '../../../../core/services';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ContextMenuTriggerDirective } from '../../../../shared/directives/cdk-menu-custom/context-menu-trigger/context-menu-trigger.directive';
-import { NgIf, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ButtonModule } from 'primeng/button';
 import { MenuTriggerDirective } from '../../../../shared/directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
@@ -20,7 +20,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
     templateUrl: './playlist-card.component.html',
     styleUrls: ['./playlist-card.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoDirective, ContextMenuTriggerDirective, RouterLink, NgIf, LazyLoadImageModule, NgStyle, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, HslColorPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ContextMenuTriggerDirective, RouterLink, LazyLoadImageModule, NgStyle, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, HslColorPipe, ThumbhashUrlPipe]
 })
 export class PlaylistCardComponent implements OnInit, OnChanges {
   @Input() playlist!: Playlist;

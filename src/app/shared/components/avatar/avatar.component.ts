@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { NgStyle, NgIf } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { CharColorPipe } from '../../pipes/string-pipe/char-color/char-color.pipe';
 
 @Component({
@@ -7,7 +7,7 @@ import { CharColorPipe } from '../../pipes/string-pipe/char-color/char-color.pip
     templateUrl: './avatar.component.html',
     styleUrls: ['./avatar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgStyle, NgIf, CharColorPipe]
+    imports: [NgStyle, CharColorPipe]
 })
 export class AvatarComponent {
   @Input() label?: string;

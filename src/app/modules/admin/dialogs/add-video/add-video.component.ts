@@ -11,7 +11,7 @@ import { FormHandlerDirective } from '../../../../shared/directives/form-directi
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { InputTextModule } from 'primeng/inputtext';
 import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
-import { NgIf } from '@angular/common';
+
 import { ButtonModule } from 'primeng/button';
 import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 import { SafeUrlPipe } from '../../../../shared/pipes/url-pipe/safe-url/safe-url.pipe';
@@ -27,7 +27,7 @@ interface AddVideoForm {
     styleUrls: ['./add-video.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, NgIf, ButtonModule, FirstErrorKeyPipe, SafeUrlPipe]
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, ButtonModule, FirstErrorKeyPipe, SafeUrlPipe]
 })
 export class AddVideoComponent implements OnInit {
   youtubeUrl = YOUTUBE_EMBED_URL;

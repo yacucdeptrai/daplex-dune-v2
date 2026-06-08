@@ -3,7 +3,7 @@ import { TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 
 import { MediaDetails, TVEpisode } from '../../../core/models';
 import { trackId } from '../../../core/utils';
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgTemplateOutlet, NgClass } from '@angular/common';
 import { RouterLinkActive, RouterLink } from '@angular/router';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { SkeletonComponent } from '../skeleton/skeleton.component';
@@ -22,7 +22,7 @@ import { ThumbhashUrlPipe } from '../../pipes/placeholder-pipe/thumbhash-url/thu
             useValue: 'media'
         }
     ],
-    imports: [TranslocoDirective, NgIf, NgFor, RouterLinkActive, RouterLink, NgClass, LazyLoadImageModule, SkeletonComponent, ShortDatePipe, TimePipe, ThumbhashUrlPipe]
+    imports: [NgTemplateOutlet, TranslocoDirective, RouterLinkActive, RouterLink, NgClass, LazyLoadImageModule, SkeletonComponent, ShortDatePipe, TimePipe, ThumbhashUrlPipe]
 })
 export class EpisodeListComponent implements OnInit {
   @Input() media?: MediaDetails;

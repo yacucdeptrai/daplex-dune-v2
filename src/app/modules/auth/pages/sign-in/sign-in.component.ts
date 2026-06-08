@@ -9,7 +9,7 @@ import { SIGN_IN_LIMIT_COUNT, SIGN_IN_LIMIT_TTL } from '../../../../../environme
 import { UserDetails } from '../../../../core/models';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { AutofocusDirective } from '../../../../shared/directives/form-directive/autofocus/autofocus.directive';
@@ -36,7 +36,7 @@ interface SignInForm {
     styleUrls: ['./sign-in.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [TranslocoDirective, ProgressBarModule, NgClass, NgIf, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, AutofocusDirective, InputTextModule, InvalidControlDirective, RecaptchaComponent_1, RecaptchaValueAccessorDirective, ButtonModule, RouterLink, LazyLoadImageModule, AvatarComponent, FirstErrorKeyPipe, SubstringPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ProgressBarModule, NgClass, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, AutofocusDirective, InputTextModule, InvalidControlDirective, RecaptchaComponent_1, RecaptchaValueAccessorDirective, ButtonModule, RouterLink, LazyLoadImageModule, AvatarComponent, FirstErrorKeyPipe, SubstringPipe, ThumbhashUrlPipe]
 })
 export class SignInComponent implements OnInit {
   @ViewChild('reCaptcha') reCaptcha?: RecaptchaComponent;

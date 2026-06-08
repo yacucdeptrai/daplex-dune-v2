@@ -11,7 +11,7 @@ import { SLIDE_MENU_TRIGGER } from '../slide-menu-trigger-base/slide-menu-trigge
 import { SlideMenuTriggerDirective } from '../slide-menu-trigger/slide-menu-trigger';
 import { PARENT_OR_NEW_INLINE_SLIDE_MENU_STACK_PROVIDER, SLIDE_MENU_STACK, SlideMenuStack, SlideMenuStackItem } from '../slide-menu-stack/slide-menu-stack';
 import { SLIDE_MENU, SlideMenu } from '../slide-menu-interface';
-import { NgIf } from '@angular/common';
+
 import { SlideMenuItemButton } from '../slide-menu-item-button/slide-menu-item-button';
 
 let nextId = 0;
@@ -20,7 +20,7 @@ let nextId = 0;
     selector: 'app-slide-menu',
     exportAs: 'appSlideMenu',
     template: `
-    <ng-container *ngIf="menuStack.parentMenuRefs.length">
+    @if (menuStack.parentMenuRefs.length) {
       <div class="tw-flex">
         <button #previousButton="slideMenuTriggerFor" class="slide-menu-previous" slideMenuItemButton
           [slideMenuTriggerFor]="menuStack.parentMenuRefs[menuStack.parentMenuRefs.length - 1]">
@@ -30,9 +30,9 @@ let nextId = 0;
         <ng-content select="header-options"></ng-content>
       </div>
       <div class="tw-divider tw-my-2"></div>
-    </ng-container>
+    }
     <ng-content></ng-content>
-  `,
+    `,
     host: {
         'role': 'menu',
         'class': 'slide-menu p-scrollbar tw-overflow-y-auto',
@@ -52,7 +52,7 @@ let nextId = 0;
         { provide: SLIDE_MENU, useExisting: SlideMenuOverlay },
         PARENT_OR_NEW_INLINE_SLIDE_MENU_STACK_PROVIDER('vertical'),
     ],
-    imports: [NgIf, SlideMenuItemButton, SlideMenuTriggerDirective]
+    imports: [SlideMenuItemButton, SlideMenuTriggerDirective]
 })
 export class SlideMenuOverlay extends CdkMenuGroup implements SlideMenu, AfterContentInit, OnDestroy {
   private _parentTrigger = inject(SLIDE_MENU_TRIGGER, { optional: true });

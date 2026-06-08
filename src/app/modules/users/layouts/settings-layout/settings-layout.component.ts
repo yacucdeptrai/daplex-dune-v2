@@ -5,7 +5,7 @@ import { MenuItem } from 'primeng/api';
 import { first, takeUntil } from 'rxjs';
 
 import { DestroyService } from '../../../../core/services';
-import { NgIf } from '@angular/common';
+
 import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuDirective } from '../../../../shared/directives/cdk-menu-custom/menu/menu.directive';
 import { MenuItemDirective } from '../../../../shared/directives/cdk-menu-custom/menu-item/menu-item.directive';
@@ -17,7 +17,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
     styleUrls: ['./settings-layout.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [TranslocoDirective, NgIf, TabMenuModule, MenuDirective, MenuItemDirective, RouterLink, RouterLinkActive, RouterOutlet]
+    imports: [TranslocoDirective, TabMenuModule, MenuDirective, MenuItemDirective, RouterLink, RouterLinkActive, RouterOutlet]
 })
 export class SettingsLayoutComponent implements OnInit {
   settingItems: MenuItem[] = [];

@@ -22,7 +22,7 @@ import {
 } from '../../../../../environments/config';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
 import { ButtonModule } from 'primeng/button';
-import { NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { VerticalTabComponent } from '../../../../shared/components/vertical-tab/vertical-tab.component';
 import { TabPanelDirective } from '../../../../shared/components/vertical-tab/tab-panel.directive';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
@@ -69,7 +69,7 @@ interface UpdateEpisodeForm {
             useValue: ['common', 'media', 'languages']
         }
     ],
-    imports: [TranslocoDirective, ButtonModule, NgIf, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, InvalidControlDirective, InputMaskModule, InputTextModule, LazyLoadImageModule, InputTextareaModule, DropdownModule, RadioButtonModule, PanelToastDirective, FileUploadComponent_1, TableModule, SharedModule, NgSwitch, NgSwitchCase, NgTemplateOutlet, VideoPlayerComponent, ConfirmDialogModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, InvalidControlDirective, InputMaskModule, InputTextModule, LazyLoadImageModule, InputTextareaModule, DropdownModule, RadioButtonModule, PanelToastDirective, FileUploadComponent_1, TableModule, SharedModule, NgTemplateOutlet, VideoPlayerComponent, ConfirmDialogModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
 })
 export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;

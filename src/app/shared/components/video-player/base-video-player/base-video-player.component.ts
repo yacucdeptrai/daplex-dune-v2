@@ -21,7 +21,7 @@ import { SUBTITLE_FALLBACK_FONT } from '../../../../../environments/config';
 
 import 'vidstack/player';
 import 'vidstack/player/ui';
-import { NgStyle, NgTemplateOutlet, NgClass, NgSwitch, NgSwitchCase, NgSwitchDefault, NgFor } from '@angular/common';
+import { NgStyle, NgTemplateOutlet, NgClass } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FocusTargetDirective } from '../../../directives/common-directive/focus-target/focus-target.directive';
 import { PlayCircleIconComponent } from '../icons/play-circle-icon/play-circle-icon.component';
@@ -56,7 +56,7 @@ import { QualityLabelPipe } from '../pipes/quality-label.pipe';
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
     encapsulation: ViewEncapsulation.None,
-    imports: [NgStyle, ProgressSpinnerModule, NgTemplateOutlet, FocusTargetDirective, PlayCircleIconComponent, NgClass, MuteIconComponent, FillIconComponent, FitWindowIconComponent, FullscreenIconComponent, SkipNextIconComponent, SkipPreviousIconComponent, PlayIconComponent, SubtitleIconComponent, SlideMenuTriggerDirective, SettingsIconComponent, SlideMenuOverlay, InputSwitchModule, SlideMenuItemCheckbox, FormsModule, SlideMenuItem, NgSwitch, NgSwitchCase, NgSwitchDefault, NgFor, SlideMenuItemRadio, SlideMenuItemButton, TooltipModule, SelectButtonModule, SkeletonComponent, SplitPipe, ThumbhashUrlPipe, QualityLabelPipe],
+    imports: [NgStyle, ProgressSpinnerModule, NgTemplateOutlet, FocusTargetDirective, PlayCircleIconComponent, NgClass, MuteIconComponent, FillIconComponent, FitWindowIconComponent, FullscreenIconComponent, SkipNextIconComponent, SkipPreviousIconComponent, PlayIconComponent, SubtitleIconComponent, SlideMenuTriggerDirective, SettingsIconComponent, SlideMenuOverlay, InputSwitchModule, SlideMenuItemCheckbox, FormsModule, SlideMenuItem, SlideMenuItemRadio, SlideMenuItemButton, TooltipModule, SelectButtonModule, SkeletonComponent, SplitPipe, ThumbhashUrlPipe, QualityLabelPipe],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class BaseVideoPlayerComponent implements OnInit, OnDestroy {

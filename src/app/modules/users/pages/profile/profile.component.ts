@@ -8,7 +8,7 @@ import { UsersStateService } from '../../services';
 import { MediaType } from '../../../../core/enums';
 import { track_Id } from '../../../../core/utils';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { NgIf, NgFor } from '@angular/common';
+
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { MarkedPipe } from '../../../../shared/pipes/markdown-pipe/marked/marked.pipe';
 import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
@@ -19,7 +19,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
     styleUrls: ['./profile.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [HistoryService, PlaylistsService, RatingsService, DestroyService],
-    imports: [TranslocoDirective, NgIf, NgFor, LazyLoadImageModule, RouterLink, MarkedPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, LazyLoadImageModule, RouterLink, MarkedPipe, ThumbhashUrlPipe]
 })
 export class ProfileComponent implements OnInit {
   track_Id = track_Id;

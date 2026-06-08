@@ -9,7 +9,7 @@ import { UpdateEmailComponent } from '../../../dialogs/update-email';
 import { UpdatePasswordComponent } from '../../../dialogs/update-password';
 import { UpdateUsernameComponent } from '../../../dialogs/update-username';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { NgIf } from '@angular/common';
+
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { ShortDatePipe } from '../../../../../shared/pipes/date-time-pipe/short-date/short-date.pipe';
@@ -20,7 +20,7 @@ import { ShortDatePipe } from '../../../../../shared/pipes/date-time-pipe/short-
     styleUrls: ['./account-settings.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DialogService, DestroyService],
-    imports: [TranslocoDirective, NgIf, ButtonModule, TooltipModule, ShortDatePipe]
+    imports: [TranslocoDirective, ButtonModule, TooltipModule, ShortDatePipe]
 })
 export class AccountSettingsComponent implements OnInit, OnDestroy {
   currentUser: UserDetails | null = null;

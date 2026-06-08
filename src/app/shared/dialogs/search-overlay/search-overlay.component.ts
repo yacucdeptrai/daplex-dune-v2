@@ -8,7 +8,7 @@ import { MediaType } from '../../../core/enums';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { InputTextModule } from 'primeng/inputtext';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { TimePipe } from '../../pipes/date-time-pipe/time/time.pipe';
 import { ThumbhashUrlPipe } from '../../pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
@@ -19,7 +19,7 @@ import { ThumbhashUrlPipe } from '../../pipes/placeholder-pipe/thumbhash-url/thu
     styleUrl: './search-overlay.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [TranslocoDirective, InputTextModule, DynamicDialogModule, NgClass, RouterLink, NgIf, LazyLoadImageModule, TimePipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, InputTextModule, DynamicDialogModule, NgClass, RouterLink, LazyLoadImageModule, TimePipe, ThumbhashUrlPipe]
 })
 export class SearchOverlayComponent {
   MediaType = MediaType;

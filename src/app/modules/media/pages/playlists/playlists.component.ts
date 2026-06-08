@@ -10,7 +10,7 @@ import { AuthService, DestroyService, PlaylistsService } from '../../../../core/
 import { SITE_NAME } from '../../../../../environments/config';
 import { track_Id } from '../../../../core/utils';
 import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playlist';
-import { NgIf, NgStyle, NgFor } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ButtonModule } from 'primeng/button';
 import { MenuTriggerDirective } from '../../../../shared/directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
@@ -26,7 +26,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
     styleUrls: ['./playlists.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [PlaylistsService, DestroyService],
-    imports: [TranslocoDirective, NgIf, LazyLoadImageModule, NgStyle, NgFor, RouterLink, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, RgbColorPipe, IsTypeOfPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, RouterLink, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, RgbColorPipe, IsTypeOfPipe, ThumbhashUrlPipe]
 })
 export class PlaylistsComponent implements OnInit, OnDestroy {
   loadingPlaylist: boolean = false;

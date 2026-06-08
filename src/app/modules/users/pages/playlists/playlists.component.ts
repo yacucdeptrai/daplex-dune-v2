@@ -12,7 +12,7 @@ import { AuthService, ConfirmActionService, DestroyService, PlaylistsService } f
 import { track_Id, translocoEscape } from '../../../../core/utils';
 import { MediaVisibility } from '../../../../core/enums';
 import { PlaylistSettingsComponent } from '../../../../shared/dialogs/playlist-settings';
-import { NgIf, NgFor, NgSwitch, NgSwitchCase, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
@@ -34,7 +34,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
     styleUrls: ['./playlists.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [PlaylistsService, DestroyService],
-    imports: [TranslocoDirective, NgIf, ButtonModule, SelectButtonModule, InfiniteScrollDirective, NgFor, PlaylistCardComponent_1, TableModule, SharedModule, LazyLoadImageModule, NgSwitch, NgSwitchCase, TooltipModule, RouterLink, MenuTriggerDirective, MenuDirective, MenuItemDirective, ConfirmDialogModule, DecimalPipe, DateAltPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ButtonModule, SelectButtonModule, InfiniteScrollDirective, PlaylistCardComponent_1, TableModule, SharedModule, LazyLoadImageModule, TooltipModule, RouterLink, MenuTriggerDirective, MenuDirective, MenuItemDirective, ConfirmDialogModule, DecimalPipe, DateAltPipe, ThumbhashUrlPipe]
 })
 export class PlaylistsComponent implements OnInit, OnDestroy {
   track_Id = track_Id;

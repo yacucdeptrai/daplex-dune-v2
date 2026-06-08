@@ -1,7 +1,7 @@
 import { Directionality } from '@angular/cdk/bidi';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 
 @Component({
     selector: 'app-stepper',
@@ -9,7 +9,7 @@ import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
     styleUrls: ['./stepper.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [{ provide: CdkStepper, useExisting: StepperComponent }],
-    imports: [NgClass, NgFor, NgIf, NgTemplateOutlet]
+    imports: [NgClass, NgTemplateOutlet]
 })
 export class StepperComponent extends CdkStepper implements OnInit {
   @Input() activeClass = 'tw-bg-black tw-text-white';

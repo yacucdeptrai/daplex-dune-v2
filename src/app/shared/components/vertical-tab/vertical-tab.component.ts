@@ -8,7 +8,7 @@ import { PanelToastDirective } from './panel-toast.directive';
 import { TabPanelDirective } from './tab-panel.directive';
 import { VerticalTabChange } from '../../../core/interfaces/events';
 import { trackId, trackTabId } from '../../../core/utils';
-import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 
 @Component({
     selector: 'app-vertical-tab',
@@ -27,7 +27,7 @@ import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
             ])
         ])
     ],
-    imports: [TabMenuModule, MenuModule, NgClass, NgFor, NgIf, NgTemplateOutlet]
+    imports: [TabMenuModule, MenuModule, NgClass, NgTemplateOutlet]
 })
 export class VerticalTabComponent implements AfterViewInit, AfterContentInit {
   trackId = trackId;

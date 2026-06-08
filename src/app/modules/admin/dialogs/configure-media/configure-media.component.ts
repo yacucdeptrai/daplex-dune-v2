@@ -34,7 +34,7 @@ import {
   UPLOAD_BACKDROP_ASPECT_HEIGHT
 } from '../../../../../environments/config';
 import { ButtonModule } from 'primeng/button';
-import { NgIf, NgFor, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { VerticalTabComponent } from '../../../../shared/components/vertical-tab/vertical-tab.component';
 import { TabPanelDirective } from '../../../../shared/components/vertical-tab/tab-panel.directive';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
@@ -96,7 +96,7 @@ interface UpdateMediaForm {
             useValue: ['common', 'languages']
         }
     ],
-    imports: [TranslocoDirective, ButtonModule, NgIf, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, NgFor, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, LazyLoadImageModule, TableModule, DialogModule, FileUploadComponent_1, NgSwitch, NgSwitchCase, NgTemplateOutlet, VideoPlayerComponent, TooltipModule, ConfirmDialogModule, MenuModule, ProgressSpinnerModule, FirstErrorKeyPipe, ShortDatePipe, TimePipe, SafeUrlPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, LazyLoadImageModule, TableModule, DialogModule, FileUploadComponent_1, NgTemplateOutlet, VideoPlayerComponent, TooltipModule, ConfirmDialogModule, MenuModule, ProgressSpinnerModule, FirstErrorKeyPipe, ShortDatePipe, TimePipe, SafeUrlPipe, ThumbhashUrlPipe]
 })
 export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;

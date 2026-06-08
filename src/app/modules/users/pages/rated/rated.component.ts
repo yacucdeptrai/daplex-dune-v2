@@ -9,7 +9,7 @@ import { AuthService, ConfirmActionService, DestroyService, RatingsService } fro
 import { StarRatingComponent } from '../../../../shared/components/star-rating';
 import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playlist';
 import { track_Id, translocoEscape } from '../../../../core/utils';
-import { NgIf, NgFor } from '@angular/common';
+
 import { ButtonModule } from 'primeng/button';
 import { AppOverlayOrigin, AppConnectedOverlay } from '../../../../shared/directives/overlay-panel/overlay-panel/overlay-panel.directive';
 import { SelectButtonModule } from 'primeng/selectbutton';
@@ -34,7 +34,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
     styleUrls: ['./rated.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [RatingsService, DestroyService],
-    imports: [TranslocoDirective, NgIf, ButtonModule, AppOverlayOrigin, SelectButtonModule, FormsModule, AppConnectedOverlay, InputSwitchModule, InfiniteScrollDirective, NgFor, RatingCardComponent, TableModule, SharedModule, LazyLoadImageModule, StarRatingComponent_1, RouterLink, MenuTriggerDirective, MenuDirective, MenuItemDirective, ConfirmDialogModule, DateAltPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ButtonModule, AppOverlayOrigin, SelectButtonModule, FormsModule, AppConnectedOverlay, InputSwitchModule, InfiniteScrollDirective, RatingCardComponent, TableModule, SharedModule, LazyLoadImageModule, StarRatingComponent_1, RouterLink, MenuTriggerDirective, MenuDirective, MenuItemDirective, ConfirmDialogModule, DateAltPipe, ThumbhashUrlPipe]
 })
 export class RatedComponent implements OnInit, OnDestroy {
   track_Id = track_Id;

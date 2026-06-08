@@ -9,7 +9,7 @@ import { AuditLogService } from '../../../../core/services';
 import { InputTextModule } from 'primeng/inputtext';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { ButtonModule } from 'primeng/button';
-import { NgIf, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { TableModule } from 'primeng/table';
@@ -29,7 +29,7 @@ interface AuditLogFilterForm {
     templateUrl: './audit-log.component.html',
     styleUrls: ['./audit-log.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [FormsModule, ReactiveFormsModule, InputTextModule, DisabledControlDirective, ButtonModule, NgIf, ProgressSpinnerModule, InfiniteScrollDirective, TableModule, SharedModule, DatePipe]
+    imports: [FormsModule, ReactiveFormsModule, InputTextModule, DisabledControlDirective, ButtonModule, ProgressSpinnerModule, InfiniteScrollDirective, TableModule, SharedModule, DatePipe]
 })
 export class AuditLogComponent implements OnInit, OnDestroy {
   loadingAuditList: boolean = false;

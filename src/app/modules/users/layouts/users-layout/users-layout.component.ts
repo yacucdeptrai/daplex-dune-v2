@@ -9,7 +9,7 @@ import { UserDetails } from '../../../../core/models';
 import { AuthService, DestroyService, UsersService } from '../../../../core/services';
 import { UsersStateService } from '../../services';
 import { SITE_NAME } from '../../../../../environments/config';
-import { NgIf, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { AvatarComponent } from '../../../../shared/components/avatar/avatar.component';
 import { TabMenuModule } from 'primeng/tabmenu';
@@ -26,7 +26,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
         UsersStateService,
         DestroyService
     ],
-    imports: [TranslocoDirective, NgIf, LazyLoadImageModule, NgStyle, AvatarComponent, TabMenuModule, RouterOutlet, RgbColorPipe, SubstringPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, AvatarComponent, TabMenuModule, RouterOutlet, RgbColorPipe, SubstringPipe, ThumbhashUrlPipe]
 })
 export class UsersLayoutComponent implements OnInit, OnDestroy {
   user?: UserDetails;

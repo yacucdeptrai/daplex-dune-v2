@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageCroppedEvent, ImageCropperComponent, ImageTransform, LoadedImage, OutputFormat, ImageCropperModule } from '@ktt45678/ngx-image-cropper';
 import { TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 
 import { ImageEditorConfig } from './image-editor-config.interface';
 import { getImageFormat } from '../../../core/utils';
-import { NgIf } from '@angular/common';
+
 import { SliderAltModule } from 'primeng/slideralt';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -21,7 +22,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
             useValue: 'common'
         }
     ],
-    imports: [TranslocoDirective, NgIf, ImageCropperModule, SliderAltModule, ButtonModule, ProgressSpinnerModule]
+    imports: [NgTemplateOutlet, TranslocoDirective, ImageCropperModule, SliderAltModule, ButtonModule, ProgressSpinnerModule]
 })
 export class ImageEditorComponent {
   @ViewChild(ImageCropperComponent) imageCropper?: ImageCropperComponent;
