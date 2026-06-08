@@ -24,15 +24,9 @@ import { FileUploadComponent } from '../../../../shared/components/file-upload';
 import { fileExtension, maxFileSize, shortDate } from '../../../../core/validators';
 import { AddSubtitleForm, ExternalIdsForm, MediaScannerForm, ShortDateForm } from '../../../../core/interfaces/forms';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
-import { ImageEditorComponent, ImageEditorConfig } from '../../../../shared/dialogs/image-editor';
-import { dataURItoBlob, detectFormChange, translocoEscape, fixNestedDialogFocus, replaceDialogHideMethod, timeStringToSeconds, secondsToTimeString } from '../../../../core/utils';
+import { detectFormChange, translocoEscape, fixNestedDialogFocus, replaceDialogHideMethod, timeStringToSeconds, secondsToTimeString } from '../../../../core/utils';
 import { AppErrorCode, MediaPStatus, MediaSourceStatus, MediaStatus, MediaType, SocketMessage, SocketRoom } from '../../../../core/enums';
-import {
-  UPLOAD_SUBTITLE_EXT, UPLOAD_SUBTITLE_SIZE, YOUTUBE_EMBED_URL, YOUTUBE_THUMBNAIL_URL, IMAGE_PREVIEW_SIZE, UPLOAD_POSTER_SIZE,
-  UPLOAD_BACKDROP_SIZE, UPLOAD_POSTER_MIN_WIDTH, UPLOAD_POSTER_MIN_HEIGHT, UPLOAD_BACKDROP_MIN_WIDTH,
-  UPLOAD_BACKDROP_MIN_HEIGHT, UPLOAD_POSTER_ASPECT_WIDTH, UPLOAD_POSTER_ASPECT_HEIGHT, UPLOAD_BACKDROP_ASPECT_WIDTH,
-  UPLOAD_BACKDROP_ASPECT_HEIGHT
-} from '../../../../../environments/config';
+import { UPLOAD_SUBTITLE_EXT, UPLOAD_SUBTITLE_SIZE, YOUTUBE_EMBED_URL, YOUTUBE_THUMBNAIL_URL } from '../../../../../environments/config';
 import { ButtonModule } from 'primeng/button';
 import { NgTemplateOutlet } from '@angular/common';
 import { VerticalTabComponent } from '../../../../shared/components/vertical-tab/vertical-tab.component';
@@ -62,6 +56,7 @@ import { ShortDatePipe } from '../../../../shared/pipes/date-time-pipe/short-dat
 import { TimePipe } from '../../../../shared/pipes/date-time-pipe/time/time.pipe';
 import { SafeUrlPipe } from '../../../../shared/pipes/url-pipe/safe-url/safe-url.pipe';
 import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
+import { ConfigureMediaImagesComponent } from './components/configure-media-images';
 
 interface UpdateMediaForm {
   title: FormControl<string>;
@@ -96,7 +91,7 @@ interface UpdateMediaForm {
             useValue: ['common', 'languages']
         }
     ],
-    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, LazyLoadImageModule, TableModule, DialogModule, FileUploadComponent_1, NgTemplateOutlet, VideoPlayerComponent, TooltipModule, ConfirmDialogModule, MenuModule, ProgressSpinnerModule, FirstErrorKeyPipe, ShortDatePipe, TimePipe, SafeUrlPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, LazyLoadImageModule, TableModule, DialogModule, FileUploadComponent_1, NgTemplateOutlet, VideoPlayerComponent, TooltipModule, ConfirmDialogModule, MenuModule, ProgressSpinnerModule, FirstErrorKeyPipe, ShortDatePipe, TimePipe, SafeUrlPipe, ThumbhashUrlPipe, ConfigureMediaImagesComponent]
 })
 export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;
@@ -109,8 +104,6 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   loadingEpisodes: boolean = false;
   displayVideo: boolean = false;
   isDeletingVideo: boolean = false;
-  isUpdatingPoster: boolean = false;
-  isUpdatingBackdrop: boolean = false;
   isUploadingSource: boolean = false;
   isAddingSubtitle: boolean = false;
   isUpdated: boolean = false;
@@ -125,10 +118,6 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   addSubtitleForm: FormGroup<AddSubtitleForm>;
   updateMediaForm: FormGroup<UpdateMediaForm>;
   updateMediaInitValue: {} = {};
-  posterPreviewName?: string;
-  backdropPreviewName?: string;
-  posterPreviewUri?: string;
-  backdropPreviewUri?: string;
   days: DropdownOptionDto[] = [];
   months: DropdownOptionDto[] = [];
   years: DropdownOptionDto[] = [];
@@ -140,7 +129,7 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   episodeMenuItems: DataMenuItem<TVEpisode>[] = [];
 
   constructor(@Inject(DOCUMENT) private document: Document, private ref: ChangeDetectorRef, private renderer: Renderer2,
-    private dialogRef: DynamicDialogRef, private config: DynamicDialogConfig<MediaDetails>, private dialogService: DialogService,
+    protected dialogRef: DynamicDialogRef, private config: DynamicDialogConfig<MediaDetails>, private dialogService: DialogService,
     private confirmAction: ConfirmActionService, private mediaService: MediaService,
     private itemDataService: ItemDataService, private genresService: GenresService, private productionsService: ProductionsService,
     private tagsService: TagsService, private queueUploadService: QueueUploadService,
@@ -243,6 +232,11 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   updateMediaSubtitles(subtitles: MediaSubtitle[]): void {
     if (!this.media) return;
     this.media = { ...this.media, movie: { ...this.media.movie, subtitles } };
+    this.ref.markForCheck();
+  }
+
+  onImagesMediaChange(media: MediaDetails): void {
+    this.media = media;
     this.ref.markForCheck();
   }
 
@@ -359,157 +353,6 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   onUpdateMediaFormReset(): void {
     this.updateMediaForm.reset(this.updateMediaInitValue);
     this.detectUpdateMediaFormChange();
-  }
-
-  onInputPosterChange(event: Event): void {
-    const element = <HTMLInputElement>event.target;
-    if (!element.files?.length || !this.media) return;
-    if (element.files[0].size > IMAGE_PREVIEW_SIZE)
-      throw new Error(AppErrorCode.UPLOAD_POSTER_TOO_LARGE);
-    this.editImage({
-      aspectRatioWidth: UPLOAD_POSTER_ASPECT_WIDTH, aspectRatioHeight: UPLOAD_POSTER_ASPECT_HEIGHT,
-      minWidth: UPLOAD_POSTER_MIN_WIDTH, minHeight: UPLOAD_POSTER_MIN_HEIGHT,
-      imageFile: element.files[0], maxSize: UPLOAD_POSTER_SIZE
-    }).subscribe(result => {
-      if (!result) return;
-      const [previewUri, name] = result;
-      this.posterPreviewName = name;
-      this.posterPreviewUri = previewUri;
-      this.ref.markForCheck();
-    });
-  }
-
-  onInputBackdropChange(event: Event): void {
-    const element = <HTMLInputElement>event.target;
-    if (!element.files?.length || !this.media) return;
-    if (element.files[0].size > IMAGE_PREVIEW_SIZE)
-      throw new Error(AppErrorCode.UPLOAD_BACKDROP_TOO_LARGE);
-    this.editImage({
-      aspectRatioWidth: UPLOAD_BACKDROP_ASPECT_WIDTH, aspectRatioHeight: UPLOAD_BACKDROP_ASPECT_HEIGHT,
-      minWidth: UPLOAD_BACKDROP_MIN_WIDTH, minHeight: UPLOAD_BACKDROP_MIN_HEIGHT,
-      imageFile: element.files[0], maxSize: UPLOAD_BACKDROP_SIZE
-    }).subscribe(result => {
-      if (!result) return;
-      const [previewUri, name] = result;
-      this.backdropPreviewName = name;
-      this.backdropPreviewUri = previewUri;
-      this.ref.markForCheck();
-    });
-  }
-
-  editImage(data: ImageEditorConfig): Observable<string[] | null> {
-    const dialogRef = this.dialogService.open(ImageEditorComponent, {
-      data: data,
-      header: this.translocoService.translate('common.imageEditor.header'),
-      width: '700px',
-      modal: true,
-      dismissableMask: false,
-      styleClass: 'p-dialog-header-sm'
-    });
-    fixNestedDialogFocus(dialogRef, this.dialogRef, this.dialogService, this.renderer, this.document);
-    return dialogRef.onClose.pipe(first());
-  }
-
-  onUpdatePosterSubmit(): void {
-    if (!this.posterPreviewName) return;
-    this.isUpdatingPoster = true;
-    const mediaId = this.config.data!._id;
-    const posterBlob = dataURItoBlob(this.posterPreviewUri!);
-    this.mediaService.uploadPoster(mediaId, posterBlob, this.posterPreviewName).subscribe({
-      next: (paritalMedia) => {
-        this.posterPreviewName = undefined;
-        this.posterPreviewUri = undefined;
-        if (!this.media) return;
-        this.media = { ...this.media, ...paritalMedia };
-        this.isUpdated = true;
-      }
-    }).add(() => {
-      this.isUpdatingPoster = false;
-      this.ref.markForCheck();
-    });
-  }
-
-  onUpdateBackdropSubmit(): void {
-    if (!this.backdropPreviewName) return;
-    this.isUpdatingBackdrop = true;
-    const mediaId = this.config.data!._id;
-    const backdropBlob = dataURItoBlob(this.backdropPreviewUri!);
-    this.mediaService.uploadBackdrop(mediaId, backdropBlob, this.backdropPreviewName).subscribe({
-      next: (paritalMedia) => {
-        this.backdropPreviewName = undefined;
-        this.backdropPreviewUri = undefined;
-        if (!this.media) return;
-        this.media = { ...this.media, ...paritalMedia };
-      }
-    }).add(() => {
-      this.isUpdatingBackdrop = false;
-      this.ref.markForCheck();
-    });
-  }
-
-  onUpdatePosterCancel(): void {
-    this.posterPreviewName = undefined;
-    this.posterPreviewUri = undefined;
-    this.ref.markForCheck();
-  }
-
-  onUpdateBackdropCancel(): void {
-    this.backdropPreviewName = undefined;
-    this.backdropPreviewUri = undefined;
-    this.ref.markForCheck();
-  }
-
-  deletePoster(event: Event): void {
-    const mediaId = this.config.data!._id;
-    const safeMediaTitle = translocoEscape(this.config.data!.title);
-    this.confirmAction.confirmDelete({
-      key: 'inModal',
-      message: this.translocoService.translate('admin.media.deletePosterConfirmation', { name: safeMediaTitle }),
-      header: this.translocoService.translate('admin.media.deletePosterConfirmationHeader'),
-      accept: () => {
-        const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
-        this.renderer.setProperty(element, 'disabled', true);
-        this.mediaService.deletePoster(mediaId).subscribe({
-          next: () => {
-            if (!this.media) return;
-            this.media = {
-              ...this.media, posterUrl: undefined, thumbnailPosterUrl: undefined, smallPosterUrl: undefined, fullPosterUrl: undefined,
-              posterColor: undefined, posterPlaceholder: undefined
-            };
-            this.isUpdated = true;
-          },
-          error: () => {
-            this.renderer.setProperty(element, 'disabled', false);
-          }
-        }).add(() => this.ref.markForCheck());
-      }
-    });
-  }
-
-  deleteBackdrop(event: Event): void {
-    const mediaId = this.config.data!._id;
-    const safeMediaTitle = translocoEscape(this.config.data!.title);
-    this.confirmAction.confirmDelete({
-      key: 'inModal',
-      message: this.translocoService.translate('admin.media.deleteBackdropConfirmation', { name: safeMediaTitle }),
-      header: this.translocoService.translate('admin.media.deleteBackdropConfirmationHeader'),
-      accept: () => {
-        const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
-        this.renderer.setProperty(element, 'disabled', true);
-        this.mediaService.deleteBackdrop(mediaId).subscribe({
-          next: () => {
-            if (!this.media) return;
-            this.media = {
-              ...this.media, backdropUrl: undefined, thumbnailBackdropUrl: undefined, smallBackdropUrl: undefined,
-              fullBackdropUrl: undefined, backdropColor: undefined, backdropPlaceholder: undefined
-            };
-          },
-          error: () => {
-            this.renderer.setProperty(element, 'disabled', false);
-          }
-        }).add(() => this.ref.markForCheck());
-      }
-    });
   }
 
   loadVideos(): void {
