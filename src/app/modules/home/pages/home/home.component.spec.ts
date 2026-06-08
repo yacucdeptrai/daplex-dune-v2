@@ -10,11 +10,11 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HomeComponent],
-      providers: [
+    imports: [HomeComponent],
+    providers: [
         { provide: MediaService, useValue: { findPage: () => of(null) } }
-      ]
-    })
+    ]
+})
       .overrideComponent(HomeComponent, { set: { template: '' } })
       .compileComponents();
 

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { SignUpComponent } from './sign-up.component';
 import { AuthService } from '../../../../core/services';
@@ -17,15 +17,14 @@ describe('SignUpComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SignUpComponent],
-      imports: [ReactiveFormsModule],
-      providers: [
+    imports: [ReactiveFormsModule, SignUpComponent],
+    providers: [
         provideMockActivatedRoute({ queryParams: {} }),
         { provide: Router, useValue: mockRouter() },
         { provide: AuthService, useValue: {} },
         { provide: TranslocoService, useValue: mockTranslocoService() }
-      ]
-    })
+    ]
+})
       .overrideComponent(SignUpComponent, { set: { template: '' } })
       .compileComponents();
 

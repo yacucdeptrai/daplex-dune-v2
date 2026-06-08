@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-home-footer',
     templateUrl: './home-footer.component.html',
     styleUrls: ['./home-footer.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [TranslocoDirective, RouterLink]
 })
 export class HomeFooterComponent implements OnInit {
 

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { FeaturedMediaComponent } from './featured-media.component';
@@ -17,14 +17,14 @@ describe('FeaturedMediaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FeaturedMediaComponent],
-      providers: [
+    imports: [FeaturedMediaComponent],
+    providers: [
         { provide: Router, useValue: mockRouter() },
         { provide: DialogService, useValue: mockDialogService() },
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: AuthService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(FeaturedMediaComponent, { set: { template: '' } })
       .compileComponents();
 

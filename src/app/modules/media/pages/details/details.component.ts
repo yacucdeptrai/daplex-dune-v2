@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { Location } from '@angular/common';
+import { Location, NgStyle, NgTemplateOutlet, NgClass, DecimalPipe } from '@angular/common';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { DialogService } from 'primeng/dynamicdialog';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { takeUntil } from 'rxjs';
 
 import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playlist';
@@ -12,9 +12,23 @@ import { MediaDetails } from '../../../../core/models';
 import { AuthService, MediaMetaService, MediaService } from '../../../../core/services';
 import { DestroyService } from '../../../../core/services';
 import { MediaBreakpoints, MediaStatus, MediaType } from '../../../../core/enums';
-import { TextResizeOption } from '../../../../shared/directives/text-directive/text-resize/text-resize.directive';
+import { TextResizeOption, TextResizeDirective } from '../../../../shared/directives/text-directive/text-resize/text-resize.directive';
 import { SITE_NAME, YOUTUBE_EMBED_URL, YOUTUBE_THUMBNAIL_URL } from '../../../../../environments/config';
 import { track_Id } from '../../../../core/utils';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { TabViewModule } from 'primeng/tabview';
+import { EpisodeListComponent } from '../../../../shared/components/episode-list/episode-list.component';
+import { CollectionListComponent } from '../../components/collection-list/collection-list.component';
+import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
+import { TagModule } from 'primeng/tag';
+import { DialogModule } from 'primeng/dialog';
+import { SkeletonComponent } from '../../../../shared/components/skeleton/skeleton.component';
+import { ToStringPipe } from '../../../../shared/pipes/number-pipe/to-string/to-string.pipe';
+import { ShortDatePipe } from '../../../../shared/pipes/date-time-pipe/short-date/short-date.pipe';
+import { TimePipe } from '../../../../shared/pipes/date-time-pipe/time/time.pipe';
+import { SafeUrlPipe } from '../../../../shared/pipes/url-pipe/safe-url/safe-url.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 @Component({
     selector: 'app-details',
@@ -22,7 +36,7 @@ import { track_Id } from '../../../../core/utils';
     styleUrls: ['./details.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, NgTemplateOutlet, TextResizeDirective, TabViewModule, RouterLink, EpisodeListComponent, CollectionListComponent, NgClass, ButtonModule, TooltipModule, TagModule, DialogModule, SkeletonComponent, DecimalPipe, ToStringPipe, ShortDatePipe, TimePipe, SafeUrlPipe, ThumbhashUrlPipe]
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   track_Id = track_Id;

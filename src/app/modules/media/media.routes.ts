@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
+import { DialogService } from 'primeng/dynamicdialog';
+import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 
 import { SearchComponent } from './pages/search/search.component';
 import { DetailsComponent } from './pages/details/details.component';
@@ -7,7 +8,15 @@ import { PlaylistsComponent } from './pages/playlists/playlists.component';
 import { WatchComponent } from './pages/watch/watch.component';
 import { ListComponent } from './pages/list/list.component';
 
-const routes: Routes = [
+const mediaProviders = [
+  DialogService,
+  {
+    provide: TRANSLOCO_SCOPE,
+    useValue: 'media'
+  }
+];
+
+export const MEDIA_ROUTES: Routes = [
   {
     path: 'search',
     component: SearchComponent,
@@ -15,7 +24,8 @@ const routes: Routes = [
       title: 'search',
       shouldReuse: true,
       reuseRoutesFrom: ['details/:id']
-    }
+    },
+    providers: mediaProviders
   },
   {
     path: 'list/:path',
@@ -24,7 +34,8 @@ const routes: Routes = [
       disableTitleStrategy: true,
       shouldReuse: true,
       reuseRoutesFrom: ['details/:id']
-    }
+    },
+    providers: mediaProviders
   },
   {
     path: 'list/:path/:sub_path',
@@ -33,7 +44,8 @@ const routes: Routes = [
       disableTitleStrategy: true,
       shouldReuse: true,
       reuseRoutesFrom: ['details/:id']
-    }
+    },
+    providers: mediaProviders
   },
   {
     path: 'details/:id',
@@ -41,7 +53,8 @@ const routes: Routes = [
     data: {
       disableTitleStrategy: true,
       fixedNavbarSpacing: false
-    }
+    },
+    providers: mediaProviders
   },
   {
     path: 'playlists/:id',
@@ -50,19 +63,15 @@ const routes: Routes = [
       disableTitleStrategy: true,
       shouldReuse: true,
       reuseRoutesFrom: ['watch/:id']
-    }
+    },
+    providers: mediaProviders
   },
   {
     path: 'watch/:id',
     component: WatchComponent,
     data: {
       disableTitleStrategy: true
-    }
+    },
+    providers: mediaProviders
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-export class MediaRoutingModule { }

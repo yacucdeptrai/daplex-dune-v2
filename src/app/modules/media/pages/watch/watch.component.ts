@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, ViewChild, signal } from '@angular/core';
-import { Location } from '@angular/common';
+import { Location, NgClass, DecimalPipe } from '@angular/common';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Subscription, combineLatest, filter, first, interval, map, of, switchMap, takeUntil, timer } from 'rxjs';
 
@@ -17,6 +17,18 @@ import { ShareMediaLinkComponent, SharingOption } from '../../../../shared/dialo
 import { MediaBreakpoints, MediaType } from '../../../../core/enums';
 import { trackId } from '../../../../core/utils';
 import { SITE_NAME } from '../../../../../environments/config';
+import { VideoPlayerComponent as VideoPlayerComponent_1 } from '../../../../shared/components/video-player/video-player.component';
+import { ButtonModule } from 'primeng/button';
+import { StarRatingComponent as StarRatingComponent_1 } from '../../../../shared/components/star-rating/star-rating.component';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { TagModule } from 'primeng/tag';
+import { ExpansionPanelComponent } from '../../../../shared/components/expansion-panel/expansion-panel.component';
+import { TemplateForDirective } from '../../../../shared/directives/common-directive/template-for/template-for.directive';
+import { CollectionMediaListComponent } from '../../components/collection-media-list/collection-media-list.component';
+import { EpisodeListComponent } from '../../../../shared/components/episode-list/episode-list.component';
+import { MediaListComponent } from '../../../../shared/components/media-list/media-list.component';
+import { ShortDatePipe } from '../../../../shared/pipes/date-time-pipe/short-date/short-date.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 @Component({
     selector: 'app-watch',
@@ -24,7 +36,7 @@ import { SITE_NAME } from '../../../../../environments/config';
     styleUrls: ['./watch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [HistoryService, RatingsService, DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, NgClass, VideoPlayerComponent_1, ButtonModule, StarRatingComponent_1, LazyLoadImageModule, TagModule, RouterLink, ExpansionPanelComponent, TemplateForDirective, CollectionMediaListComponent, EpisodeListComponent, MediaListComponent, DecimalPipe, ShortDatePipe, ThumbhashUrlPipe]
 })
 export class WatchComponent implements OnInit, OnDestroy {
   track_Id = trackId;

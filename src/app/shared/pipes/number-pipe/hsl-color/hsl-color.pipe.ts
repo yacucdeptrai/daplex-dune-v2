@@ -5,10 +5,7 @@ interface ConversionOptions {
   lightness?: number;
 }
 
-@Pipe({
-    name: 'hslColor',
-    standalone: false
-})
+@Pipe({ name: 'hslColor' })
 export class HslColorPipe implements PipeTransform {
 
   transform(value?: number, options?: ConversionOptions): string {

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { PlaylistsComponent } from './playlists.component';
@@ -19,16 +19,16 @@ describe('PlaylistsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PlaylistsComponent],
-      providers: [
+    imports: [PlaylistsComponent],
+    providers: [
         ...HTTP_TEST_PROVIDERS,
         provideMockActivatedRoute({ params: {} }),
         { provide: Router, useValue: mockRouter() },
         { provide: DialogService, useValue: mockDialogService() },
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: AuthService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(PlaylistsComponent, { set: { template: '' } })
       .compileComponents();
 

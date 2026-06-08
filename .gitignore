@@ -45,6 +45,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Local run logs (karma/e2e/build output)
+/.run-logs
+
 # Playwright (Phase 6.12d route smoke)
 /playwright-report
 /test-results

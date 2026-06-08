@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, OnDestroy } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
-import { Table } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { first } from 'rxjs';
 
 import { ConfirmActionService, ProductionsService } from '../../../../core/services';
@@ -10,13 +10,17 @@ import { PaginateProductionsDto } from '../../../../core/dto/productions';
 import { CreateProductionComponent } from '../../dialogs/create-production';
 import { UpdateProductionComponent } from '../../dialogs/update-production';
 import { buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { SharedModule } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
     selector: 'app-productions',
     templateUrl: './productions.component.html',
     styleUrls: ['./productions.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [TranslocoDirective, InputTextModule, ButtonModule, TableModule, SharedModule, ConfirmDialogModule]
 })
 export class ProductionsComponent implements OnInit, OnDestroy {
   @ViewChild('productionTable') productionTable?: Table;

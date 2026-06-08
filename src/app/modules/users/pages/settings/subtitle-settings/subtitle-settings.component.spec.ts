@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { of } from 'rxjs';
 
 import { AuthService, UsersService } from '../../../../../core/services';
@@ -12,13 +12,13 @@ describe('SubtitleSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SubtitleSettingsComponent],
-      providers: [
+    imports: [SubtitleSettingsComponent],
+    providers: [
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         { provide: UsersService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(SubtitleSettingsComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(SubtitleSettingsComponent);

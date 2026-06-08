@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { of } from 'rxjs';
 
@@ -22,8 +22,8 @@ describe('WatchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [WatchComponent],
-      providers: [
+    imports: [WatchComponent],
+    providers: [
         ...HTTP_TEST_PROVIDERS,
         provideMockActivatedRoute({ params: {}, queryParams: {} }),
         { provide: Router, useValue: mockRouter() },
@@ -33,8 +33,8 @@ describe('WatchComponent', () => {
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: AuthService, useValue: { currentUser$: of(null) } },
         { provide: MediaService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(WatchComponent, { set: { template: '' } })
       .compileComponents();
 

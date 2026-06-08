@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { ListComponent } from './list.component';
 import {
@@ -20,8 +20,8 @@ describe('ListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ListComponent],
-      providers: [
+    imports: [ListComponent],
+    providers: [
         provideMockActivatedRoute({ params: {} }),
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: MediaService, useValue: {} },
@@ -29,8 +29,8 @@ describe('ListComponent', () => {
         { provide: ProductionsService, useValue: {} },
         { provide: TagsService, useValue: {} },
         { provide: CollectionService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(ListComponent, { set: { template: '' } })
       .compileComponents();
 

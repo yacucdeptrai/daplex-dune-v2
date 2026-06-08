@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { EMPTY, of } from 'rxjs';
 
 import { AdminLayoutComponent } from './admin-layout.component';
@@ -12,15 +12,15 @@ describe('AdminLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AdminLayoutComponent],
-      providers: [
+    imports: [AdminLayoutComponent],
+    providers: [
         { provide: TranslocoService, useValue: { ...mockTranslocoService(), selectTranslation: () => of({}) } },
         {
-          provide: QueueUploadService,
-          useValue: { displayQueue: of(false), timeRemaining: of(0), uploadQueue: EMPTY }
+            provide: QueueUploadService,
+            useValue: { displayQueue: of(false), timeRemaining: of(0), uploadQueue: EMPTY }
         }
-      ]
-    })
+    ]
+})
       .overrideComponent(AdminLayoutComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(AdminLayoutComponent);

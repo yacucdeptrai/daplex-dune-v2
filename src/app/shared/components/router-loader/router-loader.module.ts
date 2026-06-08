@@ -5,9 +5,8 @@ import { RouterLoaderComponent } from './router-loader.component';
 import { RouterLoaderService } from './router-loader.service';
 
 @NgModule({
-  declarations: [RouterLoaderComponent],
-  imports: [CommonModule],
-  providers: [RouterLoaderService],
-  exports: [RouterLoaderComponent]
+    imports: [CommonModule, RouterLoaderComponent],
+    providers: [RouterLoaderService],
+    exports: [RouterLoaderComponent]
 })
 export class RouterLoaderModule { }

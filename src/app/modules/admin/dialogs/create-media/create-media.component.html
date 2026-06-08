@@ -3,7 +3,7 @@
   <app-stepper #stepper [linear]="true" headerStyleClass="tw-mx-5 tw-my-4" aria-label="Create media">
     <cdk-step [label]="t('admin.createMedia.movieStep1')" [stepControl]="createMediaForm" [completed]="!!media"
       [editable]="true" aria-label="Details">
-      <ng-container *ngIf="!media; else showUpdateMediaForm">
+      @if (!media) {
         <form [formGroup]="createMediaForm" formHandler (ngSubmit)="onCreateMediaFormSubmit()">
           <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
             <div class="tw-flex tw-flex-wrap">
@@ -84,7 +84,7 @@
             <small id="release-date-error" class="p-error tw-text-xs tw-block tw-my-2"
               [invalidControl]="createMediaForm.controls.releaseDate">{{ createMediaForm.controls.releaseDate.errors
               | firstErrorKey:'createMedia':'releaseDate' }}</small>
-            <ng-container *ngIf="createMediaForm.value.type === MediaType.TV">
+            @if (createMediaForm.value.type === MediaType.TV) {
               <label for="last-air-date" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
                 t('admin.createMedia.lastAirDate') }}</label>
               <div id="last-air-date" formGroupName="lastAirDate" class="dropdown-group tw-flex tw-flex-wrap tw-w-full"
@@ -103,10 +103,12 @@
                   scrollHeight="300px">
                 </p-dropdown>
               </div>
-              <small id="last-air-date-error" *ngIf="createMediaForm.controls.lastAirDate"
-                class="p-error tw-text-xs tw-block tw-my-2" [invalidControl]="createMediaForm.controls.lastAirDate">{{
-                createMediaForm.controls.lastAirDate.errors | firstErrorKey:'createMedia':'lastAirDate' }}</small>
-            </ng-container>
+              @if (createMediaForm.controls.lastAirDate) {
+                <small id="last-air-date-error" class="p-error tw-text-xs tw-block tw-my-2"
+                  [invalidControl]="createMediaForm.controls.lastAirDate">{{
+                  createMediaForm.controls.lastAirDate.errors | firstErrorKey:'createMedia':'lastAirDate' }}</small>
+              }
+            }
             <div class="tw-flex tw-flex-wrap">
               <div class="tw-w-full sm:tw-w-1/3">
                 <label for="visibility" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
@@ -139,7 +141,7 @@
                 <label for="status" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
                   t('admin.createMedia.status') }}</label>
                 <div id="status">
-                  <ng-container *ngIf="createMediaForm.value.type === MediaType.TV; else isMovie">
+                  @if (createMediaForm.value.type === MediaType.TV) {
                     <p-radioButton name="status" value="upcoming" [label]="t('media.statusOptions.upcoming')"
                       formControlName="status" class="tw-block tw-mb-2">
                     </p-radioButton>
@@ -149,15 +151,14 @@
                     <p-radioButton name="status" value="aired" [label]="t('media.statusOptions.aired')"
                       formControlName="status" class="tw-block tw-mb-2">
                     </p-radioButton>
-                  </ng-container>
-                  <ng-template #isMovie>
+                  } @else {
                     <p-radioButton name="status" value="upcoming" [label]="t('media.statusOptions.upcoming')"
                       formControlName="status" class="tw-block tw-mb-2">
                     </p-radioButton>
                     <p-radioButton name="status" value="released" [label]="t('media.statusOptions.released')"
                       formControlName="status" class="tw-block">
                     </p-radioButton>
-                  </ng-template>
+                  }
                 </div>
               </div>
             </div>
@@ -173,8 +174,7 @@
             </div>
           </div>
         </form>
-      </ng-container>
-      <ng-template #showUpdateMediaForm>
+      } @else {
         <form [formGroup]="updateMediaForm" formHandler (ngSubmit)="onUpdateMediaFormSubmit()">
           <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
             <div class="tw-flex tw-flex-wrap">
@@ -255,7 +255,7 @@
             <small id="release-date-error" class="p-error tw-text-xs tw-block tw-my-2"
               [invalidControl]="updateMediaForm.controls.releaseDate">{{ updateMediaForm.controls.releaseDate.errors
               | firstErrorKey:'updateMedia':'releaseDate' }}</small>
-            <ng-container *ngIf="createMediaForm.value.type === MediaType.TV">
+            @if (createMediaForm.value.type === MediaType.TV) {
               <label for="last-air-date" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
                 t('admin.updateMedia.lastAirDate') }}</label>
               <div id="last-air-date" formGroupName="lastAirDate" class="dropdown-group tw-flex tw-flex-wrap tw-w-full"
@@ -274,10 +274,12 @@
                   scrollHeight="300px">
                 </p-dropdown>
               </div>
-              <small id="last-air-date-error" *ngIf="updateMediaForm.controls.lastAirDate"
-                class="p-error tw-text-xs tw-block tw-my-2" [invalidControl]="updateMediaForm.controls.lastAirDate">{{
-                updateMediaForm.controls.lastAirDate.errors | firstErrorKey:'updateMedia':'lastAirDate' }}</small>
-            </ng-container>
+              @if (updateMediaForm.controls.lastAirDate) {
+                <small id="last-air-date-error" class="p-error tw-text-xs tw-block tw-my-2"
+                  [invalidControl]="updateMediaForm.controls.lastAirDate">{{
+                  updateMediaForm.controls.lastAirDate.errors | firstErrorKey:'updateMedia':'lastAirDate' }}</small>
+              }
+            }
             <div class="tw-flex tw-flex-wrap">
               <div class="tw-w-full sm:tw-w-1/3">
                 <label for="visibility" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
@@ -310,7 +312,7 @@
                 <label for="status" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
                   t('admin.updateMedia.status') }}</label>
                 <div id="status">
-                  <ng-container *ngIf="createMediaForm.value.type === MediaType.TV; else isMovie">
+                  @if (createMediaForm.value.type === MediaType.TV) {
                     <p-radioButton name="status" value="upcoming" [label]="t('media.statusOptions.upcoming')"
                       formControlName="status" class="tw-block tw-mb-2">
                     </p-radioButton>
@@ -320,15 +322,14 @@
                     <p-radioButton name="status" value="aired" [label]="t('media.statusOptions.aired')"
                       formControlName="status" class="tw-block tw-mb-2">
                     </p-radioButton>
-                  </ng-container>
-                  <ng-template #isMovie>
+                  } @else {
                     <p-radioButton name="status" value="upcoming" [label]="t('media.statusOptions.upcoming')"
                       formControlName="status" class="tw-block tw-mb-2">
                     </p-radioButton>
                     <p-radioButton name="status" value="released" [label]="t('media.statusOptions.released')"
                       formControlName="status" class="tw-block">
                     </p-radioButton>
-                  </ng-template>
+                  }
                 </div>
               </div>
             </div>
@@ -344,7 +345,7 @@
             </div>
           </div>
         </form>
-      </ng-template>
+      }
       <ng-template #autoCompleteInputsTpl let-createOrUpdateForm="createOrUpdateForm" let-formAction="formAction">
         <div class="tw-flex max-md:tw-flex-wrap tw-my-2">
           <div class="tw-w-full md:tw-w-1/3 tw-mb-8">
@@ -361,9 +362,10 @@
           </div>
           <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
           <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-gap-2 tw-content-center">
-            <p-chip *ngFor="let genre of createOrUpdateForm.value.genres" [label]="genre.name" [removable]="true"
-              styleClass="p-chip-sm tw-rounded-full"
-              (onRemove)="genreAC.removeOptionByObject(genre); genreAC.cd.markForCheck()"></p-chip>
+            @for (genre of createOrUpdateForm.value.genres; track genre._id || $index) {
+              <p-chip [label]="genre.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full"
+                (onRemove)="genreAC.removeOptionByObject(genre); genreAC.cd.markForCheck()"></p-chip>
+            }
           </div>
         </div>
         <div class="tw-flex max-md:tw-flex-wrap tw-my-2">
@@ -381,9 +383,10 @@
           </div>
           <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
           <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-gap-2 tw-content-center">
-            <p-chip *ngFor="let studio of createOrUpdateForm.value.studios" [label]="studio.name" [removable]="true"
-              styleClass="p-chip-sm tw-rounded-full"
-              (onRemove)="studioAC.removeOptionByObject(studio); studioAC.cd.markForCheck()"></p-chip>
+            @for (studio of createOrUpdateForm.value.studios; track studio._id || $index) {
+              <p-chip [label]="studio.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full"
+                (onRemove)="studioAC.removeOptionByObject(studio); studioAC.cd.markForCheck()"></p-chip>
+            }
           </div>
         </div>
         <div class="tw-flex max-md:tw-flex-wrap tw-my-2">
@@ -401,9 +404,10 @@
           </div>
           <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
           <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-gap-2 tw-content-center">
-            <p-chip *ngFor="let producer of createOrUpdateForm.value.producers" [label]="producer.name"
-              [removable]="true" styleClass="p-chip-sm tw-rounded-full"
-              (onRemove)="producerAC.removeOptionByObject(producer); producerAC.cd.markForCheck()"></p-chip>
+            @for (producer of createOrUpdateForm.value.producers; track producer._id || $index) {
+              <p-chip [label]="producer.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full"
+                (onRemove)="producerAC.removeOptionByObject(producer); producerAC.cd.markForCheck()"></p-chip>
+            }
           </div>
         </div>
         <div class="tw-flex max-md:tw-flex-wrap tw-my-2">
@@ -421,28 +425,31 @@
           </div>
           <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
           <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-gap-2 tw-content-center">
-            <p-chip *ngFor="let tag of createOrUpdateForm.value.tags" [label]="tag.name" [removable]="true"
-              styleClass="p-chip-sm tw-rounded-full"
-              (onRemove)="tagAC.removeOptionByObject(tag); tagAC.cd.markForCheck()"></p-chip>
+            @for (tag of createOrUpdateForm.value.tags; track tag._id || $index) {
+              <p-chip [label]="tag.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full"
+                (onRemove)="tagAC.removeOptionByObject(tag); tagAC.cd.markForCheck()"></p-chip>
+            }
           </div>
         </div>
       </ng-template>
     </cdk-step>
-    <ng-container *ngIf="createMediaForm.value.type === MediaType.MOVIE; else tvSteps">
+    @if (createMediaForm.value.type === MediaType.MOVIE) {
       <cdk-step [label]="t('admin.createMedia.movieStep2')" [optional]="true" [editable]="true"
         aria-label="Movie elements">
         <ng-container *ngTemplateOutlet="mediaStep2Body; context: { hasMovieElement: true }"></ng-container>
         <ng-container *ngTemplateOutlet="mediaStep2Actions"></ng-container>
       </cdk-step>
       <cdk-step [label]="t('admin.createMedia.movieStep3')" [optional]="true" aria-label="Movie source">
-        <div *ngIf="media" class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
-          <p class="tw-text-lg tw-font-medium tw-mb-2">{{ t('admin.createMedia.addMovieSourceLabel') }}</p>
-          <app-file-upload accept=".mp4, .mkv, .webm, .m2ts" styleClass="tw-max-w-xl tw-h-40 tw-mx-auto"
-            ariaLabel="Upload movie source" [label]="t('admin.createMedia.chooseFile')"
-            [desciption]="t('admin.createMedia.addMovieSourceDescription')" [disabled]="isUploadingSource"
-            (fileChange)="uploadSource($event)">
-          </app-file-upload>
-        </div>
+        @if (media) {
+          <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
+            <p class="tw-text-lg tw-font-medium tw-mb-2">{{ t('admin.createMedia.addMovieSourceLabel') }}</p>
+            <app-file-upload accept=".mp4, .mkv, .webm, .m2ts" styleClass="tw-max-w-xl tw-h-40 tw-mx-auto"
+              ariaLabel="Upload movie source" [label]="t('admin.createMedia.chooseFile')"
+              [desciption]="t('admin.createMedia.addMovieSourceDescription')" [disabled]="isUploadingSource"
+              (fileChange)="uploadSource($event)">
+            </app-file-upload>
+          </div>
+        }
         <div class="tw-flex tw-my-4 tw-px-7">
           <div class="tw-ml-auto">
             <button pButton type="button" [label]="t('admin.createMedia.previous')"
@@ -459,8 +466,7 @@
           *ngTemplateOutlet="mediaFinalStep; context: { description: t('admin.createMedia.movieFinishDescription') }">
         </ng-container>
       </cdk-step>
-    </ng-container>
-    <ng-template #tvSteps>
+    } @else {
       <cdk-step [label]="t('admin.createMedia.tvStep2')" [optional]="true" [editable]="true" aria-label="TV elements">
         <ng-container *ngTemplateOutlet="mediaStep2Body; context: { hasMovieElement: false }"></ng-container>
         <ng-container *ngTemplateOutlet="mediaStep2Actions"></ng-container>
@@ -470,80 +476,93 @@
           *ngTemplateOutlet="mediaFinalStep; context: { description: t('admin.createMedia.tvFinishDescription') }">
         </ng-container>
       </cdk-step>
-    </ng-template>
+    }
     <ng-template #mediaStep2Body let-hasMovieElements="hasMovieElements">
-      <div *ngIf="media" class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
-        <div class="tw-flex tw-items-center tw-px-8 tw-py-4 tw-bg-neutral-875 tw-rounded-md tw-shadow-sm">
-          <div class="tw-w-auto">
-            <p class="tw-text-lg tw-font-medium">{{ t('admin.createMedia.addPosterLabel') }}</p>
-            <p class="tw-text-sm">{{ t('admin.createMedia.addPosterDescription') }}</p>
-            <p *ngIf="hasPoster" class="tw-text-sm tw-mt-2 tw-flex tw-items-center">
-              <i class="ms ms-cloud-done"></i>
-              <span class="tw-ml-1">{{ t('admin.createMedia.posterAdded') }}</span>
-            </p>
+      @if (media) {
+        <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
+          <div class="tw-flex tw-items-center tw-px-8 tw-py-4 tw-bg-neutral-875 tw-rounded-md tw-shadow-sm">
+            <div class="tw-w-auto">
+              <p class="tw-text-lg tw-font-medium">{{ t('admin.createMedia.addPosterLabel') }}</p>
+              <p class="tw-text-sm">{{ t('admin.createMedia.addPosterDescription') }}</p>
+              @if (hasPoster) {
+                <p class="tw-text-sm tw-mt-2 tw-flex tw-items-center">
+                  <i class="ms ms-cloud-done"></i>
+                  <span class="tw-ml-1">{{ t('admin.createMedia.posterAdded') }}</span>
+                </p>
+              }
+            </div>
+            <app-file-upload #posterFileUpload class="tw-ml-auto" accept=".jpg, .jpeg, .png"
+              styleClass="tw-w-48 tw-h-20" ariaLabel="Choose poster" [label]="t('admin.createMedia.chooseFile')"
+              [showFilename]="false" (fileChange)="onInputPosterChange($event)">
+            </app-file-upload>
           </div>
-          <app-file-upload #posterFileUpload class="tw-ml-auto" accept=".jpg, .jpeg, .png" styleClass="tw-w-48 tw-h-20"
-            ariaLabel="Choose poster" [label]="t('admin.createMedia.chooseFile')" [showFilename]="false"
-            (fileChange)="onInputPosterChange($event)">
-          </app-file-upload>
-        </div>
-        <div class="tw-flex tw-items-center tw-px-8 tw-py-4 tw-bg-neutral-875 tw-rounded-md tw-shadow-sm tw-mt-2">
-          <div class="tw-w-auto">
-            <p class="tw-text-lg tw-font-medium">{{ t('admin.createMedia.addBackdropLabel') }}</p>
-            <p class="tw-text-sm">{{ t('admin.createMedia.addBackdropDescription') }}</p>
-            <p *ngIf="hasBackdrop" class="tw-text-sm tw-mt-2 tw-flex tw-items-center">
-              <i class="ms ms-cloud-done"></i>
-              <span class="tw-ml-1">{{ t('admin.createMedia.backdropAdded') }}</span>
-            </p>
+          <div class="tw-flex tw-items-center tw-px-8 tw-py-4 tw-bg-neutral-875 tw-rounded-md tw-shadow-sm tw-mt-2">
+            <div class="tw-w-auto">
+              <p class="tw-text-lg tw-font-medium">{{ t('admin.createMedia.addBackdropLabel') }}</p>
+              <p class="tw-text-sm">{{ t('admin.createMedia.addBackdropDescription') }}</p>
+              @if (hasBackdrop) {
+                <p class="tw-text-sm tw-mt-2 tw-flex tw-items-center">
+                  <i class="ms ms-cloud-done"></i>
+                  <span class="tw-ml-1">{{ t('admin.createMedia.backdropAdded') }}</span>
+                </p>
+              }
+            </div>
+            <app-file-upload #backdropFileUpload class="tw-ml-auto" accept=".jpg, .jpeg, .png"
+              styleClass="tw-w-48 tw-h-20" ariaLabel="Choose backdrop" [label]="t('admin.createMedia.chooseFile')"
+              [showFilename]="false" (fileChange)="onInputBackdropChange($event)">
+            </app-file-upload>
           </div>
-          <app-file-upload #backdropFileUpload class="tw-ml-auto" accept=".jpg, .jpeg, .png"
-            styleClass="tw-w-48 tw-h-20" ariaLabel="Choose backdrop" [label]="t('admin.createMedia.chooseFile')"
-            [showFilename]="false" (fileChange)="onInputBackdropChange($event)">
-          </app-file-upload>
-        </div>
-        <div *ngIf="hasMovieElements"
-          class="tw-flex tw-items-center tw-px-8 tw-py-4 tw-bg-neutral-875 tw-rounded-md tw-shadow-sm tw-mt-2">
-          <div class="tw-w-auto">
-            <p class="tw-text-lg tw-font-medium">{{ t('admin.createMedia.addSubtitlesLabel') }}</p>
-            <p class="tw-text-sm">{{ t('admin.createMedia.addSubtitlesDescription') }}</p>
-            <p *ngIf="subtitleCount" class="tw-text-sm tw-mt-2 tw-flex tw-items-center">
-              <i class="ms ms-subtitles"></i>
-              <span class="tw-ml-1">{{ t('admin.createMedia.subtitlesAdded', { subtitleCount }) }}</span>
-            </p>
+          @if (hasMovieElements) {
+            <div class="tw-flex tw-items-center tw-px-8 tw-py-4 tw-bg-neutral-875 tw-rounded-md tw-shadow-sm tw-mt-2">
+              <div class="tw-w-auto">
+                <p class="tw-text-lg tw-font-medium">{{ t('admin.createMedia.addSubtitlesLabel') }}</p>
+                <p class="tw-text-sm">{{ t('admin.createMedia.addSubtitlesDescription') }}</p>
+                @if (subtitleCount) {
+                  <p class="tw-text-sm tw-mt-2 tw-flex tw-items-center">
+                    <i class="ms ms-subtitles"></i>
+                    <span class="tw-ml-1">{{ t('admin.createMedia.subtitlesAdded', { subtitleCount }) }}</span>
+                  </p>
+                }
+              </div>
+              <app-file-upload #subtitleFileUpload class="tw-ml-auto"
+                accept=".vtt, .srt, .ass, .vtt.gz, .srt.gz, .ass.gz" styleClass="tw-w-48 tw-h-20"
+                ariaLabel="Choose a subtitle to upload" [label]="t('admin.createMedia.chooseFile')"
+                [showFilename]="false" (fileChange)="showAddSubtitleDialog($event)">
+              </app-file-upload>
+            </div>
+          }
+          <div class="tw-flex tw-items-center tw-px-8 tw-py-4 tw-bg-neutral-875 tw-rounded-md tw-shadow-sm tw-mt-2">
+            <div class="tw-w-auto">
+              <p class="tw-text-lg tw-font-medium">{{ t('admin.createMedia.addVideosLabel') }}</p>
+              <p class="tw-text-sm">{{ t('admin.createMedia.addVideosDescription') }}</p>
+              @if (videoCount) {
+                <p class="tw-text-sm tw-mt-2 tw-flex tw-items-center">
+                  <i class="ms ms-video-library"></i>
+                  <span class="tw-ml-1">{{ t('admin.createMedia.videosAdded', { videoCount }) }}</span>
+                </p>
+              }
+            </div>
+            <button pButton type="button" [label]="t('admin.createMedia.addVideos')"
+              class="p-button-secondary p-button-sm tw-ml-auto" (click)="showAddVideoDialog()">
+            </button>
           </div>
-          <app-file-upload #subtitleFileUpload class="tw-ml-auto" accept=".vtt, .srt, .ass, .vtt.gz, .srt.gz, .ass.gz"
-            styleClass="tw-w-48 tw-h-20" ariaLabel="Choose a subtitle to upload"
-            [label]="t('admin.createMedia.chooseFile')" [showFilename]="false"
-            (fileChange)="showAddSubtitleDialog($event)">
-          </app-file-upload>
-        </div>
-        <div class="tw-flex tw-items-center tw-px-8 tw-py-4 tw-bg-neutral-875 tw-rounded-md tw-shadow-sm tw-mt-2">
-          <div class="tw-w-auto">
-            <p class="tw-text-lg tw-font-medium">{{ t('admin.createMedia.addVideosLabel') }}</p>
-            <p class="tw-text-sm">{{ t('admin.createMedia.addVideosDescription') }}</p>
-            <p *ngIf="videoCount" class="tw-text-sm tw-mt-2 tw-flex tw-items-center">
-              <i class="ms ms-video-library"></i>
-              <span class="tw-ml-1">{{ t('admin.createMedia.videosAdded', { videoCount }) }}</span>
-            </p>
+          <div class="tw-flex tw-items-center tw-px-8 tw-py-4 tw-bg-neutral-875 tw-rounded-md tw-shadow-sm tw-mt-2">
+            <div class="tw-w-auto">
+              <p class="tw-text-lg tw-font-medium">{{ t('admin.createMedia.addEpisodesLabel') }}</p>
+              <p class="tw-text-sm">{{ t('admin.createMedia.addEpisodesDescription') }}</p>
+              @if (episodeCount) {
+                <p class="tw-text-sm tw-mt-2 tw-flex tw-items-center">
+                  <i class="ms ms-video-library"></i>
+                  <span class="tw-ml-1">{{ t('admin.createMedia.episodesAdded', { episodeCount }) }}</span>
+                </p>
+              }
+            </div>
+            <button pButton type="button" [label]="t('admin.createMedia.addEpisodes')"
+              class="p-button-secondary p-button-sm tw-ml-auto" (click)="showAddEpisodeDialog()">
+            </button>
           </div>
-          <button pButton type="button" [label]="t('admin.createMedia.addVideos')"
-            class="p-button-secondary p-button-sm tw-ml-auto" (click)="showAddVideoDialog()">
-          </button>
         </div>
-        <div class="tw-flex tw-items-center tw-px-8 tw-py-4 tw-bg-neutral-875 tw-rounded-md tw-shadow-sm tw-mt-2">
-          <div class="tw-w-auto">
-            <p class="tw-text-lg tw-font-medium">{{ t('admin.createMedia.addEpisodesLabel') }}</p>
-            <p class="tw-text-sm">{{ t('admin.createMedia.addEpisodesDescription') }}</p>
-            <p *ngIf="episodeCount" class="tw-text-sm tw-mt-2 tw-flex tw-items-center">
-              <i class="ms ms-video-library"></i>
-              <span class="tw-ml-1">{{ t('admin.createMedia.episodesAdded', { episodeCount }) }}</span>
-            </p>
-          </div>
-          <button pButton type="button" [label]="t('admin.createMedia.addEpisodes')"
-            class="p-button-secondary p-button-sm tw-ml-auto" (click)="showAddEpisodeDialog()">
-          </button>
-        </div>
-      </div>
+      }
     </ng-template>
     <ng-template #mediaStep2Actions>
       <div class="tw-flex tw-my-4 tw-px-7">

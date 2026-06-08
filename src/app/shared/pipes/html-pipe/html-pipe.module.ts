@@ -5,11 +5,8 @@ import { DompurifyPipe } from './dompurify/dompurify.pipe';
 import { DompurifyService } from './dompurify/dompurify.service';
 
 @NgModule({
-  declarations: [
-    DompurifyPipe
-  ],
-  imports: [CommonModule],
-  providers: [DompurifyService],
-  exports: [DompurifyPipe]
+    imports: [CommonModule, DompurifyPipe],
+    providers: [DompurifyService],
+    exports: [DompurifyPipe]
 })
 export class HtmlPipeModule { }

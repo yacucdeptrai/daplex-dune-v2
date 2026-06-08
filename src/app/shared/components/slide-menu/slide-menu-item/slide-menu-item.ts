@@ -24,8 +24,7 @@ import { SlideMenuOverlay } from '../slide-menu-overlay/slide-menu-overlay';
         '(focus)': '_setTabIndex()',
         '(click)': 'trigger({ keepOpen })',
         '(keydown)': '_onKeydown($event)',
-    },
-    standalone: false
+    }
 })
 export class SlideMenuItem implements FocusableOption, FocusableElement, Toggler, OnDestroy {
   /** The directionality (text direction) of the current page. */

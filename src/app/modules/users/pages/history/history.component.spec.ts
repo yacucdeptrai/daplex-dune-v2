@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { of } from 'rxjs';
@@ -14,8 +14,8 @@ describe('HistoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HistoryComponent],
-      providers: [
+    imports: [HistoryComponent],
+    providers: [
         provideMockActivatedRoute(),
         { provide: TranslocoService, useValue: { ...mockTranslocoService(), selectTranslation: () => of({}) } },
         { provide: DialogService, useValue: { open: () => undefined, dialogComponentRefMap: new Map() } },
@@ -25,8 +25,8 @@ describe('HistoryComponent', () => {
         { provide: GenresService, useValue: {} },
         { provide: MediaService, useValue: {} },
         ...HTTP_TEST_PROVIDERS
-      ]
-    })
+    ]
+})
       .overrideComponent(HistoryComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(HistoryComponent);

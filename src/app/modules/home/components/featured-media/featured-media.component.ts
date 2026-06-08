@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { Router, RouterLink } from '@angular/router';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { Media } from '../../../../core/models';
@@ -8,13 +8,22 @@ import { AuthService } from '../../../../core/services';
 import { track_Id } from '../../../../core/utils';
 import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playlist';
 import { NativeSwiperOptions, NativeSwiperRef } from '../../../../shared/components/swiper';
+import { NgTemplateOutlet, NgClass, NgStyle } from '@angular/common';
+import { SwiperComponent } from '../../../../shared/components/swiper/swiper.component';
+import { SwiperSlideDirective } from '../../../../shared/components/swiper/swiper-slide.directive';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { ButtonModule } from 'primeng/button';
+import { SkeletonComponent } from '../../../../shared/components/skeleton/skeleton.component';
+import { RgbColorPipe } from '../../../../shared/pipes/number-pipe/rgb-color/rgb-color.pipe';
+import { TimePipe } from '../../../../shared/pipes/date-time-pipe/time/time.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 @Component({
     selector: 'app-featured-media',
     templateUrl: './featured-media.component.html',
     styleUrls: ['./featured-media.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [NgTemplateOutlet, TranslocoDirective, SwiperComponent, NgClass, SwiperSlideDirective, LazyLoadImageModule, NgStyle, RouterLink, ButtonModule, SkeletonComponent, RgbColorPipe, TimePipe, ThumbhashUrlPipe]
 })
 export class FeaturedMediaComponent implements OnDestroy {
   track_Id = track_Id;

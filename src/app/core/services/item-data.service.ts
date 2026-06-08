@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { first, map, Observable } from 'rxjs';
 
 import { COUNTRY_CODES, LANGUAGE_CODES, TRANSLATE_CODES } from '../data';

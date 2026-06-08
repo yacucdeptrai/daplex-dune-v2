@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { of } from 'rxjs';
 
@@ -13,14 +13,14 @@ describe('ProfileSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProfileSettingsComponent],
-      providers: [
+    imports: [ProfileSettingsComponent],
+    providers: [
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: DialogService, useValue: { open: () => undefined, dialogComponentRefMap: new Map() } },
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         { provide: UsersService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(ProfileSettingsComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(ProfileSettingsComponent);

@@ -32,8 +32,7 @@ let nextId = 0;
     providers: [
         { provide: SlideMenuItemSelectable, useExisting: SlideMenuItemRadio },
         { provide: SlideMenuItem, useExisting: SlideMenuItemSelectable },
-    ],
-    standalone: false
+    ]
 })
 export class SlideMenuItemRadio extends SlideMenuItemSelectable implements OnDestroy {
   /** The unique selection dispatcher for this radio's `CdkMenuGroup`. */

@@ -48,7 +48,7 @@
               class="p-button-rounded p-button-text p-button-secondary p-button-sm p-button-sm-icon tw-inline-flex sm:tw-hidden">
             </button>
             <div class="tw-hidden tw-items-center sm:tw-flex">
-              <ng-container *ngIf="currentUser; else notLoggedIn">
+              @if (currentUser) {
                 <a type="button" role="navigation" aria-label="User profile" class="tw-flex tw-items-center tw-rounded-full
                     tw-p-1 hover:tw-bg-neutral-650 focus-visible:tw-outline-none focus-visible:tw-shadow-focus-box
                     tw-transition-colors tw-duration-200 tw-ml-2" [routerLink]="['/users', currentUser._id]">
@@ -68,12 +68,12 @@
                       <i class="ms ms-settings"></i>
                       <span>{{ t('homeHeader.settings') }}</span>
                     </a>
-                    <ng-container *ngIf="currentUser | isGranted:UserPermission.MANAGE_MEDIA">
+                    @if (currentUser | isGranted:UserPermission.MANAGE_MEDIA) {
                       <a appMenuItem routerLink="/admin/media">
                         <i class="ms ms-shield-person"></i>
                         <span>{{ t('homeHeader.adminPanel') }}</span>
                       </a>
-                    </ng-container>
+                    }
                     <div class="tw-divider tw-my-2"></div>
                     <button appMenuItem (click)="onSignOut()">
                       <i class="ms ms-logout"></i>
@@ -81,11 +81,10 @@
                     </button>
                   </div>
                 </ng-template>
-              </ng-container>
-              <ng-template #notLoggedIn>
+              } @else {
                 <a routerLink="/sign-in" routerLinkActive="before:tw-bg-white" class="tw-nav-item">{{
                   t('homeHeader.signIn') }}</a>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -114,20 +113,29 @@
       <div appMenu class="p-scrollbar tw-flex-wrap tw-flex-row tw-w-[38rem] tw-max-h-96 tw-overflow-y-auto"
         infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollDisabled]="!genreList?.hasNextPage"
         [scrollWindow]="false" (scrolled)="onGenresMenuScroll()">
-        <ng-container *ngIf="!loadingGenres && genreList; else loadingGenresTpl">
-          <a *ngFor="let genre of genreList.results; trackBy: track_Id"
-            class="cdk-menu-item-sm !tw-block tw-w-1/4 tw-text-sm tw-truncate" appMenuItem
-            [routerLink]="['/list', 'genre', genre._id]">{{ genre.name }}</a>
-        </ng-container>
-        <ng-container *ngIf="loadingMoreGenres; then loadingGenresTpl"></ng-container>
+        @if (!loadingGenres && genreList) {
+          @for (genre of genreList.results; track track_Id($index, genre)) {
+            <a class="cdk-menu-item-sm !tw-block tw-w-1/4 tw-text-sm tw-truncate" appMenuItem
+              [routerLink]="['/list', 'genre', genre._id]">{{ genre.name }}</a>
+          }
+        } @else {
+          <ng-container [ngTemplateOutlet]="loadingGenresTpl"></ng-container>
+        }
+        @if (loadingMoreGenres) {
+          <ng-container [ngTemplateOutlet]="loadingGenresTpl"></ng-container>
+        }
       </div>
       <ng-template #loadingGenresTpl>
-        <div class="tw-w-1/4 tw-px-3 tw-py-2.5" *ngFor="let item of skeletonArray">
-          <app-skeleton width="100%" height="16px"></app-skeleton>
-        </div>
+        @for (item of skeletonArray; track $index) {
+          <div class="tw-w-1/4 tw-px-3 tw-py-2.5">
+            <app-skeleton width="100%" height="16px"></app-skeleton>
+          </div>
+        }
       </ng-template>
     </ng-template>
-    <div *ngIf="isFixedNavbar && navbarSpacing" class="tw-h-14"></div>
+    @if (isFixedNavbar && navbarSpacing) {
+      <div class="tw-h-14"></div>
+    }
   </header>
 
   <!--footer class="tw-bg-neutral-900 tw-fixed tw-bottom-0 tw-left-0 tw-right-0 tw-h-12 tw-z-20 sm:tw-hidden">
@@ -154,16 +162,15 @@
     contentId="sidebar-menu-content" transitionOptions="200ms cubic-bezier(0, 0, 0.2, 1)"
     (visibleChange)="onSidebarVisibleChange($event)" ariaCloseLabel="Close side menu">
     <ng-template pTemplate="header">
-      <ng-container *ngIf="currentUser; else notLoggedIn">
+      @if (currentUser) {
         <a type="button" role="navigation" aria-label="User profile" class="tw-flex tw-items-center tw-rounded-md
           tw-p-1 hover:tw-bg-neutral-650 tw-transition-colors tw-duration-200 tw-w-full tw-mx-2"
           [routerLink]="['/users', currentUser._id]">
           <ng-container *ngTemplateOutlet="userButton; context: { currentUser }"></ng-container>
         </a>
-      </ng-container>
-      <ng-template #notLoggedIn>
+      } @else {
         <p class="tw-font-medium tw-p-1 tw-w-full tw-mx-2">{{ t('homeHeader.notSignedIn') }}</p>
-      </ng-template>
+      }
     </ng-template>
     <ng-template pTemplate="content">
       <div class="tw-flex tw-flex-wrap [&>*]:tw-w-full [&>*]:xs:tw-w-[calc(50%-8px)] [&>*]:tw-my-1 [&>*]:xs:tw-m-1">
@@ -221,27 +228,36 @@
         iconPos="right" (click)="displaySidebarGenres = !displaySidebarGenres">
         <i class="ms ms-sell tw-mr-2"></i>
       </button>
-      <div *ngIf="displaySidebarGenres">
-        <div infiniteScroll [infiniteScrollDistance]="2" class="tw-flex tw-flex-wrap"
-          [infiniteScrollDisabled]="!genreList?.hasNextPage || !displaySidebarGenres" [fromRoot]="true"
-          infiniteScrollContainer="#sidebar-menu-content" (scrolled)="onGenresMenuScroll()">
-          <ng-container *ngIf="!loadingGenres && genreList; else loadingGenresTpl">
-            <a *ngFor="let genre of genreList.results; trackBy: track_Id" class="tw-block tw-w-full xs:tw-w-1/2"
-              [routerLink]="['/list', 'genre', genre._id]">
-              <button role="navigation" pButton
-                class="p-button-text p-button-secondary tw-block tw-w-full tw-text-left tw-text-sm tw-truncate"
-                [label]="genre.name"></button>
-            </a>
-          </ng-container>
-          <ng-container *ngIf="loadingMoreGenres; then loadingGenresTpl"></ng-container>
-        </div>
-        <ng-template #loadingGenresTpl>
-          <div class="tw-px-3 tw-py-3.5 tw-w-full xs:tw-w-1/2" *ngFor="let item of skeletonArray">
-            <app-skeleton width="100%" height="14.83px"></app-skeleton>
+      @if (displaySidebarGenres) {
+        <div>
+          <div infiniteScroll [infiniteScrollDistance]="2" class="tw-flex tw-flex-wrap"
+            [infiniteScrollDisabled]="!genreList?.hasNextPage || !displaySidebarGenres" [fromRoot]="true"
+            infiniteScrollContainer="#sidebar-menu-content" (scrolled)="onGenresMenuScroll()">
+            @if (!loadingGenres && genreList) {
+              @for (genre of genreList.results; track track_Id($index, genre)) {
+                <a class="tw-block tw-w-full xs:tw-w-1/2" [routerLink]="['/list', 'genre', genre._id]">
+                  <button role="navigation" pButton
+                    class="p-button-text p-button-secondary tw-block tw-w-full tw-text-left tw-text-sm tw-truncate"
+                    [label]="genre.name"></button>
+                </a>
+              }
+            } @else {
+              <ng-container [ngTemplateOutlet]="loadingGenresTpl"></ng-container>
+            }
+            @if (loadingMoreGenres) {
+              <ng-container [ngTemplateOutlet]="loadingGenresTpl"></ng-container>
+            }
           </div>
-        </ng-template>
-      </div>
-      <ng-container *ngIf="currentUser; else notLoggedIn">
+          <ng-template #loadingGenresTpl>
+            @for (item of skeletonArray; track $index) {
+              <div class="tw-px-3 tw-py-3.5 tw-w-full xs:tw-w-1/2">
+                <app-skeleton width="100%" height="14.83px"></app-skeleton>
+              </div>
+            }
+          </ng-template>
+        </div>
+      }
+      @if (currentUser) {
         <a class="tw-inline-block tw-w-full tw-my-1 xs:tw-m-1" [routerLink]="['/users', currentUser._id]">
           <button role="navigation" pButton class="p-button-secondary" icon="ms ms-person"
             [label]="t('homeHeader.profile')"></button>
@@ -250,22 +266,22 @@
           <button role="navigation" pButton class="p-button-secondary" icon="ms ms-settings"
             [label]="t('homeHeader.settings')"></button>
         </a>
-        <a *ngIf="currentUser | isGranted:UserPermission.MANAGE_MEDIA"
-          class="tw-inline-block tw-w-full tw-my-1 xs:tw-m-1" routerLink="/admin/media">
-          <button role="navigation" pButton class="p-button-secondary" icon="ms ms-shield-person"
-            [label]="t('homeHeader.adminPanel')"></button>
-        </a>
+        @if (currentUser | isGranted:UserPermission.MANAGE_MEDIA) {
+          <a class="tw-inline-block tw-w-full tw-my-1 xs:tw-m-1" routerLink="/admin/media">
+            <button role="navigation" pButton class="p-button-secondary" icon="ms ms-shield-person"
+              [label]="t('homeHeader.adminPanel')"></button>
+          </a>
+        }
         <button role="button" pButton (click)="onSignOut()"
           class="p-button-secondary tw-w-full tw-text-left tw-my-1 xs:tw-m-1" icon="ms ms-logout"
           [label]="t('homeHeader.signOut')">
         </button>
-      </ng-container>
-      <ng-template #notLoggedIn>
+      } @else {
         <a class="tw-inline-block tw-w-full tw-my-1 xs:tw-m-1" routerLink="/sign-in">
           <button role="navigation" pButton class="p-button-secondary" icon="ms ms-logout"
             [label]="t('homeHeader.signIn')"></button>
         </a>
-      </ng-template>
+      }
       <!-- Space between footer menu and this sidebar -->
       <div class="tw-h-12"></div>
     </ng-template>
@@ -275,13 +291,13 @@
     <div class="tw-w-9">
       <div class="tw-aspect-w-1 tw-aspect-h-1 tw-rounded-full [&>*]:tw-rounded-full tw-overflow-hidden
         tw-flex-shrink-0">
-        <img *ngIf="currentUser.smallAvatarUrl; else noAvatar" class="tw-object-cover"
-          [lazyLoad]="currentUser.smallAvatarUrl" [defaultImage]="currentUser.avatarPlaceholder | thumbhashUrl"
-          [alt]="currentUser.username">
-        <ng-template #noAvatar>
+        @if (currentUser.smallAvatarUrl) {
+          <img class="tw-object-cover" [lazyLoad]="currentUser.smallAvatarUrl"
+            [defaultImage]="currentUser.avatarPlaceholder | thumbhashUrl" [alt]="currentUser.username">
+        } @else {
           <app-avatar [label]="(currentUser.nickname || currentUser.username) | substring" styleClass="tw-rounded-full"
             labelStyleClass="tw-text-lg"></app-avatar>
-        </ng-template>
+        }
       </div>
     </div>
     <p class="tw-text-white tw-font-medium tw-mx-2 tw-max-w-[6rem] tw-truncate">{{ currentUser.username

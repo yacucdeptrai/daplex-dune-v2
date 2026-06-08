@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { takeUntil } from 'rxjs';
 
 import { DropdownOptionDto } from '../../../../core/dto/media';
@@ -11,6 +11,13 @@ import { fileExtension, maxFileSize } from '../../../../core/validators';
 import { UPLOAD_SUBTITLE_EXT, UPLOAD_SUBTITLE_SIZE } from '../../../../../environments/config';
 import { AddSubtitleForm } from '../../../../core/interfaces/forms';
 import { MediaType } from '../../../../core/enums';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { DropdownModule } from 'primeng/dropdown';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { FileUploadComponent } from '../../../../shared/components/file-upload/file-upload.component';
+import { ButtonModule } from 'primeng/button';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 
 @Component({
     selector: 'app-add-subtitle',
@@ -18,7 +25,7 @@ import { MediaType } from '../../../../core/enums';
     styleUrls: ['./add-subtitle.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ItemDataService, DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DropdownModule, DisabledControlDirective, InvalidControlDirective, FileUploadComponent, ButtonModule, FirstErrorKeyPipe]
 })
 export class AddSubtitleComponent implements OnInit {
   languages?: DropdownOptionDto[];

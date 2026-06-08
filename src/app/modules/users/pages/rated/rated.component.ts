@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
@@ -10,13 +10,31 @@ import { StarRatingComponent } from '../../../../shared/components/star-rating';
 import { AddToPlaylistComponent } from '../../../../shared/dialogs/add-to-playlist';
 import { track_Id, translocoEscape } from '../../../../core/utils';
 
+import { ButtonModule } from 'primeng/button';
+import { AppOverlayOrigin, AppConnectedOverlay } from '../../../../shared/directives/overlay-panel/overlay-panel/overlay-panel.directive';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { FormsModule } from '@angular/forms';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { RatingCardComponent } from '../../components/rating-card/rating-card.component';
+import { TableModule } from 'primeng/table';
+import { SharedModule } from 'primeng/api';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { StarRatingComponent as StarRatingComponent_1 } from '../../../../shared/components/star-rating/star-rating.component';
+import { MenuTriggerDirective } from '../../../../shared/directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
+import { MenuDirective } from '../../../../shared/directives/cdk-menu-custom/menu/menu.directive';
+import { MenuItemDirective } from '../../../../shared/directives/cdk-menu-custom/menu-item/menu-item.directive';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DateAltPipe } from '../../../../shared/pipes/date-time-pipe/date-alt/date-alt.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
+
 @Component({
     selector: 'app-rated',
     templateUrl: './rated.component.html',
     styleUrls: ['./rated.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [RatingsService, DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, ButtonModule, AppOverlayOrigin, SelectButtonModule, FormsModule, AppConnectedOverlay, InputSwitchModule, InfiniteScrollDirective, RatingCardComponent, TableModule, SharedModule, LazyLoadImageModule, StarRatingComponent_1, RouterLink, MenuTriggerDirective, MenuDirective, MenuItemDirective, ConfirmDialogModule, DateAltPipe, ThumbhashUrlPipe]
 })
 export class RatedComponent implements OnInit, OnDestroy {
   track_Id = track_Id;

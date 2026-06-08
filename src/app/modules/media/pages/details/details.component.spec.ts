@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { of } from 'rxjs';
 
@@ -21,8 +21,8 @@ describe('DetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DetailsComponent],
-      providers: [
+    imports: [DetailsComponent],
+    providers: [
         provideMockActivatedRoute({ params: {}, queryParams: {} }),
         { provide: Router, useValue: mockRouter() },
         { provide: BreakpointObserver, useValue: { observe: () => of({ matches: false, breakpoints: {} }) } },
@@ -31,8 +31,8 @@ describe('DetailsComponent', () => {
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: AuthService, useValue: {} },
         { provide: MediaService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(DetailsComponent, { set: { template: '' } })
       .compileComponents();
 

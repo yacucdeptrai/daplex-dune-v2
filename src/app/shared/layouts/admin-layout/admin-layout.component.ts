@@ -1,12 +1,20 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, HostListener } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
-import { MenuItem } from 'primeng/api';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
+import { MenuItem, SharedModule } from 'primeng/api';
 import { first, Observable, takeUntil } from 'rxjs';
 
 import { CanComponentDeactivate } from '../../../core/guards';
 import { DestroyService, QueueUploadService } from '../../../core/services';
 import { QueueUploadStatus } from '../../../core/enums';
 import { FileUpload, trackId } from '../../../core/utils';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { MenuModule } from 'primeng/menu';
+import { RouterOutlet } from '@angular/router';
+import { PanelModule } from 'primeng/panel';
+import { ButtonModule } from 'primeng/button';
+import { AsyncPipe } from '@angular/common';
+import { CircularProgressComponent } from '../../components/circular-progress/circular-progress.component';
+import { TimePipe } from '../../pipes/date-time-pipe/time/time.pipe';
 
 @Component({
     selector: 'app-admin-layout',
@@ -14,7 +22,7 @@ import { FileUpload, trackId } from '../../../core/utils';
     styleUrls: ['./admin-layout.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    standalone: false
+    imports: [TabMenuModule, MenuModule, RouterOutlet, TranslocoDirective, PanelModule, SharedModule, ButtonModule, CircularProgressComponent, AsyncPipe, TimePipe]
 })
 export class AdminLayoutComponent implements OnInit, OnDestroy, CanComponentDeactivate {
   trackId = trackId;

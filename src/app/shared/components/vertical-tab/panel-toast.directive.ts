@@ -1,9 +1,6 @@
 import { ChangeDetectorRef, Directive, Input, OnChanges, SimpleChanges, TemplateRef } from '@angular/core';
 
-@Directive({
-    selector: '[appPanelToast]',
-    standalone: false
-})
+@Directive({ selector: '[appPanelToast]' })
 export class PanelToastDirective implements OnChanges {
   @Input() tabId?: number | string;
   @Input() visible: boolean = false;

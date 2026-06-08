@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
+
 @Component({
     selector: 'player-mute-icon',
     templateUrl: './mute-icon.component.html',
     styles: [],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: []
 })
 export class MuteIconComponent {
   @Input() muted: boolean = false;

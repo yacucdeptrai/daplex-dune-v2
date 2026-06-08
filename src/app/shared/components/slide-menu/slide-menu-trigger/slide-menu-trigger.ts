@@ -39,8 +39,7 @@ import { PARENT_OR_NEW_SLIDE_MENU_STACK_PROVIDER } from '../slide-menu-stack/sli
     providers: [
         { provide: SLIDE_MENU_TRIGGER, useExisting: SlideMenuTriggerDirective },
         PARENT_OR_NEW_SLIDE_MENU_STACK_PROVIDER,
-    ],
-    standalone: false
+    ]
 })
 export class SlideMenuTriggerDirective extends SlideMenuTriggerBase implements OnDestroy {
   /** The document. */

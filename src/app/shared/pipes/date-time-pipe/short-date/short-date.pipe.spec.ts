@@ -1,5 +1,5 @@
 import { ShortDatePipe } from './short-date.pipe';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 describe('ShortDatePipe', () => {
   it('create an instance', () => {

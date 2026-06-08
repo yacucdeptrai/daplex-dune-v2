@@ -1,11 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-circular-progress',
     templateUrl: './circular-progress.component.html',
     styleUrls: ['./circular-progress.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [NgClass]
 })
 export class CircularProgressComponent implements OnInit {
   _radius: number = 80;

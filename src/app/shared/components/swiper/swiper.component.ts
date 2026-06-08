@@ -21,13 +21,14 @@ import {
   NativeSwiperSlideChangeEvent
 } from './swiper.types';
 import { SwiperSlideDirective } from './swiper-slide.directive';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
-  selector: 'swiper',
-  templateUrl: './swiper.component.html',
-  styleUrls: ['./swiper.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false
+    selector: 'swiper',
+    templateUrl: './swiper.component.html',
+    styleUrls: ['./swiper.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgTemplateOutlet]
 })
 export class SwiperComponent implements AfterContentInit, AfterViewInit, OnDestroy {
   @Input() config: NativeSwiperOptions = {};

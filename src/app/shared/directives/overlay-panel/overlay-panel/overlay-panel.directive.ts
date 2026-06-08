@@ -51,8 +51,7 @@ const LONGPRESS_DELAY = 500;
  */
 @Directive({
     selector: '[appOverlayOrigin]',
-    exportAs: 'appOverlayOrigin',
-    standalone: false
+    exportAs: 'appOverlayOrigin'
 })
 export class AppOverlayOrigin implements AfterViewInit, OnChanges, OnDestroy {
   private injector = inject(Injector);
@@ -840,8 +839,7 @@ export class AppOverlayOrigin implements AfterViewInit, OnChanges, OnDestroy {
  */
 @Directive({
     selector: '[appConnectedOverlay]',
-    exportAs: 'appConnectedOverlay',
-    standalone: false
+    exportAs: 'appConnectedOverlay'
 })
 export class AppConnectedOverlay {
   constructor() { }

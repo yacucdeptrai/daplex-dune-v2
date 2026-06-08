@@ -1,8 +1,8 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { NgStyle } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { debounceTime, first, takeUntil } from 'rxjs';
 
 import { DropdownOptionDto } from '../../../../../core/dto/media';
@@ -11,6 +11,12 @@ import { FontFamily, FontWeight, TextEdgeStyle } from '../../../../../core/enums
 import { UserDetails } from '../../../../../core/models';
 import { AuthService, UsersService, DestroyService } from '../../../../../core/services';
 import { detectFormChange, getFontFamily, getTextEdgeStyle, prepareColor, scaleFontSize, scaleFontWeight } from '../../../../../core/utils';
+import { FormHandlerDirective } from '../../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { SliderAltModule } from 'primeng/slideralt';
+import { DisabledControlDirective } from '../../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { DropdownModule } from 'primeng/dropdown';
+import { ColorPickerComponent } from '../../../../../shared/components/color-picker/color-picker.component';
+import { ButtonModule } from 'primeng/button';
 
 interface UpdateSubtitleForm {
   fontSize: FormControl<number>;
@@ -43,7 +49,7 @@ interface UpdateSubtitleForm {
             ])
         ])
     ],
-    standalone: false
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, SliderAltModule, DisabledControlDirective, DropdownModule, ColorPickerComponent, NgStyle, ButtonModule]
 })
 export class SubtitleSettingsComponent implements OnInit {
   currentUser: UserDetails | null = null;

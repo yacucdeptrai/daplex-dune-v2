@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
@@ -7,6 +7,17 @@ import { DropdownOptionDto, UpdateMediaVideoDto } from '../../../../core/dto/med
 import { DestroyService, ItemDataService, MediaService } from '../../../../core/services';
 import { YOUTUBE_EMBED_URL } from '../../../../../environments/config';
 import { MediaDetails, MediaVideo } from '../../../../core/models';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { InputTextModule } from 'primeng/inputtext';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { DropdownModule } from 'primeng/dropdown';
+
+import { ButtonModule } from 'primeng/button';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
+import { SafeUrlPipe } from '../../../../shared/pipes/url-pipe/safe-url/safe-url.pipe';
 
 interface UpdateVideoForm {
   name: FormControl<string | null>;
@@ -21,7 +32,7 @@ interface UpdateVideoForm {
     styleUrls: ['./update-video.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ItemDataService, DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputSwitchModule, DropdownModule, ButtonModule, FirstErrorKeyPipe, SafeUrlPipe]
 })
 export class UpdateVideoComponent implements OnInit {
   youtubeUrl = YOUTUBE_EMBED_URL;

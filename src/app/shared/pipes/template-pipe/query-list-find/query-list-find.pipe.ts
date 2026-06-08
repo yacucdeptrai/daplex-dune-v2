@@ -1,9 +1,6 @@
 import { Pipe, PipeTransform, QueryList } from '@angular/core';
 
-@Pipe({
-    name: 'queryListFind',
-    standalone: false
-})
+@Pipe({ name: 'queryListFind' })
 export class QueryListFindPipe implements PipeTransform {
 
   transform<T>(value: QueryList<T>, key: string, match?: number | string): T | undefined {

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 
@@ -13,15 +13,15 @@ describe('GenresComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GenresComponent],
-      providers: [
+    imports: [GenresComponent],
+    providers: [
         { provide: DialogService, useValue: mockDialogService() },
         ConfirmationService,
         ConfirmActionService,
         { provide: GenresService, useValue: {} },
         { provide: TranslocoService, useValue: mockTranslocoService() }
-      ]
-    })
+    ]
+})
       .overrideComponent(GenresComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(GenresComponent);

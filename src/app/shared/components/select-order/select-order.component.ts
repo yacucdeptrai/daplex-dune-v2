@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal, untracked } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { TranslocoTranslateFn } from '@ngneat/transloco';
+import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
+import { TranslocoTranslateFn } from '@jsverse/transloco';
 import { remove } from 'lodash-es';
 
 import { SelectOption } from '../../../core/interfaces/primeng';
+import { DropdownModule } from 'primeng/dropdown';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
     selector: 'app-select-order',
@@ -18,7 +20,7 @@ import { SelectOption } from '../../../core/interfaces/primeng';
             multi: true
         }
     ],
-    standalone: false
+    imports: [DropdownModule, CdkDropList, CdkDrag, CdkDragHandle, ButtonModule]
 })
 export class SelectOrderComponent implements ControlValueAccessor {
   t = input.required<TranslocoTranslateFn>();

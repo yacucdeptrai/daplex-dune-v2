@@ -1,5 +1,7 @@
 <div #container class="tw-w-full tw-h-full" [class]="styleClass"
   [ngStyle]="{ 'background-color': label ? (label | charColor) : null }">
-  <span class="tw-text-white tw-select-none tw-absolute tw-absolute-center tw-uppercase" [class]="labelStyleClass"
-    *ngIf="label">{{ label }}</span>
+  @if (label) {
+    <span class="tw-text-white tw-select-none tw-absolute tw-absolute-center tw-uppercase" [class]="labelStyleClass"
+    >{{ label }}</span>
+  }
 </div>

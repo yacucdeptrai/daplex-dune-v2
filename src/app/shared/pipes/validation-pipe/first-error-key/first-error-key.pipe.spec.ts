@@ -1,5 +1,5 @@
 import { FirstErrorKeyPipe } from './first-error-key.pipe';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 describe('FirstErrorKeyPipe', () => {
   it('create an instance', () => {

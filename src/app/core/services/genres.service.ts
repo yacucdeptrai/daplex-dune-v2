@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpCacheManager } from '@ngneat/cashew';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { map, tap } from 'rxjs';
 
 import { CreateGenreDto, CursorPageGenresDto, CursorPageMediaDto, FindGenresDto, PaginateGenresDto, RemoveGenresDto, UpdateGenreDto } from '../dto/genres';

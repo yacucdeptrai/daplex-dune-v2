@@ -1,6 +1,9 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
+import { DialogService } from 'primeng/dynamicdialog';
+import { ConfirmationService } from 'primeng/api';
+import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 
+import { ConfirmActionService, UsersService } from '../../core/services';
 import { UsersLayoutComponent } from './layouts/users-layout';
 import { SettingsLayoutComponent } from './layouts/settings-layout';
 import { HistoryComponent } from './pages/history/history.component';
@@ -13,10 +16,22 @@ import { PrivacySettingsComponent } from './pages/settings/privacy-settings/priv
 import { MediaSettingsComponent } from './pages/settings/media-settings/media-settings.component';
 import { SubtitleSettingsComponent } from './pages/settings/subtitle-settings/subtitle-settings.component';
 
-const routes: Routes = [
+const usersProviders = [
+  UsersService,
+  DialogService,
+  ConfirmationService,
+  ConfirmActionService,
+  {
+    provide: TRANSLOCO_SCOPE,
+    useValue: ['users', 'media']
+  }
+];
+
+export const USERS_ROUTES: Routes = [
   {
     path: 'settings',
     component: SettingsLayoutComponent,
+    providers: usersProviders,
     children: [
       {
         path: '',
@@ -65,6 +80,7 @@ const routes: Routes = [
       fixedNavbarSpacing: false,
       keepScrollPosition: true
     },
+    providers: usersProviders,
     children: [
       {
         path: '',
@@ -78,7 +94,6 @@ const routes: Routes = [
           shouldReuse: true
         }
       },
-
       {
         path: 'playlists',
         component: PlaylistsComponent,
@@ -96,9 +111,3 @@ const routes: Routes = [
     ]
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-export class UsersRoutingModule { }

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { of } from 'rxjs';
 
 import { MediaFilterComponent } from './media-filter.component';
@@ -13,17 +13,17 @@ describe('MediaFilterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MediaFilterComponent],
-      providers: [
+    imports: [MediaFilterComponent],
+    providers: [
         { provide: TranslocoService, useValue: { ...mockTranslocoService(), selectTranslation: () => of({}) } },
         {
-          provide: MediaFilterService,
-          useValue: { createYearList: () => [], createLanguageList: () => of([]) }
+            provide: MediaFilterService,
+            useValue: { createYearList: () => [], createLanguageList: () => of([]) }
         },
         { provide: GenresService, useValue: { findAll: () => of([]), findGenreSuggestions: () => of([]) } },
         { provide: TagsService, useValue: { findTagSuggestions: () => of([]) } }
-      ]
-    })
+    ]
+})
       .overrideComponent(MediaFilterComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(MediaFilterComponent);

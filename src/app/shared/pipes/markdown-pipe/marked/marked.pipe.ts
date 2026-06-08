@@ -5,10 +5,7 @@ import { MarkedOptions } from 'marked';
 import { SanitizeOptions } from '../interfaces';
 import { MarkedService } from './marked.service';
 
-@Pipe({
-    name: 'marked',
-    standalone: false
-})
+@Pipe({ name: 'marked' })
 export class MarkedPipe implements PipeTransform {
   constructor(private markedService: MarkedService) { }
 

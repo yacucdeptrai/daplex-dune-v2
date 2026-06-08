@@ -1,9 +1,6 @@
 import { AfterViewInit, Directive, ElementRef } from '@angular/core';
 
-@Directive({
-    selector: '([formControlName])[controlAutofocus]',
-    standalone: false
-})
+@Directive({ selector: '([formControlName])[controlAutofocus]' })
 export class AutofocusDirective implements AfterViewInit {
 
   constructor(private element: ElementRef) { }

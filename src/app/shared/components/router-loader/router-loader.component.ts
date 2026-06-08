@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 
 import { RouterLoaderService } from './router-loader.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'app-router-loader',
@@ -12,7 +13,7 @@ import { RouterLoaderService } from './router-loader.service';
         '[attr.fixed]': 'fixed',
         '[style.color]': 'color',
     },
-    standalone: false
+    imports: [AsyncPipe]
 })
 export class RouterLoaderComponent implements OnInit {
   @Input() fixed = true;

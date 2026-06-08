@@ -12,14 +12,14 @@ describe('ProfileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProfileComponent],
-      providers: [
+    imports: [ProfileComponent],
+    providers: [
         provideMockActivatedRoute(),
         { provide: UsersStateService, useValue: { user$: of(null), user: null } },
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         ...HTTP_TEST_PROVIDERS
-      ]
-    })
+    ]
+})
       .overrideComponent(ProfileComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(ProfileComponent);

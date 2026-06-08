@@ -22,8 +22,8 @@ export interface ConfirmDeleteOptions {
  * (`confirmDelete`) instead of repeating the PrimeNG confirm config.
  */
 // NOTE: deliberately NOT `providedIn: 'root'`. This service depends on PrimeNG's
-// module-scoped `ConfirmationService` (provided by AdminModule/UsersModule alongside
-// their `<p-confirmDialog>`). It must be provided in those modules so it resolves the
+// module-scoped `ConfirmationService` (provided by the admin and users route providers alongside
+// their `<p-confirmDialog>`). It must be provided in those route providers so it resolves the
 // same `ConfirmationService` instance the dialog listens on; a root-scoped instance
 // throws NG0201 (no `ConfirmationService` in the root injector).
 @Injectable()

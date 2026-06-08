@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 import { CreateProductionComponent } from './create-production.component';
@@ -12,13 +12,13 @@ describe('CreateProductionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CreateProductionComponent],
-      providers: [
+    imports: [CreateProductionComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         { provide: ProductionsService, useValue: {} },
         { provide: TranslocoService, useValue: mockTranslocoService() }
-      ]
-    })
+    ]
+})
       .overrideComponent(CreateProductionComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(CreateProductionComponent);

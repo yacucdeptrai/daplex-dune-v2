@@ -30,8 +30,7 @@ import { MenuDirective } from '../menu/menu.directive';
     providers: [
         { provide: MENU_TRIGGER, useExisting: MenuTriggerDirective },
         PARENT_OR_NEW_MENU_STACK_PROVIDER,
-    ],
-    standalone: false
+    ]
 })
 export class MenuTriggerDirective extends CdkMenuTriggerBase implements OnDestroy {
   /** The host element. */

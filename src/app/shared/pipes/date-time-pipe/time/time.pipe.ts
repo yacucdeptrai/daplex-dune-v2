@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { DurationUnit, formatDuration, intervalToDuration, Locale } from 'date-fns';
 import { enUS, vi } from 'date-fns/locale';
 
@@ -16,10 +16,7 @@ interface TimeOptions {
   fallbackToSeconds?: boolean;
 }
 
-@Pipe({
-    name: 'time',
-    standalone: false
-})
+@Pipe({ name: 'time' })
 export class TimePipe implements PipeTransform {
   locales: { [key: string]: Locale } = { en: enUS, vi: vi };
   shortLocales: { [key: string]: Pick<Locale, 'formatDistance'> } = { en: enUSShort };

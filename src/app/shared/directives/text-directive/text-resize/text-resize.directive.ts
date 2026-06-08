@@ -7,10 +7,7 @@ export interface TextResizeOption {
   disabled?: boolean;
 }
 
-@Directive({
-    selector: '[appTextResize]',
-    standalone: false
-})
+@Directive({ selector: '[appTextResize]' })
 export class TextResizeDirective implements OnChanges {
   _originalSize: string | null = null;
   _originalLineheight: string | null = null;

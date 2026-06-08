@@ -12,13 +12,13 @@ describe('AddAllToPlaylistComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AddAllToPlaylistComponent],
-      providers: [
+    imports: [AddAllToPlaylistComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig({ _id: 'playlist-1' }) },
         { provide: PlaylistsService, useValue: { findAddToPlaylist: () => of([]) } }
-      ]
-    })
+    ]
+})
       .overrideComponent(AddAllToPlaylistComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(AddAllToPlaylistComponent);

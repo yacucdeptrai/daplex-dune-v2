@@ -21,8 +21,7 @@ import { SlideMenuItem } from '../slide-menu-item/slide-menu-item';
     providers: [
         { provide: SlideMenuItemSelectable, useExisting: SlideMenuItemCheckbox },
         { provide: SlideMenuItem, useExisting: SlideMenuItemSelectable }
-    ],
-    standalone: false
+    ]
 })
 export class SlideMenuItemCheckbox extends SlideMenuItemSelectable {
   /**

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { of } from 'rxjs';
@@ -21,8 +21,8 @@ describe('MediaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MediaComponent],
-      providers: [
+    imports: [MediaComponent],
+    providers: [
         provideMockActivatedRoute(),
         { provide: Router, useValue: mockRouter() },
         { provide: DialogService, useValue: mockDialogService() },
@@ -32,8 +32,8 @@ describe('MediaComponent', () => {
         { provide: QueueUploadService, useValue: {} },
         { provide: WsService, useValue: { fromEvent: () => of(), joinRoom: () => undefined, leaveRoom: () => undefined } },
         { provide: TranslocoService, useValue: mockTranslocoService() }
-      ]
-    })
+    ]
+})
       .overrideComponent(MediaComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(MediaComponent);

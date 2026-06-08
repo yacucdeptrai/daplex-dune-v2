@@ -1,7 +1,7 @@
 
 import { Component, OnInit, ChangeDetectionStrategy, Inject, ChangeDetectorRef, Renderer2, ViewChild, AfterViewInit, DOCUMENT } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { first, takeUntil } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
@@ -21,6 +21,29 @@ import {
   UPLOAD_STILL_MIN_WIDTH, UPLOAD_STILL_SIZE, UPLOAD_SUBTITLE_EXT, UPLOAD_SUBTITLE_SIZE
 } from '../../../../../environments/config';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
+import { ButtonModule } from 'primeng/button';
+import { NgTemplateOutlet } from '@angular/common';
+import { VerticalTabComponent } from '../../../../shared/components/vertical-tab/vertical-tab.component';
+import { TabPanelDirective } from '../../../../shared/components/vertical-tab/tab-panel.directive';
+import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
+import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputTextModule } from 'primeng/inputtext';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DropdownModule } from 'primeng/dropdown';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { PanelToastDirective } from '../../../../shared/components/vertical-tab/panel-toast.directive';
+import { FileUploadComponent as FileUploadComponent_1 } from '../../../../shared/components/file-upload/file-upload.component';
+import { TableModule } from 'primeng/table';
+import { SharedModule } from 'primeng/api';
+import { VideoPlayerComponent } from '../../../../shared/components/video-player/video-player.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
+import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 
 interface UpdateEpisodeForm {
@@ -46,7 +69,7 @@ interface UpdateEpisodeForm {
             useValue: ['common', 'media', 'languages']
         }
     ],
-    standalone: false
+    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, InvalidControlDirective, InputMaskModule, InputTextModule, LazyLoadImageModule, InputTextareaModule, DropdownModule, RadioButtonModule, PanelToastDirective, FileUploadComponent_1, TableModule, SharedModule, NgTemplateOutlet, VideoPlayerComponent, ConfirmDialogModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
 })
 export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;

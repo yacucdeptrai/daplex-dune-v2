@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { TranslocoService, TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { MediaListComponent } from './media-list.component';
@@ -13,13 +13,13 @@ describe('MediaListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MediaListComponent],
-      providers: [
+    imports: [MediaListComponent],
+    providers: [
         { provide: Router, useValue: mockRouter() },
         { provide: TranslocoService, useValue: mockTranslocoService() },
         { provide: AuthService, useValue: { currentUser: null } }
-      ]
-    })
+    ]
+})
       // DialogService is a component-level provider; replace the whole provider set and blank
       // the template in the SAME `set` (mixing `set` with `add`/`remove` is not allowed).
       .overrideComponent(MediaListComponent, {

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { of } from 'rxjs';
@@ -21,8 +21,8 @@ describe('ConfigureMediaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ConfigureMediaComponent],
-      providers: [
+    imports: [ConfigureMediaComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig({ _id: 'm1', type: MediaType.MOVIE }) },
         { provide: DialogService, useValue: mockDialogService() },
@@ -35,9 +35,9 @@ describe('ConfigureMediaComponent', () => {
         { provide: QueueUploadService, useValue: { isMediaInQueue: () => false } },
         { provide: WsService, useValue: { fromEvent: () => of(), joinRoom: () => undefined, leaveRoom: () => undefined } },
         { provide: TranslocoService, useValue: { ...mockTranslocoService(), selectTranslation: () => of({}) } }
-      ]
-    })
-      .overrideComponent(ConfigureMediaComponent, { set: { template: '' } })
+    ]
+})
+      .overrideComponent(ConfigureMediaComponent, { set: { template: '', imports: [] } })
       .compileComponents();
     fixture = TestBed.createComponent(ConfigureMediaComponent);
     component = fixture.componentInstance;

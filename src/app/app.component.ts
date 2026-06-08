@@ -1,18 +1,20 @@
 import { ViewportScroller } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Event, NavigationEnd, Router, Scroll } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { ActivatedRoute, Event, NavigationEnd, Router, Scroll, RouterOutlet } from '@angular/router';
+import { TranslocoService } from '@jsverse/transloco';
 import { EMPTY, filter, first, map, pairwise, switchMap } from 'rxjs';
 
 import { SITE_NAME } from '../environments/config';
+import { RouterLoaderComponent } from './shared/components/router-loader/router-loader.component';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [RouterOutlet, RouterLoaderComponent, ToastModule]
 })
 export class AppComponent implements OnInit {
   constructor(private router: Router, private title: Title, private viewportScroller: ViewportScroller,

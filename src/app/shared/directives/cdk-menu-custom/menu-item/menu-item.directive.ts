@@ -26,8 +26,7 @@ import { MenuTriggerDirective } from '../menu-trigger/menu-trigger.directive';
         '(focus)': '_setTabIndex()',
         '(click)': 'trigger()',
         '(keydown)': '_onKeydown($event)',
-    },
-    standalone: false
+    }
 })
 export class MenuItemDirective implements FocusableOption, FocusableElement, Toggler, OnDestroy {
   /** The directionality (text direction) of the current page. */

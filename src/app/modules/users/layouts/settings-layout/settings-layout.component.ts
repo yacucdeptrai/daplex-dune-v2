@@ -1,10 +1,15 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { MenuItem } from 'primeng/api';
 import { first, takeUntil } from 'rxjs';
 
 import { DestroyService } from '../../../../core/services';
+
+import { TabMenuModule } from 'primeng/tabmenu';
+import { MenuDirective } from '../../../../shared/directives/cdk-menu-custom/menu/menu.directive';
+import { MenuItemDirective } from '../../../../shared/directives/cdk-menu-custom/menu-item/menu-item.directive';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
     selector: 'app-settings-layout',
@@ -12,7 +17,7 @@ import { DestroyService } from '../../../../core/services';
     styleUrls: ['./settings-layout.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    standalone: false
+    imports: [TranslocoDirective, TabMenuModule, MenuDirective, MenuItemDirective, RouterLink, RouterLinkActive, RouterOutlet]
 })
 export class SettingsLayoutComponent implements OnInit {
   settingItems: MenuItem[] = [];

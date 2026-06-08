@@ -12,6 +12,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpCache } from '@ngneat/cashew';
 import { ActivatedRoute, convertToParamMap, Params } from '@angular/router';
 import { of } from 'rxjs';
+import { provideTransloco, TranslocoLoader } from '@jsverse/transloco';
 
 /**
  * HttpClient wired to the testing backend. Spread into `providers` for any service or
@@ -30,7 +31,7 @@ export const HTTP_CACHE_TEST_PROVIDERS: (Provider | EnvironmentProviders)[] = [
   provideHttpCache({ ttl: 0 })
 ];
 
-/** Minimal stub of `@ngneat/transloco` TranslocoService for units that translate. */
+/** Minimal stub of `@jsverse/transloco` TranslocoService for units that translate. */
 export function mockTranslocoService() {
   return {
     translate: (key: string) => key,
@@ -128,4 +129,31 @@ export function provideMockActivatedRoute(
   opts?: { params?: Params; queryParams?: Params; data?: Record<string, unknown> }
 ): Provider {
   return { provide: ActivatedRoute, useValue: mockActivatedRoute(opts) };
+}
+
+
+/** Empty in-memory transloco loader for specs (no HTTP). */
+class EmptyTranslocoLoader implements TranslocoLoader {
+  getTranslation() {
+    return of({});
+  }
+}
+
+/**
+ * Transloco providers for specs that build standalone components importing TranslocoModule
+ * (its pipe/directive need TRANSLOCO_TRANSPILER + TranslocoService). Default transpiler +
+ * empty loader: missing keys fall through to the key itself.
+ */
+export function provideTranslocoTesting(): (Provider | EnvironmentProviders)[] {
+  return [
+    provideTransloco({
+      config: {
+        availableLangs: ['en'],
+        defaultLang: 'en',
+        reRenderOnLangChange: false,
+        prodMode: false
+      },
+      loader: EmptyTranslocoLoader
+    })
+  ];
 }

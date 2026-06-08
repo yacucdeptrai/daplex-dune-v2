@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, OnDestroy } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
-import { Table } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { first } from 'rxjs';
 
 import { PaginateGenresDto } from '../../../../core/dto/genres';
@@ -10,13 +10,17 @@ import { ConfirmActionService, GenresService } from '../../../../core/services';
 import { CreateGenreComponent } from '../../dialogs/create-genre';
 import { UpdateGenreComponent } from '../../dialogs/update-genre';
 import { buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { SharedModule } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
     selector: 'app-genres',
     templateUrl: './genres.component.html',
     styleUrls: ['./genres.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [TranslocoDirective, InputTextModule, ButtonModule, TableModule, SharedModule, ConfirmDialogModule]
 })
 export class GenresComponent implements OnInit, OnDestroy {
   @ViewChild('genreTable') genreTable?: Table;

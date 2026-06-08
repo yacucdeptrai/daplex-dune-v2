@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { of } from 'rxjs';
 
@@ -18,15 +18,15 @@ describe('PlaylistSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PlaylistSettingsComponent],
-      providers: [
+    imports: [PlaylistSettingsComponent],
+    providers: [
         { provide: TranslocoService, useValue: { ...mockTranslocoService(), selectTranslation: () => of({}) } },
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig({ _id: 'playlist-1' }) },
         { provide: DialogService, useValue: mockDialogService() },
         { provide: PlaylistsService, useValue: { findOne: () => of({ _id: 'playlist-1', name: '', description: null, visibility: 1 }) } }
-      ]
-    })
+    ]
+})
       .overrideComponent(PlaylistSettingsComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(PlaylistSettingsComponent);

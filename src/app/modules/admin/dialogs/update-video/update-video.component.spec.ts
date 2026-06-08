@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 import { UpdateVideoComponent } from './update-video.component';
@@ -12,20 +12,20 @@ describe('UpdateVideoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpdateVideoComponent],
-      providers: [
+    imports: [UpdateVideoComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         {
-          provide: DynamicDialogConfig,
-          useValue: mockDynamicDialogConfig({
-            media: { _id: 'm1' },
-            video: { _id: 'v1', key: 'abcdefghijk', name: 'Trailer' }
-          })
+            provide: DynamicDialogConfig,
+            useValue: mockDynamicDialogConfig({
+                media: { _id: 'm1' },
+                video: { _id: 'v1', key: 'abcdefghijk', name: 'Trailer' }
+            })
         },
         { provide: MediaService, useValue: {} },
         { provide: TranslocoService, useValue: mockTranslocoService() }
-      ]
-    })
+    ]
+})
       .overrideComponent(UpdateVideoComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(UpdateVideoComponent);

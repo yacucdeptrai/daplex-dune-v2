@@ -11,13 +11,13 @@ describe('RatingCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RatingCardComponent],
-      providers: [
+    imports: [RatingCardComponent],
+    providers: [
         provideMockActivatedRoute(),
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         DestroyService
-      ]
-    })
+    ]
+})
       .overrideComponent(RatingCardComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(RatingCardComponent);

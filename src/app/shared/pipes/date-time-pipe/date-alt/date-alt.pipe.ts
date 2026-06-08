@@ -1,14 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { format as dateFormat, Locale } from 'date-fns';
 import { enUS, vi } from 'date-fns/locale';
 
 const locales: { [key: string]: Locale } = { en: enUS, vi: vi };
 
-@Pipe({
-    name: 'dateAlt',
-    standalone: false
-})
+@Pipe({ name: 'dateAlt' })
 export class DateAltPipe implements PipeTransform {
   constructor(private translocoService: TranslocoService) { }
 

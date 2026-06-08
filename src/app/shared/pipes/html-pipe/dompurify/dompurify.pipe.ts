@@ -3,10 +3,7 @@ import { SafeHtml } from '@angular/platform-browser';
 
 import { DompurifyService } from './dompurify.service';
 
-@Pipe({
-    name: 'dompurify',
-    standalone: false
-})
+@Pipe({ name: 'dompurify' })
 export class DompurifyPipe implements PipeTransform {
   constructor(private dompurifyService: DompurifyService) { }
 

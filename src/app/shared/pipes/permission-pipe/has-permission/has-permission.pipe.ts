@@ -3,10 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { PermissionPipeService } from '../permission-pipe.service';
 import { User, UserDetails } from '../../../../core/models';
 
-@Pipe({
-    name: 'hasPermission',
-    standalone: false
-})
+@Pipe({ name: 'hasPermission' })
 export class HasPermissionPipe implements PipeTransform {
   constructor(private permissionPipeService: PermissionPipeService) { }
 

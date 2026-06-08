@@ -11,13 +11,13 @@ describe('UpdatePasswordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpdatePasswordComponent],
-      providers: [
+    imports: [UpdatePasswordComponent],
+    providers: [
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig({ _id: 'u1' }) },
         { provide: UsersService, useValue: {} }
-      ]
-    })
+    ]
+})
       .overrideComponent(UpdatePasswordComponent, { set: { template: '' } })
       .compileComponents();
     fixture = TestBed.createComponent(UpdatePasswordComponent);
