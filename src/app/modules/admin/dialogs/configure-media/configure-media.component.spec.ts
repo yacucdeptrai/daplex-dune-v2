@@ -311,18 +311,6 @@ describe('ConfigureMediaComponent', () => {
       expect(component.media!.videos.map((v: any) => v._id)).toEqual(['v2']);
     });
 
-    it('deleteSubtitle confirms with key:"inModal" and filters the deleted subtitle on accept', () => {
-      component.media = makeMovieMedia({ movie: { status: MediaSourceStatus.DONE, subtitles: [{ _id: 'a' } as any, { _id: 'b' } as any] } });
-      const confirmSpy = spyOn(confirmationService, 'confirm');
-      const event = { target: document.createElement('button') } as unknown as Event;
-      component.deleteSubtitle({ _id: 'a' } as any, event);
-      const arg = confirmSpy.calls.mostRecent().args[0];
-      expect(arg.key).toBe('inModal');
-      arg.accept!();
-      expect(mediaService.deleteMovieSubtitle).toHaveBeenCalledWith(MEDIA_ID, 'a');
-      expect(component.media!.movie.subtitles.map((s: any) => s._id)).toEqual(['b']);
-    });
-
     it('deleteSource confirms with key:"inModal" and sets movie.status + pStatus to PENDING on accept', () => {
       const confirmSpy = spyOn(confirmationService, 'confirm');
       const event = { target: document.createElement('button') } as unknown as Event;

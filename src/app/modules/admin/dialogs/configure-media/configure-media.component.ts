@@ -57,6 +57,7 @@ import { TimePipe } from '../../../../shared/pipes/date-time-pipe/time/time.pipe
 import { SafeUrlPipe } from '../../../../shared/pipes/url-pipe/safe-url/safe-url.pipe';
 import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 import { ConfigureMediaImagesComponent } from './components/configure-media-images';
+import { ConfigureMediaSubtitlesComponent } from './components/configure-media-subtitles';
 
 interface UpdateMediaForm {
   title: FormControl<string>;
@@ -91,7 +92,7 @@ interface UpdateMediaForm {
             useValue: ['common', 'languages']
         }
     ],
-    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, LazyLoadImageModule, TableModule, DialogModule, FileUploadComponent_1, NgTemplateOutlet, VideoPlayerComponent, TooltipModule, ConfirmDialogModule, MenuModule, ProgressSpinnerModule, FirstErrorKeyPipe, ShortDatePipe, TimePipe, SafeUrlPipe, ThumbhashUrlPipe, ConfigureMediaImagesComponent]
+    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, LazyLoadImageModule, TableModule, DialogModule, FileUploadComponent_1, NgTemplateOutlet, VideoPlayerComponent, TooltipModule, ConfirmDialogModule, MenuModule, ProgressSpinnerModule, FirstErrorKeyPipe, ShortDatePipe, TimePipe, SafeUrlPipe, ThumbhashUrlPipe, ConfigureMediaImagesComponent, ConfigureMediaSubtitlesComponent]
 })
 export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;
@@ -236,6 +237,11 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   onImagesMediaChange(media: MediaDetails): void {
+    this.media = media;
+    this.ref.markForCheck();
+  }
+
+  onSubtitlesMediaChange(media: MediaDetails): void {
     this.media = media;
     this.ref.markForCheck();
   }
@@ -455,29 +461,6 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
 
   onAddSubtitleFormCancel(): void {
     this.addSubtitleForm.reset();
-  }
-
-  deleteSubtitle(subtitle: MediaSubtitle, event: Event): void {
-    const mediaId = this.config.data!._id;
-    this.confirmAction.confirmDelete({
-      key: 'inModal',
-      message: this.translocoService.translate('admin.media.deleteSubtitleConfirmation'),
-      header: this.translocoService.translate('admin.media.deleteSubtitleConfirmationHeader'),
-      accept: () => {
-        const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
-        this.renderer.setProperty(element, 'disabled', true);
-        this.mediaService.deleteMovieSubtitle(mediaId, subtitle._id).subscribe({
-          next: () => {
-            if (!this.media) return;
-            const subtitles = this.media.movie.subtitles.filter(v => v._id !== subtitle._id);
-            this.media = { ...this.media, movie: { ...this.media.movie, subtitles } };
-          },
-          error: () => {
-            this.renderer.setProperty(element, 'disabled', false);
-          }
-        }).add(() => this.ref.markForCheck());
-      }
-    });
   }
 
   showAddSourceDialog(episode?: TVEpisode): void {

@@ -1,0 +1,45 @@
+<p class="tw-text-white tw-font-bold tw-text-2xl">{{ t()('admin.configureMedia.subtitles')
+  }}</p>
+<div class="tw-my-3">
+  <app-file-upload #subtitleFileUpload accept=".vtt, .srt, .ass, .vtt.gz, .srt.gz, .ass.gz, .vtt.br, .srt.br, .ass.br"
+    [label]="t()('admin.configureMedia.addSubtitle')" [desciption]="t()('admin.configureMedia.addSubtitleDesc')"
+    [showFilename]="false" styleClass="tw-max-w-xl tw-h-40 tw-mx-auto" ariaLabel="Choose a subtitle to upload"
+    (fileChange)="showAddSubtitleDialog($event)">
+  </app-file-upload>
+</div>
+@if (media().movie.subtitles.length) {
+  <p-table styleClass="p-datatable-sm tw-bg-neutral-875 tw-p-4 tw-rounded-md" [value]="media().movie.subtitles"
+    responsiveLayout="scroll" [rowTrackBy]="trackId" [rowHover]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="tw-w-12">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th class="tw-min-w-32" pSortableColumn="language">
+          {{ t()('admin.configureMedia.language') }} <p-sortIcon field="language"></p-sortIcon>
+        </th>
+        <th class="tw-w-16 tw-min-w-16"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-subtitle>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="subtitle"></p-tableCheckbox>
+        </td>
+        <td>
+          {{ t()('languages.' + subtitle.lang) }}
+        </td>
+        <td>
+          <button pButton icon="ms ms-delete"
+            class="p-button-outlined p-button-rounded p-button-danger p-button-sm p-button-sm-icon"
+            (click)="deleteSubtitle(subtitle, $event)">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+} @else {
+  <p class="tw-text-gray-400 tw-text-base tw-italic">
+    {{ t()('admin.configureMedia.noSubtitles') }}
+  </p>
+}
