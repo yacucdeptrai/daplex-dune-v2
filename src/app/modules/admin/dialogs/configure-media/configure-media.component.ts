@@ -8,7 +8,7 @@ import { Menu, MenuModule } from 'primeng/menu';
 import { first, map, merge, Observable, switchMap, takeUntil, tap } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
 
-import { MediaDetails, MediaStream, MediaVideo, MediaSubtitle, TVEpisode, Genre, Production, Tag } from '../../../../core/models';
+import { MediaDetails, MediaVideo, MediaSubtitle, TVEpisode, Genre, Production, Tag } from '../../../../core/models';
 import { ConfirmActionService, DestroyService, GenresService, ItemDataService, MediaService, ProductionsService, QueueUploadService, TagsService } from '../../../../core/services';
 import { WsService } from '../../../../shared/modules/ws';
 import { DropdownOptionDto, UpdateMediaDto } from '../../../../core/dto/media';
@@ -22,7 +22,7 @@ import { FileUploadComponent } from '../../../../shared/components/file-upload';
 import { fileExtension, maxFileSize, shortDate } from '../../../../core/validators';
 import { AddSubtitleForm, ExternalIdsForm, MediaScannerForm, ShortDateForm } from '../../../../core/interfaces/forms';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
-import { detectFormChange, translocoEscape, fixNestedDialogFocus, replaceDialogHideMethod, timeStringToSeconds, secondsToTimeString } from '../../../../core/utils';
+import { detectFormChange, fixNestedDialogFocus, replaceDialogHideMethod, timeStringToSeconds, secondsToTimeString } from '../../../../core/utils';
 import { AppErrorCode, MediaPStatus, MediaSourceStatus, MediaStatus, MediaType, SocketMessage, SocketRoom } from '../../../../core/enums';
 import { UPLOAD_SUBTITLE_EXT, UPLOAD_SUBTITLE_SIZE } from '../../../../../environments/config';
 import { ButtonModule } from 'primeng/button';
@@ -44,7 +44,6 @@ import { PanelToastDirective } from '../../../../shared/components/vertical-tab/
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { TableModule } from 'primeng/table';
 import { FileUploadComponent as FileUploadComponent_1 } from '../../../../shared/components/file-upload/file-upload.component';
-import { VideoPlayerComponent } from '../../../../shared/components/video-player/video-player.component';
 import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -55,6 +54,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
 import { ConfigureMediaImagesComponent } from './components/configure-media-images';
 import { ConfigureMediaVideosComponent } from './components/configure-media-videos';
 import { ConfigureMediaSubtitlesComponent } from './components/configure-media-subtitles';
+import { ConfigureMediaSourceComponent } from './components/configure-media-source';
 
 interface UpdateMediaForm {
   title: FormControl<string>;
@@ -89,7 +89,7 @@ interface UpdateMediaForm {
             useValue: ['common', 'languages']
         }
     ],
-    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, LazyLoadImageModule, TableModule, FileUploadComponent_1, NgTemplateOutlet, VideoPlayerComponent, TooltipModule, ConfirmDialogModule, MenuModule, ProgressSpinnerModule, FirstErrorKeyPipe, ShortDatePipe, TimePipe, ThumbhashUrlPipe, ConfigureMediaImagesComponent, ConfigureMediaVideosComponent, ConfigureMediaSubtitlesComponent]
+    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, LazyLoadImageModule, TableModule, FileUploadComponent_1, NgTemplateOutlet, TooltipModule, ConfirmDialogModule, MenuModule, ProgressSpinnerModule, FirstErrorKeyPipe, ShortDatePipe, TimePipe, ThumbhashUrlPipe, ConfigureMediaImagesComponent, ConfigureMediaVideosComponent, ConfigureMediaSubtitlesComponent, ConfigureMediaSourceComponent]
 })
 export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;
@@ -99,14 +99,11 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   MediaSourceStatus = MediaSourceStatus;
   loadingMedia: boolean = false;
   loadingEpisodes: boolean = false;
-  isUploadingSource: boolean = false;
   isAddingSubtitle: boolean = false;
   isUpdated: boolean = false;
   updateMediaFormChanged: boolean = false;
-  showMoviePlayer: boolean = false;
   media?: MediaDetails;
   episodes?: TVEpisode[];
-  previewStream?: MediaStream;
   addSubtitleForm: FormGroup<AddSubtitleForm>;
   updateMediaForm: FormGroup<UpdateMediaForm>;
   updateMediaInitValue: {} = {};
@@ -173,7 +170,6 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
 
   ngOnInit(): void {
     this.loadMedia();
-    this.checkUploadInQueue();
     this.loadTranslations();
     this.initSocket();
     this.days = this.itemDataService.createDateList();
@@ -238,6 +234,11 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   onSubtitlesMediaChange(media: MediaDetails): void {
+    this.media = media;
+    this.ref.markForCheck();
+  }
+
+  onSourceMediaChange(media: MediaDetails): void {
     this.media = media;
     this.ref.markForCheck();
   }
@@ -395,53 +396,6 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
     //dialogRef.onClose.pipe(first()).subscribe() => {
     //});
     fixNestedDialogFocus(dialogRef, this.dialogRef, this.dialogService, this.renderer, this.document);
-  }
-
-  checkUploadInQueue(): void {
-    const mediaId = this.config.data!._id;
-    this.isUploadingSource = this.queueUploadService.isMediaInQueue(mediaId);
-  }
-
-  uploadSource(file: File): void {
-    const mediaId = this.config.data!._id;
-    this.queueUploadService.addToQueue(mediaId, file, `media/${mediaId}/movie/source`, `media/${mediaId}/movie/source/:id`);
-    this.isUploadingSource = true;
-    this.ref.markForCheck();
-  }
-
-  showSourcePreview(): void {
-    this.showMoviePlayer = true;
-    const mediaId = this.config.data!._id;
-    this.mediaService.findMovieStreams(mediaId, { preview: true }).subscribe((movie) => {
-      this.previewStream = movie;
-      this.ref.markForCheck();
-    });
-  }
-
-  deleteSource(event: Event): void {
-    const mediaId = this.config.data!._id;
-    const safeMediaTitle = translocoEscape(this.config.data!.title);
-    this.confirmAction.confirmDelete({
-      key: 'inModal',
-      message: this.translocoService.translate('admin.media.deleteSourceConfirmation', { name: safeMediaTitle }),
-      header: this.translocoService.translate('admin.media.deleteSourceConfirmationHeader'),
-      accept: () => {
-        const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
-        this.renderer.setProperty(element, 'disabled', true);
-        this.mediaService.deleteMovieSource(mediaId).subscribe({
-          next: () => {
-            if (!this.media) return;
-            this.media.movie.status = MediaSourceStatus.PENDING;
-            this.media.pStatus = MediaPStatus.PENDING;
-            this.checkUploadInQueue();
-            this.isUpdated = true;
-          }
-        }).add(() => {
-          this.renderer.setProperty(element, 'disabled', false);
-          this.ref.markForCheck();
-        });
-      }
-    });
   }
 
   updateExtStreams(event: ExtStreamSelected): void {

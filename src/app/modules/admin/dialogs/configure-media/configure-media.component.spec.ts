@@ -299,26 +299,8 @@ describe('ConfigureMediaComponent', () => {
 
     // Videos concern moved to ConfigureMediaVideosComponent; coverage lives in its own spec.
 
-    it('deleteSource confirms with key:"inModal" and sets movie.status + pStatus to PENDING on accept', () => {
-      const confirmSpy = spyOn(confirmationService, 'confirm');
-      const event = { target: document.createElement('button') } as unknown as Event;
-      component.deleteSource(event);
-      const arg = confirmSpy.calls.mostRecent().args[0];
-      expect(arg.key).toBe('inModal');
-      arg.accept!();
-      expect(mediaService.deleteMovieSource).toHaveBeenCalledWith(MEDIA_ID);
-      expect(component.media!.movie.status).toBe(MediaSourceStatus.PENDING);
-      expect(component.media!.pStatus).toBe(MediaPStatus.PENDING);
-      expect(component.isUpdated).toBeTrue();
-    });
-
-    it('uploadSource enqueues via QueueUploadService and flips isUploadingSource', () => {
-      const file = new File([''], 'src.mp4');
-      component.uploadSource(file);
-      expect(queueUploadService.addToQueue).toHaveBeenCalledWith(
-        MEDIA_ID, file, `media/${MEDIA_ID}/movie/source`, `media/${MEDIA_ID}/movie/source/:id`);
-      expect(component.isUploadingSource).toBeTrue();
-    });
+    // Source concern (uploadSource / deleteSource / showSourcePreview / checkUploadInQueue) moved
+    // to ConfigureMediaSourceComponent; coverage lives in its own spec.
 
     it('updateExtStreams calls update with extStreams and signals the event', () => {
       const next = jasmine.createSpy('next');
@@ -327,14 +309,6 @@ describe('ConfigureMediaComponent', () => {
       component.updateExtStreams({ streams: [{ x: 1 }] as any, next, error } as any);
       expect(mediaService.update).toHaveBeenCalledWith(MEDIA_ID, { extStreams: [{ x: 1 }] } as any);
       expect(next).toHaveBeenCalled();
-    });
-
-    it('showSourcePreview loads the preview stream', () => {
-      mediaService.findMovieStreams.and.returnValue(of({ id: 'stream' }));
-      component.showSourcePreview();
-      expect(mediaService.findMovieStreams).toHaveBeenCalledWith(MEDIA_ID, { preview: true });
-      expect(component.previewStream).toEqual({ id: 'stream' } as any);
-      expect(component.showMoviePlayer).toBeTrue();
     });
 
     it('openers no-throw with media set: add subtitle / add source dialogs', () => {
