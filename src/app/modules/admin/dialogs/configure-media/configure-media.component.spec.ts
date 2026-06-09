@@ -90,8 +90,6 @@ describe('ConfigureMediaComponent', () => {
     mediaService = {
       findOne: jasmine.createSpy('findOne').and.returnValue(of(makeMovieMedia())),
       update: jasmine.createSpy('update').and.returnValue(of(makeMovieMedia())),
-      findAllVideos: jasmine.createSpy('findAllVideos').and.returnValue(of([])),
-      deleteVideo: jasmine.createSpy('deleteVideo').and.returnValue(of(undefined)),
       deleteMovieSubtitle: jasmine.createSpy('deleteMovieSubtitle').and.returnValue(of(undefined)),
       findMovieStreams: jasmine.createSpy('findMovieStreams').and.returnValue(of({})),
       deleteMovieSource: jasmine.createSpy('deleteMovieSource').and.returnValue(of(undefined)),
@@ -299,17 +297,7 @@ describe('ConfigureMediaComponent', () => {
       component.media = makeMovieMedia();
     });
 
-    it('deleteVideo confirms with key:"inModal" and filters the deleted video on accept', () => {
-      component.media = makeMovieMedia({ videos: [{ _id: 'v1' } as any, { _id: 'v2' } as any] });
-      const confirmSpy = spyOn(confirmationService, 'confirm');
-      const event = { target: document.createElement('button') } as unknown as Event;
-      component.deleteVideo({ _id: 'v1' } as any, event);
-      const arg = confirmSpy.calls.mostRecent().args[0];
-      expect(arg.key).toBe('inModal');
-      arg.accept!();
-      expect(mediaService.deleteVideo).toHaveBeenCalledWith(MEDIA_ID, 'v1');
-      expect(component.media!.videos.map((v: any) => v._id)).toEqual(['v2']);
-    });
+    // Videos concern moved to ConfigureMediaVideosComponent; coverage lives in its own spec.
 
     it('deleteSource confirms with key:"inModal" and sets movie.status + pStatus to PENDING on accept', () => {
       const confirmSpy = spyOn(confirmationService, 'confirm');
@@ -341,13 +329,6 @@ describe('ConfigureMediaComponent', () => {
       expect(next).toHaveBeenCalled();
     });
 
-    it('viewVideo sets active index and shows player when not loading', () => {
-      component.loadingVideo = false;
-      component.viewVideo(3);
-      expect(component.activeVideoIndex).toBe(3);
-      expect(component.displayVideo).toBeTrue();
-    });
-
     it('showSourcePreview loads the preview stream', () => {
       mediaService.findMovieStreams.and.returnValue(of({ id: 'stream' }));
       component.showSourcePreview();
@@ -356,8 +337,7 @@ describe('ConfigureMediaComponent', () => {
       expect(component.showMoviePlayer).toBeTrue();
     });
 
-    it('openers no-throw with media set: add video / add subtitle / add source dialogs', () => {
-      expect(() => component.showAddVideoDialog()).not.toThrow();
+    it('openers no-throw with media set: add subtitle / add source dialogs', () => {
       expect(() => component.showAddSubtitleDialog()).not.toThrow();
       expect(() => component.showAddSourceDialog()).not.toThrow();
       expect(dialogService.open).toHaveBeenCalled();

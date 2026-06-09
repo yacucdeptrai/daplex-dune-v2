@@ -14,8 +14,6 @@ import { WsService } from '../../../../shared/modules/ws';
 import { DropdownOptionDto, UpdateMediaDto } from '../../../../core/dto/media';
 import { MediaChange, MediaVideoChange } from '../../../../core/interfaces/ws';
 import { DataMenuItem } from '../../../../core/interfaces/primeng';
-import { AddVideoComponent } from '../add-video';
-import { UpdateVideoComponent } from '../update-video';
 import { AddSubtitleComponent } from '../add-subtitle';
 import { CreateEpisodeComponent } from '../create-episode';
 import { ConfigureEpisodeComponent } from '../configure-episode';
@@ -26,7 +24,7 @@ import { AddSubtitleForm, ExternalIdsForm, MediaScannerForm, ShortDateForm } fro
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
 import { detectFormChange, translocoEscape, fixNestedDialogFocus, replaceDialogHideMethod, timeStringToSeconds, secondsToTimeString } from '../../../../core/utils';
 import { AppErrorCode, MediaPStatus, MediaSourceStatus, MediaStatus, MediaType, SocketMessage, SocketRoom } from '../../../../core/enums';
-import { UPLOAD_SUBTITLE_EXT, UPLOAD_SUBTITLE_SIZE, YOUTUBE_EMBED_URL, YOUTUBE_THUMBNAIL_URL } from '../../../../../environments/config';
+import { UPLOAD_SUBTITLE_EXT, UPLOAD_SUBTITLE_SIZE } from '../../../../../environments/config';
 import { ButtonModule } from 'primeng/button';
 import { NgTemplateOutlet } from '@angular/common';
 import { VerticalTabComponent } from '../../../../shared/components/vertical-tab/vertical-tab.component';
@@ -45,7 +43,6 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { PanelToastDirective } from '../../../../shared/components/vertical-tab/panel-toast.directive';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { TableModule } from 'primeng/table';
-import { DialogModule } from 'primeng/dialog';
 import { FileUploadComponent as FileUploadComponent_1 } from '../../../../shared/components/file-upload/file-upload.component';
 import { VideoPlayerComponent } from '../../../../shared/components/video-player/video-player.component';
 import { TooltipModule } from 'primeng/tooltip';
@@ -54,9 +51,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 import { ShortDatePipe } from '../../../../shared/pipes/date-time-pipe/short-date/short-date.pipe';
 import { TimePipe } from '../../../../shared/pipes/date-time-pipe/time/time.pipe';
-import { SafeUrlPipe } from '../../../../shared/pipes/url-pipe/safe-url/safe-url.pipe';
 import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 import { ConfigureMediaImagesComponent } from './components/configure-media-images';
+import { ConfigureMediaVideosComponent } from './components/configure-media-videos';
 import { ConfigureMediaSubtitlesComponent } from './components/configure-media-subtitles';
 
 interface UpdateMediaForm {
@@ -92,7 +89,7 @@ interface UpdateMediaForm {
             useValue: ['common', 'languages']
         }
     ],
-    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, LazyLoadImageModule, TableModule, DialogModule, FileUploadComponent_1, NgTemplateOutlet, VideoPlayerComponent, TooltipModule, ConfirmDialogModule, MenuModule, ProgressSpinnerModule, FirstErrorKeyPipe, ShortDatePipe, TimePipe, SafeUrlPipe, ThumbhashUrlPipe, ConfigureMediaImagesComponent, ConfigureMediaSubtitlesComponent]
+    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, LazyLoadImageModule, TableModule, FileUploadComponent_1, NgTemplateOutlet, VideoPlayerComponent, TooltipModule, ConfirmDialogModule, MenuModule, ProgressSpinnerModule, FirstErrorKeyPipe, ShortDatePipe, TimePipe, ThumbhashUrlPipe, ConfigureMediaImagesComponent, ConfigureMediaVideosComponent, ConfigureMediaSubtitlesComponent]
 })
 export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;
@@ -101,18 +98,12 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   MediaPStatus = MediaPStatus;
   MediaSourceStatus = MediaSourceStatus;
   loadingMedia: boolean = false;
-  loadingVideo: boolean = false;
   loadingEpisodes: boolean = false;
-  displayVideo: boolean = false;
-  isDeletingVideo: boolean = false;
   isUploadingSource: boolean = false;
   isAddingSubtitle: boolean = false;
   isUpdated: boolean = false;
   updateMediaFormChanged: boolean = false;
   showMoviePlayer: boolean = false;
-  activeVideoIndex: number = 0;
-  youtubeUrl = YOUTUBE_EMBED_URL;
-  youtubeThumbnailUrl = YOUTUBE_THUMBNAIL_URL;
   media?: MediaDetails;
   episodes?: TVEpisode[];
   previewStream?: MediaStream;
@@ -241,6 +232,11 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
     this.ref.markForCheck();
   }
 
+  onVideosMediaChange(media: MediaDetails): void {
+    this.media = media;
+    this.ref.markForCheck();
+  }
+
   onSubtitlesMediaChange(media: MediaDetails): void {
     this.media = media;
     this.ref.markForCheck();
@@ -359,83 +355,6 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   onUpdateMediaFormReset(): void {
     this.updateMediaForm.reset(this.updateMediaInitValue);
     this.detectUpdateMediaFormChange();
-  }
-
-  loadVideos(): void {
-    const mediaId = this.config.data!._id;
-    this.loadingVideo = true;
-    this.mediaService.findAllVideos(mediaId).subscribe(videos => {
-      if (!this.media) return;
-      this.media = { ...this.media, videos };
-    }).add(() => {
-      this.loadingVideo = false;
-      this.ref.markForCheck();
-    });
-  }
-
-  viewVideo(index: number): void {
-    if (this.loadingVideo) return;
-    this.activeVideoIndex = index;
-    this.displayVideo = true;
-  }
-
-  showAddVideoDialog(): void {
-    if (!this.media) return;
-    const dialogRef = this.dialogService.open(AddVideoComponent, {
-      data: { ...this.media },
-      width: '700px',
-      modal: true,
-      dismissableMask: false,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' }
-    });
-    dialogRef.onClose.pipe(first()).subscribe((videos: MediaVideo[]) => {
-      if (!videos || !this.media) return;
-      this.media = { ...this.media, videos: [...videos] };
-      this.ref.markForCheck();
-    });
-    fixNestedDialogFocus(dialogRef, this.dialogRef, this.dialogService, this.renderer, this.document);
-  }
-
-  showUpdateVideoDialog(video: MediaVideo): void {
-    if (!this.media) return;
-    const dialogRef = this.dialogService.open(UpdateVideoComponent, {
-      data: { media: { ...this.media }, video: { ...video } },
-      width: '700px',
-      modal: true,
-      dismissableMask: false,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' }
-    });
-    dialogRef.onClose.pipe(first()).subscribe((videos: MediaVideo[]) => {
-      if (!videos || !this.media) return;
-      this.media = { ...this.media, videos };
-      this.ref.markForCheck();
-    });
-    fixNestedDialogFocus(dialogRef, this.dialogRef, this.dialogService, this.renderer, this.document);
-  }
-
-  deleteVideo(video: MediaVideo, event: Event): void {
-    const mediaId = this.config.data!._id;
-    this.confirmAction.confirmDelete({
-      key: 'inModal',
-      message: this.translocoService.translate('admin.media.deleteVideoConfirmation'),
-      header: this.translocoService.translate('admin.media.deleteVideoConfirmationHeader'),
-      accept: () => {
-        const element = event.target instanceof HTMLButtonElement ? event.target : <HTMLButtonElement>(<HTMLSpanElement>event.target).parentElement;
-        this.renderer.setProperty(element, 'disabled', true);
-        this.mediaService.deleteVideo(mediaId, video._id).subscribe({
-          next: () => {
-            if (!this.media) return;
-            const videos = this.media.videos.filter(v => v._id !== video._id);
-            this.media = { ...this.media, videos: [...videos] };
-          },
-          error: () => {
-            this.renderer.setProperty(element, 'disabled', false);
-          }
-        }).add(() => this.ref.markForCheck());
-      }
-    });
   }
 
   showAddSubtitleDialog(file?: File, episode?: TVEpisode): void {
@@ -707,10 +626,6 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
     }, () => {
       this.updateMediaFormChanged = true;
     }).pipe(takeUntil(this.destroyService)).subscribe();
-  }
-
-  blockScroll(): void {
-    this.renderer.addClass(this.document.body, 'p-overflow-hidden');
   }
 
   closeDialog(): void {

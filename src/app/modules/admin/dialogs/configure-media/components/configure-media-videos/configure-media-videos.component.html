@@ -1,0 +1,75 @@
+<p class="tw-text-white tw-font-bold tw-text-2xl">{{ t()('admin.configureMedia.videos') }}</p>
+<div class="tw-text-right tw-my-3">
+  <button pButton type="button" role="dialog" [label]="t()('admin.configureMedia.addVideo')"
+    (click)="showAddVideoDialog()">
+  </button>
+</div>
+@if (media().videos.length) {
+  <p-table styleClass="p-datatable-sm tw-bg-neutral-875 tw-p-4 tw-rounded-md" [value]="media().videos"
+    responsiveLayout="scroll" [rowTrackBy]="trackId" [rowHover]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="tw-w-12">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th class="tw-w-64 tw-min-w-64"></th>
+        <th class="tw-min-w-64" pSortableColumn="name">
+          {{ t()('media.video.name') }} <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th class="tw-w-32 tw-min-w-32"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-video let-rowIndex="rowIndex">
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="video"></p-tableCheckbox>
+        </td>
+        <td class="tw-w-64">
+          <div
+            class="tw-aspect-w-16 tw-aspect-h-9 tw-overflow-hidden tw-rounded-md tw-cursor-pointer hover:tw-brightness-75 tw-transition-all tw-duration-200"
+            (click)="viewVideo(rowIndex)">
+            <img [src]="youtubeThumbnailUrl + video.key + '/hqdefault.jpg'" [alt]="video.key || ''"
+              class="tw-object-cover" />
+            <div class="tw-flex tw-justify-center tw-items-center">
+              <i class="ms ms-play-circle tw-text-5xl"></i>
+            </div>
+          </div>
+        </td>
+        <td>
+          @if (video.name) {
+            <p class="tw-text-lg tw-font-semibold">{{ video.name }}</p>
+          } @else {
+            <p class="tw-text-gray-400 tw-text-lg tw-font-semibold tw-italic">{{ t()('media.video.untitled')
+              }}</p>
+          }
+        </td>
+        <td class="tw-w-32">
+          <button pButton icon="ms ms-edit"
+            class="p-button-outlined p-button-rounded p-button-success p-button-sm p-button-sm-icon tw-mr-2"
+            (click)="showUpdateVideoDialog(video)">
+          </button>
+          <button pButton icon="ms ms-delete"
+            class="p-button-outlined p-button-rounded p-button-danger p-button-sm p-button-sm-icon"
+            (click)="deleteVideo(video, $event)">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  @if (media().videos[activeVideoIndex]) {
+    <p-dialog [header]="media().videos[activeVideoIndex].name || ''"
+      [(visible)]="displayVideo" (onHide)="blockScroll()" [modal]="true"
+      styleClass="p-dialog-header-sm tw-w-2/3 tw-h-auto !tw-max-h-full" [draggable]="false" [resizable]="false"
+      [dismissableMask]="true" transitionOptions="0ms linear" contentStyleClass="!tw-p-0">
+      <div class="tw-aspect-w-16 tw-aspect-h-9">
+        <iframe [src]="youtubeUrl + media().videos[activeVideoIndex].key + '?autoplay=1' | safeUrl: 'resourceUrl'"
+          allowfullscreen width="100%" height="auto">
+        </iframe>
+      </div>
+    </p-dialog>
+  }
+} @else {
+  <p class="tw-text-gray-400 tw-text-base tw-italic">
+    {{ t()('media.details.noVideos') }}
+  </p>
+}
