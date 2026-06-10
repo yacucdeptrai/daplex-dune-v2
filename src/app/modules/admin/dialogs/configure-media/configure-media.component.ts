@@ -1,66 +1,32 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, AfterViewInit } from '@angular/core';
 
-import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { MenuItem, SharedModule } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { first, map, merge, switchMap, takeUntil, tap } from 'rxjs';
-import { cloneDeep } from 'lodash-es';
 
-import { MediaDetails, MediaVideo, MediaSubtitle, Genre, Production, Tag } from '../../../../core/models';
-import { DestroyService, GenresService, ItemDataService, MediaService, ProductionsService, TagsService } from '../../../../core/services';
+import { MediaDetails, MediaVideo, MediaSubtitle } from '../../../../core/models';
+import { DestroyService, ItemDataService, MediaService } from '../../../../core/services';
 import { WsService } from '../../../../shared/modules/ws';
-import { DropdownOptionDto, UpdateMediaDto } from '../../../../core/dto/media';
 import { MediaChange, MediaVideoChange } from '../../../../core/interfaces/ws';
-import { shortDate } from '../../../../core/validators';
-import { ExternalIdsForm, MediaScannerForm, ShortDateForm } from '../../../../core/interfaces/forms';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
-import { detectFormChange, replaceDialogHideMethod, timeStringToSeconds, secondsToTimeString } from '../../../../core/utils';
-import { MediaSourceStatus, MediaStatus, MediaType, SocketMessage, SocketRoom } from '../../../../core/enums';
+import { replaceDialogHideMethod } from '../../../../core/utils';
+import { MediaSourceStatus, MediaType, SocketMessage, SocketRoom } from '../../../../core/enums';
 import { ButtonModule } from 'primeng/button';
 import { NgTemplateOutlet } from '@angular/common';
 import { VerticalTabComponent } from '../../../../shared/components/vertical-tab/vertical-tab.component';
 import { TabPanelDirective } from '../../../../shared/components/vertical-tab/tab-panel.directive';
-import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
-import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
-import { InputTextModule } from 'primeng/inputtext';
-import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { InputMaskModule } from 'primeng/inputmask';
-import { DropdownModule } from 'primeng/dropdown';
-import { AltAutoComplete } from '../../../../core/utils/primeng/autocomplete';
-import { ChipModule } from 'primeng/chip';
-import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { PanelToastDirective } from '../../../../shared/components/vertical-tab/panel-toast.directive';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 import { ConfigureMediaImagesComponent } from './components/configure-media-images';
 import { ConfigureMediaVideosComponent } from './components/configure-media-videos';
 import { ConfigureMediaSubtitlesComponent } from './components/configure-media-subtitles';
 import { ConfigureMediaSourceComponent } from './components/configure-media-source';
 import { ConfigureMediaEpisodesComponent } from './components/configure-media-episodes';
-
-interface UpdateMediaForm {
-  title: FormControl<string>;
-  originalTitle: FormControl<string | null>;
-  overview: FormControl<string>;
-  originalLanguage: FormControl<string | null>;
-  genres: FormControl<Genre[] | null>;
-  producers: FormControl<Production[] | null>;
-  studios: FormControl<Production[] | null>;
-  tags: FormControl<Tag[] | null>;
-  runtime: FormControl<string | null>;
-  adult: FormControl<boolean>;
-  releaseDate: FormGroup<ShortDateForm>;
-  lastAirDate?: FormGroup<ShortDateForm>;
-  visibility: FormControl<number>;
-  status: FormControl<string>;
-  externalIds: FormGroup<ExternalIdsForm>;
-  scanner: FormGroup<MediaScannerForm>;
-  updateTimestamp: FormControl<boolean>;
-}
+import { ConfigureMediaFormComponent } from './components/configure-media-form';
 
 @Component({
     selector: 'app-configure-media',
@@ -75,81 +41,25 @@ interface UpdateMediaForm {
             useValue: ['common', 'languages']
         }
     ],
-    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, NgTemplateOutlet, ConfirmDialogModule, ProgressSpinnerModule, FirstErrorKeyPipe, ConfigureMediaImagesComponent, ConfigureMediaVideosComponent, ConfigureMediaSubtitlesComponent, ConfigureMediaSourceComponent, ConfigureMediaEpisodesComponent]
+    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, ReactiveFormsModule, SharedModule, InputSwitchModule, PanelToastDirective, NgTemplateOutlet, ConfirmDialogModule, ProgressSpinnerModule, ConfigureMediaImagesComponent, ConfigureMediaVideosComponent, ConfigureMediaSubtitlesComponent, ConfigureMediaSourceComponent, ConfigureMediaEpisodesComponent, ConfigureMediaFormComponent]
 })
 export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy {
   MediaType = MediaType;
-  MediaStatus = MediaStatus;
   MediaSourceStatus = MediaSourceStatus;
   loadingMedia: boolean = false;
   isUpdated: boolean = false;
-  updateMediaFormChanged: boolean = false;
   media?: MediaDetails;
-  updateMediaForm: FormGroup<UpdateMediaForm>;
-  updateMediaInitValue: {} = {};
-  days: DropdownOptionDto[] = [];
-  months: DropdownOptionDto[] = [];
-  years: DropdownOptionDto[] = [];
-  languages: DropdownOptionDto[] = [];
-  genreSuggestions: Genre[] = [];
-  productionSuggestions: Production[] = [];
-  tagSuggestions: Tag[] = [];
   sideBarItems: MenuItem[] = [];
 
   constructor(private ref: ChangeDetectorRef,
     protected dialogRef: DynamicDialogRef, private config: DynamicDialogConfig<MediaDetails>, private dialogService: DialogService,
     private mediaService: MediaService,
-    private itemDataService: ItemDataService, private genresService: GenresService, private productionsService: ProductionsService,
-    private tagsService: TagsService,
-    private wsService: WsService, private translocoService: TranslocoService, private destroyService: DestroyService) {
-    const mediaType = this.config.data!.type || MediaType.MOVIE;
-    this.updateMediaForm = new FormGroup<UpdateMediaForm>({
-      title: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(500)] }),
-      originalTitle: new FormControl('', [Validators.maxLength(500)]),
-      overview: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(10), Validators.maxLength(2000)] }),
-      originalLanguage: new FormControl(''),
-      genres: new FormControl(null),
-      producers: new FormControl(null),
-      studios: new FormControl(null),
-      tags: new FormControl(null),
-      runtime: new FormControl(null, [Validators.required]),
-      adult: new FormControl(false, { nonNullable: true, validators: Validators.required }),
-      releaseDate: new FormGroup<ShortDateForm>({
-        day: new FormControl(null),
-        month: new FormControl(null),
-        year: new FormControl(null)
-      }, { validators: shortDate('day', 'month', 'year', true), updateOn: 'change' }),
-      visibility: new FormControl(1, { nonNullable: true, validators: Validators.required }),
-      status: new FormControl(MediaStatus.RELEASED, { nonNullable: true, validators: Validators.required }),
-      externalIds: new FormGroup<ExternalIdsForm>({
-        tmdb: new FormControl(null, { validators: [Validators.min(0), Validators.maxLength(10)] }),
-        imdb: new FormControl(null, { validators: Validators.maxLength(10) }),
-        aniList: new FormControl(null, { validators: [Validators.min(0), Validators.maxLength(10)] }),
-        mal: new FormControl(null, { validators: [Validators.min(0), Validators.maxLength(10)] })
-      }, { updateOn: 'change' }),
-      scanner: new FormGroup<MediaScannerForm>({
-        enabled: new FormControl(false, { nonNullable: true })
-      }, { updateOn: 'change' }),
-      updateTimestamp: new FormControl(true, { nonNullable: true })
-    }, { updateOn: 'change' });
-    if (mediaType === MediaType.TV) {
-      this.updateMediaForm.addControl('lastAirDate', new FormGroup<ShortDateForm>({
-        day: new FormControl(null),
-        month: new FormControl(null),
-        year: new FormControl(null)
-      }, { validators: shortDate('day', 'month', 'year', false), updateOn: 'change' }));
-      this.updateMediaForm.controls.scanner.addControl('tvSeason', new FormControl(null));
-    }
-  }
+    private wsService: WsService, private translocoService: TranslocoService, private destroyService: DestroyService) { }
 
   ngOnInit(): void {
     this.loadMedia();
     this.loadTranslations();
     this.initSocket();
-    this.days = this.itemDataService.createDateList();
-    this.months = this.itemDataService.createMonthList();
-    this.years = this.itemDataService.createYearList();
-    this.itemDataService.createLanguageList().subscribe(languages => this.languages = languages);
   }
 
   initSocket(): void {
@@ -222,100 +132,21 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
     this.ref.markForCheck();
   }
 
+  onFormMediaChange(media: MediaDetails): void {
+    this.media = media;
+    this.ref.markForCheck();
+  }
+
   loadMedia(showLoading: boolean = true): void {
     if (!this.config.data) return;
     const mediaId = this.config.data!._id;
     showLoading && (this.loadingMedia = true);
     this.mediaService.findOne(mediaId, { includeHiddenEps: true, includeUnprocessedEps: true }).subscribe(media => {
       this.media = media;
-      this.patchUpdateMediaForm(media);
     }).add(() => {
       showLoading && (this.loadingMedia = false);
       this.ref.markForCheck();
     });
-  }
-
-  loadGenreSuggestions(search?: string): void {
-    this.genresService.findGenreSuggestions(search).subscribe({
-      next: genres => this.genreSuggestions = genres
-    }).add(() => this.ref.markForCheck());
-  }
-
-  loadProductionSuggestions(search?: string): void {
-    this.productionsService.findProductionSuggestions(search).subscribe({
-      next: productions => this.productionSuggestions = productions
-    }).add(() => this.ref.markForCheck());
-  }
-
-  loadTagSuggestions(search?: string): void {
-    this.tagsService.findTagSuggestions(search).subscribe({
-      next: tags => this.tagSuggestions = tags
-    }).add(() => this.ref.markForCheck());
-  }
-
-  onUpdateMediaFormSubmit(): void {
-    if (!this.media || this.updateMediaForm.invalid) return;
-    this.updateMediaForm.disable({ emitEvent: false });
-    const mediaId = this.config.data!._id;
-    const formValue = this.updateMediaForm.getRawValue();
-    const genreIds = formValue.genres?.map(g => g._id) || [];
-    const producerIds = formValue.producers?.map(p => p._id) || [];
-    const studioIds = formValue.studios?.map(p => p._id) || [];
-    const tagIds = formValue.tags?.map(p => p._id) || [];
-    const runtimeValue = timeStringToSeconds(formValue.runtime)!;
-    const updateMediaDto: UpdateMediaDto = {
-      title: formValue.title,
-      originalTitle: formValue.originalTitle || null,
-      overview: formValue.overview,
-      genres: genreIds,
-      originalLang: formValue.originalLanguage,
-      studios: studioIds,
-      producers: producerIds,
-      tags: tagIds,
-      runtime: runtimeValue,
-      adult: formValue.adult,
-      releaseDate: {
-        day: formValue.releaseDate.day!,
-        month: formValue.releaseDate.month!,
-        year: formValue.releaseDate.year!
-      },
-      visibility: formValue.visibility,
-      status: formValue.status,
-      externalIds: formValue.externalIds,
-      scanner: {
-        enabled: formValue.scanner.enabled
-      },
-      updateTimestamp: formValue.updateTimestamp
-    };
-    if (this.media.type === MediaType.TV) {
-      if (formValue.lastAirDate) {
-        if (formValue.lastAirDate.day && formValue.lastAirDate.month && formValue.lastAirDate.year) {
-          updateMediaDto.lastAirDate = {
-            day: formValue.lastAirDate.day,
-            month: formValue.lastAirDate.month,
-            year: formValue.lastAirDate.year
-          }
-        } else {
-          updateMediaDto.lastAirDate = null;
-        }
-      }
-      if (formValue.scanner.tvSeason) {
-        updateMediaDto.scanner!.tvSeason = formValue.scanner.tvSeason;
-      }
-    }
-    this.mediaService.update(mediaId, updateMediaDto).pipe(takeUntil(this.destroyService)).subscribe(media => {
-      this.media = media;
-      this.detectUpdateMediaFormChange();
-      this.isUpdated = true;
-    }).add(() => {
-      this.updateMediaForm.enable({ emitEvent: false });
-      this.ref.markForCheck();
-    });
-  }
-
-  onUpdateMediaFormReset(): void {
-    this.updateMediaForm.reset(this.updateMediaInitValue);
-    this.detectUpdateMediaFormChange();
   }
 
   updateExtStreams(event: ExtStreamSelected): void {
@@ -348,55 +179,6 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
         }
       ];
     });
-  }
-
-  patchUpdateMediaForm(media: MediaDetails): void {
-    const runtimeValue = secondsToTimeString(media.runtime);
-    this.updateMediaForm.patchValue({
-      title: media.title,
-      originalTitle: media.originalTitle || '',
-      overview: media.overview,
-      originalLanguage: media.originalLang || null,
-      genres: media.genres,
-      studios: media.studios,
-      producers: media.producers,
-      tags: media.tags,
-      runtime: runtimeValue,
-      adult: media.adult,
-      releaseDate: {
-        day: media.releaseDate.day,
-        month: media.releaseDate.month,
-        year: media.releaseDate.year
-      },
-      visibility: media.visibility,
-      status: media.status,
-      externalIds: media.externalIds,
-      scanner: {
-        enabled: media.scanner?.enabled || false
-      }
-    });
-    if (media.type === MediaType.TV) {
-      this.updateMediaForm.patchValue({
-        lastAirDate: {
-          day: media.tv.lastAirDate?.day,
-          month: media.tv.lastAirDate?.month,
-          year: media.tv.lastAirDate?.year
-        },
-        scanner: {
-          tvSeason: media.scanner?.tvSeason
-        }
-      });
-    }
-    this.updateMediaInitValue = cloneDeep(this.updateMediaForm.value);
-    this.detectUpdateMediaFormChange();
-  }
-
-  detectUpdateMediaFormChange(): void {
-    detectFormChange(this.updateMediaForm, this.updateMediaInitValue, () => {
-      this.updateMediaFormChanged = false;
-    }, () => {
-      this.updateMediaFormChanged = true;
-    }).pipe(takeUntil(this.destroyService)).subscribe();
   }
 
   closeDialog(): void {

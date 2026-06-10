@@ -5,7 +5,7 @@ import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dy
 import { of, throwError, Subject, config as rxConfig } from 'rxjs';
 
 import { ConfigureMediaComponent } from './configure-media.component';
-import { ConfirmActionService, GenresService, MediaService, ProductionsService, TagsService } from '../../../../core/services';
+import { ConfirmActionService, MediaService } from '../../../../core/services';
 import { WsService } from '../../../../shared/modules/ws';
 import { MediaPStatus, MediaSourceStatus, MediaStatus, MediaType } from '../../../../core/enums';
 import {
@@ -103,9 +103,6 @@ describe('ConfigureMediaComponent', () => {
         ConfirmationService,
         ConfirmActionService,
         { provide: MediaService, useValue: mediaService },
-        { provide: GenresService, useValue: { findGenreSuggestions: () => of([]) } },
-        { provide: ProductionsService, useValue: { findProductionSuggestions: () => of([]) } },
-        { provide: TagsService, useValue: { findTagSuggestions: () => of([]) } },
         { provide: WsService, useValue: { fromEvent: () => of(), joinRoom: () => undefined, leaveRoom: () => undefined } },
         {
           provide: TranslocoService,
@@ -134,10 +131,6 @@ describe('ConfigureMediaComponent', () => {
 
     it('should create', () => {
       expect(component).toBeTruthy();
-    });
-
-    it('builds updateMediaForm without lastAirDate for a MOVIE', () => {
-      expect(component.updateMediaForm.contains('lastAirDate')).toBeFalse();
     });
   });
 
@@ -201,45 +194,8 @@ describe('ConfigureMediaComponent', () => {
 
   // Images concern moved to ConfigureMediaImagesComponent; coverage lives in its own spec.
 
-  // ---- Form concern: onUpdateMediaFormSubmit DTO shape (cross-boundary contract) ------
-
-  describe('form submit DTO', () => {
-    beforeEach(async () => {
-      await create();
-      component.media = makeMovieMedia();
-    });
-
-    it('onUpdateMediaFormSubmit builds the UpdateMediaDto with id-mapped genres and converted runtime, then sets isUpdated', () => {
-      component.updateMediaForm.patchValue({
-        title: 'T', overview: 'overview at least ten chars',
-        genres: [{ _id: 'g1' } as any, { _id: 'g2' } as any],
-        producers: [{ _id: 'p1' } as any],
-        studios: [{ _id: 's1' } as any],
-        tags: [{ _id: 't1' } as any],
-        runtime: '01:00:00',
-        adult: false, visibility: 1, status: MediaStatus.RELEASED,
-        releaseDate: { day: 1, month: 1, year: 2020 } as any
-      });
-      mediaService.update.and.returnValue(of(makeMovieMedia()));
-      component.onUpdateMediaFormSubmit();
-      expect(mediaService.update).toHaveBeenCalledTimes(1);
-      const [id, dto] = mediaService.update.calls.mostRecent().args;
-      expect(id).toBe(MEDIA_ID);
-      expect(dto.genres).toEqual(['g1', 'g2']);
-      expect(dto.producers).toEqual(['p1']);
-      expect(dto.studios).toEqual(['s1']);
-      expect(dto.tags).toEqual(['t1']);
-      expect(dto.runtime).toBe(3600); // 01:00:00 -> seconds
-      expect(component.isUpdated).toBeTrue();
-    });
-
-    it('onUpdateMediaFormSubmit is a no-op when the form is invalid', () => {
-      component.updateMediaForm.controls.title.setValue('');
-      component.updateMediaForm.controls.title.setErrors({ required: true });
-      component.onUpdateMediaFormSubmit();
-      expect(mediaService.update).not.toHaveBeenCalled();
-    });
-  });
+  // Form concern (onUpdateMediaFormSubmit DTO shape + the rest of the General edit form) moved to
+  // ConfigureMediaFormComponent; coverage lives in its own spec.
 
   // ---- Socket reducers (parent) ------------------------------------------------------
 
@@ -313,5 +269,11 @@ describe('ConfigureMediaComponent', () => {
   // Extracted to ConfigureMediaEpisodesComponent; the episodes characterization net (loadEpisodes,
   // create/configure/delete episode, showAddSubtitle/showAddSource, createEpisodeMenuItem,
   // toggleEpisodeMenu, the MOVIE no-op guard) re-homed to its own spec — assertions unchanged.
+
+  // ---- Form / General concern (Phase 7.3 extraction #6, FINAL) -----------------------
+  // Extracted to ConfigureMediaFormComponent; the form characterization net (per-type form build,
+  // patch-from-input, the MOVIE/TV UpdateMediaDto submit shapes, reset, dirty-flag, suggestion
+  // loaders, date/language lists) re-homed to its own spec — assertions unchanged. The submit's
+  // `this.media = saved` became `mediaChange.emit(saved)` there; the footer<->form bridge is QA's.
 
 });
