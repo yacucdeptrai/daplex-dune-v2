@@ -366,93 +366,9 @@
       } @else {
         <!--Episodes-->
         <ng-template appTabPanel [label]="t('admin.configureMedia.episodes')">
-          <p class="tw-text-white tw-font-bold tw-text-2xl">{{ t('admin.configureMedia.episodes')
-            }}</p>
-          <div class="tw-text-right tw-my-3">
-            <button pButton type="button" role="dialog" [label]="t('admin.configureMedia.addEpisode')"
-              (click)="showCreateEpisodeDialog()">
-            </button>
-          </div>
-          @if (episodes && episodes.length) {
-            <p-table styleClass="p-datatable-sm tw-bg-neutral-875 tw-p-4 tw-rounded-md" [value]="episodes"
-              responsiveLayout="scroll" [rowTrackBy]="trackId" [rowHover]="true" [loading]="loadingEpisodes">
-              <ng-template pTemplate="header">
-                <tr>
-                  <th class="tw-w-20 tw-min-w-20" pSortableColumn="epNumber">
-                    {{ t('admin.episode.episodeNumber') }} <p-sortIcon field="epNumber"></p-sortIcon>
-                  </th>
-                  <th class="tw-w-80 tw-min-w-80" pSortableColumn="name">
-                    {{ t('admin.episode.name') }} <p-sortIcon field="name"></p-sortIcon>
-                  </th>
-                  <th class="tw-w-32 tw-min-w-32" pSortableColumn="runtime">
-                    {{ t('admin.episode.runtime') }} <p-sortIcon field="runtime"></p-sortIcon>
-                  </th>
-                  <th class="tw-w-40 tw-min-w-40" pSortableColumn="airDate">
-                    {{ t('admin.episode.airDate') }} <p-sortIcon field="airDate"></p-sortIcon>
-                  </th>
-                  <th class="tw-w-24 tw-min-w-24" pSortableColumn="status">
-                    {{ t('admin.episode.status') }} <p-sortIcon field="status"></p-sortIcon>
-                  </th>
-                  <th class="tw-w-32 tw-min-w-32"></th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-episode>
-                <tr>
-                  <td class="tw-w-20">{{ episode.epNumber }}</td>
-                  <td class="tw-w-80">
-                    <div class="tw-flex">
-                      <div class="tw-w-24 tw-flex-shrink-0">
-                        <div class="tw-aspect-w-16 tw-aspect-h-9 tw-rounded-md tw-overflow-hidden">
-                          @if (episode.thumbnailStillUrl) {
-                            <img class="tw-object-cover" [lazyLoad]="episode.thumbnailStillUrl"
-                              [defaultImage]="episode.stillPlaceholder | thumbhashUrl" [alt]="episode.name"
-                              errorImage="assets/images/episode-image-error-md.png">
-                          } @else {
-                            <img class="tw-rounded-md" src="assets/images/episode-image-md.png" loading="lazy"
-                              [alt]="episode.name">
-                          }
-                        </div>
-                      </div>
-                      <p class="tw-ml-2 tw-text-base tw-font-medium tw-line-clamp-4">{{ episode.name }}</p>
-                    </div>
-                  </td>
-                  <td class="tw-w-32 tw-text-sm">{{ episode.runtime * 1000 | time }}</td>
-                  <td class="tw-w-40 tw-text-sm">{{ episode.airDate | shortDate }}</td>
-                  <td class="tw-w-24 tw-text-sm">
-                    <div class="tw-text-center">
-                      @switch (episode.pStatus) {
-                        @case (MediaPStatus.PENDING) {
-                          <i class="ms ms-draft ms-opsz-lg tw-text-4xl" [pTooltip]="t('admin.media.statusPending')"></i>
-                        }
-                        @case (MediaPStatus.PROCESSING) {
-                          <i class="ms ms-hourglass-empty ms-opsz-lg tw-text-4xl"
-                            [pTooltip]="t('admin.media.statusProcessing')"></i>
-                        }
-                        @case (MediaPStatus.DONE) {
-                          <i class="ms ms-check-circle ms-opsz-lg tw-text-4xl"
-                            [pTooltip]="t('admin.media.statusDone')"></i>
-                        }
-                      }
-                    </div>
-                  </td>
-                  <td>
-                    <button pButton icon="ms ms-settings"
-                      class="p-button-rounded p-button-info p-button-sm p-button-sm-icon tw-mr-2"
-                      (click)="showConfigureEpisodeDialog(episode)">
-                    </button>
-                    <button pButton icon="ms ms-more-horiz"
-                      class="p-button-rounded p-button-secondary p-button-sm p-button-sm-icon"
-                      (click)="toggleEpisodeMenu(episodeMenu, $event, episode)">
-                    </button>
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
-          } @else {
-            <p class="tw-text-gray-400 tw-text-base tw-italic">
-              {{ t('admin.configureMedia.noEpisodes') }}
-            </p>
-          }
+          <app-configure-media-episodes [media]="media" [t]="t" [parentDialogRef]="dialogRef"
+            (mediaChange)="onEpisodesMediaChange($event)" (updated)="isUpdated = true">
+          </app-configure-media-episodes>
         </ng-template>
       }
     </app-vertical-tab>
@@ -465,7 +381,6 @@
   } @else {
     <ng-container *ngTemplateOutlet="loadingSpinner"></ng-container>
   }
-  <p-menu #episodeMenu [popup]="true" appendTo="body" [model]="episodeMenuItems"></p-menu>
 </ng-container>
 <ng-template #loadingSpinner>
   <div class="tw-flex tw-justify-center tw-items-center tw-h-full">

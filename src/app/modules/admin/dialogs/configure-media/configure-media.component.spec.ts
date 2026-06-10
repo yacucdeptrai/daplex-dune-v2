@@ -5,7 +5,7 @@ import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dy
 import { of, throwError, Subject, config as rxConfig } from 'rxjs';
 
 import { ConfigureMediaComponent } from './configure-media.component';
-import { ConfirmActionService, GenresService, MediaService, ProductionsService, QueueUploadService, TagsService } from '../../../../core/services';
+import { ConfirmActionService, GenresService, MediaService, ProductionsService, TagsService } from '../../../../core/services';
 import { WsService } from '../../../../shared/modules/ws';
 import { MediaPStatus, MediaSourceStatus, MediaStatus, MediaType } from '../../../../core/enums';
 import {
@@ -70,7 +70,6 @@ describe('ConfigureMediaComponent', () => {
   let mediaService: any;
   let dialogService: any;
   let confirmationService: ConfirmationService;
-  let queueUploadService: any;
 
   // The component subscribes to several streams with a next-only handler. On an HTTP error
   // (only deliberately induced in the loadMedia-error spec) RxJS reports an *async* unhandled
@@ -92,13 +91,7 @@ describe('ConfigureMediaComponent', () => {
       update: jasmine.createSpy('update').and.returnValue(of(makeMovieMedia())),
       deleteMovieSubtitle: jasmine.createSpy('deleteMovieSubtitle').and.returnValue(of(undefined)),
       findMovieStreams: jasmine.createSpy('findMovieStreams').and.returnValue(of({})),
-      deleteMovieSource: jasmine.createSpy('deleteMovieSource').and.returnValue(of(undefined)),
-      findAllTVEpisodes: jasmine.createSpy('findAllTVEpisodes').and.returnValue(of([])),
-      deleteTVEpisode: jasmine.createSpy('deleteTVEpisode').and.returnValue(of(undefined))
-    };
-    queueUploadService = {
-      isMediaInQueue: jasmine.createSpy('isMediaInQueue').and.returnValue(false),
-      addToQueue: jasmine.createSpy('addToQueue')
+      deleteMovieSource: jasmine.createSpy('deleteMovieSource').and.returnValue(of(undefined))
     };
 
     return TestBed.configureTestingModule({
@@ -113,7 +106,6 @@ describe('ConfigureMediaComponent', () => {
         { provide: GenresService, useValue: { findGenreSuggestions: () => of([]) } },
         { provide: ProductionsService, useValue: { findProductionSuggestions: () => of([]) } },
         { provide: TagsService, useValue: { findTagSuggestions: () => of([]) } },
-        { provide: QueueUploadService, useValue: queueUploadService },
         { provide: WsService, useValue: { fromEvent: () => of(), joinRoom: () => undefined, leaveRoom: () => undefined } },
         {
           provide: TranslocoService,
@@ -187,14 +179,15 @@ describe('ConfigureMediaComponent', () => {
       expect(component.loadingMedia).toBeFalse();
     });
 
-    it('loadMedia populates episodes for a TV media', async () => {
+    it('loadMedia sets media for a TV media (episodes now flow down to the Episodes child)', async () => {
       await create({ _id: MEDIA_ID, type: MediaType.TV, title: MEDIA_TITLE });
       mediaService.findOne.and.returnValue(of({
         ...makeMovieMedia({ type: MediaType.TV }),
         tv: { episodes: [{ _id: 'ep1' }], lastAirDate: { day: 1, month: 1, year: 2021 } }
       }));
       component.loadMedia();
-      expect(component.episodes).toEqual([{ _id: 'ep1' } as any]);
+      expect(component.media!.type).toBe(MediaType.TV);
+      expect(component.media!.tv.episodes).toEqual([{ _id: 'ep1' }] as any);
     });
 
     it('closeDialog propagates the isUpdated flag through dialogRef.close', async () => {
@@ -311,26 +304,14 @@ describe('ConfigureMediaComponent', () => {
       expect(next).toHaveBeenCalled();
     });
 
-    it('openers no-throw with media set: add subtitle / add source dialogs', () => {
-      expect(() => component.showAddSubtitleDialog()).not.toThrow();
-      expect(() => component.showAddSourceDialog()).not.toThrow();
-      expect(dialogService.open).toHaveBeenCalled();
-    });
-
-    it('createEpisodeMenuItem builds 3 menu items (add subtitle, add source, delete episode) with a separator', async () => {
-      // selectTranslation returns a flat dictionary; component reads bracket keys.
-      const transloco = TestBed.inject(TranslocoService) as any;
-      transloco.selectTranslation = () => of({
-        'configureMedia.addSubtitle': 'Add Subtitle',
-        'configureMedia.addSource': 'Add Source',
-        'configureMedia.deleteEpisode': 'Delete Episode'
-      });
-      const episode = { _id: 'ep1', epNumber: 1, status: MediaSourceStatus.PENDING } as any;
-      let items: any[] = [];
-      component.createEpisodeMenuItem(episode).subscribe(i => (items = i));
-      expect(items.length).toBe(4); // add subtitle, add source, separator, delete
-      expect(items.some(i => i.separator)).toBeTrue();
-      expect(items.filter(i => !i.separator).length).toBe(3);
-    });
+    // Episodes concern (showAddSubtitleDialog / showAddSourceDialog / createEpisodeMenuItem +
+    // create/configure/delete episode + toggleEpisodeMenu) moved to ConfigureMediaEpisodesComponent;
+    // coverage lives in its own spec.
   });
+
+  // ---- Episodes concern (Phase 7.3 extraction #5) ------------------------------------
+  // Extracted to ConfigureMediaEpisodesComponent; the episodes characterization net (loadEpisodes,
+  // create/configure/delete episode, showAddSubtitle/showAddSource, createEpisodeMenuItem,
+  // toggleEpisodeMenu, the MOVIE no-op guard) re-homed to its own spec — assertions unchanged.
+
 });

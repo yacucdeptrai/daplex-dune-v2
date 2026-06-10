@@ -1,30 +1,22 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, Inject, OnDestroy, ViewChild, AfterViewInit, DOCUMENT } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, AfterViewInit } from '@angular/core';
 
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { MenuItem, SharedModule } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Menu, MenuModule } from 'primeng/menu';
-import { first, map, merge, Observable, switchMap, takeUntil, tap } from 'rxjs';
+import { first, map, merge, switchMap, takeUntil, tap } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
 
-import { MediaDetails, MediaVideo, MediaSubtitle, TVEpisode, Genre, Production, Tag } from '../../../../core/models';
-import { ConfirmActionService, DestroyService, GenresService, ItemDataService, MediaService, ProductionsService, QueueUploadService, TagsService } from '../../../../core/services';
+import { MediaDetails, MediaVideo, MediaSubtitle, Genre, Production, Tag } from '../../../../core/models';
+import { DestroyService, GenresService, ItemDataService, MediaService, ProductionsService, TagsService } from '../../../../core/services';
 import { WsService } from '../../../../shared/modules/ws';
 import { DropdownOptionDto, UpdateMediaDto } from '../../../../core/dto/media';
 import { MediaChange, MediaVideoChange } from '../../../../core/interfaces/ws';
-import { DataMenuItem } from '../../../../core/interfaces/primeng';
-import { AddSubtitleComponent } from '../add-subtitle';
-import { CreateEpisodeComponent } from '../create-episode';
-import { ConfigureEpisodeComponent } from '../configure-episode';
-import { AddSourceComponent } from '../add-source';
-import { FileUploadComponent } from '../../../../shared/components/file-upload';
-import { fileExtension, maxFileSize, shortDate } from '../../../../core/validators';
-import { AddSubtitleForm, ExternalIdsForm, MediaScannerForm, ShortDateForm } from '../../../../core/interfaces/forms';
+import { shortDate } from '../../../../core/validators';
+import { ExternalIdsForm, MediaScannerForm, ShortDateForm } from '../../../../core/interfaces/forms';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
-import { detectFormChange, fixNestedDialogFocus, replaceDialogHideMethod, timeStringToSeconds, secondsToTimeString } from '../../../../core/utils';
-import { AppErrorCode, MediaPStatus, MediaSourceStatus, MediaStatus, MediaType, SocketMessage, SocketRoom } from '../../../../core/enums';
-import { UPLOAD_SUBTITLE_EXT, UPLOAD_SUBTITLE_SIZE } from '../../../../../environments/config';
+import { detectFormChange, replaceDialogHideMethod, timeStringToSeconds, secondsToTimeString } from '../../../../core/utils';
+import { MediaSourceStatus, MediaStatus, MediaType, SocketMessage, SocketRoom } from '../../../../core/enums';
 import { ButtonModule } from 'primeng/button';
 import { NgTemplateOutlet } from '@angular/common';
 import { VerticalTabComponent } from '../../../../shared/components/vertical-tab/vertical-tab.component';
@@ -41,20 +33,14 @@ import { ChipModule } from 'primeng/chip';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { PanelToastDirective } from '../../../../shared/components/vertical-tab/panel-toast.directive';
-import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { TableModule } from 'primeng/table';
-import { FileUploadComponent as FileUploadComponent_1 } from '../../../../shared/components/file-upload/file-upload.component';
-import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
-import { ShortDatePipe } from '../../../../shared/pipes/date-time-pipe/short-date/short-date.pipe';
-import { TimePipe } from '../../../../shared/pipes/date-time-pipe/time/time.pipe';
-import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 import { ConfigureMediaImagesComponent } from './components/configure-media-images';
 import { ConfigureMediaVideosComponent } from './components/configure-media-videos';
 import { ConfigureMediaSubtitlesComponent } from './components/configure-media-subtitles';
 import { ConfigureMediaSourceComponent } from './components/configure-media-source';
+import { ConfigureMediaEpisodesComponent } from './components/configure-media-episodes';
 
 interface UpdateMediaForm {
   title: FormControl<string>;
@@ -89,22 +75,16 @@ interface UpdateMediaForm {
             useValue: ['common', 'languages']
         }
     ],
-    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, LazyLoadImageModule, TableModule, FileUploadComponent_1, NgTemplateOutlet, TooltipModule, ConfirmDialogModule, MenuModule, ProgressSpinnerModule, FirstErrorKeyPipe, ShortDatePipe, TimePipe, ThumbhashUrlPipe, ConfigureMediaImagesComponent, ConfigureMediaVideosComponent, ConfigureMediaSubtitlesComponent, ConfigureMediaSourceComponent]
+    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, InputSwitchModule, PanelToastDirective, NgTemplateOutlet, ConfirmDialogModule, ProgressSpinnerModule, FirstErrorKeyPipe, ConfigureMediaImagesComponent, ConfigureMediaVideosComponent, ConfigureMediaSubtitlesComponent, ConfigureMediaSourceComponent, ConfigureMediaEpisodesComponent]
 })
 export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;
   MediaType = MediaType;
   MediaStatus = MediaStatus;
-  MediaPStatus = MediaPStatus;
   MediaSourceStatus = MediaSourceStatus;
   loadingMedia: boolean = false;
-  loadingEpisodes: boolean = false;
-  isAddingSubtitle: boolean = false;
   isUpdated: boolean = false;
   updateMediaFormChanged: boolean = false;
   media?: MediaDetails;
-  episodes?: TVEpisode[];
-  addSubtitleForm: FormGroup<AddSubtitleForm>;
   updateMediaForm: FormGroup<UpdateMediaForm>;
   updateMediaInitValue: {} = {};
   days: DropdownOptionDto[] = [];
@@ -115,16 +95,14 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
   productionSuggestions: Production[] = [];
   tagSuggestions: Tag[] = [];
   sideBarItems: MenuItem[] = [];
-  episodeMenuItems: DataMenuItem<TVEpisode>[] = [];
 
-  constructor(@Inject(DOCUMENT) private document: Document, private ref: ChangeDetectorRef, private renderer: Renderer2,
+  constructor(private ref: ChangeDetectorRef,
     protected dialogRef: DynamicDialogRef, private config: DynamicDialogConfig<MediaDetails>, private dialogService: DialogService,
-    private confirmAction: ConfirmActionService, private mediaService: MediaService,
+    private mediaService: MediaService,
     private itemDataService: ItemDataService, private genresService: GenresService, private productionsService: ProductionsService,
-    private tagsService: TagsService, private queueUploadService: QueueUploadService,
+    private tagsService: TagsService,
     private wsService: WsService, private translocoService: TranslocoService, private destroyService: DestroyService) {
     const mediaType = this.config.data!.type || MediaType.MOVIE;
-    const lang = this.translocoService.getActiveLang();
     this.updateMediaForm = new FormGroup<UpdateMediaForm>({
       title: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(500)] }),
       originalTitle: new FormControl('', [Validators.maxLength(500)]),
@@ -162,10 +140,6 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
       }, { validators: shortDate('day', 'month', 'year', false), updateOn: 'change' }));
       this.updateMediaForm.controls.scanner.addControl('tvSeason', new FormControl(null));
     }
-    this.addSubtitleForm = new FormGroup<AddSubtitleForm>({
-      language: new FormControl(lang, Validators.required),
-      file: new FormControl(null, [Validators.required, maxFileSize(UPLOAD_SUBTITLE_SIZE), fileExtension(UPLOAD_SUBTITLE_EXT)])
-    }, { updateOn: 'change' });
   }
 
   ngOnInit(): void {
@@ -243,34 +217,20 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
     this.ref.markForCheck();
   }
 
+  onEpisodesMediaChange(media: MediaDetails): void {
+    this.media = media;
+    this.ref.markForCheck();
+  }
+
   loadMedia(showLoading: boolean = true): void {
     if (!this.config.data) return;
     const mediaId = this.config.data!._id;
     showLoading && (this.loadingMedia = true);
     this.mediaService.findOne(mediaId, { includeHiddenEps: true, includeUnprocessedEps: true }).subscribe(media => {
       this.media = media;
-      if (media.type === MediaType.TV) {
-        this.episodes = media.tv.episodes;
-      }
       this.patchUpdateMediaForm(media);
     }).add(() => {
       showLoading && (this.loadingMedia = false);
-      this.ref.markForCheck();
-    });
-  }
-
-  loadEpisodes(showLoading: boolean = true): void {
-    const mediaType = this.config.data!.type;
-    if (mediaType !== MediaType.TV) return;
-    const mediaId = this.config.data!._id;
-    showLoading && (this.loadingEpisodes = true);
-    this.mediaService.findAllTVEpisodes(mediaId, {
-      includeHidden: true,
-      includeUnprocessed: true
-    }).subscribe(episodes => {
-      this.episodes = episodes;
-    }).add(() => {
-      showLoading && (this.loadingEpisodes = false);
       this.ref.markForCheck();
     });
   }
@@ -358,155 +318,12 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
     this.detectUpdateMediaFormChange();
   }
 
-  showAddSubtitleDialog(file?: File, episode?: TVEpisode): void {
-    if (!this.media) return;
-    if (file && file.size > UPLOAD_SUBTITLE_SIZE)
-      throw new Error(AppErrorCode.UPLOAD_SUBTITLE_TOO_LARGE);
-    this.subtitleFileUpload?.clear();
-    const dialogRef = this.dialogService.open(AddSubtitleComponent, {
-      data: { media: { ...this.media }, episode: episode ? { ...episode } : undefined, file: file },
-      width: '500px',
-      modal: true,
-      dismissableMask: false,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' }
-    });
-    dialogRef.onClose.pipe(first()).subscribe((subtitles: MediaSubtitle[]) => {
-      if (!subtitles || !this.media) return;
-      this.media = { ...this.media, movie: { ...this.media.movie, subtitles } };
-      this.ref.markForCheck();
-    });
-    fixNestedDialogFocus(dialogRef, this.dialogRef, this.dialogService, this.renderer, this.document);
-  }
-
-  onAddSubtitleFormCancel(): void {
-    this.addSubtitleForm.reset();
-  }
-
-  showAddSourceDialog(episode?: TVEpisode): void {
-    if (!this.media) return;
-    const dialogRef = this.dialogService.open(AddSourceComponent, {
-      data: { media: { ...this.media }, episode: episode ? { ...episode } : undefined },
-      width: '500px',
-      modal: true,
-      dismissableMask: false,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' }
-    });
-    //dialogRef.onClose.pipe(first()).subscribe() => {
-    //});
-    fixNestedDialogFocus(dialogRef, this.dialogRef, this.dialogService, this.renderer, this.document);
-  }
-
   updateExtStreams(event: ExtStreamSelected): void {
     const mediaId = this.config.data!._id;
     this.mediaService.update(mediaId, { extStreams: event.streams }).subscribe({
       next: () => event.next(),
       error: () => event.error()
     });
-  }
-
-  showCreateEpisodeDialog(): void {
-    if (!this.media || !this.episodes) return;
-    const dialogRef = this.dialogService.open(CreateEpisodeComponent, {
-      data: { media: { ...this.media }, episodes: [...this.episodes] },
-      width: '980px',
-      height: '100%',
-      modal: true,
-      dismissableMask: false,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem', 'overflow-y': 'hidden', 'padding': '0px' }
-    });
-    dialogRef.onClose.pipe(first()).subscribe((episode) => {
-      if (!episode || !this.episodes) return;
-      this.episodes.push(episode);
-      this.isUpdated = true;
-      this.ref.markForCheck();
-    });
-    fixNestedDialogFocus(dialogRef, this.dialogRef, this.dialogService, this.renderer, this.document);
-  }
-
-  showConfigureEpisodeDialog(episode: TVEpisode): void {
-    if (!this.media) return;
-    const dialogRef = this.dialogService.open(ConfigureEpisodeComponent, {
-      data: { media: { ...this.media }, episode: { ...episode } },
-      width: '1280px',
-      height: '100%',
-      modal: true,
-      showHeader: false,
-      dismissableMask: false,
-      contentStyle: { 'padding': 0, 'overflow-y': 'hidden' },
-      styleClass: '!tw-max-h-full',
-      maskStyleClass: 'tw-z-[110]',
-      autoZIndex: false
-    });
-    dialogRef.onClose.pipe(first()).subscribe((updated) => {
-      if (!updated || !this.media) return;
-      this.loadEpisodes(true);
-    });
-    fixNestedDialogFocus(dialogRef, this.dialogRef, this.dialogService, this.renderer, this.document);
-  }
-
-  showDeleteEpisodeDialog(episode: TVEpisode): void {
-    this.confirmAction.confirmDelete({
-      key: 'inModal',
-      message: this.translocoService.translate('admin.media.deleteEpisodeConfirmation', { episodeNumber: episode.epNumber }),
-      header: this.translocoService.translate('admin.media.deleteEpisodeConfirmationHeader'),
-      accept: () => this.deleteEpisode(episode)
-    });
-  }
-
-  deleteEpisode(episode: TVEpisode): void {
-    const mediaId = this.config.data!._id;
-    this.loadingEpisodes = true;
-    this.ref.markForCheck();
-    this.mediaService.deleteTVEpisode(mediaId, episode._id).subscribe({
-      next: () => this.loadEpisodes(true)
-    }).add(() => this.ref.markForCheck());
-  }
-
-  toggleEpisodeMenu(menu: Menu, event: Event, episode: TVEpisode): void {
-    if (!menu.visible) {
-      this.createEpisodeMenuItem(episode).subscribe({
-        next: (menuItems) => {
-          this.episodeMenuItems = menuItems;
-          menu.toggle(event);
-        }
-      });
-      return;
-    }
-    menu.toggle(event);
-  }
-
-  createEpisodeMenuItem(episode: TVEpisode): Observable<DataMenuItem<TVEpisode>[]> {
-    const mediaId = this.config.data!._id;
-    return this.translocoService.selectTranslation('admin').pipe(first(), map(t => {
-      const menuItems: DataMenuItem<TVEpisode>[] = [];
-      menuItems.push(
-        {
-          label: t['configureMedia.addSubtitle'],
-          data: episode,
-          command: (event) => this.showAddSubtitleDialog(undefined, (<DataMenuItem<TVEpisode | undefined>>event.item)?.data)
-        },
-        {
-          label: t['configureMedia.addSource'],
-          data: episode,
-          disabled: episode.status !== MediaSourceStatus.PENDING || this.queueUploadService.isMediaInQueue(`${mediaId}:${episode._id}`),
-          command: (event) => this.showAddSourceDialog((<DataMenuItem<TVEpisode | undefined>>event.item)?.data)
-        },
-        { separator: true },
-        {
-          label: t['configureMedia.deleteEpisode'],
-          icon: 'ms ms-delete',
-          data: episode,
-          command: (event) => {
-            if ((<DataMenuItem<TVEpisode | undefined>>event.item)?.data)
-              this.showDeleteEpisodeDialog((<DataMenuItem<TVEpisode>>event.item).data!)
-          }
-        }
-      );
-      return menuItems;
-    }), first());
   }
 
   loadTranslations(): void {
@@ -584,10 +401,6 @@ export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy
 
   closeDialog(): void {
     this.dialogRef.close(this.isUpdated);
-  }
-
-  trackId(index: number, item: any): any {
-    return item?._id;
   }
 
   ngOnDestroy(): void {
