@@ -12,14 +12,15 @@ import { CreateEpisodeComponent } from '../create-episode';
 import { StepperComponent } from '../../../../shared/components/stepper';
 import { ImageEditorComponent, ImageEditorConfig } from '../../../../shared/dialogs/image-editor';
 import { FileUploadComponent } from '../../../../shared/components/file-upload';
-import { CreateMediaDto, DropdownOptionDto, UpdateMediaDto } from '../../../../core/dto/media';
+import { CreateMediaDto, DropdownOptionDto } from '../../../../core/dto/media';
 import { AppErrorCode, MediaStatus, MediaType } from '../../../../core/enums';
 import { ShortDateForm } from '../../../../core/interfaces/forms';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
 import { Genre, MediaDetails, MediaSubtitle, MediaVideo, Production, Tag } from '../../../../core/models';
-import { DestroyService, GenresService, ItemDataService, MediaService, ProductionsService, QueueUploadService, TagsService } from '../../../../core/services';
+import { DestroyService, ItemDataService, MediaService, QueueUploadService } from '../../../../core/services';
+import { MediaFormHelperService } from '../../../../core/services/media-form-helper.service';
 import { shortDate } from '../../../../core/validators';
-import { dataURItoBlob, detectFormChange, fixNestedDialogFocus, replaceDialogHideMethod, secondsToTimeString, timeStringToSeconds } from '../../../../core/utils';
+import { dataURItoBlob, detectFormChange, fixNestedDialogFocus, replaceDialogHideMethod, timeStringToSeconds } from '../../../../core/utils';
 import {
   IMAGE_PREVIEW_MIMES, IMAGE_PREVIEW_SIZE, UPLOAD_BACKDROP_ASPECT_HEIGHT, UPLOAD_BACKDROP_ASPECT_WIDTH, UPLOAD_BACKDROP_MIN_HEIGHT,
   UPLOAD_BACKDROP_MIN_WIDTH, UPLOAD_BACKDROP_SIZE, UPLOAD_POSTER_ASPECT_HEIGHT, UPLOAD_POSTER_ASPECT_WIDTH, UPLOAD_POSTER_MIN_HEIGHT,
@@ -108,8 +109,8 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
   constructor(@Inject(DOCUMENT) private document: Document, private ref: ChangeDetectorRef,
     private dialogRef: DynamicDialogRef, private dialogService: DialogService, private config: DynamicDialogConfig<{ type: string }>,
     private renderer: Renderer2, private translocoService: TranslocoService,
-    private mediaService: MediaService, private genresService: GenresService, private productionsService: ProductionsService,
-    private tagsService: TagsService, private queueUploadService: QueueUploadService, private itemDataService: ItemDataService,
+    private mediaService: MediaService, private mediaFormHelper: MediaFormHelperService,
+    private queueUploadService: QueueUploadService, private itemDataService: ItemDataService,
     private destroyService: DestroyService) {
     const mediaType = this.config.data!.type || MediaType.MOVIE;
     // Create media form
@@ -170,10 +171,11 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.days = this.itemDataService.createDateList();
-    this.months = this.itemDataService.createMonthList();
-    this.years = this.itemDataService.createYearList();
-    this.itemDataService.createLanguageList().subscribe(languages => {
+    const { days, months, years } = this.mediaFormHelper.buildDateLists(this.itemDataService);
+    this.days = days;
+    this.months = months;
+    this.years = years;
+    this.mediaFormHelper.createLanguageList(this.itemDataService).subscribe(languages => {
       this.languages = languages
     });
   }
@@ -185,19 +187,19 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
   }
 
   loadGenreSuggestions(search?: string): void {
-    this.genresService.findGenreSuggestions(search).subscribe({
+    this.mediaFormHelper.findGenreSuggestions(search).subscribe({
       next: genres => this.genreSuggestions = genres
     }).add(() => this.ref.markForCheck());
   }
 
   loadProductionSuggestions(search?: string): void {
-    this.productionsService.findProductionSuggestions(search).subscribe({
+    this.mediaFormHelper.findProductionSuggestions(search).subscribe({
       next: productions => this.productionSuggestions = productions
     }).add(() => this.ref.markForCheck());
   }
 
   loadTagSuggestions(search?: string): void {
-    this.tagsService.findTagSuggestions(search).subscribe({
+    this.mediaFormHelper.findTagSuggestions(search).subscribe({
       next: tags => this.tagSuggestions = tags
     }).add(() => this.ref.markForCheck());
   }
@@ -259,35 +261,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
   }
 
   patchUpdateMediaForm(media: MediaDetails): void {
-    const runtimeValue = secondsToTimeString(media.runtime);
-    this.updateMediaForm.patchValue({
-      title: media.title,
-      originalTitle: media.originalTitle || '',
-      overview: media.overview,
-      originalLanguage: media.originalLang || null,
-      genres: media.genres,
-      studios: media.studios,
-      producers: media.producers,
-      tags: media.tags,
-      runtime: runtimeValue,
-      adult: media.adult,
-      releaseDate: {
-        day: media.releaseDate.day,
-        month: media.releaseDate.month,
-        year: media.releaseDate.year
-      },
-      visibility: media.visibility,
-      status: media.status
-    });
-    if (media.type === MediaType.TV) {
-      this.updateMediaForm.patchValue({
-        lastAirDate: {
-          day: media.tv.lastAirDate?.day,
-          month: media.tv.lastAirDate?.month,
-          year: media.tv.lastAirDate?.year
-        }
-      });
-    }
+    this.mediaFormHelper.patchUpdateMediaForm(this.updateMediaForm, media);
     this.updateMediaInitValue = cloneDeep(this.updateMediaForm.value);
     this.detectUpdateMediaFormChange();
   }
@@ -309,35 +283,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
     this.updateMediaForm.disable({ emitEvent: false });
     const mediaId = this.media._id;
     const formValue = this.updateMediaForm.getRawValue();
-    const genreIds = formValue.genres?.map(g => g._id) || [];
-    const studioIds = formValue.studios?.map(p => p._id) || [];
-    const producerIds = formValue.producers?.map(p => p._id) || [];
-    const runtimeValue = timeStringToSeconds(formValue.runtime)!;
-    const updateMediaDto: UpdateMediaDto = {
-      title: formValue.title,
-      originalTitle: formValue.originalTitle || null,
-      overview: formValue.overview,
-      genres: genreIds,
-      originalLang: formValue.originalLanguage,
-      studios: studioIds,
-      producers: producerIds,
-      runtime: runtimeValue,
-      adult: formValue.adult,
-      releaseDate: {
-        day: formValue.releaseDate.day!,
-        month: formValue.releaseDate.month!,
-        year: formValue.releaseDate.year!
-      },
-      visibility: formValue.visibility,
-      status: formValue.status
-    };
-    if (this.media.type === MediaType.TV && formValue.lastAirDate) {
-      updateMediaDto.lastAirDate = {
-        day: formValue.lastAirDate.day!,
-        month: formValue.lastAirDate.month!,
-        year: formValue.lastAirDate.year!
-      }
-    }
+    const updateMediaDto = this.mediaFormHelper.toUpdateMediaDto(formValue, this.media);
     this.mediaService.update(mediaId, updateMediaDto).pipe(takeUntil(this.destroyService)).subscribe(media => {
       this.media = media;
       this.updateMediaInitValue = cloneDeep(this.updateMediaForm.value);
