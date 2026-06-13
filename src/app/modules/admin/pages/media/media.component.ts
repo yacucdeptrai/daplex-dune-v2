@@ -15,14 +15,14 @@ import { DataMenuItem } from '../../../../core/interfaces/primeng';
 import { MediaChange } from '../../../../core/interfaces/ws';
 import { CreateMediaComponent } from '../../dialogs/create-media';
 import { ConfigureMediaComponent } from '../../dialogs/configure-media';
-import { MediaPStatus, MediaSourceStatus, MediaType, SocketMessage, SocketRoom, ToastKey } from '../../../../core/enums';
+import { MediaPStatus, MediaSourceStatus, MediaType, SocketMessage, SocketRoom } from '../../../../core/enums';
 import { AddVideoComponent } from '../../dialogs/add-video';
 import { AddSubtitleComponent } from '../../dialogs/add-subtitle';
 import { AddSourceComponent } from '../../dialogs/add-source';
 import { buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { MessageService, SharedModule } from 'primeng/api';
+import { SharedModule } from 'primeng/api';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -53,8 +53,7 @@ export class MediaComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute, private router: Router, public dialogService: DialogService,
     private confirmAction: ConfirmActionService, private mediaService: MediaService,
     private queueUploadService: QueueUploadService, private wsService: WsService,
-    private translocoService: TranslocoService, private messageService: MessageService,
-    private destroyService: DestroyService) { }
+    private translocoService: TranslocoService, private destroyService: DestroyService) { }
 
   ngOnInit(): void {
     this.initSocket();
@@ -201,15 +200,7 @@ export class MediaComponent implements OnInit, OnDestroy {
 
   removeMedia(id: string): void {
     this.loadingMediaList = true;
-    this.mediaService.remove(id).subscribe({
-      error: () => this.messageService.add({
-        key: ToastKey.APP,
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Failed to delete media',
-        life: 10000
-      })
-    }).add(() => {
+    this.mediaService.remove(id).subscribe().add(() => {
       this.loadMedia();
     });
   }
