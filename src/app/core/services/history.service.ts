@@ -66,7 +66,9 @@ export class HistoryService {
   updateToServer() {
     const historyList = this.getLocalHistory();
     for (let i = 0; i < historyList.length; i++) {
-      this.updateWatchTime(historyList[i]).pipe(retry({ count: 2, delay: 3000 })).subscribe();
+      this.updateWatchTime(historyList[i]).pipe(retry({ count: 2, delay: 3000 })).subscribe({
+        error: err => console.error('Failed to sync watch time to server', err)
+      });
       historyList.splice(i, 1);
     }
     localStorage.setItem(StorageKey.LOCAL_HISTORY_STORE, JSON.stringify(historyList));
