@@ -45,7 +45,6 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    //this.renderer.addClass(this.document.body, 'tw-overflow-hidden');
     this.route.params.pipe(takeUntil(this.destroyService)).subscribe(params => {
       const id = params['id'];
       if (!id) return;

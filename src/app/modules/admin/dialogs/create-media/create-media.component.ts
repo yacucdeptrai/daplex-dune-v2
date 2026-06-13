@@ -359,39 +359,6 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
     return dialogRef.onClose.pipe(first());
   }
 
-  /*
-  onUpdateImagesFormSubmit(): void {
-    if (this.updateImagesForm.invalid || !this.media) return;
-    this.isUpdatingImages = true;
-    const formValue = this.updateImagesForm.getRawValue();
-    const uploadArray = [];
-    if (formValue.posterName) {
-      const posterBlob = dataURItoBlob(formValue.posterUri!);
-      uploadArray.push(this.mediaService.uploadPoster(this.media._id, posterBlob, formValue.posterName).pipe(tap(paritalMedia => {
-        if (!this.media) return;
-        this.media = { ...this.media, ...paritalMedia }
-      })));
-    }
-    if (formValue.backdropName) {
-      const backdropBlob = dataURItoBlob(formValue.backdropUri!);
-      uploadArray.push(this.mediaService.uploadBackdrop(this.media._id, backdropBlob, formValue.backdropName).pipe(tap(paritalMedia => {
-        if (!this.media) return;
-        this.media = { ...this.media, ...paritalMedia }
-      })));
-    }
-    if (!uploadArray.length) {
-      this.isUpdatingImages = false;
-      return this.stepper?.next();
-    }
-    forkJoin(uploadArray).subscribe().add(() => {
-      this.updateImagesForm.reset();
-      this.isUpdatingImages = false;
-      this.stepper?.next();
-      this.ref.markForCheck();
-    });
-  }
-  */
-
   showAddVideoDialog(): void {
     if (!this.media) return;
     const dialogRef = this.dialogService.open(AddVideoComponent, {
