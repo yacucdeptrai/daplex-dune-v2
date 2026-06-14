@@ -49,7 +49,7 @@ export class ConfigureMediaSubtitlesComponent {
       styleClass: 'p-dialog-header-sm',
       contentStyle: { 'margin-top': '-1.5rem' }
     });
-    dialogRef.onClose.pipe(first()).subscribe((subtitles: MediaSubtitle[]) => {
+    dialogRef?.onClose.pipe(first()).subscribe((subtitles: MediaSubtitle[]) => {
       if (!subtitles) return;
       this.mediaChange.emit({ ...media, movie: { ...media.movie, subtitles } });
     });

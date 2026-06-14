@@ -33,12 +33,12 @@ import { FormHandlerDirective } from '../../../../shared/directives/form-directi
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { InputTextModule } from 'primeng/inputtext';
 import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TextareaModule } from 'primeng/textarea';
 import { InputMaskModule } from 'primeng/inputmask';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ButtonModule } from 'primeng/button';
-import { AltAutoComplete } from '../../../../core/utils/primeng/autocomplete';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { SharedModule } from 'primeng/api';
 import { ChipModule } from 'primeng/chip';
 import { FileUploadComponent as FileUploadComponent_1 } from '../../../../shared/components/file-upload/file-upload.component';
@@ -77,7 +77,7 @@ interface UpdateMediaForm extends Omit<CreateMediaForm, 'type'> { }
             useValue: 'common'
         }
     ],
-    imports: [TranslocoDirective, StepperComponent_1, CdkStep, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, NgTemplateOutlet, RadioButtonModule, ButtonModule, AltAutoComplete, SharedModule, ChipModule, FileUploadComponent_1, CdkStepperPrevious, CdkStepperNext, FirstErrorKeyPipe]
+    imports: [TranslocoDirective, StepperComponent_1, CdkStep, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, TextareaModule, InputMaskModule, SelectModule, NgTemplateOutlet, RadioButtonModule, ButtonModule, AutoCompleteModule, SharedModule, ChipModule, FileUploadComponent_1, CdkStepperPrevious, CdkStepperNext, FirstErrorKeyPipe]
 })
 export class CreateMediaComponent implements OnInit, AfterViewInit {
   @ViewChild('stepper') stepper?: StepperComponent;
@@ -356,6 +356,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
       styleClass: 'p-dialog-header-sm'
     });
     fixNestedDialogFocus(dialogRef, this.dialogRef, this.dialogService, this.renderer, this.document);
+    if (!dialogRef) return EMPTY;
     return dialogRef.onClose.pipe(first());
   }
 
@@ -369,7 +370,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
       styleClass: 'p-dialog-header-sm',
       contentStyle: { 'margin-top': '-1.5rem' }
     });
-    dialogRef.onClose.pipe(first()).subscribe((videos: MediaVideo[]) => {
+    dialogRef?.onClose.pipe(first()).subscribe((videos: MediaVideo[]) => {
       if (!videos || !this.media) return;
       this.media.videos = videos;
       this.videoCount++;
@@ -391,7 +392,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
       styleClass: 'p-dialog-header-sm',
       contentStyle: { 'margin-top': '-1.5rem' }
     });
-    dialogRef.onClose.pipe(first()).subscribe((subtitles: MediaSubtitle[]) => {
+    dialogRef?.onClose.pipe(first()).subscribe((subtitles: MediaSubtitle[]) => {
       if (!subtitles || !this.media) return;
       this.media.movie.subtitles = subtitles;
       this.subtitleCount++;
@@ -411,7 +412,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
       styleClass: 'p-dialog-header-sm',
       contentStyle: { 'margin-top': '-1.5rem', 'overflow-y': 'hidden', 'padding': '0px' }
     });
-    dialogRef.onClose.pipe(first()).subscribe((episode) => {
+    dialogRef?.onClose.pipe(first()).subscribe((episode) => {
       if (!episode || !this.media) return;
       this.media.tv.episodes.push(episode);
       this.episodeCount++;

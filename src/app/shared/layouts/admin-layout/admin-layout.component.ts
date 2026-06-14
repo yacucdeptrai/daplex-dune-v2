@@ -7,9 +7,9 @@ import { CanComponentDeactivate } from '../../../core/guards';
 import { DestroyService, QueueUploadService } from '../../../core/services';
 import { QueueUploadStatus } from '../../../core/enums';
 import { FileUpload, trackId } from '../../../core/utils';
-import { TabMenuModule } from 'primeng/tabmenu';
+import { TabsModule } from 'primeng/tabs';
 import { MenuModule } from 'primeng/menu';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
 import { AsyncPipe } from '@angular/common';
@@ -22,7 +22,7 @@ import { TimePipe } from '../../pipes/date-time-pipe/time/time.pipe';
     styleUrls: ['./admin-layout.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [TabMenuModule, MenuModule, RouterOutlet, TranslocoDirective, PanelModule, SharedModule, ButtonModule, CircularProgressComponent, AsyncPipe, TimePipe]
+    imports: [TabsModule, MenuModule, RouterLink, RouterLinkActive, RouterOutlet, TranslocoDirective, PanelModule, SharedModule, ButtonModule, CircularProgressComponent, AsyncPipe, TimePipe]
 })
 export class AdminLayoutComponent implements OnInit, OnDestroy, CanComponentDeactivate {
   trackId = trackId;

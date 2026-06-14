@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, input, output, effect } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoService, TranslocoTranslateFn } from '@jsverse/transloco';
+import { TranslocoTranslateFn } from '@jsverse/transloco';
 import { SharedModule } from 'primeng/api';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
@@ -17,13 +17,13 @@ import { FormHandlerDirective } from '../../../../../../shared/directives/form-d
 import { DisabledControlDirective } from '../../../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { InputTextModule } from 'primeng/inputtext';
 import { InvalidControlDirective } from '../../../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TextareaModule } from 'primeng/textarea';
 import { InputMaskModule } from 'primeng/inputmask';
-import { DropdownModule } from 'primeng/dropdown';
-import { AltAutoComplete } from '../../../../../../core/utils/primeng/autocomplete';
+import { SelectModule } from 'primeng/select';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ChipModule } from 'primeng/chip';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { InputSwitchModule } from 'primeng/inputswitch';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { FirstErrorKeyPipe } from '../../../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 
 // General/edit-form tab extracted from ConfigureMediaComponent. Owns all form state + logic and renders
@@ -40,7 +40,7 @@ import { FirstErrorKeyPipe } from '../../../../../../shared/pipes/validation-pip
   templateUrl: './configure-media-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
-  imports: [FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, InputSwitchModule, ButtonModule, FirstErrorKeyPipe]
+  imports: [FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, TextareaModule, InputMaskModule, SelectModule, AutoCompleteModule, SharedModule, ChipModule, RadioButtonModule, ToggleSwitchModule, ButtonModule, FirstErrorKeyPipe]
 })
 export class ConfigureMediaFormComponent implements OnInit {
   MediaType = MediaType;
@@ -137,8 +137,10 @@ export class ConfigureMediaFormComponent implements OnInit {
   detectUpdateMediaFormChange(): void {
     detectFormChange(this.updateMediaForm, this.updateMediaInitValue, () => {
       this.updateMediaFormChanged = false;
+      this.ref.markForCheck();
     }, () => {
       this.updateMediaFormChanged = true;
+      this.ref.markForCheck();
     }).pipe(takeUntil(this.destroyService)).subscribe();
   }
 }

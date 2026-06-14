@@ -1,18 +1,16 @@
 import { Renderer2 } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 import { DialogService, DynamicDialogComponent, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { InputNumber } from 'primeng/inputnumber';
 import { Table } from 'primeng/table';
-import { TabMenu } from 'primeng/tabmenu';
 import { ZIndexUtils } from 'primeng/utils';
 import { first } from 'rxjs';
 
-export function fixNestedDialogFocus(dialogRef: DynamicDialogRef, parent: DynamicDialogRef, dialogService: DialogService, renderer: Renderer2, document: Document) {
+export function fixNestedDialogFocus(dialogRef: DynamicDialogRef | null, parent: DynamicDialogRef, dialogService: DialogService, renderer: Renderer2, document: Document) {
+  if (!dialogRef) return;
   const dialogComponent = dialogService.dialogComponentRefMap.get(parent)?.instance;
   if (dialogComponent) dialogComponent.unbindGlobalListeners();
   if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
   dialogRef.onDestroy.pipe(first()).subscribe(() => {
-    if (!dialogComponent?.container) return;
+    if (!dialogComponent?.dialog?.container()) return;
     blockScroll(renderer, document);
     dialogComponent.moveOnTop();
     dialogComponent.bindGlobalListeners();
@@ -92,32 +90,4 @@ export function buildTablePaginationParams(
     }
   }
   return params;
-}
-
-export function applyPrimeNGPatches() {
-  TabMenu.prototype.isActive = function (item: MenuItem): boolean {
-    if (item.routerLink) {
-      const routerLink = Array.isArray(item.routerLink) ? item.routerLink : [item.routerLink];
-      const router = (this as any).router;
-      return router.isActive(router.createUrlTree(routerLink, { relativeTo: (this as any).route }).toString(),
-        item.routerLinkActiveOptions?.exact ?? item.routerLinkActiveOptions ?? false);
-    }
-    return item === this.activeItem;
-  };
-  InputNumber.prototype.validateValue = function (value: any) {
-    if (value === '-' || value == null) {
-      return null;
-    }
-    if (this.min != null && value < this.min) {
-      if (this.max)
-        return this.max;
-      return this.min;
-    }
-    if (this.max != null && value > this.max) {
-      if (this.min)
-        return this.min;
-      return this.max;
-    }
-    return value;
-  }
 }

@@ -1,4 +1,12 @@
-<p-tabMenu [model]="tabMenuItems" [scrollable]="true" class="md:tw-hidden"></p-tabMenu>
+<p-tabs [value]="0" [scrollable]="true" class="md:tw-hidden">
+  <p-tablist>
+    @for (item of tabMenuItems; track item.label; let i = $index) {
+      <p-tab [value]="i">
+        <a [routerLink]="item.routerLink" routerLinkActive [routerLinkActiveOptions]="item.routerLinkActiveOptions || { exact: false }">{{ item.label }}</a>
+      </p-tab>
+    }
+  </p-tablist>
+</p-tabs>
 <div class="tw-max-w-8xl tw-mx-auto">
   <div class="tw-flex tw-my-4">
     <div class="tw-w-60 tw-rounded-md tw-min-h-screen tw-hidden md:tw-block">

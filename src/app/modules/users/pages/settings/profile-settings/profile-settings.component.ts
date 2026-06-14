@@ -3,7 +3,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
-import { debounceTime, finalize, first, forkJoin, map, of, takeUntil } from 'rxjs';
+import { debounceTime, EMPTY, finalize, first, forkJoin, map, of, takeUntil } from 'rxjs';
 
 import { AppErrorCode } from '../../../../../core/enums';
 import { UserDetails } from '../../../../../core/models';
@@ -26,7 +26,7 @@ import { FormHandlerDirective } from '../../../../../shared/directives/form-dire
 import { DisabledControlDirective } from '../../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { InputTextModule } from 'primeng/inputtext';
 import { InvalidControlDirective } from '../../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TextareaModule } from 'primeng/textarea';
 import { RgbColorPipe } from '../../../../../shared/pipes/number-pipe/rgb-color/rgb-color.pipe';
 import { FirstErrorKeyPipe } from '../../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 import { MarkedPipe } from '../../../../../shared/pipes/markdown-pipe/marked/marked.pipe';
@@ -62,7 +62,7 @@ interface UpdateProfileForm {
             ])
         ])
     ],
-    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, ContextMenuTriggerDirective, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, AvatarComponent, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, RgbColorPipe, FirstErrorKeyPipe, MarkedPipe, SubstringPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, ContextMenuTriggerDirective, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, AvatarComponent, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, TextareaModule, RgbColorPipe, FirstErrorKeyPipe, MarkedPipe, SubstringPipe, ThumbhashUrlPipe]
 })
 export class ProfileSettingsComponent implements OnInit, OnDestroy {
   currentUser: UserDetails | null = null;
@@ -182,6 +182,7 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
       dismissableMask: false,
       styleClass: 'p-dialog-header-sm'
     });
+    if (!dialogRef) return EMPTY;
     return dialogRef.onClose.pipe(first());
   }
 

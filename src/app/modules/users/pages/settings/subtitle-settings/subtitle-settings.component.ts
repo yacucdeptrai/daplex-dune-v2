@@ -14,7 +14,7 @@ import { detectFormChange, getFontFamily, getTextEdgeStyle, prepareColor, scaleF
 import { FormHandlerDirective } from '../../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { SliderAltModule } from 'primeng/slideralt';
 import { DisabledControlDirective } from '../../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { ColorPickerComponent } from '../../../../../shared/components/color-picker/color-picker.component';
 import { ButtonModule } from 'primeng/button';
 
@@ -49,7 +49,7 @@ interface UpdateSubtitleForm {
             ])
         ])
     ],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, SliderAltModule, DisabledControlDirective, DropdownModule, ColorPickerComponent, NgStyle, ButtonModule]
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, SliderAltModule, DisabledControlDirective, SelectModule, ColorPickerComponent, NgStyle, ButtonModule]
 })
 export class SubtitleSettingsComponent implements OnInit {
   currentUser: UserDetails | null = null;

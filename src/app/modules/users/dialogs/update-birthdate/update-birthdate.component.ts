@@ -10,7 +10,7 @@ import { DestroyService, ItemDataService, UsersService } from '../../../../core/
 import { shortDate } from '../../../../core/validators';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
 import { ButtonModule } from 'primeng/button';
@@ -26,7 +26,7 @@ interface UpdateBirthdateForm {
     styleUrls: ['./update-birthdate.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ItemDataService, DestroyService],
-    imports: [DynamicDialogModule, TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DropdownModule, DisabledControlDirective, InvalidControlDirective, ButtonModule, FirstErrorKeyPipe]
+    imports: [DynamicDialogModule, TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, SelectModule, DisabledControlDirective, InvalidControlDirective, ButtonModule, FirstErrorKeyPipe]
 })
 export class UpdateBirthdateComponent {
   updateBirthdateForm: FormGroup<UpdateBirthdateForm>;

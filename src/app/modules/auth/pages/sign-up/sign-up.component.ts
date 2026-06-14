@@ -18,7 +18,7 @@ import { AutofocusDirective } from '../../../../shared/directives/form-directive
 import { InputTextModule } from 'primeng/inputtext';
 import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
 import { ButtonModule } from 'primeng/button';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 import { TimePipe } from '../../../../shared/pipes/date-time-pipe/time/time.pipe';
 
@@ -35,7 +35,7 @@ interface SignUpForm {
     styleUrls: ['./sign-up.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ItemDataService, DestroyService],
-    imports: [TranslocoDirective, ProgressBarModule, NgClass, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, AutofocusDirective, InputTextModule, InvalidControlDirective, ButtonModule, DropdownModule, RouterLink, FirstErrorKeyPipe, TimePipe]
+    imports: [TranslocoDirective, ProgressBarModule, NgClass, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, AutofocusDirective, InputTextModule, InvalidControlDirective, ButtonModule, SelectModule, RouterLink, FirstErrorKeyPipe, TimePipe]
 })
 export class SignUpComponent implements OnInit {
   signUpForm: FormGroup<SignUpForm>;

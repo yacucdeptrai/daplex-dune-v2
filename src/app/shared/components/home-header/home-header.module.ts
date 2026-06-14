@@ -7,7 +7,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ButtonModule } from 'primeng/button';
-import { SidebarModule } from 'primeng/sidebar';
+import { DrawerModule } from 'primeng/drawer';
 
 import { HomeHeaderComponent } from './home-header.component';
 
@@ -32,7 +32,7 @@ import { PermissionPipeModule } from '../../pipes/permission-pipe';
     AutoCompleteModule,
     DynamicDialogModule,
     ButtonModule,
-    SidebarModule,
+    DrawerModule,
     HomeHeaderComponent
 ],
     providers: [DialogService],

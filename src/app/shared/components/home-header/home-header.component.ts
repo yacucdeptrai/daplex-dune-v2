@@ -18,7 +18,7 @@ import { MenuDirective } from '../../directives/cdk-menu-custom/menu/menu.direct
 import { MenuItemDirective } from '../../directives/cdk-menu-custom/menu-item/menu-item.directive';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { SkeletonComponent } from '../skeleton/skeleton.component';
-import { SidebarModule } from 'primeng/sidebar';
+import { DrawerModule } from 'primeng/drawer';
 import { SharedModule } from 'primeng/api';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { AvatarComponent } from '../avatar/avatar.component';
@@ -32,7 +32,7 @@ import { ThumbhashUrlPipe } from '../../pipes/placeholder-pipe/thumbhash-url/thu
     styleUrls: ['./home-header.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [TranslocoDirective, NgClass, ButtonModule, MenuTriggerDirective, RouterLink, RouterLinkActive, NgTemplateOutlet, MenuDirective, MenuItemDirective, InfiniteScrollDirective, SkeletonComponent, SidebarModule, SharedModule, LazyLoadImageModule, AvatarComponent, IsGrantedPipe, SubstringPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, NgClass, ButtonModule, MenuTriggerDirective, RouterLink, RouterLinkActive, NgTemplateOutlet, MenuDirective, MenuItemDirective, InfiniteScrollDirective, SkeletonComponent, DrawerModule, SharedModule, LazyLoadImageModule, AvatarComponent, IsGrantedPipe, SubstringPipe, ThumbhashUrlPipe]
 })
 export class HomeHeaderComponent implements OnInit {
   @ViewChild('mediaSearch') mediaSearch?: AutoComplete;

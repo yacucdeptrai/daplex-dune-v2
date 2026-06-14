@@ -33,8 +33,8 @@ import { AutofocusDirective } from '../../../../shared/directives/form-directive
 import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { DropdownModule } from 'primeng/dropdown';
+import { TextareaModule } from 'primeng/textarea';
+import { SelectModule } from 'primeng/select';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ButtonModule } from 'primeng/button';
 import { FileUploadComponent as FileUploadComponent_1 } from '../../../../shared/components/file-upload/file-upload.component';
@@ -64,7 +64,7 @@ interface UpdateEpisodeForm extends CreateEpisodeForm { }
             useValue: 'common'
         }
     ],
-    imports: [TranslocoDirective, StepperComponent_1, CdkStep, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, AutofocusDirective, InvalidControlDirective, InputMaskModule, InputTextModule, InputTextareaModule, DropdownModule, RadioButtonModule, ButtonModule, FileUploadComponent_1, CdkStepperPrevious, CdkStepperNext, FirstErrorKeyPipe]
+    imports: [TranslocoDirective, StepperComponent_1, CdkStep, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, AutofocusDirective, InvalidControlDirective, InputMaskModule, InputTextModule, TextareaModule, SelectModule, RadioButtonModule, ButtonModule, FileUploadComponent_1, CdkStepperPrevious, CdkStepperNext, FirstErrorKeyPipe]
 })
 export class CreateEpisodeComponent implements OnInit {
   @ViewChild('stepper') stepper?: StepperComponent;
@@ -289,6 +289,7 @@ export class CreateEpisodeComponent implements OnInit {
       styleClass: 'p-dialog-header-sm'
     });
     fixNestedDialogFocus(dialogRef, this.dialogRef, this.dialogService, this.renderer, this.document);
+    if (!dialogRef) return EMPTY;
     return dialogRef.onClose.pipe(first());
   }
 
@@ -306,7 +307,7 @@ export class CreateEpisodeComponent implements OnInit {
       styleClass: 'p-dialog-header-sm',
       contentStyle: { 'margin-top': '-1.5rem' }
     });
-    dialogRef.onClose.pipe(first()).subscribe((subtitles: MediaSubtitle[]) => {
+    dialogRef?.onClose.pipe(first()).subscribe((subtitles: MediaSubtitle[]) => {
       if (!subtitles || !this.episode) return;
       this.episode.subtitles = subtitles;
       this.subtitleCount++;

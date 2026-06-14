@@ -115,7 +115,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
       contentStyle: { 'margin-top': '-1.5rem' },
       dismissableMask: true
     });
-    dialogRef.onClose.pipe(first()).subscribe((result: PlaylistDetails) => {
+    dialogRef?.onClose.pipe(first()).subscribe((result: PlaylistDetails) => {
       if (!result || !this.playlistList) return;
       this.playlistList.results.unshift({
         _id: result._id,
@@ -156,7 +156,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
       minimal: true,
       viewContainerRef: this.viewContainerRef
     });
-    dialogRef.onClose.pipe(first()).subscribe((updatedPlaylist?: PlaylistDetails) => {
+    dialogRef?.onClose.pipe(first()).subscribe((updatedPlaylist?: PlaylistDetails) => {
       if (!updatedPlaylist) return;
       Object.assign(playlist, {
         _id: updatedPlaylist._id,

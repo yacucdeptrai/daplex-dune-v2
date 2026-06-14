@@ -11,12 +11,12 @@ import { ToastModule } from 'primeng/toast';
 
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
+    templateUrl: './app.html',
+    styleUrls: ['./app.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [RouterOutlet, RouterLoaderComponent, ToastModule]
 })
-export class AppComponent implements OnInit {
+export class App implements OnInit {
   constructor(private router: Router, private title: Title, private viewportScroller: ViewportScroller,
     private translocoService: TranslocoService) { }
 

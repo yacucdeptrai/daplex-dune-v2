@@ -68,7 +68,7 @@ export class ConfigureMediaVideosComponent {
       styleClass: 'p-dialog-header-sm',
       contentStyle: { 'margin-top': '-1.5rem' }
     });
-    dialogRef.onClose.pipe(first()).subscribe((videos: MediaVideo[]) => {
+    dialogRef?.onClose.pipe(first()).subscribe((videos: MediaVideo[]) => {
       if (!videos) return;
       this.mediaChange.emit({ ...media, videos: [...videos] });
     });
@@ -85,7 +85,7 @@ export class ConfigureMediaVideosComponent {
       styleClass: 'p-dialog-header-sm',
       contentStyle: { 'margin-top': '-1.5rem' }
     });
-    dialogRef.onClose.pipe(first()).subscribe((videos: MediaVideo[]) => {
+    dialogRef?.onClose.pipe(first()).subscribe((videos: MediaVideo[]) => {
       if (!videos) return;
       this.mediaChange.emit({ ...media, videos });
     });

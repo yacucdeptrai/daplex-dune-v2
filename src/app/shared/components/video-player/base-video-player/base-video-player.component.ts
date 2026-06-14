@@ -36,7 +36,7 @@ import { SubtitleIconComponent } from '../icons/subtitle-icon/subtitle-icon.comp
 import { SlideMenuTriggerDirective } from '../../slide-menu/slide-menu-trigger/slide-menu-trigger';
 import { SettingsIconComponent } from '../icons/settings-icon/settings-icon.component';
 import { SlideMenuOverlay } from '../../slide-menu/slide-menu-overlay/slide-menu-overlay';
-import { InputSwitchModule } from 'primeng/inputswitch';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { SlideMenuItemCheckbox } from '../../slide-menu/slide-menu-item-checkbox/slide-menu-item-checkbox';
 import { FormsModule } from '@angular/forms';
 import { SlideMenuItem } from '../../slide-menu/slide-menu-item/slide-menu-item';
@@ -56,7 +56,7 @@ import { QualityLabelPipe } from '../pipes/quality-label.pipe';
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
     encapsulation: ViewEncapsulation.None,
-    imports: [NgStyle, ProgressSpinnerModule, NgTemplateOutlet, FocusTargetDirective, PlayCircleIconComponent, NgClass, MuteIconComponent, FillIconComponent, FitWindowIconComponent, FullscreenIconComponent, SkipNextIconComponent, SkipPreviousIconComponent, PlayIconComponent, SubtitleIconComponent, SlideMenuTriggerDirective, SettingsIconComponent, SlideMenuOverlay, InputSwitchModule, SlideMenuItemCheckbox, FormsModule, SlideMenuItem, SlideMenuItemRadio, SlideMenuItemButton, TooltipModule, SelectButtonModule, SkeletonComponent, SplitPipe, ThumbhashUrlPipe, QualityLabelPipe],
+    imports: [NgStyle, ProgressSpinnerModule, NgTemplateOutlet, FocusTargetDirective, PlayCircleIconComponent, NgClass, MuteIconComponent, FillIconComponent, FitWindowIconComponent, FullscreenIconComponent, SkipNextIconComponent, SkipPreviousIconComponent, PlayIconComponent, SubtitleIconComponent, SlideMenuTriggerDirective, SettingsIconComponent, SlideMenuOverlay, ToggleSwitchModule, SlideMenuItemCheckbox, FormsModule, SlideMenuItem, SlideMenuItemRadio, SlideMenuItemButton, TooltipModule, SelectButtonModule, SkeletonComponent, SplitPipe, ThumbhashUrlPipe, QualityLabelPipe],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class BaseVideoPlayerComponent implements OnInit, OnDestroy {

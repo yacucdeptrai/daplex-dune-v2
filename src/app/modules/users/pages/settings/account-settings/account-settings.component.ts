@@ -46,7 +46,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
       minimal: true,
       providers: [{ provide: UsersService, useValue: this.usersService }]
     });
-    dialogRef.onClose.pipe(first()).subscribe((username: string) => {
+    dialogRef?.onClose.pipe(first()).subscribe((username: string) => {
       if (!username || !this.currentUser) return;
       const updatedUser = { ...this.currentUser, username };
       this.authService.currentUser = updatedUser;
@@ -65,7 +65,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
       minimal: true,
       providers: [{ provide: UsersService, useValue: this.usersService }]
     });
-    dialogRef.onClose.pipe(first()).subscribe((email: string) => {
+    dialogRef?.onClose.pipe(first()).subscribe((email: string) => {
       if (!email || !this.currentUser) return;
       const updatedUser = { ...this.currentUser, email };
       this.authService.currentUser = updatedUser;
@@ -84,7 +84,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
       minimal: true,
       providers: [{ provide: UsersService, useValue: this.usersService }]
     });
-    dialogRef.onClose.pipe(first()).subscribe((birthdate: ShortDate) => {
+    dialogRef?.onClose.pipe(first()).subscribe((birthdate: ShortDate) => {
       if (!birthdate || !this.currentUser) return;
       const updatedUser = { ...this.currentUser, birthdate };
       this.authService.currentUser = updatedUser;

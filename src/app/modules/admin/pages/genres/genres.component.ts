@@ -57,7 +57,7 @@ export class GenresComponent implements OnInit, OnDestroy {
       contentStyle: { 'margin-top': '-1.5rem' },
       dismissableMask: true
     });
-    dialogRef.onClose.pipe(first()).subscribe((result: boolean) => {
+    dialogRef?.onClose.pipe(first()).subscribe((result: boolean) => {
       if (!result) return;
       this.loadGenres();
     });
@@ -72,7 +72,7 @@ export class GenresComponent implements OnInit, OnDestroy {
       contentStyle: { 'margin-top': '-1.5rem' },
       dismissableMask: true
     });
-    dialogRef.onClose.pipe(first()).subscribe((result: boolean) => {
+    dialogRef?.onClose.pipe(first()).subscribe((result: boolean) => {
       if (!result) return;
       this.loadGenres();
     });

@@ -24,7 +24,7 @@ import { FormHandlerDirective } from '../../directives/form-directive/form-handl
 import { DisabledControlDirective } from '../../directives/form-directive/disabled-control/disabled-control.directive';
 import { InputTextModule } from 'primeng/inputtext';
 import { InvalidControlDirective } from '../../directives/form-directive/invalid-control/invalid-control.directive';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TextareaModule } from 'primeng/textarea';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FirstErrorKeyPipe } from '../../pipes/validation-pipe/first-error-key/first-error-key.pipe';
@@ -48,7 +48,7 @@ interface UpdatePlaylistForm {
             useValue: 'common'
         }
     ],
-    imports: [NgTemplateOutlet, DynamicDialogModule, TranslocoDirective, DragDropFileDirective, ButtonModule, LazyLoadImageModule, NgClass, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, RadioButtonModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
+    imports: [NgTemplateOutlet, DynamicDialogModule, TranslocoDirective, DragDropFileDirective, ButtonModule, LazyLoadImageModule, NgClass, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, TextareaModule, RadioButtonModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
 })
 export class PlaylistSettingsComponent implements OnInit {
   @ViewChild('updatePlaylistFormEl') updatePlaylistFormEl?: NgForm;
@@ -122,7 +122,7 @@ export class PlaylistSettingsComponent implements OnInit {
       dismissableMask: false,
       styleClass: 'p-dialog-header-sm'
     });
-    dialogRef.onClose.pipe(first()).subscribe((result: string[] | null) => {
+    dialogRef?.onClose.pipe(first()).subscribe((result: string[] | null) => {
       if (!result) return;
       const [previewUri, name] = result;
       this.thumbnailPreviewName = name;

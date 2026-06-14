@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy, ContentChildren, QueryList, AfterContentInit, Input, Renderer2, ViewChild, SimpleChanges, OnChanges, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ContentChildren, QueryList, AfterContentInit, Input, Renderer2, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { MenuItem } from 'primeng/api';
 import { Menu, MenuModule } from 'primeng/menu';
-import { TabMenu, TabMenuModule } from 'primeng/tabmenu';
+import { TabsModule } from 'primeng/tabs';
 
 import { PanelToastDirective } from './panel-toast.directive';
 import { TabPanelDirective } from './tab-panel.directive';
@@ -27,7 +27,7 @@ import { NgClass, NgTemplateOutlet } from '@angular/common';
             ])
         ])
     ],
-    imports: [TabMenuModule, MenuModule, NgClass, NgTemplateOutlet]
+    imports: [TabsModule, MenuModule, NgClass, NgTemplateOutlet]
 })
 export class VerticalTabComponent implements AfterViewInit, AfterContentInit {
   trackId = trackId;
@@ -44,30 +44,22 @@ export class VerticalTabComponent implements AfterViewInit, AfterContentInit {
   @ContentChildren(TabPanelDirective) tabs!: QueryList<TabPanelDirective>;
   @ContentChildren(PanelToastDirective) toasts!: QueryList<PanelToastDirective>;
   @ViewChild(Menu) menu?: Menu;
-  @ViewChild(TabMenu) tabMenu?: TabMenu;
 
   menuItems: MenuItem[] = [];
   tabMenuItems: MenuItem[] = [];
   selectedTabId?: number | string;
   selectedTabIndex?: number;
   selectedMenu?: HTMLAnchorElement;
-  selectedTabMenu?: HTMLAnchorElement;
 
   constructor(private renderer: Renderer2) { }
 
   ngAfterViewInit(): void {
     if (this.menu) {
-      const firstMenuItem = this.menu.el.nativeElement.querySelector('.p-menuitem-link');
-      this.renderer.addClass(firstMenuItem, 'p-menuitem-link-active');
-      firstMenuItem.focus();
-      this.selectedMenu = firstMenuItem;
-    }
-    if (this.tabMenu) {
-      const firstMenuItem = this.tabMenu.content?.nativeElement.querySelector('.p-menuitem-link');
+      const firstMenuItem = this.menu.el.nativeElement.querySelector('.p-menu-item-link');
       if (firstMenuItem) {
         this.renderer.addClass(firstMenuItem, 'p-menuitem-link-active');
         firstMenuItem.focus();
-        this.selectedTabMenu = firstMenuItem;
+        this.selectedMenu = firstMenuItem;
       }
     }
   }
@@ -106,6 +98,12 @@ export class VerticalTabComponent implements AfterViewInit, AfterContentInit {
       this.tabChange.emit({ previous: this.selectedTabId, current: id });
     this.selectedTabIndex = index;
     this.selectedTabId = id;
+  }
+
+  onMobileTabChange(value: string | number | undefined) {
+    const index = Number(value);
+    const tab = this.tabs.get(index);
+    this.selectTab(index, tab?.id);
   }
 
   activeMenuItem(event: any): HTMLAnchorElement {

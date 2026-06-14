@@ -125,7 +125,7 @@ export class MediaComponent implements OnInit, OnDestroy {
       contentStyle: { 'margin-top': '-1.5rem', 'overflow-y': 'hidden', 'padding': '0' },
       dismissableMask: false
     });
-    dialogRef.onClose.pipe(first()).subscribe((result: boolean) => {
+    dialogRef?.onClose.pipe(first()).subscribe((result: boolean) => {
       if (!result) return;
       this.loadMedia();
     });
@@ -143,7 +143,7 @@ export class MediaComponent implements OnInit, OnDestroy {
       maskStyleClass: 'tw-z-[100]',
       autoZIndex: false
     });
-    dialogRef.onClose.pipe(first()).subscribe((isUpdated: boolean) => {
+    dialogRef?.onClose.pipe(first()).subscribe((isUpdated: boolean) => {
       if (!isUpdated) return;
       this.loadMedia();
     });

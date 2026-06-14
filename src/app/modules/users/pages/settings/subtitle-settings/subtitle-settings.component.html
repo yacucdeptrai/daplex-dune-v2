@@ -12,14 +12,14 @@
       </div>
       <label class="tw-inline-block tw-text-base tw-font-medium tw-mt-4">{{
       t('users.subtitleSettings.fontFamily') }}</label>
-      <p-dropdown formControlName="fontFamily" [options]="fontFamilyList" [overlayOptions]="{ baseZIndex: 100 }"
+      <p-select formControlName="fontFamily" [options]="fontFamilyList" [overlayOptions]="{ baseZIndex: 100 }"
         scrollHeight="400px" [showClear]="true" [appendTo]="dropdownZone" styleClass="tw-w-full p-dropdown-sm tw-mt-2">
-      </p-dropdown>
+      </p-select>
       <label class="tw-inline-block tw-text-base tw-font-medium tw-mt-4">{{ t('users.subtitleSettings.fontWeight')
       }}</label>
-      <p-dropdown formControlName="fontWeight" [options]="fontWeightList" [overlayOptions]="{ baseZIndex: 100 }"
+      <p-select formControlName="fontWeight" [options]="fontWeightList" [overlayOptions]="{ baseZIndex: 100 }"
         scrollHeight="400px" [showClear]="true" [appendTo]="dropdownZone" styleClass="tw-w-full p-dropdown-sm tw-mt-2">
-      </p-dropdown>
+      </p-select>
       <label class="tw-inline-block tw-text-base tw-font-medium tw-mt-4">{{
       t('users.subtitleSettings.textColor') }}</label>
       <app-color-picker formControlName="textColor" styleClass="tw-mt-2"></app-color-picker>
@@ -32,9 +32,9 @@
       </div>
       <label class="tw-inline-block tw-text-base tw-font-medium tw-mt-4">{{ t('users.subtitleSettings.textEdge')
       }}</label>
-      <p-dropdown formControlName="textEdge" [options]="textEdgeStyleList" [overlayOptions]="{ baseZIndex: 100 }"
+      <p-select formControlName="textEdge" [options]="textEdgeStyleList" [overlayOptions]="{ baseZIndex: 100 }"
         scrollHeight="400px" [showClear]="true" [appendTo]="dropdownZone" styleClass="tw-w-full p-dropdown-sm tw-mt-2">
-      </p-dropdown>
+      </p-select>
       <label class="tw-inline-block tw-text-base tw-font-medium tw-mt-4">{{
       t('users.subtitleSettings.bgColor') }}</label>
       <app-color-picker formControlName="bgColor" styleClass="tw-mt-2"></app-color-picker>

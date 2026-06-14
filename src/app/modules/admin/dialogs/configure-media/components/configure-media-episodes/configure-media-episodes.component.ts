@@ -83,7 +83,7 @@ export class ConfigureMediaEpisodesComponent implements OnInit {
       styleClass: 'p-dialog-header-sm',
       contentStyle: { 'margin-top': '-1.5rem' }
     });
-    dialogRef.onClose.pipe(first()).subscribe((subtitles: MediaSubtitle[]) => {
+    dialogRef?.onClose.pipe(first()).subscribe((subtitles: MediaSubtitle[]) => {
       if (!subtitles) return;
       this.mediaChange.emit({ ...media, movie: { ...media.movie, subtitles } });
     });
@@ -100,7 +100,7 @@ export class ConfigureMediaEpisodesComponent implements OnInit {
       styleClass: 'p-dialog-header-sm',
       contentStyle: { 'margin-top': '-1.5rem' }
     });
-    //dialogRef.onClose.pipe(first()).subscribe() => {
+    //dialogRef?.onClose.pipe(first()).subscribe() => {
     //});
     fixNestedDialogFocus(dialogRef, this.parentDialogRef(), this.dialogService, this.renderer, this.document);
   }
@@ -116,7 +116,7 @@ export class ConfigureMediaEpisodesComponent implements OnInit {
       styleClass: 'p-dialog-header-sm',
       contentStyle: { 'margin-top': '-1.5rem', 'overflow-y': 'hidden', 'padding': '0px' }
     });
-    dialogRef.onClose.pipe(first()).subscribe((episode) => {
+    dialogRef?.onClose.pipe(first()).subscribe((episode) => {
       if (!episode || !this.episodes) return;
       this.episodes.push(episode);
       this.updated.emit();
@@ -138,7 +138,7 @@ export class ConfigureMediaEpisodesComponent implements OnInit {
       maskStyleClass: 'tw-z-[110]',
       autoZIndex: false
     });
-    dialogRef.onClose.pipe(first()).subscribe((updated) => {
+    dialogRef?.onClose.pipe(first()).subscribe((updated) => {
       if (!updated) return;
       this.loadEpisodes(true);
     });

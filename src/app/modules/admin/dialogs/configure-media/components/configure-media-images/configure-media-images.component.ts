@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, Inject, input, output, DOCUMENT } from '@angular/core';
 import { TranslocoService, TranslocoTranslateFn } from '@jsverse/transloco';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Observable, first } from 'rxjs';
+import { EMPTY, Observable, first } from 'rxjs';
 
 import { MediaDetails } from '../../../../../../core/models';
 import { ConfirmActionService, MediaService } from '../../../../../../core/services';
@@ -91,6 +91,7 @@ export class ConfigureMediaImagesComponent {
       styleClass: 'p-dialog-header-sm'
     });
     fixNestedDialogFocus(dialogRef, this.parentDialogRef(), this.dialogService, this.renderer, this.document);
+    if (!dialogRef) return EMPTY;
     return dialogRef.onClose.pipe(first());
   }
 

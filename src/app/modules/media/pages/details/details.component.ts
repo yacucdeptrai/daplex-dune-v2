@@ -16,7 +16,7 @@ import { TextResizeOption, TextResizeDirective } from '../../../../shared/direct
 import { SITE_NAME, YOUTUBE_EMBED_URL, YOUTUBE_THUMBNAIL_URL } from '../../../../../environments/config';
 import { track_Id } from '../../../../core/utils';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { TabViewModule } from 'primeng/tabview';
+import { TabsModule } from 'primeng/tabs';
 import { EpisodeListComponent } from '../../../../shared/components/episode-list/episode-list.component';
 import { CollectionListComponent } from '../../components/collection-list/collection-list.component';
 import { ButtonModule } from 'primeng/button';
@@ -36,7 +36,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
     styleUrls: ['./details.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, NgTemplateOutlet, TextResizeDirective, TabViewModule, RouterLink, EpisodeListComponent, CollectionListComponent, NgClass, ButtonModule, TooltipModule, TagModule, DialogModule, SkeletonComponent, DecimalPipe, ToStringPipe, ShortDatePipe, TimePipe, SafeUrlPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, NgTemplateOutlet, TextResizeDirective, TabsModule, RouterLink, EpisodeListComponent, CollectionListComponent, NgClass, ButtonModule, TooltipModule, TagModule, DialogModule, SkeletonComponent, DecimalPipe, ToStringPipe, ShortDatePipe, TimePipe, SafeUrlPipe, ThumbhashUrlPipe]
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   track_Id = track_Id;

@@ -137,7 +137,7 @@ describe('ConfigureMediaEpisodesComponent — HAZARD-1 live menu render', () => 
     expect(nonSeparator.length).withContext('3 actionable items bound to the menu model').toBe(3);
 
     // The overlay items render in the DOM (appendTo="body" -> overlay lives at document.body).
-    const links = document.querySelectorAll('.p-menuitem-link, .p-menuitem-text');
+    const links = document.querySelectorAll('.p-menu-item-link, .p-menu-item-label');
     expect(links.length).withContext('menu item DOM should render in the body overlay').toBeGreaterThan(0);
     const text = (document.body.textContent || '');
     expect(text).toContain('Add Subtitle');

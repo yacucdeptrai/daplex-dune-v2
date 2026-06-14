@@ -111,7 +111,7 @@ export class AuditLogComponent implements OnInit, OnDestroy {
       styleClass: 'p-dialog-header-sm',
       header: 'Audit Log'
     });
-    this.openDialogRefs.push(ref);
+    if (ref) this.openDialogRefs.push(ref);
   }
 
   trackId(index: number, item: AuditLog): string {

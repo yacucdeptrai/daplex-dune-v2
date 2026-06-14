@@ -262,19 +262,18 @@ describe('ConfigureMediaFormComponent', () => {
     expect(component.updateMediaFormChanged).toBeTrue();
   });
 
-  // DIVERGENCE PIN (conflict resolution — see 02_test_baseline.md): this component's
-  // detectUpdateMediaFormChange ends in a bare `.subscribe()`; it does NOT chain
-  // `.add(() => markForCheck())`. The sibling CreateMediaComponent DOES. The detectFormChange
-  // stream completes synchronously on the first divergent change (takeWhile), so a `.add()` teardown
-  // here would fire a markForCheck immediately — there is none, and this asserts its absence so the
-  // MediaFormHelperService extraction keeps change-detection a per-component concern.
-  it('detectUpdateMediaFormChange does NOT call ChangeDetectorRef.markForCheck on a divergent change', async () => {
+  // The footer toast lives in a parent template donated to the OnPush vertical-tab; this OnPush
+  // child must markForCheck when updateMediaFormChanged flips, or the donated [visible] binding
+  // goes stale and the footer never appears (the render spec proves this at runtime). Matches the
+  // sibling CreateMediaComponent. detectFormChange completes on the first divergent change, so the
+  // setTrue callback fires markForCheck exactly once.
+  it('detectUpdateMediaFormChange calls ChangeDetectorRef.markForCheck on a divergent change', async () => {
     await create(makeMovieMedia({ title: 'Original' }));
     const ref = (component as any).ref ?? (component as any).cdr ?? (component as any).changeDetectorRef;
     const markForCheck = spyOn(ref, 'markForCheck').and.callThrough();
     component.updateMediaForm.controls.title.setValue('Diverged'); // completes the detectFormChange stream
     expect(component.updateMediaFormChanged).toBeTrue(); // proves the stream fired + completed
-    expect(markForCheck).not.toHaveBeenCalled();
+    expect(markForCheck).toHaveBeenCalledTimes(1);
   });
 
   // 5. suggestion loaders --------------------------------------------------------------

@@ -32,8 +32,8 @@ import { InvalidControlDirective } from '../../../../shared/directives/form-dire
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { DropdownModule } from 'primeng/dropdown';
+import { TextareaModule } from 'primeng/textarea';
+import { SelectModule } from 'primeng/select';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { PanelToastDirective } from '../../../../shared/components/vertical-tab/panel-toast.directive';
 import { FileUploadComponent as FileUploadComponent_1 } from '../../../../shared/components/file-upload/file-upload.component';
@@ -69,7 +69,7 @@ interface UpdateEpisodeForm {
             useValue: ['common', 'media', 'languages']
         }
     ],
-    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, InvalidControlDirective, InputMaskModule, InputTextModule, LazyLoadImageModule, InputTextareaModule, DropdownModule, RadioButtonModule, PanelToastDirective, FileUploadComponent_1, TableModule, SharedModule, NgTemplateOutlet, VideoPlayerComponent, ConfirmDialogModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, InvalidControlDirective, InputMaskModule, InputTextModule, LazyLoadImageModule, TextareaModule, SelectModule, RadioButtonModule, PanelToastDirective, FileUploadComponent_1, TableModule, SharedModule, NgTemplateOutlet, VideoPlayerComponent, ConfirmDialogModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
 })
 export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;
@@ -209,7 +209,7 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
       dismissableMask: false,
       styleClass: 'p-dialog-header-sm'
     });
-    dialogRef.onClose.pipe(first()).subscribe((result: string[] | null) => {
+    dialogRef?.onClose.pipe(first()).subscribe((result: string[] | null) => {
       if (!result) return;
       const [previewUri, name] = result;
       this.stillPreviewName = name;
@@ -316,7 +316,7 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
       styleClass: 'p-dialog-header-sm',
       contentStyle: { 'margin-top': '-1.5rem' }
     });
-    dialogRef.onClose.pipe(first()).subscribe((subtitles: MediaSubtitle[]) => {
+    dialogRef?.onClose.pipe(first()).subscribe((subtitles: MediaSubtitle[]) => {
       if (!subtitles || !this.episode) return;
       this.episode = { ...this.episode, subtitles };
       this.ref.markForCheck();

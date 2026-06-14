@@ -124,7 +124,7 @@
                   <label for="about" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5 tw-mt-2">{{
                   t('users.updateProfile.about') }}</label>
                   <textarea formControlName="about" class="tw-w-full tw-resize-y" id="about" aria-describedby="about-error"
-                  [placeholder]="t('users.updateProfile.aboutPlaceholder')" pInputTextarea [rows]="15"></textarea>
+                  [placeholder]="t('users.updateProfile.aboutPlaceholder')" pTextarea [rows]="15"></textarea>
                   <small id="about-error" class="p-error tw-text-xs tw-block tw-my-2"
                     [invalidControl]="updateProfileForm.controls.about">{{ updateProfileForm.controls.about.errors
                   | firstErrorKey:'updateProfile':'about' }}</small>

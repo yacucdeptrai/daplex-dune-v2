@@ -86,8 +86,19 @@
               [ngTemplateOutletContext]="{ tabStyleClass: 'tw-mt-4 tw-text-base' }"> </ng-container>
             }
             <ng-template #mediaTabs let-tabStyleClass="tabStyleClass">
-              <p-tabView [styleClass]="tabStyleClass">
-                <p-tabPanel class="tw-text-white" [header]="t('media.details.information')">
+              <p-tabs value="0" [class]="tabStyleClass">
+                <p-tablist>
+                  <p-tab value="0">{{ t('media.details.information') }}</p-tab>
+                  <p-tab value="1">{{ t('media.details.videos') }}</p-tab>
+                  @if (media.type === MediaType.TV) {
+                    <p-tab value="2">{{ t('media.details.episodes') }}</p-tab>
+                  }
+                  @if (media.inCollections) {
+                    <p-tab value="3">{{ t('media.details.collections') }}</p-tab>
+                  }
+                </p-tablist>
+                <p-tabpanels>
+                <p-tabpanel class="tw-text-white" value="0">
                   <p class="tw-text-base sm:tw-text-lg tw-leading-5">{{
                   t('media.details.overview') }}</p>
                   <p class="tw-text-gray-200 tw-text-base tw-mt-2">{{ media.overview }}</p>
@@ -155,8 +166,8 @@
                   <a class="hover:tw-underline focus-visible:tw-underline tw-font-semibold"
                   [routerLink]="['/list', 'year', media.releaseDate.year]">{{ media.releaseDate.year }}</a>
                 </p>
-              </p-tabPanel>
-              <p-tabPanel [header]="t('media.details.videos')">
+              </p-tabpanel>
+              <p-tabpanel value="1">
                 @if (media.videos.length) {
                   <div class="tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-2">
                     @for (video of media.videos; track track_Id(index, video); let index = $index) {
@@ -175,20 +186,21 @@
                   } @else {
                     <p class="tw-text-gray-400 tw-text-base tw-italic">{{ t('media.details.noVideos') }}</p>
                   }
-                </p-tabPanel>
+                </p-tabpanel>
                 @if (media.type === MediaType.TV) {
-                  <p-tabPanel [header]="t('media.details.episodes')">
+                  <p-tabpanel value="2">
                     <app-episode-list [media]="media" [episodeList]="media.tv.episodes">
                     </app-episode-list>
-                  </p-tabPanel>
+                  </p-tabpanel>
                 }
                 @if (media.inCollections) {
-                  <p-tabPanel [header]="t('media.details.collections')">
+                  <p-tabpanel value="3">
                     <app-collection-list [t]="t" [collectionList]="media.inCollections"
                     [currentMedia]="media"></app-collection-list>
-                  </p-tabPanel>
+                  </p-tabpanel>
                 }
-              </p-tabView>
+                </p-tabpanels>
+              </p-tabs>
             </ng-template>
             <ng-template #mediaDetails2>
               <div class="[&>*]:tw-align-middle">

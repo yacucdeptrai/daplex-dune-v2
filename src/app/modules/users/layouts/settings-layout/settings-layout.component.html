@@ -1,7 +1,15 @@
 <ng-container *transloco="let t">
   <div class="tw-max-w-6xl tw-mx-auto">
     @if (mobileMenu) {
-      <p-tabMenu [model]="settingItems" styleClass="tw-text-white"></p-tabMenu>
+      <p-tabs [value]="0" class="tw-text-white">
+        <p-tablist>
+          @for (item of settingItems; track item.label; let i = $index) {
+            <p-tab [value]="i">
+              <a [routerLink]="item.routerLink" routerLinkActive [routerLinkActiveOptions]="item.routerLinkActiveOptions || { exact: false }">{{ item.label }}</a>
+            </p-tab>
+          }
+        </p-tablist>
+      </p-tabs>
     }
     <div class="tw-flex tw-my-4">
       @if (!mobileMenu) {

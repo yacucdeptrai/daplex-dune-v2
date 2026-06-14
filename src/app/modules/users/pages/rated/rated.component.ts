@@ -14,7 +14,7 @@ import { ButtonModule } from 'primeng/button';
 import { AppOverlayOrigin, AppConnectedOverlay } from '../../../../shared/directives/overlay-panel/overlay-panel/overlay-panel.directive';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
-import { InputSwitchModule } from 'primeng/inputswitch';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { RatingCardComponent } from '../../components/rating-card/rating-card.component';
 import { TableModule } from 'primeng/table';
@@ -34,7 +34,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
     styleUrls: ['./rated.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [RatingsService, DestroyService],
-    imports: [TranslocoDirective, ButtonModule, AppOverlayOrigin, SelectButtonModule, FormsModule, AppConnectedOverlay, InputSwitchModule, InfiniteScrollDirective, RatingCardComponent, TableModule, SharedModule, LazyLoadImageModule, StarRatingComponent_1, RouterLink, MenuTriggerDirective, MenuDirective, MenuItemDirective, ConfirmDialogModule, DateAltPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ButtonModule, AppOverlayOrigin, SelectButtonModule, FormsModule, AppConnectedOverlay, ToggleSwitchModule, InfiniteScrollDirective, RatingCardComponent, TableModule, SharedModule, LazyLoadImageModule, StarRatingComponent_1, RouterLink, MenuTriggerDirective, MenuDirective, MenuItemDirective, ConfirmDialogModule, DateAltPipe, ThumbhashUrlPipe]
 })
 export class RatedComponent implements OnInit, OnDestroy {
   track_Id = track_Id;

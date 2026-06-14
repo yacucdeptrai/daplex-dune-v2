@@ -9,7 +9,6 @@ export * from './http-params-helper';
 export * from './ng-track-by';
 export * from './number-helper';
 export * from './object-helper';
-export * from './primeng';
 export * from './primeng-helper';
 export * from './stream-manifest-helper';
 export * from './subtitle-style-helper';

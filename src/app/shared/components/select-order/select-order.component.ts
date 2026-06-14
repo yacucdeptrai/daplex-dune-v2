@@ -5,7 +5,7 @@ import { TranslocoTranslateFn } from '@jsverse/transloco';
 import { remove } from 'lodash-es';
 
 import { SelectOption } from '../../../core/interfaces/primeng';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -20,7 +20,7 @@ import { ButtonModule } from 'primeng/button';
             multi: true
         }
     ],
-    imports: [DropdownModule, CdkDropList, CdkDrag, CdkDragHandle, ButtonModule]
+    imports: [SelectModule, CdkDropList, CdkDrag, CdkDragHandle, ButtonModule]
 })
 export class SelectOrderComponent implements ControlValueAccessor {
   t = input.required<TranslocoTranslateFn>();

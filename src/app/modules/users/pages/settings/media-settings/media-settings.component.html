@@ -12,21 +12,26 @@
       <small id="limit-desc" class="tw-text-sm tw-font-medium tw-block tw-mt-2 tw-text-gray-400">{{
       t('users.mediaSettings.historyLimitDesc') }}</small>
 
-      <p-inputSwitch formControlName="paused" class="tw-mt-4" labelStyleClass="tw-font-medium"
-      [label]="t('users.mediaSettings.paused')" aria-describedby="pause-history-desc"></p-inputSwitch>
+      <div class="tw-flex tw-items-center tw-gap-2 tw-mt-4">
+        <p-toggleswitch formControlName="paused" inputId="pause-history" aria-describedby="pause-history-desc"></p-toggleswitch>
+        <label for="pause-history" class="tw-font-medium">{{ t('users.mediaSettings.paused') }}</label>
+      </div>
       <small id="pause-history-desc" class="tw-text-sm tw-font-medium tw-block tw-mt-2 tw-text-gray-400">{{
       t('users.mediaSettings.pauseHistoryDescription') }}</small>
 
-      <p-inputSwitch formControlName="prefAudioLang" class="tw-mt-4" labelStyleClass="tw-font-medium"
-      [label]="t('users.mediaSettings.enablePrefAudioLang')" aria-describedby="pref-audio-lang-desc"></p-inputSwitch>
+      <div class="tw-flex tw-items-center tw-gap-2 tw-mt-4">
+        <p-toggleswitch formControlName="prefAudioLang" inputId="pref-audio-lang" aria-describedby="pref-audio-lang-desc"></p-toggleswitch>
+        <label for="pref-audio-lang" class="tw-font-medium">{{ t('users.mediaSettings.enablePrefAudioLang') }}</label>
+      </div>
       <small id="pref-audio-lang-desc" class="tw-text-sm tw-font-medium tw-block tw-mt-2 tw-text-gray-400">{{
       t('users.mediaSettings.prefLangDescription') }}</small>
       <app-select-order formControlName="prefAudioLangList" [t]="t" styleClass="tw-mt-4" [options]="languageList()"
       optionLabel="label" optionValue="value" fixedValue="default"></app-select-order>
 
-      <p-inputSwitch formControlName="prefSubtitleLang" class="tw-mt-4" labelStyleClass="tw-font-medium"
-        [label]="t('users.mediaSettings.enablePrefSubtitleLang')"
-      aria-describedby="pref-subtitle-lang-desc"></p-inputSwitch>
+      <div class="tw-flex tw-items-center tw-gap-2 tw-mt-4">
+        <p-toggleswitch formControlName="prefSubtitleLang" inputId="pref-subtitle-lang" aria-describedby="pref-subtitle-lang-desc"></p-toggleswitch>
+        <label for="pref-subtitle-lang" class="tw-font-medium">{{ t('users.mediaSettings.enablePrefSubtitleLang') }}</label>
+      </div>
       <small id="pref-subtitle-lang-desc" class="tw-text-sm tw-font-medium tw-block tw-mt-2 tw-text-gray-400">{{
       t('users.mediaSettings.prefLangDescription') }}</small>
       <app-select-order formControlName="prefSubtitleLangList" [t]="t" styleClass="tw-mt-4" [options]="languageList()"

@@ -11,55 +11,51 @@
         [placeholder]="t('media.filter.genre')" styleClass="tw-w-full p-multiselect-xs"
         panelStyleClass="md:tw-dropdown-cols-4 md:tw-w-full md:tw-max-w-xl">
       </p-multiSelect> -->
-      <p-altAutoComplete #genreAutoComplete formControlName="genres" [suggestions]="genreSuggestions"
-        (completeMethod)="loadGenreSuggestions($event.query)" field="name" dataKey="_id" [multiple]="true"
-        [unique]="true" [placeholder]="t('media.filter.genre')" [completeOnFocus]="true" [hideOnSelect]="false"
+      <p-autoComplete #genreAutoComplete formControlName="genres" [suggestions]="genreSuggestions"
+        (completeMethod)="loadGenreSuggestions($event.query)" optionLabel="name" dataKey="_id" [multiple]="true"
+        [unique]="true" [placeholder]="t('media.filter.genre')" [completeOnFocus]="true"
         scrollHeight="300px" appendTo="body" styleClass="p-autocomplete-full p-autocomplete-xs"
         panelStyleClass="p-autocomplete-xs" inputId="genres" ariaLabel="Find genres"
         dropdownAriaLabel="Genre search results">
-        <ng-template let-values pTemplate="selectedItem">{{ t('media.filter.selectedGenres', { genreCount:
-        values.length }) }}</ng-template>
         <ng-template let-item pTemplate="item">
           <div class="tw-max-w-32 lg:tw-max-w-none tw-truncate">
             <span>{{ item.name }}</span>
           </div>
         </ng-template>
-      </p-altAutoComplete>
-      <!-- <p-dropdown formControlName="sort" [options]="sortOptions || []" [overlayOptions]="{ baseZIndex: 100 }"
+      </p-autoComplete>
+      <!-- <p-select formControlName="sort" [options]="sortOptions || []" [overlayOptions]="{ baseZIndex: 100 }"
       scrollHeight="400px" [showClear]="true" [appendTo]="dropdownZone" [placeholder]="t('media.filter.sort')"
       styleClass="tw-w-full p-dropdown-xs" panelStyleClass="md:tw-dropdown-cols-2 md:tw-w-full md:tw-max-w-lg">
-    </p-dropdown> -->
-    <p-dropdown formControlName="type" [options]="typeOptions || []" [overlayOptions]="{ baseZIndex: 100 }"
+    </p-select> -->
+    <p-select formControlName="type" [options]="typeOptions || []" [overlayOptions]="{ baseZIndex: 100 }"
       [showClear]="true" [appendTo]="dropdownZone" [placeholder]="t('media.filter.type')"
       styleClass="tw-w-full p-dropdown-xs">
-    </p-dropdown>
-    <p-dropdown [hidden]="!showAdvanced" formControlName="status" [options]="statusOptions || []"
+    </p-select>
+    <p-select [hidden]="!showAdvanced" formControlName="status" [options]="statusOptions || []"
       [overlayOptions]="{ baseZIndex: 100 }" scrollHeight="400px" [showClear]="true" [appendTo]="dropdownZone"
       [placeholder]="t('media.filter.status')" styleClass="tw-w-full p-dropdown-xs">
-    </p-dropdown>
-    <p-dropdown [hidden]="!showAdvanced" formControlName="originalLang" [options]="languages || []"
+    </p-select>
+    <p-select [hidden]="!showAdvanced" formControlName="originalLang" [options]="languages || []"
       [overlayOptions]="{ baseZIndex: 100 }" scrollHeight="400px" [showClear]="true" [appendTo]="dropdownZone"
       [placeholder]="t('media.filter.language')" styleClass="tw-w-full p-dropdown-xs"
       panelStyleClass="md:tw-dropdown-cols-4 md:tw-w-full md:tw-max-w-2xl">
-    </p-dropdown>
-    <p-dropdown [hidden]="!showAdvanced" formControlName="year" [options]="yearOptions || []"
+    </p-select>
+    <p-select [hidden]="!showAdvanced" formControlName="year" [options]="yearOptions || []"
       [overlayOptions]="{ baseZIndex: 100 }" scrollHeight="400px" [showClear]="true" [appendTo]="dropdownZone"
       [placeholder]="t('media.filter.year')" styleClass="tw-w-full p-dropdown-xs"
       panelStyleClass="md:tw-dropdown-cols-4 md:tw-w-full md:tw-max-w-xl">
-    </p-dropdown>
-    <p-altAutoComplete [hidden]="!showAdvanced" #tagAutoComplete formControlName="tags" [suggestions]="tagSuggestions"
-      (completeMethod)="loadTagSuggestions($event.query)" field="name" dataKey="_id" [multiple]="true" [unique]="true"
-      [placeholder]="t('media.filter.tag')" [completeOnFocus]="true" [hideOnSelect]="false" scrollHeight="300px"
+    </p-select>
+    <p-autoComplete [hidden]="!showAdvanced" #tagAutoComplete formControlName="tags" [suggestions]="tagSuggestions"
+      (completeMethod)="loadTagSuggestions($event.query)" optionLabel="name" dataKey="_id" [multiple]="true" [unique]="true"
+      [placeholder]="t('media.filter.tag')" [completeOnFocus]="true" scrollHeight="300px"
       appendTo="body" styleClass="p-autocomplete-full p-autocomplete-xs" panelStyleClass="p-autocomplete-xs"
       inputId="tags" ariaLabel="Find tags" dropdownAriaLabel="Tag search results">
-      <ng-template let-values pTemplate="selectedItem">{{ t('media.filter.selectedTags', { tagCount:
-      values.length }) }}</ng-template>
       <ng-template let-item pTemplate="item">
         <div class="tw-max-w-32 lg:tw-max-w-none tw-truncate">
           <span>{{ item.name }}</span>
         </div>
       </ng-template>
-    </p-altAutoComplete>
+    </p-autoComplete>
     <button pButton type="submit" [label]="t('media.filter.beginFilter')" class="p-button-sm p-button-shrink"
     icon="ms ms-filter-alt"></button>
   </div>
@@ -85,7 +81,7 @@
     }
     @for (genre of filterForm.value.genres; track genre) {
       <p-chip [label]="genre.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full tw-mr-2"
-      (onRemove)="genreAutoComplete.removeOptionByObject(genre); genreAutoComplete.cd.markForCheck()"></p-chip>
+      (onRemove)="filterForm.controls.genres.setValue((filterForm.value.genres || []).filter(g => g._id !== genre._id))"></p-chip>
     }
     @if (filterForm.value.type) {
       <p-chip
@@ -108,7 +104,7 @@
     }
     @for (tag of filterForm.value.tags; track tag) {
       <p-chip [label]="tag.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full tw-mr-2"
-      (onRemove)="tagAutoComplete.removeOptionByObject(tag); tagAutoComplete.cd.markForCheck()"></p-chip>
+      (onRemove)="filterForm.controls.tags.setValue((filterForm.value.tags || []).filter(x => x._id !== tag._id))"></p-chip>
     }
   </div>
   <!-- <div class="tw-flex tw-mt-4 tw-items-center">

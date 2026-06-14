@@ -11,10 +11,10 @@
       | firstErrorKey:'createProduction':'name' }}</small>
     <label for="country" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
       t('admin.createProduction.country') }}</label>
-    <p-dropdown id="country" formControlName="country" [options]="countryOptions || []" scrollHeight="250px"
+    <p-select id="country" formControlName="country" [options]="countryOptions || []" scrollHeight="250px"
       [placeholder]="t('admin.createProduction.countryPlaceholder')" [showClear]="true" appendTo="body"
       panelStyleClass="p-dropdown-sm" styleClass="tw-w-full tw-mb-4">
-    </p-dropdown>
+    </p-select>
     <div class="tw-flex tw-mt-4">
       <div class="tw-ml-auto">
         <button pButton type="button" [label]="t('admin.createProduction.cancel')"

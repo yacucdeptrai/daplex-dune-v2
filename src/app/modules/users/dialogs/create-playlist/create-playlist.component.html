@@ -12,7 +12,7 @@
     <label for="description" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
       t('media.createPlaylist.description') }}</label>
     <textarea formControlName="description" class="tw-w-full" id="description" aria-describedby="description-error"
-      [placeholder]="t('media.createPlaylist.descriptionPlaceholder')" pInputTextarea [rows]="5"></textarea>
+      [placeholder]="t('media.createPlaylist.descriptionPlaceholder')" pTextarea [rows]="5"></textarea>
     <small id="description-error" class="p-error tw-text-xs tw-block tw-my-2"
       [invalidControl]="createPlaylistForm.controls.description">{{ createPlaylistForm.controls.description.errors
       | firstErrorKey:'createPlaylist':'description' }}</small>

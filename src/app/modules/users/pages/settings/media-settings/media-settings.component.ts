@@ -12,7 +12,7 @@ import { detectFormChange } from '../../../../../core/utils';
 import { FormHandlerDirective } from '../../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { SliderAltModule } from 'primeng/slideralt';
 import { DisabledControlDirective } from '../../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
-import { InputSwitchModule } from 'primeng/inputswitch';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { SelectOrderComponent } from '../../../../../shared/components/select-order/select-order.component';
 
 import { ButtonModule } from 'primeng/button';
@@ -44,7 +44,7 @@ interface UpdateMediaForm {
             ])
         ])
     ],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, SliderAltModule, DisabledControlDirective, InputSwitchModule, SelectOrderComponent, ButtonModule]
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, SliderAltModule, DisabledControlDirective, ToggleSwitchModule, SelectOrderComponent, ButtonModule]
 })
 export class MediaSettingsComponent implements OnInit {
   currentUser: UserDetails | null = null;

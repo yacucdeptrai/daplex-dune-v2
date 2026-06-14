@@ -101,7 +101,7 @@
                       <label for="overview" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
                       t('admin.updateEpisode.overview') }}</label>
                       <textarea formControlName="overview" class="tw-w-full" id="overview" aria-describedby="overview-error"
-                      [placeholder]="t('admin.updateEpisode.overviewPlaceholder')" pInputTextarea [rows]="5"></textarea>
+                      [placeholder]="t('admin.updateEpisode.overviewPlaceholder')" pTextarea [rows]="5"></textarea>
                       <small id="overview-error" class="p-error tw-text-xs tw-block tw-my-2"
                         [invalidControl]="updateEpisodeForm.controls.overview">
                         {{ updateEpisodeForm.controls.overview.errors | firstErrorKey:'updateEpisode':'overview' }}
@@ -110,18 +110,18 @@
                       t('admin.updateEpisode.airDate') }}</label>
                       <div id="air-date" formGroupName="airDate" class="dropdown-group tw-flex tw-flex-wrap tw-w-full"
                         aria-describedby="air-date-error">
-                        <p-dropdown class="tw-w-full sm:tw-w-3/12" styleClass="tw-w-full" panelStyleClass="p-dropdown-sm"
+                        <p-select class="tw-w-full sm:tw-w-3/12" styleClass="tw-w-full" panelStyleClass="p-dropdown-sm"
                           [options]="days" formControlName="day" appendTo="body" [placeholder]="t('admin.updateEpisode.day')"
                           scrollHeight="300px">
-                        </p-dropdown>
-                        <p-dropdown class="tw-w-full sm:tw-w-5/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+                        </p-select>
+                        <p-select class="tw-w-full sm:tw-w-5/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
                           panelStyleClass="p-dropdown-sm" [options]="months" formControlName="month" appendTo="body"
                           [placeholder]="t('admin.updateEpisode.month')" scrollHeight="300px">
-                        </p-dropdown>
-                        <p-dropdown class="tw-w-full sm:tw-w-4/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+                        </p-select>
+                        <p-select class="tw-w-full sm:tw-w-4/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
                           panelStyleClass="p-dropdown-sm" [options]="years" formControlName="year" appendTo="body"
                           [placeholder]="t('admin.updateEpisode.year')" scrollHeight="300px">
-                        </p-dropdown>
+                        </p-select>
                       </div>
                       <small id="air-date-error" class="p-error tw-text-xs tw-block tw-my-2"
                         [invalidControl]="updateEpisodeForm.controls.airDate">{{ updateEpisodeForm.controls.airDate.errors |
