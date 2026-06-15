@@ -38,7 +38,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { SelectModule } from 'primeng/select';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ButtonModule } from 'primeng/button';
-import { AutoCompleteModule } from 'primeng/autocomplete';
+import { AltAutoComplete } from '../../../../core/utils/primeng/autocomplete';
 import { SharedModule } from 'primeng/api';
 import { ChipModule } from 'primeng/chip';
 import { FileUploadComponent as FileUploadComponent_1 } from '../../../../shared/components/file-upload/file-upload.component';
@@ -77,7 +77,7 @@ interface UpdateMediaForm extends Omit<CreateMediaForm, 'type'> { }
             useValue: 'common'
         }
     ],
-    imports: [TranslocoDirective, StepperComponent_1, CdkStep, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, TextareaModule, InputMaskModule, SelectModule, NgTemplateOutlet, RadioButtonModule, ButtonModule, AutoCompleteModule, SharedModule, ChipModule, FileUploadComponent_1, CdkStepperPrevious, CdkStepperNext, FirstErrorKeyPipe]
+    imports: [TranslocoDirective, StepperComponent_1, CdkStep, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, TextareaModule, InputMaskModule, SelectModule, NgTemplateOutlet, RadioButtonModule, ButtonModule, AltAutoComplete, SharedModule, ChipModule, FileUploadComponent_1, CdkStepperPrevious, CdkStepperNext, FirstErrorKeyPipe]
 })
 export class CreateMediaComponent implements OnInit, AfterViewInit {
   @ViewChild('stepper') stepper?: StepperComponent;

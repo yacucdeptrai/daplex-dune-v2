@@ -20,7 +20,7 @@ import { InvalidControlDirective } from '../../../../../../shared/directives/for
 import { TextareaModule } from 'primeng/textarea';
 import { InputMaskModule } from 'primeng/inputmask';
 import { SelectModule } from 'primeng/select';
-import { AutoCompleteModule } from 'primeng/autocomplete';
+import { AltAutoComplete } from '../../../../../../core/utils/primeng/autocomplete';
 import { ChipModule } from 'primeng/chip';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
@@ -40,7 +40,7 @@ import { FirstErrorKeyPipe } from '../../../../../../shared/pipes/validation-pip
   templateUrl: './configure-media-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
-  imports: [FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, TextareaModule, InputMaskModule, SelectModule, AutoCompleteModule, SharedModule, ChipModule, RadioButtonModule, ToggleSwitchModule, ButtonModule, FirstErrorKeyPipe]
+  imports: [FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, TextareaModule, InputMaskModule, SelectModule, AltAutoComplete, SharedModule, ChipModule, RadioButtonModule, ToggleSwitchModule, ButtonModule, FirstErrorKeyPipe]
 })
 export class ConfigureMediaFormComponent implements OnInit {
   MediaType = MediaType;

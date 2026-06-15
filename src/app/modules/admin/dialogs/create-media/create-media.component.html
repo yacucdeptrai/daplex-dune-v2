@@ -351,12 +351,14 @@
           <div class="tw-w-full md:tw-w-1/3 tw-mb-8">
             <label for="genres" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
               t('admin.' + formAction + '.genres') }}</label>
-            <p-autoComplete #genreAC [formControl]="createOrUpdateForm.controls.genres"
+            <p-altAutoComplete #genreAC [formControl]="createOrUpdateForm.controls.genres"
               [suggestions]="genreSuggestions" (completeMethod)="loadGenreSuggestions($event.query)" optionLabel="name"
               dataKey="_id" [multiple]="true" [unique]="true" [completeOnFocus]="true" scrollHeight="300px"
               appendTo="body" styleClass="tw-w-full" panelStyleClass="p-autocomplete-xs" inputId="genres"
               ariaLabel="Find genres" dropdownAriaLabel="Genre search results">
-            </p-autoComplete>
+              <ng-template let-values pTemplate="selecteditem">{{ t('admin.' + formAction + '.selectedItems', {
+                itemCount: values.length }) }}</ng-template>
+            </p-altAutoComplete>
           </div>
           <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
           <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-gap-2 tw-content-center">
@@ -370,12 +372,14 @@
           <div class="tw-w-full md:tw-w-1/3 tw-mb-8">
             <label for="studios" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
               t('admin.' + formAction + '.studios') }}</label>
-            <p-autoComplete #studioAC [formControl]="createOrUpdateForm.controls.studios"
+            <p-altAutoComplete #studioAC [formControl]="createOrUpdateForm.controls.studios"
               [suggestions]="productionSuggestions" (completeMethod)="loadProductionSuggestions($event.query)"
               optionLabel="name" dataKey="_id" [multiple]="true" [unique]="true" [completeOnFocus]="true" scrollHeight="300px"
               appendTo="body" styleClass="tw-w-full" panelStyleClass="p-autocomplete-xs" inputId="studios"
               ariaLabel="Find companies" dropdownAriaLabel="Studio search results">
-            </p-autoComplete>
+              <ng-template let-values pTemplate="selecteditem">{{ t('admin.' + formAction + '.selectedItems', {
+                itemCount: values.length }) }}</ng-template>
+            </p-altAutoComplete>
           </div>
           <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
           <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-gap-2 tw-content-center">
@@ -389,12 +393,14 @@
           <div class="tw-w-full md:tw-w-1/3 tw-mb-8">
             <label for="producers" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
               t('admin.' + formAction + '.producers') }}</label>
-            <p-autoComplete #producerAC [formControl]="createOrUpdateForm.controls.producers"
+            <p-altAutoComplete #producerAC [formControl]="createOrUpdateForm.controls.producers"
               [suggestions]="productionSuggestions" (completeMethod)="loadProductionSuggestions($event.query)"
               optionLabel="name" dataKey="_id" [multiple]="true" [unique]="true" [completeOnFocus]="true" scrollHeight="300px"
               appendTo="body" styleClass="tw-w-full" panelStyleClass="p-autocomplete-xs" inputId="producers"
               ariaLabel="Find companies" dropdownAriaLabel="Producer search results">
-            </p-autoComplete>
+              <ng-template let-values pTemplate="selecteditem">{{ t('admin.' + formAction + '.selectedItems', {
+                itemCount: values.length }) }}</ng-template>
+            </p-altAutoComplete>
           </div>
           <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
           <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-gap-2 tw-content-center">
@@ -408,12 +414,14 @@
           <div class="tw-w-full md:tw-w-1/3 tw-mb-8">
             <label for="tags" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
               t('admin.' + formAction + '.tags') }}</label>
-            <p-autoComplete #tagAC [formControl]="createOrUpdateForm.controls.tags" [suggestions]="tagSuggestions"
+            <p-altAutoComplete #tagAC [formControl]="createOrUpdateForm.controls.tags" [suggestions]="tagSuggestions"
               (completeMethod)="loadTagSuggestions($event.query)" optionLabel="name" dataKey="_id" [multiple]="true"
               [unique]="true" [completeOnFocus]="true" scrollHeight="300px" appendTo="body" styleClass="tw-w-full"
               panelStyleClass="p-autocomplete-xs" inputId="tags" ariaLabel="Find tags"
               dropdownAriaLabel="Tag search results">
-            </p-autoComplete>
+              <ng-template let-values pTemplate="selecteditem">{{ t('admin.' + formAction + '.selectedItems', {
+                itemCount: values.length }) }}</ng-template>
+            </p-altAutoComplete>
           </div>
           <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
           <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-gap-2 tw-content-center">
