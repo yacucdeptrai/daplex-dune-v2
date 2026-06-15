@@ -68,8 +68,6 @@ describe('ConfigureMediaComponent', () => {
 
   // Service test doubles captured per-test so specs can assert calls / drive callbacks.
   let mediaService: any;
-  let dialogService: any;
-  let confirmationService: ConfirmationService;
 
   // The component subscribes to several streams with a next-only handler. On an HTTP error
   // (only deliberately induced in the loadMedia-error spec) RxJS reports an *async* unhandled
@@ -118,8 +116,6 @@ describe('ConfigureMediaComponent', () => {
     return configure(configData).then(() => {
       fixture = TestBed.createComponent(ConfigureMediaComponent);
       component = fixture.componentInstance;
-      dialogService = TestBed.inject(DialogService) as any;
-      confirmationService = TestBed.inject(ConfirmationService);
       fixture.detectChanges();
     });
   }

@@ -132,7 +132,7 @@ export class SelectOrderComponent implements ControlValueAccessor {
     }
   }
 
-  onChange = (value: SelectOption[]) => { };
+  onChange = (_value: SelectOption[]) => { };
 
   onTouched = () => { };
 }

@@ -3,7 +3,7 @@
     @if (mobileMenu) {
       <p-tabs [value]="0" class="tw-text-white">
         <p-tablist>
-          @for (item of settingItems; track item.label; let i = $index) {
+          @for (item of settingItems; track item.routerLink; let i = $index) {
             <p-tab [value]="i">
               <a [routerLink]="item.routerLink" routerLinkActive [routerLinkActiveOptions]="item.routerLinkActiveOptions || { exact: false }">{{ item.label }}</a>
             </p-tab>

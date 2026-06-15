@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 import { TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 
 import { MediaType } from '../../../core/enums';
-import { Media, Paginated } from '../../../core/models';
+import { Media } from '../../../core/models';
 import { track_Id } from '../../../core/utils';
 import { NgTemplateOutlet, DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';

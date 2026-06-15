@@ -5,7 +5,6 @@ import { map } from 'rxjs';
 import { HttpParamsObject } from '../types/http-params.type';
 import { AddPlaylistItemDto, CreatePlaylistDto, CursorPagePlaylistsDto, CursorPagePlaylistItemsDto, FindAddToPlaylistDto, UpdatePlaylistDto, DeletePlaylistItemDto, AddAllPlaylistItemsDto } from '../dto/playlists';
 import { CursorPagePlaylistItems, CursorPaginated, Playlist, PlaylistDetails, PlaylistToAdd } from '../models';
-import { getImageName } from '../utils';
 
 @Injectable()
 export class PlaylistsService {

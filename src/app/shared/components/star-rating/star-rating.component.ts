@@ -62,7 +62,7 @@ export class StarRatingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setupStarImages();
-    this.editableStars = Array.from(new Array(this.maxStars)).map((elem, index) => new EditableStar(index));
+    this.editableStars = Array.from(new Array(this.maxStars)).map((_elem, index) => new EditableStar(index));
     this.setRating(this.initialStars);
     this.setHoverRating(this.initialStars);
 

@@ -10,9 +10,9 @@ export interface CanComponentDeactivate {
 export class ConfirmDeactivateGuard {
   canDeactivate(
     component: CanComponentDeactivate,
-    currentRoute: ActivatedRouteSnapshot,
-    currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    _currentRoute: ActivatedRouteSnapshot,
+    _currentState: RouterStateSnapshot,
+    _nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return component.canDeactivate ? component.canDeactivate() : true;
   }
 

@@ -5,7 +5,7 @@ import { FormHandlerDirective } from './form-handler.directive';
 
 describe('FormHandlerDirective', () => {
   it('should create an instance', () => {
-    const directive = new FormHandlerDirective(document, {} as FormGroupDirective, {} as ElementRef);
+    const directive = new FormHandlerDirective({} as FormGroupDirective, {} as ElementRef);
     expect(directive).toBeTruthy();
   });
 });

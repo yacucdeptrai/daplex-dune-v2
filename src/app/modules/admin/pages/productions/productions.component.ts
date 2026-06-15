@@ -95,7 +95,7 @@ export class ProductionsComponent implements OnInit, OnDestroy {
     this.productionTable?.el.nativeElement.scrollIntoView();
   }
 
-  trackId(index: number, item: any): any {
+  trackId(_index: number, item: any): any {
     return item?._id;
   }
 

@@ -1,5 +1,5 @@
 
-import { Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, Renderer2, DOCUMENT } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, DOCUMENT } from '@angular/core';
 
 @Directive({
     selector: '[dragDropFile]',

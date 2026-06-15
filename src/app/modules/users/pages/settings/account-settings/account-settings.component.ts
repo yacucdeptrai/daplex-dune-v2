@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { first, takeUntil } from 'rxjs';
 
@@ -93,7 +93,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
   }
 
   showUpdatePasswordDialog(): void {
-    const dialogRef = this.dialogService.open(UpdatePasswordComponent, {
+    this.dialogService.open(UpdatePasswordComponent, {
       data: { ...this.currentUser },
       width: '500px',
       modal: true,

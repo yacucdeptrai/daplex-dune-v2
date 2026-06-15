@@ -95,7 +95,7 @@ export class GenresComponent implements OnInit, OnDestroy {
     this.genreTable?.el.nativeElement.scrollIntoView();
   }
 
-  trackId(index: number, item: any): any {
+  trackId(_index: number, item: any): any {
     return item?._id;
   }
 

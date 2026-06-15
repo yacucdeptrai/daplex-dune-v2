@@ -226,7 +226,7 @@ export class BaseVideoPlayerComponent implements OnInit, OnDestroy {
       });
     fromEvent<MediaEndedEvent>(player, 'ended')
       .pipe(takeUntil(this.playerSettings.playerDestroyed()))
-      .subscribe(event => {
+      .subscribe(() => {
         this.onEnded.emit();
         if (this.playerSettings.autoNext() && this.canReqNext())
           this.requestNext.emit();

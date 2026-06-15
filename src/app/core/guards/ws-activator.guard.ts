@@ -10,8 +10,8 @@ export class WsActivatorGuard {
   constructor(private wsService: WsService, private authService: AuthService) { }
 
   canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    _route: ActivatedRouteSnapshot,
+    _state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     this.wsService.init();
     this.wsService.fromEventOnce('connect')
       .pipe(tap(() => {
@@ -21,10 +21,10 @@ export class WsActivatorGuard {
   }
 
   canDeactivate(
-    component: any,
-    currentRoute: ActivatedRouteSnapshot,
-    currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    _component: any,
+    _currentRoute: ActivatedRouteSnapshot,
+    _currentState: RouterStateSnapshot,
+    _nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     this.wsService.destroy();
     this.authService.socketId = undefined;
     return true;

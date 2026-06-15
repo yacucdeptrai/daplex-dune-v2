@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, Renderer2, Inject, OnDestroy, DOCUMENT } from '@angular/core';
 
-import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table, TableModule } from 'primeng/table';
@@ -50,7 +49,7 @@ export class MediaComponent implements OnInit, OnDestroy {
   mediaMenuItems: DataMenuItem<Media>[] = [];
 
   constructor(@Inject(DOCUMENT) private document: Document, private ref: ChangeDetectorRef, private renderer: Renderer2,
-    private route: ActivatedRoute, private router: Router, public dialogService: DialogService,
+    public dialogService: DialogService,
     private confirmAction: ConfirmActionService, private mediaService: MediaService,
     private queueUploadService: QueueUploadService, private wsService: WsService,
     private translocoService: TranslocoService, private destroyService: DestroyService) { }
@@ -329,7 +328,7 @@ export class MediaComponent implements OnInit, OnDestroy {
     this.mediaTable?.el.nativeElement.scrollIntoView();
   }
 
-  trackId(index: number, item: any): any {
+  trackId(_index: number, item: any): any {
     return item?._id;
   }
 

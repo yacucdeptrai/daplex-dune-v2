@@ -33,7 +33,7 @@ export class FileUploadComponent implements ControlValueAccessor {
   selectedFile?: File;
   touched: boolean = false;
 
-  onChange = (file: File) => { };
+  onChange = (_file: File) => { };
   onTouched = () => { };
 
   constructor(private ref: ChangeDetectorRef) {

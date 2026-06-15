@@ -2,7 +2,7 @@
 import { Directive, ElementRef, inject, NgZone, OnDestroy } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { _getEventTarget } from '@angular/cdk/platform';
-import { CDK_MENU, PARENT_OR_NEW_MENU_STACK_PROVIDER, MENU_AIM, CdkMenuTriggerBase, MENU_TRIGGER, Menu } from '@angular/cdk/menu';
+import { CDK_MENU, PARENT_OR_NEW_MENU_STACK_PROVIDER, MENU_AIM, CdkMenuTriggerBase, MENU_TRIGGER } from '@angular/cdk/menu';
 import { ConnectedPosition, FlexibleConnectedPositionStrategy, Overlay, OverlayConfig, STANDARD_DROPDOWN_ADJACENT_POSITIONS, STANDARD_DROPDOWN_BELOW_POSITIONS } from '@angular/cdk/overlay';
 import { hasModifierKey } from '@angular/cdk/keycodes';
 import { fromEvent, filter, takeUntil, take, delay, asapScheduler } from 'rxjs';
@@ -303,17 +303,6 @@ export class MenuTriggerDirective extends CdkMenuTriggerBase implements OnDestro
             }
           }
         });
-    }
-  }
-
-  /** Subscribe to the MenuStack hasFocus events. */
-  private _subscribeToMenuStackHasFocus() {
-    if (!this._parentMenu) {
-      this.menuStack.hasFocus.pipe(takeUntil(this.destroyed)).subscribe(hasFocus => {
-        if (!hasFocus) {
-          this.menuStack.closeAll();
-        }
-      });
     }
   }
 

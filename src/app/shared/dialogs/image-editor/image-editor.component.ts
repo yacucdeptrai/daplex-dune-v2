@@ -83,7 +83,7 @@ export class ImageEditorComponent {
 
   }
 
-  imageCropped(event: ImageCroppedEvent): void {
+  imageCropped(_event: ImageCroppedEvent): void {
 
   }
 

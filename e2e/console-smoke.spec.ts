@@ -34,7 +34,16 @@ const IGNORED_CONSOLE_PATTERNS: RegExp[] = [
 
 const STATIC_ASSET_URL = /\.(png|jpe?g|webp|gif|svg|ico|woff2?|ttf|css|mp4|m3u8|vtt)(\?|$)/i;
 
+/**
+ * Angular runtime error codes (NG0201/NG0950/NG0955/NG0303/…). An NG-coded
+ * message is ALWAYS a failure: it can never be suppressed by an ignore pattern.
+ * Mirrors the Karma-side guard (`src/testing/console-error-guard.ts`).
+ */
+const NG_CODE_PATTERN = /\bNG[0-9]{3,4}\b/;
+
 function isIgnored(text: string, url: string): boolean {
+  // NG-coded framework errors are never benign.
+  if (NG_CODE_PATTERN.test(text)) return false;
   if (!IGNORED_CONSOLE_PATTERNS.some((re) => re.test(text))) return false;
   // A generic "Failed to load resource" is only benign for static assets
   // (media thumbnails / fonts can legitimately 404 against an empty dev DB).
@@ -79,8 +88,8 @@ function assertClean(errors: string[], route: string): void {
   expect(errors, `Console errors while visiting ${route}:\n  ${errors.join('\n  ')}`).toEqual([]);
 }
 
-const ADMIN_EMAIL = process.env.E2E_ADMIN_EMAIL;
-const ADMIN_PASSWORD = process.env.E2E_ADMIN_PASSWORD;
+const ADMIN_EMAIL = process.env['E2E_ADMIN_EMAIL'];
+const ADMIN_PASSWORD = process.env['E2E_ADMIN_PASSWORD'];
 const hasCreds = Boolean(ADMIN_EMAIL && ADMIN_PASSWORD);
 
 /**

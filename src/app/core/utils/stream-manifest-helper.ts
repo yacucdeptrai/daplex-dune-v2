@@ -198,7 +198,6 @@ export class StreamManifestHelper {
       adaptationSetList.push(adaptationSet);
     }
 
-    const codecTrackListGroup = groupBy(manifest.videoTracks, (track) => track.codecID);
     const codecTrackList = [manifest.videoTracks];
     for (let i = 0; i < codecTrackList.length; i++) {
       const videoTracks = codecTrackList[i];

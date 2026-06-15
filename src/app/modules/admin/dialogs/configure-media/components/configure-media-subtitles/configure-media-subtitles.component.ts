@@ -78,7 +78,7 @@ export class ConfigureMediaSubtitlesComponent {
     });
   }
 
-  trackId(index: number, item: any): any {
+  trackId(_index: number, item: any): any {
     return item?._id;
   }
 }

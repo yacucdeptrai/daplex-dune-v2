@@ -4,7 +4,7 @@ import { forkJoin, map, Observable, tap } from 'rxjs';
 import { HttpCacheManager } from '@ngneat/cashew';
 
 import { HttpParamsObject } from '../types/http-params.type';
-import { AddMediaSubtitleDto, AddMediaVideoDto, AddTVEpisodeDto, CreateMediaDto, CursorPageMediaDto, FindMediaStreamDto, FindOneMediaDto, FindTVEpisodesDto, OffsetPageMediaDto, PaginateMediaDto, UpdateMediaDto, UpdateMediaVideoDto, UpdateTVEpisodeDto } from '../dto/media';
+import { AddMediaSubtitleDto, AddMediaVideoDto, AddTVEpisodeDto, CreateMediaDto, CursorPageMediaDto, FindMediaStreamDto, FindOneMediaDto, FindTVEpisodesDto, OffsetPageMediaDto, UpdateMediaDto, UpdateMediaVideoDto, UpdateTVEpisodeDto } from '../dto/media';
 import { CursorPaginated, ExtMediaSuggestions, FlixHQInfo, FlixHQSearch, GogoanimeInfo, GogoanimeSearch, Media, MediaDetails, MediaStream, MediaSubtitle, MediaVideo, Paginated, TVEpisode, TVEpisodeDetails, ZoroInfo, ZoroSearch } from '../models';
 import { CacheKey, ExtMediaProvider } from '../../core/enums';
 import { getImageName } from '../../core/utils';

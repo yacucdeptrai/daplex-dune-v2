@@ -1,6 +1,6 @@
 import { Directionality } from '@angular/cdk/bidi';
 import { CdkStepper } from '@angular/cdk/stepper';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angular/core';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 
 @Component({
@@ -15,7 +15,7 @@ export class StepperComponent extends CdkStepper implements OnInit {
   @Input() activeClass = 'tw-bg-black tw-text-white';
   @Input() headerStyleClass = 'tw-mb-2';
 
-  constructor(private dir: Directionality, private ref: ChangeDetectorRef, private elementRef: ElementRef<HTMLElement>) {
+  constructor(dir: Directionality, ref: ChangeDetectorRef, elementRef: ElementRef<HTMLElement>) {
     super(dir, ref, elementRef);
   }
 

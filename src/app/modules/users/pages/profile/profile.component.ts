@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { combineLatest, filter, forkJoin, Observable, takeUntil, tap } from 'rxjs';
 
 import { CursorPaginated, History, Playlist, RatingDetails, UserDetails } from '../../../../core/models';
@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   playlistList?: CursorPaginated<Playlist>;
   ratingList?: CursorPaginated<RatingDetails>;
 
-  constructor(private ref: ChangeDetectorRef, private route: ActivatedRoute,
+  constructor(private ref: ChangeDetectorRef,
     private usersStateService: UsersStateService, private authService: AuthService,
     private historyService: HistoryService, private playlistsService: PlaylistsService, private ratingsService: RatingsService,
     private destroyService: DestroyService) { }

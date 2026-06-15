@@ -1,6 +1,6 @@
 <p-tabs [value]="0" [scrollable]="true" class="md:tw-hidden">
   <p-tablist>
-    @for (item of tabMenuItems; track item.label; let i = $index) {
+    @for (item of tabMenuItems; track item.routerLink; let i = $index) {
       <p-tab [value]="i">
         <a [routerLink]="item.routerLink" routerLinkActive [routerLinkActiveOptions]="item.routerLinkActiveOptions || { exact: false }">{{ item.label }}</a>
       </p-tab>

@@ -114,7 +114,7 @@ export class AuditLogComponent implements OnInit, OnDestroy {
     if (ref) this.openDialogRefs.push(ref);
   }
 
-  trackId(index: number, item: AuditLog): string {
+  trackId(_index: number, item: AuditLog): string {
     return item._id;
   }
 

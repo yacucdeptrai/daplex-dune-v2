@@ -207,7 +207,7 @@ export class ConfigureMediaEpisodesComponent implements OnInit {
     }), first());
   }
 
-  trackId(index: number, item: any): any {
+  trackId(_index: number, item: any): any {
     return item?._id;
   }
 }

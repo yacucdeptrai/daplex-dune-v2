@@ -29,7 +29,7 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
     return false;
   }
 
-  retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle | null {
+  retrieve(_route: ActivatedRouteSnapshot): DetachedRouteHandle | null {
     return this.lastHandle;
   }
 

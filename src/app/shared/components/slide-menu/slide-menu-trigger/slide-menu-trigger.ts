@@ -334,17 +334,6 @@ export class SlideMenuTriggerDirective extends SlideMenuTriggerBase implements O
     }
   }
 
-  /** Subscribe to the MenuStack hasFocus events. */
-  private _subscribeToMenuStackHasFocus() {
-    if (!this._parentMenu) {
-      this.menuStack.hasFocus.pipe(takeUntil(this.destroyed)).subscribe(hasFocus => {
-        if (!hasFocus) {
-          this.menuStack.closeAll();
-        }
-      });
-    }
-  }
-
   /** Subscribe to the MenuStack closed events. */
   private _subscribeToMenuStackClosed() {
     if (!this._parentMenu) {

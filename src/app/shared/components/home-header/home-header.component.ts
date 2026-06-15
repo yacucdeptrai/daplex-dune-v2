@@ -5,9 +5,9 @@ import { AutoComplete } from 'primeng/autocomplete';
 import { DialogService } from 'primeng/dynamicdialog';
 import { filter, first, Subscription, takeUntil } from 'rxjs';
 
-import { CursorPaginated, Genre, Media, UserDetails } from '../../../core/models';
-import { AuthService, DestroyService, GenresService, MediaService } from '../../../core/services';
-import { MediaType, UserPermission } from '../../../core/enums';
+import { CursorPaginated, Genre, UserDetails } from '../../../core/models';
+import { AuthService, DestroyService, GenresService } from '../../../core/services';
+import { UserPermission } from '../../../core/enums';
 import { track_Id } from '../../../core/utils';
 import { SearchOverlayComponent } from '../../dialogs/search-overlay';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -57,7 +57,7 @@ export class HomeHeaderComponent implements OnInit {
 
   constructor(@Inject(DOCUMENT) private document: Document, private ref: ChangeDetectorRef, private renderer: Renderer2,
     private router: Router, private dialogService: DialogService, private authService: AuthService,
-    private mediaService: MediaService, private genresService: GenresService, private destroyService: DestroyService) {
+    private genresService: GenresService, private destroyService: DestroyService) {
     this.currentPageYOffset = window.scrollY + this.headerHeight;
     this.skeletonArray = new Array(this.genreLimit);
   }

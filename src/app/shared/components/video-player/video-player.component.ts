@@ -4,7 +4,7 @@ import { Platform } from '@angular/cdk/platform';
 import { TRANSLOCO_SCOPE, TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { patchState } from '@ngrx/signals';
 import { DeepSignal } from '@ngrx/signals';
-import { type TextTrackInit, type MediaPlayEvent, type AudioTrack, type MediaLoadedMetadataEvent, type PlayerSrc, type TextTrack, MediaLoadedDataEvent, MediaCanPlayThroughEvent } from 'vidstack';
+import { type TextTrackInit, type MediaPlayEvent, type AudioTrack, type MediaLoadedMetadataEvent, type PlayerSrc, type TextTrack, MediaCanPlayThroughEvent } from 'vidstack';
 import { debounceTime, filter, first, forkJoin, fromEvent, Observable, of, switchMap, takeUntil, takeWhile, tap } from 'rxjs';
 import { supportsMediaSource } from 'dashjs';
 import { isEqual } from 'lodash-es';

@@ -118,7 +118,7 @@ export class ConfigureMediaVideosComponent {
     this.renderer.addClass(this.document.body, 'p-overflow-hidden');
   }
 
-  trackId(index: number, item: any): any {
+  trackId(_index: number, item: any): any {
     return item?._id;
   }
 }

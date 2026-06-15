@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -48,7 +48,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   listViewMode: 1 | 2 = 1;
   userId: string | null = null;
 
-  constructor(private ref: ChangeDetectorRef, private viewContainerRef: ViewContainerRef, private renderer: Renderer2,
+  constructor(private ref: ChangeDetectorRef, private viewContainerRef: ViewContainerRef,
     private route: ActivatedRoute, private router: Router, private dialogService: DialogService,
     private confirmAction: ConfirmActionService, private translocoService: TranslocoService, private authService: AuthService,
     private playlistsService: PlaylistsService, private destroyService: DestroyService) {

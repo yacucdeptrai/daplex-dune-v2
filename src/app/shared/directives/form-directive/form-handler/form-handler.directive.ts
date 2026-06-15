@@ -1,5 +1,5 @@
 
-import { Directive, ElementRef, HostListener, Inject, DOCUMENT } from '@angular/core';
+import { Directive, ElementRef, HostListener } from '@angular/core';
 import { FormGroupDirective } from '@angular/forms';
 
 @Directive({ selector: '([formGroup])[formHandler]' })
@@ -7,7 +7,7 @@ export class FormHandlerDirective {
 
   focusables = ['input', 'select', 'textarea'];
 
-  constructor(@Inject(DOCUMENT) private document: Document, private formGroup: FormGroupDirective, private element: ElementRef) { }
+  constructor(private formGroup: FormGroupDirective, private element: ElementRef) { }
 
   /*
   @HostListener('document:keydown.enter', ['$event'])

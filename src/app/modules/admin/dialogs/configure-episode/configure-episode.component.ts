@@ -407,7 +407,7 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  trackId(index: number, item: any): any {
+  trackId(_index: number, item: any): any {
     return item?._id;
   }
 

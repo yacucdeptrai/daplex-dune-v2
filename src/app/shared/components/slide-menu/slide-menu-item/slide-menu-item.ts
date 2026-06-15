@@ -1,5 +1,5 @@
 import { Directive, ElementRef, EventEmitter, inject, Input, NgZone, OnDestroy, Output } from '@angular/core';
-import { FocusNext, FocusableElement } from '@angular/cdk/menu';
+import { FocusableElement } from '@angular/cdk/menu';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { FocusableOption } from '@angular/cdk/a11y';
 import { hasModifierKey } from '@angular/cdk/keycodes';
@@ -113,7 +113,7 @@ export class SlideMenuItem implements FocusableOption, FocusableElement, Toggler
    *   - keepOpen: specifies that the menu should be kept open after triggering the item.
    */
   trigger(options?: { keepOpen: boolean, keepFocus?: boolean }) {
-    const { keepOpen, keepFocus } = { ...options };
+    const { keepOpen } = { ...options };
     if (!this.disabled && !this.hasMenu) {
       this.triggered.next();
       if (!keepOpen) {
@@ -225,38 +225,6 @@ export class SlideMenuItem implements FocusableOption, FocusableElement, Toggler
   }
 
   /**
-   * Handles the user pressing the back arrow key.
-   * @param event The keyboard event.
-   */
-  private _backArrowPressed(event: KeyboardEvent) {
-    const parentMenu = this._parentMenu!;
-    if (this._menuStack.hasInlineMenu() || this._menuStack.length() > 1) {
-      event.preventDefault();
-      this._menuStack.close(parentMenu, {
-        focusNextOnEmpty:
-          this._menuStack.inlineMenuOrientation() === 'horizontal'
-            ? FocusNext.previousItem
-            : FocusNext.currentItem,
-        focusParentTrigger: true,
-      });
-    }
-  }
-
-  /**
-   * Handles the user pressing the forward arrow key.
-   * @param event The keyboard event.
-   */
-  private _forwardArrowPressed(event: KeyboardEvent) {
-    if (!this.hasMenu && this._menuStack.inlineMenuOrientation() === 'horizontal') {
-      event.preventDefault();
-      this._menuStack.closeAll({
-        focusNextOnEmpty: FocusNext.nextItem,
-        focusParentTrigger: true,
-      });
-    }
-  }
-
-  /**
    * Subscribe to the mouseenter events and close any sibling menu items if this element is moused
    * into.
    */
@@ -278,13 +246,6 @@ export class SlideMenuItem implements FocusableOption, FocusableElement, Toggler
     }
   }
 
-  /**
-   * Return true if the enclosing parent menu is configured in a horizontal orientation, false
-   * otherwise or if no parent.
-   */
-  private _isParentVertical() {
-    return this._parentMenu?.orientation === 'vertical';
-  }
 
   /** Sets the `type` attribute of the menu item. */
   private _setType() {

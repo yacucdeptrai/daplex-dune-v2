@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -49,7 +49,7 @@ export class RatedComponent implements OnInit, OnDestroy {
   listViewMode: 1 | 2 = 1;
   userId: string | null = null;
 
-  constructor(private ref: ChangeDetectorRef, private renderer: Renderer2, private translocoService: TranslocoService,
+  constructor(private ref: ChangeDetectorRef, private translocoService: TranslocoService,
     private route: ActivatedRoute, private router: Router, private dialogService: DialogService,
     private confirmAction: ConfirmActionService, private authService: AuthService,
     private ratingsService: RatingsService, private destroyService: DestroyService) {
