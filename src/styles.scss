@@ -326,3 +326,16 @@ p {
 .p-autocomplete-token-label {
   line-height: 1;
 }
+
+/* RadioButton focus ring (shot 21-focus-radio): the PrimeUIX v21 base preset paints
+   `:has(.p-radiobutton-input:focus-visible) .p-radiobutton-box` with box-shadow +
+   outline from unset focus.ring tokens → a grey halo that bleeds past the host. The
+   oracle only zeroes the legacy `.p-radiobutton-box.p-focus`, a class v21 never sets.
+   Re-assert the oracle convention (--focus-ring:none) on the v21 focus-visible path:
+   focus is the indigo border only, no ring/shadow. */
+.p-radiobutton:not(.p-disabled):has(.p-radiobutton-input:focus-visible) .p-radiobutton-box {
+  box-shadow: none !important;
+  outline: 0 none !important;
+  outline-offset: 0 !important;
+  border-color: #526ed3 !important;
+}
