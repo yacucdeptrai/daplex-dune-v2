@@ -21,12 +21,12 @@
         updateUsernameForm.controls.currentPassword.errors | firstErrorKey:'updateUsername':'currentPassword' }}</small>
     </form>
   </div>
-  <div pDialogActions>
+  <div pDialogActions class="app-action-bar__actions">
     <button pButton type="button" [label]="t('users.updateUsername.cancel')" (click)="onUpdateUsernameFormCancel()"
       class="p-button-text p-button-plain p-button-sm">
     </button>
     <button pButton type="submit" form="update-username-form" [label]="t('users.updateUsername.submit')"
-      class="p-button p-button-sm tw-ml-1" [disabled]="updateUsernameForm.disabled">
+      class="p-button p-button-sm" [disabled]="updateUsernameForm.disabled">
     </button>
   </div>
 </ng-container>

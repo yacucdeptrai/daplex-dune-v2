@@ -19,9 +19,9 @@
     </div>
   }
   @case (MediaSourceStatus.READY) {
-    <div class="tw-flex tw-mb-4">
+    <div class="app-action-bar tw-mb-4">
       <p class="tw-text-base">{{ t()('admin.media.statusReadyDescription') }}</p>
-      <div class="tw-ml-auto">
+      <div class="app-action-bar__actions">
         @if (!showMoviePlayer) {
           <ng-container [ngTemplateOutlet]="sourcePreviewButton"></ng-container>
         }

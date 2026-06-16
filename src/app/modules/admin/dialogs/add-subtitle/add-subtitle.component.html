@@ -33,15 +33,13 @@
     <small id="file-error" class="p-error tw-text-xs tw-block tw-my-2"
       [invalidControl]="addSubtitleForm.controls.file">{{ addSubtitleForm.controls.file.errors |
       firstErrorKey:'addMediaSubtitle':'file' }}</small>
-    <div class="tw-flex tw-mt-4">
-      <div class="tw-ml-auto">
-        <button pButton type="button" [label]="t('admin.addMediaSubtitle.cancel')" (click)="onAddSubtitleFormCancel()"
-          class="p-button-text p-button-secondary p-button-sm">
-        </button>
-        <button pButton type="submit" class="p-button p-button-sm tw-ml-1" [label]="t('admin.addMediaSubtitle.submit')"
-          [disabled]="isAddingSubtitle">
-        </button>
-      </div>
+    <div class="app-action-bar__actions tw-mt-4">
+      <button pButton type="button" [label]="t('admin.addMediaSubtitle.cancel')" (click)="onAddSubtitleFormCancel()"
+        class="p-button-text p-button-secondary p-button-sm">
+      </button>
+      <button pButton type="submit" class="p-button p-button-sm" [label]="t('admin.addMediaSubtitle.submit')"
+        [disabled]="isAddingSubtitle">
+      </button>
     </div>
   </form>
 </ng-container>

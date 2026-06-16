@@ -163,15 +163,13 @@
               </div>
             </div>
           </div>
-          <div class="tw-flex tw-my-4 tw-px-7">
-            <div class="tw-ml-auto">
-              <button pButton type="button" [label]="t('admin.createMedia.cancel')" (click)="onCreateMediaFormCancel()"
-                class="p-button-text p-button-secondary p-button-sm">
-              </button>
-              <button pButton type="submit" [label]="t('admin.createMedia.submit')" class="p-button-sm tw-ml-1"
-                [disabled]="createMediaForm.disabled">
-              </button>
-            </div>
+          <div class="app-action-bar__actions tw-my-4 tw-px-7">
+            <button pButton type="button" [label]="t('admin.createMedia.cancel')" (click)="onCreateMediaFormCancel()"
+              class="p-button-text p-button-secondary p-button-sm">
+            </button>
+            <button pButton type="submit" [label]="t('admin.createMedia.submit')" class="p-button-sm"
+              [disabled]="createMediaForm.disabled">
+            </button>
           </div>
         </form>
       } @else {
@@ -334,15 +332,13 @@
               </div>
             </div>
           </div>
-          <div class="tw-flex tw-my-4 tw-px-7">
-            <div class="tw-ml-auto">
-              <button pButton type="button" [label]="t('admin.updateMedia.cancel')" (click)="onUpdateMediaFormReset()"
-                class="p-button-text p-button-secondary p-button-sm" [disabled]="updateFormChanged">
-              </button>
-              <button pButton type="submit" [label]="t('admin.updateMedia.submit')"
-                class="p-button-success p-button-sm tw-ml-1" [disabled]="updateMediaForm.disabled">
-              </button>
-            </div>
+          <div class="app-action-bar__actions tw-my-4 tw-px-7">
+            <button pButton type="button" [label]="t('admin.updateMedia.cancel')" (click)="onUpdateMediaFormReset()"
+              class="p-button-text p-button-secondary p-button-sm" [disabled]="updateFormChanged">
+            </button>
+            <button pButton type="submit" [label]="t('admin.updateMedia.submit')"
+              class="p-button-success p-button-sm" [disabled]="updateMediaForm.disabled">
+            </button>
           </div>
         </form>
       }
@@ -450,15 +446,13 @@
             </app-file-upload>
           </div>
         }
-        <div class="tw-flex tw-my-4 tw-px-7">
-          <div class="tw-ml-auto">
-            <button pButton type="button" [label]="t('admin.createMedia.previous')"
-              class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious>
-            </button>
-            <button pButton type="submit" [label]="t('admin.createMedia.next')" class="p-button p-button-sm tw-ml-1"
-              cdkStepperNext>
-            </button>
-          </div>
+        <div class="app-action-bar__actions tw-my-4 tw-px-7">
+          <button pButton type="button" [label]="t('admin.createMedia.previous')"
+            class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious>
+          </button>
+          <button pButton type="submit" [label]="t('admin.createMedia.next')" class="p-button p-button-sm"
+            cdkStepperNext>
+          </button>
         </div>
       </cdk-step>
       <cdk-step [label]="t('admin.createMedia.movieStep4')" [optional]="true" [editable]="true" aria-label="Finish">
@@ -565,16 +559,14 @@
       }
     </ng-template>
     <ng-template #mediaStep2Actions>
-      <div class="tw-flex tw-my-4 tw-px-7">
-        <div class="tw-ml-auto">
-          <button pButton type="button" [label]="t('admin.createMedia.previous')"
-            class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious
-            [disabled]="isUpdatingPoster || isUpdatingBackdrop">
-          </button>
-          <button pButton type="submit" [label]="t('admin.createMedia.next')" class="p-button p-button-sm tw-ml-1"
-            cdkStepperNext [disabled]="isUpdatingPoster || isUpdatingBackdrop">
-          </button>
-        </div>
+      <div class="app-action-bar__actions tw-my-4 tw-px-7">
+        <button pButton type="button" [label]="t('admin.createMedia.previous')"
+          class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious
+          [disabled]="isUpdatingPoster || isUpdatingBackdrop">
+        </button>
+        <button pButton type="submit" [label]="t('admin.createMedia.next')" class="p-button p-button-sm"
+          cdkStepperNext [disabled]="isUpdatingPoster || isUpdatingBackdrop">
+        </button>
       </div>
     </ng-template>
     <ng-template #mediaFinalStep let-description="description">
@@ -584,15 +576,13 @@
           <p class="tw-text-lg tw-mb-4">{{ description }}</p>
         </div>
       </div>
-      <div class="tw-flex tw-my-4 tw-px-7">
-        <div class="tw-ml-auto">
-          <button pButton type="button" [label]="t('admin.createMedia.previous')"
-            class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious>
-          </button>
-          <button pButton type="button" [label]="t('admin.createMedia.close')" class="p-button p-button-sm tw-ml-1"
-            (click)="closeDialog()">
-          </button>
-        </div>
+      <div class="app-action-bar__actions tw-my-4 tw-px-7">
+        <button pButton type="button" [label]="t('admin.createMedia.previous')"
+          class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious>
+        </button>
+        <button pButton type="button" [label]="t('admin.createMedia.close')" class="p-button p-button-sm"
+          (click)="closeDialog()">
+        </button>
       </div>
     </ng-template>
   </app-stepper>

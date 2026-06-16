@@ -15,15 +15,13 @@
       [placeholder]="t('admin.createProduction.countryPlaceholder')" [showClear]="true" appendTo="body"
       panelStyleClass="p-select-sm" styleClass="tw-w-full tw-mb-4">
     </p-select>
-    <div class="tw-flex tw-mt-4">
-      <div class="tw-ml-auto">
-        <button pButton type="button" [label]="t('admin.createProduction.cancel')"
-          (click)="onCreateProductionFormCancel()" class="p-button-text p-button-secondary p-button-sm">
-        </button>
-        <button pButton type="submit" [label]="t('admin.createProduction.submit')" class="p-button p-button-sm tw-ml-1"
-          [disabled]="createProductionForm.disabled">
-        </button>
-      </div>
+    <div class="app-action-bar__actions tw-mt-4">
+      <button pButton type="button" [label]="t('admin.createProduction.cancel')"
+        (click)="onCreateProductionFormCancel()" class="p-button-text p-button-secondary p-button-sm">
+      </button>
+      <button pButton type="submit" [label]="t('admin.createProduction.submit')" class="p-button p-button-sm"
+        [disabled]="createProductionForm.disabled">
+      </button>
     </div>
   </form>
 </ng-container>

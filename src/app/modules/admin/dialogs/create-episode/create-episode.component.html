@@ -85,15 +85,13 @@
                 </div>
               </div>
             </div>
-            <div class="tw-flex tw-my-4 tw-px-7">
-              <div class="tw-ml-auto">
-                <button pButton type="button" [label]="t('admin.createEpisode.cancel')"
-                  (click)="onCreateEpisodeFormCancel()" class="p-button-text p-button-secondary p-button-sm">
-                </button>
-                <button pButton type="submit" [label]="t('admin.createEpisode.submit')" class="p-button-sm tw-ml-1"
-                  [disabled]="createEpisodeForm.disabled">
-                </button>
-              </div>
+            <div class="app-action-bar__actions tw-my-4 tw-px-7">
+              <button pButton type="button" [label]="t('admin.createEpisode.cancel')"
+                (click)="onCreateEpisodeFormCancel()" class="p-button-text p-button-secondary p-button-sm">
+              </button>
+              <button pButton type="submit" [label]="t('admin.createEpisode.submit')" class="p-button-sm"
+                [disabled]="createEpisodeForm.disabled">
+              </button>
             </div>
           </form>
         } @else {
@@ -179,16 +177,14 @@
                   </div>
                 </div>
               </div>
-              <div class="tw-flex tw-my-4 tw-px-7">
-                <div class="tw-ml-auto">
-                  <button pButton type="button" [label]="t('admin.updateEpisode.cancel')"
-                    (click)="onUpdateEpisodeFormReset()" class="p-button-text p-button-secondary p-button-sm"
-                    [disabled]="!updateFormChanged">
-                  </button>
-                  <button pButton type="submit" [label]="t('admin.updateEpisode.submit')"
-                    class="p-button-success p-button-sm tw-ml-1" [disabled]="updateEpisodeForm.disabled">
-                  </button>
-                </div>
+              <div class="app-action-bar__actions tw-my-4 tw-px-7">
+                <button pButton type="button" [label]="t('admin.updateEpisode.cancel')"
+                  (click)="onUpdateEpisodeFormReset()" class="p-button-text p-button-secondary p-button-sm"
+                  [disabled]="!updateFormChanged">
+                </button>
+                <button pButton type="submit" [label]="t('admin.updateEpisode.submit')"
+                  class="p-button-success p-button-sm" [disabled]="updateEpisodeForm.disabled">
+                </button>
               </div>
             </form>
           }
@@ -232,15 +228,13 @@
               </div>
             </div>
           }
-          <div class="tw-flex tw-my-4 tw-px-7">
-            <div class="tw-ml-auto">
-              <button pButton type="button" [label]="t('admin.createEpisode.previous')"
-                class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious [disabled]="isUpdatingStill">
-              </button>
-              <button pButton type="submit" [label]="t('admin.createEpisode.next')" class="p-button p-button-sm tw-ml-1"
-                cdkStepperNext [disabled]="isUpdatingStill">
-              </button>
-            </div>
+          <div class="app-action-bar__actions tw-my-4 tw-px-7">
+            <button pButton type="button" [label]="t('admin.createEpisode.previous')"
+              class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious [disabled]="isUpdatingStill">
+            </button>
+            <button pButton type="submit" [label]="t('admin.createEpisode.next')" class="p-button p-button-sm"
+              cdkStepperNext [disabled]="isUpdatingStill">
+            </button>
           </div>
         </cdk-step>
         <cdk-step [label]="t('admin.createEpisode.step3')" [optional]="true" [editable]="true" aria-label="Episode source">
@@ -254,15 +248,13 @@
               </app-file-upload>
             </div>
           }
-          <div class="tw-flex tw-my-4 tw-px-7">
-            <div class="tw-ml-auto">
-              <button pButton type="button" [label]="t('admin.createEpisode.previous')"
-                class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious [disabled]="isUpdatingStill">
-              </button>
-              <button pButton type="submit" [label]="t('admin.createEpisode.next')" class="p-button p-button-sm tw-ml-1"
-                cdkStepperNext [disabled]="isUpdatingStill">
-              </button>
-            </div>
+          <div class="app-action-bar__actions tw-my-4 tw-px-7">
+            <button pButton type="button" [label]="t('admin.createEpisode.previous')"
+              class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious [disabled]="isUpdatingStill">
+            </button>
+            <button pButton type="submit" [label]="t('admin.createEpisode.next')" class="p-button p-button-sm"
+              cdkStepperNext [disabled]="isUpdatingStill">
+            </button>
           </div>
         </cdk-step>
         <cdk-step [label]="t('admin.createEpisode.step4')" [optional]="true" [editable]="true" aria-label="Finish">
@@ -272,15 +264,13 @@
               <p class="tw-text-lg tw-mb-4">{{ t('admin.createEpisode.finishDescription') }}</p>
             </div>
           </div>
-          <div class="tw-flex tw-my-4 tw-px-7">
-            <div class="tw-ml-auto">
-              <button pButton type="button" [label]="t('admin.createEpisode.previous')"
-                class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious>
-              </button>
-              <button pButton type="button" [label]="t('admin.createEpisode.close')" class="p-button p-button-sm tw-ml-1"
-                (click)="closeDialog()">
-              </button>
-            </div>
+          <div class="app-action-bar__actions tw-my-4 tw-px-7">
+            <button pButton type="button" [label]="t('admin.createEpisode.previous')"
+              class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious>
+            </button>
+            <button pButton type="button" [label]="t('admin.createEpisode.close')" class="p-button p-button-sm"
+              (click)="closeDialog()">
+            </button>
           </div>
         </cdk-step>
       </app-stepper>

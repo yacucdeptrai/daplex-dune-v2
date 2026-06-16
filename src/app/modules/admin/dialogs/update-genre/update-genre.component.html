@@ -20,15 +20,13 @@
         appendTo="body" [options]="translateOptions" [disabledControl]="!updateGenreForm.controls.isTranslation.value">
       </p-select>
     </div>
-    <div class="tw-flex tw-mt-4">
-      <div class="tw-ml-auto">
-        <button pButton type="button" [label]="t('admin.updateGenre.cancel')" (click)="onUpdateGenreFormCancel()"
-          class="p-button-text p-button-secondary p-button-sm">
-        </button>
-        <button pButton type="submit" [label]="t('admin.updateGenre.submit')"
-          class="p-button-success p-button-sm tw-ml-1" [disabled]="updateGenreForm.disabled">
-        </button>
-      </div>
+    <div class="app-action-bar__actions tw-mt-4">
+      <button pButton type="button" [label]="t('admin.updateGenre.cancel')" (click)="onUpdateGenreFormCancel()"
+        class="p-button-text p-button-secondary p-button-sm">
+      </button>
+      <button pButton type="submit" [label]="t('admin.updateGenre.submit')"
+        class="p-button-success p-button-sm" [disabled]="updateGenreForm.disabled">
+      </button>
     </div>
   </form>
 </ng-container>

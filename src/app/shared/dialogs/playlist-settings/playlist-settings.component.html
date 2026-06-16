@@ -116,12 +116,12 @@
                     <ng-container *ngTemplateOutlet="loadingPlaylistTpl"></ng-container>
                   }
                 </div>
-                <div pDialogActions>
+                <div pDialogActions class="app-action-bar__actions">
                   <button pButton type="button" [label]="t('media.updatePlaylist.cancel')" (click)="onCancel()"
                     class="p-button-text p-button-secondary p-button-sm">
                   </button>
                   <button pButton type="submit" form="update-playlist-form" [label]="t('media.updatePlaylist.submit')"
-                    class="p-button-success p-button-sm tw-ml-1" (click)="onSubmit()" [disabled]="isSubmitting">
+                    class="p-button-success p-button-sm" (click)="onSubmit()" [disabled]="isSubmitting">
                   </button>
                 </div>
               </ng-container>

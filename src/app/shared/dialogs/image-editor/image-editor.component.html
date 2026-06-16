@@ -14,15 +14,15 @@
   <p-sliderAlt styleClass="tw-mt-4" [min]="0" [max]="100" (onChange)="zoomSliderChange($event)"
     [disabled]="!loadedImage">
   </p-sliderAlt>
-  <div class="tw-flex tw-mt-4">
+  <div class="app-action-bar tw-mt-4">
     <button pButton type="button" [label]="t('common.imageEditor.skip')"
       class="p-button-text p-button-secondary p-button-sm" [disabled]="!loadedImage" (click)="onSkip()">
     </button>
-    <div class="tw-ml-auto">
+    <div class="app-action-bar__actions">
       <button pButton type="button" [label]="t('common.imageEditor.cancel')"
         class="p-button-text p-button-secondary p-button-sm" (click)="onCancel()">
       </button>
-      <button pButton type="button" [label]="t('common.imageEditor.confirm')" class="p-button p-button-sm tw-ml-1"
+      <button pButton type="button" [label]="t('common.imageEditor.confirm')" class="p-button p-button-sm"
         [disabled]="!loadedImage" (click)="onConfirm()">
       </button>
     </div>

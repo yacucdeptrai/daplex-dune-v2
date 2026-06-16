@@ -149,14 +149,14 @@
                 <ng-template appPanelToast tabId="general"
                   styleClass="tw-bg-neutral-850 tw-bg-opacity-80 tw-bottom-4 tw-left-8 tw-right-8 tw-rounded-md tw-z-[111]"
                   [visible]="updateEpisodeFormChanged">
-                  <div class="tw-flex tw-mx-4 tw-my-2 tw-items-center">
+                  <div class="app-action-bar tw-mx-4 tw-my-2">
                     <p class="tw-text-white tw-font-medium">{{ t('admin.configureEpisode.unsavedChanges') }}</p>
-                    <div class="tw-ml-auto">
+                    <div class="app-action-bar__actions">
                       <button pButton type="button" [label]="t('admin.updateEpisode.cancel')" (click)="onUpdateEpisodeFormReset()"
                         class="p-button-text p-button-secondary p-button-sm" [disabled]="updateEpisodeForm.disabled">
                       </button>
                       <button pButton type="submit" [label]="t('admin.updateEpisode.submit')" form="update-episode-form"
-                        class="p-button-success p-button-sm tw-ml-1" [disabled]="updateEpisodeForm.disabled">
+                        class="p-button-success p-button-sm" [disabled]="updateEpisodeForm.disabled">
                       </button>
                     </div>
                   </div>
@@ -230,9 +230,9 @@
                       </div>
                     }
                     @case (MediaSourceStatus.READY) {
-                      <div class="tw-flex tw-mb-4">
+                      <div class="app-action-bar tw-mb-4">
                         <p class="tw-text-base">{{ t('admin.media.statusReadyDescription') }}</p>
-                        <div class="tw-ml-auto">
+                        <div class="app-action-bar__actions">
                           @if (!showEpisodePlayer) {
                             @if (!showEpisodePlayer) {
                               <button pButton type="button" class="p-button-secondary"

@@ -20,7 +20,7 @@
     </div>
     <!--Upload and delete the poster-->
     <div class="tw-flex tw-mt-2">
-      <div class="tw-mx-auto">
+      <div class="app-action-bar__actions tw-mx-auto">
         @if (!posterPreviewName) {
           <input #inputUploadPoster hidden="true" type="file" id="file-upload-poster"
             onclick="this.value = null" (change)="onInputPosterChange($event)" accept=".jpg, .jpeg, .png"
@@ -29,7 +29,7 @@
             (click)="inputUploadPoster.click()">
           </button>
           <button pButton type="button" icon="ms ms-delete"
-            class="p-button-rounded p-button-text p-button-danger tw-ml-1" (click)="deletePoster($event)"
+            class="p-button-rounded p-button-text p-button-danger" (click)="deletePoster($event)"
             [disabled]="!media().posterUrl">
           </button>
         } @else {
@@ -38,7 +38,7 @@
             (click)="onUpdatePosterSubmit()" [disabled]="isUpdatingPoster">
           </button>
           <button pButton type="button" [label]="t()('admin.configureMedia.cancelUploadImage')"
-            class="p-button-sm p-button-secondary p-button-text tw-ml-1" (click)="onUpdatePosterCancel()"
+            class="p-button-sm p-button-secondary p-button-text" (click)="onUpdatePosterCancel()"
             [disabled]="isUpdatingPoster">
           </button>
         }
@@ -66,7 +66,7 @@
     </div>
     <!--Upload and delete the backdrop-->
     <div class="tw-flex tw-mt-2">
-      <div class="tw-mx-auto">
+      <div class="app-action-bar__actions tw-mx-auto">
         @if (!backdropPreviewName) {
           <input #inputUploadBackdrop hidden="true" type="file" id="file-upload-backdrop"
             onclick="this.value = null" (change)="onInputBackdropChange($event)" accept=".jpg, .jpeg, .png"
@@ -75,7 +75,7 @@
             (click)="inputUploadBackdrop.click()">
           </button>
           <button pButton type="button" icon="ms ms-delete"
-            class="p-button-rounded p-button-text p-button-danger tw-ml-1" (click)="deleteBackdrop($event)"
+            class="p-button-rounded p-button-text p-button-danger" (click)="deleteBackdrop($event)"
             [disabled]="!media().backdropUrl">
           </button>
         } @else {
@@ -84,7 +84,7 @@
             (click)="onUpdateBackdropSubmit()" [disabled]="isUpdatingBackdrop">
           </button>
           <button pButton type="button" [label]="t()('admin.configureMedia.cancelUploadImage')"
-            class="p-button-sm p-button-secondary p-button-text tw-ml-1" (click)="onUpdateBackdropCancel()"
+            class="p-button-sm p-button-secondary p-button-text" (click)="onUpdateBackdropCancel()"
             [disabled]="isUpdatingBackdrop">
           </button>
         }

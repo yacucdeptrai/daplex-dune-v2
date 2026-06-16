@@ -44,15 +44,13 @@
           </div>
         }
       </div>
-      <div class="tw-flex tw-mt-4">
-        <div class="tw-ml-auto">
-          <button pButton type="button" [label]="t('admin.updateMediaVideo.cancel')" (click)="onUpdateVideoFormCancel()"
-            class="p-button-text p-button-secondary p-button-sm">
-          </button>
-          <button pButton type="submit" class="p-button-success p-button-sm tw-ml-1"
-            [label]="t('admin.updateMediaVideo.submit')" [disabled]="updateVideoForm.disabled">
-          </button>
-        </div>
+      <div class="app-action-bar__actions tw-mt-4">
+        <button pButton type="button" [label]="t('admin.updateMediaVideo.cancel')" (click)="onUpdateVideoFormCancel()"
+          class="p-button-text p-button-secondary p-button-sm">
+        </button>
+        <button pButton type="submit" class="p-button-success p-button-sm"
+          [label]="t('admin.updateMediaVideo.submit')" [disabled]="updateVideoForm.disabled">
+        </button>
       </div>
     </form>
   </ng-container>

@@ -16,9 +16,9 @@
         <ng-template appPanelToast tabId="general"
           styleClass="tw-bg-neutral-850 tw-bg-opacity-80 tw-bottom-4 tw-left-8 tw-right-8 md:tw-right-34 tw-rounded-md tw-z-[101]"
           [visible]="formCmp.updateMediaFormChanged">
-          <div class="tw-flex tw-mx-4 tw-my-2 tw-items-center">
+          <div class="app-action-bar tw-mx-4 tw-my-2">
             <p class="tw-text-white tw-font-medium">{{ t('admin.configureMedia.unsavedChanges') }}</p>
-            <div class="tw-ml-auto" style="height: 40.98px;">
+            <div class="app-action-bar__actions" style="height: 40.98px;">
               <div [formGroup]="formCmp.updateMediaForm" class="tw-inline-flex tw-h-full tw-items-center">
                 <label for="update-timestamp" class="tw-inline-block tw-text-base">{{
                   t('admin.updateMedia.updateTimestamp') }}</label>
@@ -26,10 +26,10 @@
                   form="update-media-form"></p-toggleSwitch>
               </div>
               <button pButton type="button" [label]="t('admin.updateMedia.cancel')" (click)="formCmp.onUpdateMediaFormReset()"
-                class="p-button-text p-button-secondary p-button-sm tw-ml-4" [disabled]="formCmp.updateMediaForm.disabled">
+                class="p-button-text p-button-secondary p-button-sm" [disabled]="formCmp.updateMediaForm.disabled">
               </button>
               <button pButton type="submit" [label]="t('admin.updateMedia.submit')" form="update-media-form"
-                class="p-button-success p-button-sm tw-ml-1" [disabled]="formCmp.updateMediaForm.disabled">
+                class="p-button-success p-button-sm" [disabled]="formCmp.updateMediaForm.disabled">
               </button>
             </div>
           </div>

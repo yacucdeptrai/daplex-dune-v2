@@ -174,13 +174,13 @@
           }
         </p>
       }
-      <div class="tw-flex tw-mt-4">
+      <div class="app-action-bar__actions tw-mt-4">
         <button type="button" role="navigation" aria-label="Play media" pButton icon="ms ms-play-arrow" iconPos="left"
           [label]="t('media.actions.play')" [routerLink]="['/watch', media._id]"
           class="p-button-shrink tw-flex-1 tw-text-lg">
         </button>
         <button type="button" role="button" aria-label="Add media to playlist" pButton icon="ms ms-playlist-add"
-          class="p-button-secondary p-button-shrink tw-text-lg tw-ml-2" (click)="showAddToPlaylistDialog(media)">
+          class="p-button-secondary p-button-shrink tw-text-lg" (click)="showAddToPlaylistDialog(media)">
         </button>
       </div>
     </div>

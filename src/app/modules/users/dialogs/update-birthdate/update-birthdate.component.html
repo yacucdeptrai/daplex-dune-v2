@@ -32,12 +32,12 @@
       </p>
     </form>
   </div>
-  <div pDialogActions>
+  <div pDialogActions class="app-action-bar__actions">
     <button pButton type="button" [label]="t('users.updateBirthdate.cancel')" (click)="onUpdateBirthdateFormCancel()"
       class="p-button-text p-button-plain p-button-sm">
     </button>
     <button pButton type="submit" form="update-birthdate-form" [label]="t('users.updateBirthdate.submit')"
-      class="p-button p-button-sm tw-ml-1" [disabled]="updateBirthdateForm.disabled">
+      class="p-button p-button-sm" [disabled]="updateBirthdateForm.disabled">
     </button>
   </div>
 </ng-container>

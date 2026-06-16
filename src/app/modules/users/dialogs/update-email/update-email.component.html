@@ -33,13 +33,13 @@
           </div>
         }
       </div>
-      <div pDialogActions>
+      <div pDialogActions class="app-action-bar__actions">
         @if (!updatedEmail) {
           <button pButton type="button" [label]="t('users.updateEmail.cancel')" (click)="onUpdateEmailFormCancel()"
             class="p-button-text p-button-plain p-button-sm">
           </button>
           <button pButton type="submit" form="update-email-form" [label]="t('users.updateEmail.submit')"
-            class="p-button p-button-sm tw-ml-1" [disabled]="updateEmailForm.disabled">
+            class="p-button p-button-sm" [disabled]="updateEmailForm.disabled">
           </button>
         } @else {
           <button pButton type="button" [label]="t('users.updateEmail.close')" (click)="onClose()"

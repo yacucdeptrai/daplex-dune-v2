@@ -34,15 +34,13 @@
             </div>
           }
         </div>
-        <div class="tw-flex tw-mt-4">
-          <div class="tw-ml-auto">
-            <button pButton type="button" [label]="t('admin.addMediaVideo.cancel')" (click)="onAddVideoFormCancel()"
-              class="p-button-text p-button-secondary p-button-sm">
-            </button>
-            <button pButton type="submit" class="p-button p-button-sm tw-ml-1" [label]="t('admin.addMediaVideo.submit')"
-              [disabled]="isAddingVideo">
-            </button>
-          </div>
+        <div class="app-action-bar__actions tw-mt-4">
+          <button pButton type="button" [label]="t('admin.addMediaVideo.cancel')" (click)="onAddVideoFormCancel()"
+            class="p-button-text p-button-secondary p-button-sm">
+          </button>
+          <button pButton type="submit" class="p-button p-button-sm" [label]="t('admin.addMediaVideo.submit')"
+            [disabled]="isAddingVideo">
+          </button>
         </div>
       </form>
     </ng-container>

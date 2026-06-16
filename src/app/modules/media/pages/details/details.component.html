@@ -220,13 +220,13 @@
               </div>
             </ng-template>
             <ng-template #mediaActions let-actionsStyleClass="actionsStyleClass">
-              <div class="tw-flex tw-flex-wrap" [ngClass]="actionsStyleClass">
+              <div class="app-action-bar__actions" [ngClass]="actionsStyleClass">
                 <button type="button" role="navigation" aria-label="Play media" pButton icon="ms ms-play-arrow"
                   iconPos="left" [label]="t('media.actions.play')" [routerLink]="['/watch', media._id]"
                   class="p-button-shrink tw-flex-1 sm:tw-flex-none sm:tw-w-full tw-text-lg sm:tw-text-xl">
                 </button>
                 <button type="button" role="button" aria-label="Add media to playlist" pButton icon="ms ms-playlist-add"
-                  class="p-button-secondary p-button-shrink tw-text-lg sm:tw-text-xl tw-ml-2 sm:tw-ml-auto sm:tw-mt-2"
+                  class="p-button-secondary p-button-shrink tw-text-lg sm:tw-text-xl sm:tw-ml-auto sm:tw-mt-2"
                   (click)="showAddToPlaylistDialog()" [pTooltip]="t('media.playlists.addToPlaylists')">
                 </button>
               </div>
