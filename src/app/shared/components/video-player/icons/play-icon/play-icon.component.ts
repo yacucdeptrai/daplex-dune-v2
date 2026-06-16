@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 
 
 @Component({
@@ -6,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
     templateUrl: './play-icon.component.html',
     styles: [],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: []
+    imports: [NgTemplateOutlet]
 })
 export class PlayIconComponent {
   @Input() paused: boolean = false;

@@ -93,3 +93,236 @@ p {
     @apply tw-border-red-600;
   }
 }
+
+/* PrimeNG v21 label-bearing controls (ktt45678 label/icon slots).
+   The fork renders <label>/<i> INSIDE the box-sized host; v21 has no container/flex
+   rules for them, so the box ovals and the label wraps vertically. Restore the v17
+   inline layout. Transitional — to be migrated into the mddarkindigo preset at cutover. */
+.p-radiobutton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: auto;
+  height: auto;
+  vertical-align: bottom;
+}
+.p-radiobutton .p-radiobutton-box {
+  flex: 0 0 auto;
+  width: var(--p-radiobutton-width, 20px);
+  height: var(--p-radiobutton-height, 20px);
+}
+.p-radiobutton .p-radiobutton-label {
+  line-height: 1;
+}
+.p-radiobutton:not(.p-disabled),
+.p-radiobutton:not(.p-disabled) .p-radiobutton-label {
+  cursor: pointer;
+}
+
+.p-toggleswitch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: auto;
+  height: auto;
+  vertical-align: bottom;
+}
+.p-toggleswitch .p-toggleswitch-slider {
+  flex: 0 0 auto;
+  position: relative; /* anchor the absolutely-positioned handle to the track, not the widened host */
+  width: var(--p-toggleswitch-width, 2.5rem);
+}
+.p-toggleswitch .p-toggleswitch-label {
+  flex: 1 1 auto;
+  line-height: 1.25;
+}
+.p-toggleswitch:not(.p-disabled),
+.p-toggleswitch:not(.p-disabled) .p-toggleswitch-label {
+  cursor: pointer;
+}
+
+.p-checkbox {
+  vertical-align: bottom;
+}
+.p-checkbox .p-checkbox-box {
+  flex: 0 0 auto;
+}
+.p-checkbox .p-checkbox-label {
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* PrimeNG v21 class-rename bridges → v17 md-dark-indigo oracle.
+   v21 renamed/restructured these widgets; the legacy oracle CSS styles the v17
+   class names so the new markup renders unstyled. Map the v21 classes to the
+   oracle look. Unlayered + after the import so they beat the legacy layer. */
+
+/* ToggleSwitch (v17 inputswitch): oracle styles .p-inputswitch-slider, v21 emits
+   .p-toggleswitch-slider — track/knob/checked never painted.
+   NOTE: the HOST layout (inline-flex, width:auto) is set above — do NOT size the
+   host here or the label crams and wraps vertically. Only the slider TRACK is sized. */
+.p-toggleswitch .p-toggleswitch-slider {
+  background: #464646;
+  border-radius: 30px;
+  width: 3rem;
+  height: 1.75rem;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+.p-toggleswitch .p-toggleswitch-slider:before {
+  content: "";
+  position: absolute;
+  background: #ffffff;
+  width: 1.25rem;
+  height: 1.25rem;
+  left: 0.25rem;
+  top: 50%;
+  margin-top: -0.625rem;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+.p-toggleswitch:not(.p-disabled):hover .p-toggleswitch-slider {
+  background: #575757;
+}
+.p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider {
+  background: #526ed3;
+}
+.p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider:before {
+  background: #ffffff;
+  transform: translateX(1.25rem);
+}
+.p-toggleswitch.p-toggleswitch-checked:not(.p-disabled):hover .p-toggleswitch-slider {
+  background: #6c86e2;
+}
+
+/* SliderAlt: SliderAltStyle injects v21 token CSS that resolves range/handle
+   background to unset tokens, overriding the oracle. Force the v17 colors. */
+.p-slider {
+  position: relative;
+}
+.p-slider .p-slider-range {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #526ed3 !important;
+  border-radius: 4px;
+}
+.p-slider.p-slider-vertical .p-slider-range {
+  bottom: 0;
+  top: auto;
+  width: 100%;
+  height: auto;
+}
+.p-slider .p-slider-handle {
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  margin-left: -10px;
+  background: #526ed3 !important;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 0 none;
+}
+
+/* Select overlay (v17 dropdown): oracle styles .p-dropdown-panel/-items/-item,
+   v21 emits .p-select-overlay/-list/-option — panel + items render unstyled. */
+.p-select-overlay {
+  background: #2b2b2b;
+  color: rgba(255, 255, 255, 0.87);
+  border: 0 none;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+.p-select-overlay .p-select-list {
+  padding: 0;
+}
+.p-select-overlay .p-select-option {
+  padding: 1rem;
+  color: rgba(255, 255, 255, 0.87);
+  background: transparent;
+}
+.p-select-overlay .p-select-option.p-select-option-selected {
+  color: #526ed3;
+  background: rgba(82, 110, 211, 0.16);
+}
+.p-select-overlay .p-select-option:not(.p-select-option-selected):hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.p-select-overlay .p-select-empty-message {
+  padding: 1rem;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+/* DynamicDialog overlay (shot 11): v21 overlay container renders but the dialog
+   surface + mask are unthemed → invisible. Bridge to the oracle dark surface
+   (#262626 header/content, rgba(0,0,0,.32) mask). */
+.p-dialog {
+  background: #262626;
+  color: rgba(255, 255, 255, 0.87);
+  border-radius: 4px;
+  border: 0 none;
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+.p-dialog .p-dialog-header {
+  background: #262626;
+  color: rgba(255, 255, 255, 0.87);
+}
+.p-dialog .p-dialog-content {
+  background: #262626;
+  color: rgba(255, 255, 255, 0.87);
+}
+.p-dialog-mask.p-overlay-mask {
+  background: rgba(0, 0, 0, 0.32);
+}
+
+/* AltAutoComplete multiple (v17 .p-autocomplete-multiple-container → v21
+   .p-autocomplete-input-multiple): oracle only styles the v17 container, so v21
+   renders a tiny unstyled box. Bridge to the v17 bordered dark input look. */
+.p-autocomplete {
+  width: 100%;
+}
+.p-autocomplete-input-multiple {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.25rem 0.5rem;
+  min-height: 3.5rem;
+  list-style: none;
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.87);
+}
+.p-autocomplete-input-multiple:not(.p-disabled):hover,
+.p-autocomplete:not(.p-disabled).p-focus .p-autocomplete-input-multiple {
+  border-color: #526ed3;
+}
+.p-autocomplete-input-multiple .p-autocomplete-input-token {
+  display: inline-flex;
+  flex: 1 1 auto;
+  padding: 0.5rem 0;
+}
+.p-autocomplete-input-multiple input {
+  background: transparent;
+  border: 0 none;
+  outline: 0 none;
+  width: 100%;
+  color: rgba(255, 255, 255, 0.87);
+  font-family: var(--font-family);
+}
+.p-autocomplete-token {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: rgba(82, 110, 211, 0.16);
+  color: #526ed3;
+  border-radius: 4px;
+}
+.p-autocomplete-token-label {
+  line-height: 1;
+}
