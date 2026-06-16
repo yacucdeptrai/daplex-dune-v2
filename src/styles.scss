@@ -99,12 +99,12 @@ p {
    rules for them, so the box ovals and the label wraps vertically. Restore the v17
    inline layout. Transitional — to be migrated into the mddarkindigo preset at cutover. */
 .p-radiobutton {
-  display: inline-flex;
+  /* Do NOT force display/width here — the app wraps radio options in `tw-flex`
+     full-width rows; overriding to inline-flex/width:auto shrinks them into small
+     side-by-side boxes ("not sync line, broke ugly"). Just align + space; the box
+     flex-shrink:0 below kills the oval inside the app's flex row. */
   align-items: center;
   gap: 0.5rem;
-  width: auto;
-  height: auto;
-  vertical-align: bottom;
 }
 .p-radiobutton .p-radiobutton-box {
   flex: 0 0 auto;
@@ -113,6 +113,7 @@ p {
 }
 .p-radiobutton .p-radiobutton-label {
   line-height: 1;
+  white-space: nowrap;
 }
 .p-radiobutton:not(.p-disabled),
 .p-radiobutton:not(.p-disabled) .p-radiobutton-label {
@@ -338,4 +339,42 @@ p {
   outline: 0 none !important;
   outline-offset: 0 !important;
   border-color: #526ed3 !important;
+}
+
+/* p-input-icon-left (search overlay): a v17 layout class REMOVED in v21, and its
+   positioning lived in the now-removed primeng.min.css, so the <i> renders as a
+   block ABOVE the input. Restore the v17 icon-inside-input positioning. */
+.p-input-icon-left {
+  position: relative;
+  display: inline-block;
+}
+.p-input-icon-left > i:first-child,
+.p-input-icon-left > .ms:first-child {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  margin-top: -0.5rem;
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+}
+.p-input-icon-left > input,
+.p-input-icon-left > .p-inputtext {
+  padding-left: 2.5rem;
+}
+
+/* Datepicker (v17 p-calendar → v21 p-datepicker): oracle styles .p-calendar, so the
+   v21 input-group is unstyled and the input collapses (~30px). Make it fill, icon beside. */
+.p-datepicker {
+  display: inline-flex;
+  align-items: stretch;
+  width: 100%;
+}
+.p-datepicker .p-datepicker-input,
+.p-datepicker > input {
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+}
+.p-datepicker .p-datepicker-dropdown {
+  flex: 0 0 auto;
 }

@@ -174,6 +174,7 @@ export class HomeHeaderComponent implements OnInit {
       modal: true,
       dismissableMask: true,
       minimal: true,
+      closeOnEscape: true,
       position: 'top',
       closeOnNavigation: true,
       disableAnimation: true,
