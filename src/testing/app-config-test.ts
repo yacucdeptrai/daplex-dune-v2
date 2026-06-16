@@ -74,7 +74,7 @@ import { MarkdownPipeModule } from '../app/shared/pipes/markdown-pipe';
 import { HtmlPipeModule } from '../app/shared/pipes/html-pipe';
 import { MediaFilterModule } from '../app/shared/components/media-filter';
 import { HomeLayoutModule } from '../app/shared/layouts/home-layout';
-import { MaterialIndigoPreset } from '../theme/material-indigo-preset';
+import MdDarkIndigo from '@primeuix/themes/mddarkindigo';
 import { FailingErrorHandler } from './console-error-guard';
 import { provideTranslocoTesting } from './test-helpers';
 
@@ -142,18 +142,18 @@ export function provideAppConfigForTest(
     // 15. HTTP cache — ttl:0 so nothing is cached across specs.
     provideHttpCache({ ttl: 0 }),
 
-    // 16. PrimeNG theme — REAL MaterialIndigoPreset (missing preset = silent-unstyled,
-    //     not a throw; A7 asserts the injected theme CSS-vars).
+    // 16. PrimeNG theme — REAL MdDarkIndigo preset (missing preset = silent-unstyled,
+    //     not a throw; A7 asserts the injected theme CSS-vars). Mirrors app.config.ts.
     providePrimeNG({
       ripple: true,
       theme: {
-        preset: MaterialIndigoPreset,
+        preset: MdDarkIndigo,
         options: {
           prefix: 'p',
           darkModeSelector: '.p-dark',
           cssLayer: {
             name: 'primeng',
-            order: 'tailwind-base, primeng, tailwind-utilities'
+            order: 'base, primeng, components, utilities'
           }
         }
       }

@@ -24,7 +24,7 @@ import { ApplicationRef, Component } from '@angular/core';
 
 import { provideAppConfigForTest } from '../app-config-test';
 import { assertNoNgErrors } from '../console-error-guard';
-import { MaterialIndigoPreset } from '../../theme/material-indigo-preset';
+import MdDarkIndigo from '@primeuix/themes/mddarkindigo';
 
 @Component({ standalone: true, template: '' })
 class ThemeHost {}
@@ -64,11 +64,11 @@ describe('Theme / style regression smoke (A7)', () => {
     const fixture = TestBed.createComponent(ThemeHost);
     fixture.detectChanges();
 
-    // The MaterialIndigo preset must carry a dark color-scheme (semantic.colorScheme.dark);
+    // The MdDarkIndigo preset must carry a dark color-scheme (semantic.colorScheme.dark);
     // its absence = the dark theme silently flattens to light.
-    const semantic = (MaterialIndigoPreset as any)?.semantic;
+    const semantic = (MdDarkIndigo as any)?.semantic;
     expect(semantic?.colorScheme?.dark)
-      .withContext('MaterialIndigoPreset must define semantic.colorScheme.dark')
+      .withContext('MdDarkIndigo must define semantic.colorScheme.dark')
       .toBeTruthy();
     assertNoNgErrors();
   });
@@ -76,9 +76,9 @@ describe('Theme / style regression smoke (A7)', () => {
   it('keeps the dark theme surface tokens defined (preset semantic surface)', () => {
     // A flattened/missing dark surface scale is the silent-unstyled symptom. The
     // preset must define a dark surface palette; its absence is the regression.
-    const darkScheme = (MaterialIndigoPreset as any)?.semantic?.colorScheme?.dark;
+    const darkScheme = (MdDarkIndigo as any)?.semantic?.colorScheme?.dark;
     expect(darkScheme?.surface ?? darkScheme?.content ?? darkScheme)
-      .withContext('MaterialIndigoPreset dark color-scheme must define surface/content tokens')
+      .withContext('MdDarkIndigo dark color-scheme must define surface/content tokens')
       .toBeTruthy();
     assertNoNgErrors();
   });

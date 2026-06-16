@@ -17,6 +17,8 @@
  * message to match it — any other, unexpected `console.error` still fails.
  */
 
+import { ErrorHandler, Injectable } from '@angular/core';
+
 /** console.error argument lists recorded during the current spec. */
 let recordedErrors: unknown[][] = [];
 
@@ -78,4 +80,35 @@ export function installConsoleErrorGuard(): void {
         `If this is intentional, call expectConsoleError() in the spec.\n  ${messages.join('\n  ')}`
     );
   });
+}
+
+/**
+ * Explicit in-spec checkpoint: fail now if any NG-coded (`NG####`) error was
+ * recorded so far this spec. The global guard already fails the spec in
+ * `afterEach` on ANY `console.error`; this gives smoke specs a synchronous,
+ * NG-specific assertion mid-body (after a mount/route step) so the failure
+ * points at the exact interaction that produced the framework error.
+ */
+export function assertNoNgErrors(): void {
+  const ngErrors = recordedErrors
+    .map((args) => args.map((a) => String(a)).join(' '))
+    .filter((message) => /NG\d{3,4}/.test(message));
+  if (ngErrors.length > 0) {
+    fail(`Spec emitted ${ngErrors.length} NG-coded console.error(s):\n  ${ngErrors.join('\n  ')}`);
+  }
+}
+
+/**
+ * Test `ErrorHandler` that routes framework errors through `console.error` so the
+ * installed guard fails the spec — instead of `GlobalErrorHandler` swallowing them.
+ * The test bed (`app-config-test.ts`) swaps `GlobalErrorHandler` → this, so an
+ * NG-coded error thrown during a mount/route surfaces as a red spec.
+ */
+@Injectable()
+export class FailingErrorHandler implements ErrorHandler {
+  handleError(error: unknown): void {
+    const message = error instanceof Error ? (error.stack ?? error.message) : String(error);
+    // Routed through console.error so the installed guard records + fails it.
+    console.error(message);
+  }
 }
