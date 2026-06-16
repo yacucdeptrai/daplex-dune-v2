@@ -139,14 +139,14 @@
             @if (hasUnsavedChanges) {
 <div class="tw-bg-neutral-925 tw-fixed tw-max-w-5xl tw-mx-auto tw-bg-opacity-80 tw-left-2 tw-right-2
       tw-bottom-12 sm:tw-bottom-4 tw-rounded-md tw-z-1" @updateProfileToast>
-                <div class="tw-flex tw-flex-wrap tw-mx-4 tw-my-2 tw-items-center">
+                <div class="app-action-bar tw-mx-4 tw-my-2">
                   <p class="tw-text-white tw-font-medium max-sm:tw-w-full">{{ t('users.profileSettings.unsavedChanges') }}</p>
-                  <div class="tw-ml-auto max-sm:tw-mt-2">
+                  <div class="app-action-bar__actions">
                     <button pButton type="button" [label]="t('users.profileSettings.reset')" (click)="resetProfileUpdate()"
                       class="p-button-text p-button-secondary p-button-sm" [disabled]="isSavingChanges">
                     </button>
                     <button pButton type="button" [label]="t('users.profileSettings.save')" (click)="submitProfileUpdate()"
-                      class="p-button-success p-button-sm tw-ml-2" [disabled]="isSavingChanges">
+                      class="p-button-success p-button-sm" [disabled]="isSavingChanges">
                     </button>
                   </div>
                 </div>

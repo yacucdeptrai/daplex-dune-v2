@@ -36,14 +36,14 @@
   @if (hasUnsavedChanges) {
 <div class="tw-bg-neutral-925 tw-fixed tw-max-w-5xl tw-mx-auto tw-bg-opacity-80 tw-left-2 tw-right-2
     tw-bottom-12 sm:tw-bottom-4 tw-rounded-md tw-z-10" @updateMediaToast>
-      <div class="tw-flex tw-flex-wrap tw-mx-4 tw-my-2 tw-items-center">
+      <div class="app-action-bar tw-mx-4 tw-my-2">
         <p class="tw-text-white tw-font-medium max-sm:tw-w-full">{{ t('users.mediaSettings.unsavedChanges') }}</p>
-        <div class="tw-ml-auto max-sm:tw-mt-2">
+        <div class="app-action-bar__actions">
           <button pButton type="button" [label]="t('users.mediaSettings.reset')" (click)="resetMediaUpdate()"
             class="p-button-text p-button-secondary p-button-sm" [disabled]="updateMediaForm.disabled">
           </button>
           <button pButton type="submit" form="update-media-form" [label]="t('users.mediaSettings.save')"
-            class="p-button-success p-button-sm tw-ml-2" [disabled]="updateMediaForm.disabled">
+            class="p-button-success p-button-sm" [disabled]="updateMediaForm.disabled">
           </button>
         </div>
       </div>

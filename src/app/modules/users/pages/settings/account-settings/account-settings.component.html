@@ -17,16 +17,16 @@
 @if (currentUser) {
   <div class="tw-text-white tw-mt-4">
     <p class="tw-font-medium">{{ t('users.accountSettings.username') }}</p>
-    <div class="tw-flex tw-items-center">
+    <div class="app-action-bar">
       <p>{{ currentUser.username }}</p>
-      <div class="tw-ml-auto">
+      <div class="app-action-bar__actions">
         <button pButton [label]="t('users.accountSettings.editUsername')" class="p-button-secondary p-button-sm"
         (click)="showUpdateUsernameDialog()"></button>
       </div>
     </div>
     <div class="tw-divider tw-my-4"></div>
     <p class="tw-font-medium">{{ t('users.accountSettings.email') }}</p>
-    <div class="tw-flex tw-items-center">
+    <div class="app-action-bar">
       <p class="[&>*]:tw-align-middle">
         <span>{{ currentUser.email }}</span>
         @if (!currentUser.verified) {
@@ -34,10 +34,10 @@
           class="ms ms-error ms-icon-sm ms-fill ms-font-bold tw-text-red-500 tw-ml-2"></i>
         }
       </p>
-      <div class="tw-ml-auto">
+      <div class="app-action-bar__actions">
         @if (!currentUser.verified) {
           <button pButton [label]="t('users.accountSettings.verifyEmail')"
-          icon="ms ms-open-in-new" class="p-button-secondary p-button-sm p-button-xs-icon tw-mr-2"></button>
+          icon="ms ms-open-in-new" class="p-button-secondary p-button-sm p-button-xs-icon"></button>
         }
         <button pButton [label]="t('users.accountSettings.editEmail')" class="p-button-secondary p-button-sm"
         (click)="showUpdateEmailDialog()"></button>
@@ -45,19 +45,21 @@
     </div>
     <div class="tw-divider tw-my-4"></div>
     <p class="tw-font-medium">{{ t('users.accountSettings.dateOfBirth') }}</p>
-    <div class="tw-flex tw-items-center">
+    <div class="app-action-bar">
       @if (currentUser.birthdate) {
         <p>{{ currentUser.birthdate | shortDate }}</p>
       }
-      <div class="tw-ml-auto">
+      <div class="app-action-bar__actions">
         <button pButton [label]="t('users.accountSettings.editDateOfBirth')" class="p-button-secondary p-button-sm"
         (click)="showUpdateBirthdateDialog()"></button>
       </div>
     </div>
     <div class="tw-divider tw-my-4"></div>
     <p class="tw-font-medium">{{ t('users.accountSettings.password') }}</p>
-    <button pButton [label]="t('users.accountSettings.changePassword')" class="p-button-secondary p-button-sm tw-mt-2"
-    (click)="showUpdatePasswordDialog()"></button>
+    <div class="app-action-bar__actions tw-mt-2">
+      <button pButton [label]="t('users.accountSettings.changePassword')" class="p-button-secondary p-button-sm"
+      (click)="showUpdatePasswordDialog()"></button>
+    </div>
     <!-- <div class="tw-divider tw-my-4"></div>
     <p class="tw-font-medium">{{ t('users.accountSettings.accountVerification') }}</p>
     @if (currentUser.verified) {
