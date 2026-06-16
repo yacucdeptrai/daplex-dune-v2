@@ -7,8 +7,11 @@
         </button>
       }
       <p-selectButton [options]="[ { icon: 'ms ms-grid-view', value: 1 }, { icon: 'ms ms-list', value: 2 } ]"
-        [initValue]="listViewMode" optionLabel="label" optionValue="value" class="tw-ml-auto" styleClass="p-button-sm"
+        [initValue]="listViewMode" optionLabel="label" optionValue="value" class="tw-ml-auto app-icon-btn" styleClass="p-button-sm"
         (onChange)="listViewMode = $event.value">
+        <ng-template #item let-item>
+          <i [class]="item.icon"></i>
+        </ng-template>
       </p-selectButton>
     </div>
     @if (loadingPlaylists) {

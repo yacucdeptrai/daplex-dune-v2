@@ -3,13 +3,16 @@
     <div class="tw-text-right">
       @if (currentUser) {
         <button pButton icon="ms ms-settings"
-          class="p-button-plain p-button-sm p-button-rounded p-button-text p-button-sm-icon"
+          class="p-button-plain p-button-sm p-button-rounded p-button-text p-button-sm-icon app-icon-btn"
           [appOverlayOrigin]="overlayRatingMenu" #trigger="appOverlayOrigin" (click)="displaySettings = !displaySettings">
         </button>
       }
       <p-selectButton [options]="[ { icon: 'ms ms-grid-view', value: 1 }, { icon: 'ms ms-list', value: 2 } ]"
-        optionLabel="label" optionValue="value" styleClass="p-button-sm tw-inline-block tw-ml-4"
+        optionLabel="label" optionValue="value" styleClass="p-button-sm tw-inline-block tw-ml-4" class="app-icon-btn"
         [(ngModel)]="listViewMode">
+        <ng-template #item let-item>
+          <i [class]="item.icon"></i>
+        </ng-template>
       </p-selectButton>
       <ng-template #overlayRatingMenu #op="appConnectedOverlay" appConnectedOverlay>
         <div class="tw-flex tw-items-center tw-p-4">

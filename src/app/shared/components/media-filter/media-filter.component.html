@@ -68,7 +68,7 @@
       <button pButton type="button" icon="ms ms-sort" aria-label="Sort media menu" [appMenuTriggerFor]="sortMenu"
         class="p-button-secondary p-button-sm p-button-sm-icon" [pTooltip]="t('media.filter.sort')">
       </button>
-      <p-toggleButton formControlName="showAdvanced" class="tw-inline-block tw-ml-2"
+      <p-toggleButton formControlName="showAdvanced" class="tw-inline-block tw-ml-2" onLabel="" offLabel=""
         styleClass="p-button-sm p-togglebutton-dark !tw-border-none" [onIcon]="'ms ms-expand-less'"
         offIcon="ms ms-expand-more" [pTooltip]="t('media.filter.toggleAdvanced')"
         (onChange)="showAdvanced = !!$event.checked">
