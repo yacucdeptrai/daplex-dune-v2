@@ -341,6 +341,23 @@ p {
   border-color: #526ed3 !important;
 }
 
+/* Inputtext / datepicker-input focus ring (shots 14, 15): same v21 family as the
+   radiobutton above. The v21 preset paints a focus.ring box-shadow + outline on the
+   `:focus-visible` path; the oracle only zeroes the legacy `.p-inputtext:enabled:focus`,
+   which v21 does not trigger for keyboard/programmatic focus → the ring leaks through.
+   Re-assert the v17 convention: focused input is a flat indigo #526ed3 border, no ring. */
+.p-inputtext:focus-visible,
+.p-datepicker-input:focus-visible {
+  box-shadow: none !important;
+  outline: 0 none !important;
+  outline-offset: 0 !important;
+  border-color: #526ed3 !important;
+}
+.p-inputtext.ng-invalid:focus-visible,
+.p-datepicker-input.ng-invalid:focus-visible {
+  border-color: #f44435 !important;
+}
+
 /* p-input-icon-left (search overlay): a v17 layout class REMOVED in v21, and its
    positioning lived in the now-removed primeng.min.css, so the <i> renders as a
    block ABOVE the input. Restore the v17 icon-inside-input positioning. */
