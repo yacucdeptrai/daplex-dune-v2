@@ -5,7 +5,7 @@
       [editable]="true" aria-label="Details">
       @if (!media) {
         <form [formGroup]="createMediaForm" formHandler (ngSubmit)="onCreateMediaFormSubmit()">
-          <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
+          <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-16rem)] tw-px-6">
             <div class="tw-flex tw-flex-wrap">
               <div class="tw-w-full md:tw-w-1/2">
                 <label for="title" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
@@ -174,7 +174,7 @@
         </form>
       } @else {
         <form [formGroup]="updateMediaForm" formHandler (ngSubmit)="onUpdateMediaFormSubmit()">
-          <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
+          <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-16rem)] tw-px-6">
             <div class="tw-flex tw-flex-wrap">
               <div class="tw-w-full md:tw-w-1/2">
                 <label for="title" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
@@ -350,7 +350,7 @@
             <p-altAutoComplete #genreAC [formControl]="createOrUpdateForm.controls.genres"
               [suggestions]="genreSuggestions" (completeMethod)="loadGenreSuggestions($event.query)" optionLabel="name"
               dataKey="_id" [multiple]="true" [unique]="true" [completeOnFocus]="true" scrollHeight="300px"
-              appendTo="body" styleClass="tw-w-full" panelStyleClass="p-autocomplete-xs" inputId="genres"
+              appendTo="body" styleClass="p-autocomplete-full tw-w-full" panelStyleClass="p-autocomplete-xs" inputId="genres"
               ariaLabel="Find genres" dropdownAriaLabel="Genre search results">
               <ng-template let-values pTemplate="selectedItem">{{ t('admin.' + formAction + '.selectedItems', {
                 itemCount: values.length }) }}</ng-template>
@@ -371,7 +371,7 @@
             <p-altAutoComplete #studioAC [formControl]="createOrUpdateForm.controls.studios"
               [suggestions]="productionSuggestions" (completeMethod)="loadProductionSuggestions($event.query)"
               optionLabel="name" dataKey="_id" [multiple]="true" [unique]="true" [completeOnFocus]="true" scrollHeight="300px"
-              appendTo="body" styleClass="tw-w-full" panelStyleClass="p-autocomplete-xs" inputId="studios"
+              appendTo="body" styleClass="p-autocomplete-full tw-w-full" panelStyleClass="p-autocomplete-xs" inputId="studios"
               ariaLabel="Find companies" dropdownAriaLabel="Studio search results">
               <ng-template let-values pTemplate="selectedItem">{{ t('admin.' + formAction + '.selectedItems', {
                 itemCount: values.length }) }}</ng-template>
@@ -392,7 +392,7 @@
             <p-altAutoComplete #producerAC [formControl]="createOrUpdateForm.controls.producers"
               [suggestions]="productionSuggestions" (completeMethod)="loadProductionSuggestions($event.query)"
               optionLabel="name" dataKey="_id" [multiple]="true" [unique]="true" [completeOnFocus]="true" scrollHeight="300px"
-              appendTo="body" styleClass="tw-w-full" panelStyleClass="p-autocomplete-xs" inputId="producers"
+              appendTo="body" styleClass="p-autocomplete-full tw-w-full" panelStyleClass="p-autocomplete-xs" inputId="producers"
               ariaLabel="Find companies" dropdownAriaLabel="Producer search results">
               <ng-template let-values pTemplate="selectedItem">{{ t('admin.' + formAction + '.selectedItems', {
                 itemCount: values.length }) }}</ng-template>
@@ -412,7 +412,7 @@
               t('admin.' + formAction + '.tags') }}</label>
             <p-altAutoComplete #tagAC [formControl]="createOrUpdateForm.controls.tags" [suggestions]="tagSuggestions"
               (completeMethod)="loadTagSuggestions($event.query)" optionLabel="name" dataKey="_id" [multiple]="true"
-              [unique]="true" [completeOnFocus]="true" scrollHeight="300px" appendTo="body" styleClass="tw-w-full"
+              [unique]="true" [completeOnFocus]="true" scrollHeight="300px" appendTo="body" styleClass="p-autocomplete-full tw-w-full"
               panelStyleClass="p-autocomplete-xs" inputId="tags" ariaLabel="Find tags"
               dropdownAriaLabel="Tag search results">
               <ng-template let-values pTemplate="selectedItem">{{ t('admin.' + formAction + '.selectedItems', {
@@ -437,7 +437,7 @@
       </cdk-step>
       <cdk-step [label]="t('admin.createMedia.movieStep3')" [optional]="true" aria-label="Movie source">
         @if (media) {
-          <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
+          <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-16rem)] tw-px-6">
             <p class="tw-text-lg tw-font-medium tw-mb-2">{{ t('admin.createMedia.addMovieSourceLabel') }}</p>
             <app-file-upload accept=".mp4, .mkv, .webm, .m2ts" styleClass="tw-max-w-xl tw-h-40 tw-mx-auto"
               ariaLabel="Upload movie source" [label]="t('admin.createMedia.chooseFile')"
@@ -473,7 +473,7 @@
     }
     <ng-template #mediaStep2Body let-hasMovieElements="hasMovieElements">
       @if (media) {
-        <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
+        <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-16rem)] tw-px-6">
           <div class="tw-flex tw-items-center tw-px-8 tw-py-4 tw-bg-neutral-875 tw-rounded-md tw-shadow-sm">
             <div class="tw-w-auto">
               <p class="tw-text-lg tw-font-medium">{{ t('admin.createMedia.addPosterLabel') }}</p>
@@ -570,7 +570,7 @@
       </div>
     </ng-template>
     <ng-template #mediaFinalStep let-description="description">
-      <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
+      <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-16rem)] tw-px-6">
         <div class="tw-mx-auto tw-mt-16 tw-text-center">
           <p class="tw-text-2xl tw-font-medium tw-mb-2">{{ t('admin.createMedia.finishLabel') }}</p>
           <p class="tw-text-lg tw-mb-4">{{ description }}</p>

@@ -20,6 +20,7 @@ import { InvalidControlDirective } from '../../directives/form-directive/invalid
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FirstErrorKeyPipe } from '../../pipes/validation-pipe/first-error-key/first-error-key.pipe';
+import { DialogDismissDirective } from '../../directives/dialog-dismiss/dialog-dismiss.directive';
 
 @Component({
     selector: 'app-add-to-playlist',
@@ -27,6 +28,7 @@ import { FirstErrorKeyPipe } from '../../pipes/validation-pipe/first-error-key/f
     styleUrls: ['./add-to-playlist.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [PlaylistsService],
+    hostDirectives: [DialogDismissDirective],
     imports: [NgTemplateOutlet, TranslocoDirective, InputTextModule, CheckboxModule, ButtonModule, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, AutofocusDirective, InvalidControlDirective, RadioButtonModule, ProgressSpinnerModule, FirstErrorKeyPipe]
 })
 export class AddToPlaylistComponent implements OnInit, OnDestroy {

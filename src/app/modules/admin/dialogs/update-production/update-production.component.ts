@@ -14,6 +14,7 @@ import { InvalidControlDirective } from '../../../../shared/directives/form-dire
 import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
+import { DialogDismissDirective } from '../../../../shared/directives/dialog-dismiss/dialog-dismiss.directive';
 
 interface UpdateProductionForm {
   name: FormControl<string>;
@@ -26,6 +27,7 @@ interface UpdateProductionForm {
     styleUrls: ['./update-production.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ItemDataService, DestroyService],
+    hostDirectives: [DialogDismissDirective],
     imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, SelectModule, ButtonModule, FirstErrorKeyPipe]
 })
 export class UpdateProductionComponent implements OnInit {

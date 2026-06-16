@@ -84,6 +84,10 @@ export class QueueUploadService {
 
   private upload(queuedUploadFile: FileUpload) {
     queuedUploadFile.updateProgress(0);
+    // Reflect UPLOADING in the queue immediately so the panel header shows "Uploading N"
+    // during the create-session round-trip — before the first PUT progress event — instead
+    // of "Not uploading" (the ICU =0 branch when totalUploading is momentarily 0).
+    this._uploadQueue.next(this._files);
     this._totalBytes += queuedUploadFile.file.size;
     const mimeType = this.resolveMimeType(queuedUploadFile.file);
     const filename = this.normalizeFilenameForApi(queuedUploadFile.file.name);

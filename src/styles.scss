@@ -233,11 +233,57 @@ p {
   min-width: 0;
   cursor: pointer;
 }
+/* Add-to-playlist rows mark the host `tw-flex tw-w-full` to lay out one full-width row:
+   [box][playlist name][flex-1 visibility icon at the right]. The generic bridge above forces
+   `width:auto` + `flex-wrap:wrap`, which beats the consumer's `tw-w-full` and wraps the label
+   and icon vertically below the 20px box. Restore the intended single row for these only. */
+.p-checkbox.tw-w-full {
+  width: 100%;
+  flex-wrap: nowrap;
+}
+/* Checked state: v21/fork put the checked markers (.p-checkbox-checked / .p-highlight) on the
+   HOST, but the oracle fills the box blue + draws the tick only under `.p-checkbox-box.p-highlight`
+   (the box, which v21 never sets) — so the box stays dark #1e1e1e and the dark #121212 checkmark is
+   invisible. Re-map to the host marker: fill the box, then draw the same CSS tick (static, no
+   reliance on the .p-highlight-gated `--checkbox-check-*` vars / keyframe). */
+.p-checkbox-checked .p-checkbox-box {
+  border-color: #526ed3;
+  background: #526ed3;
+}
+.p-checkbox-checked .p-checkbox-box .p-checkbox-icon.ms-check:before {
+  /* Render the Material Symbols check glyph (\e5ca) rather than the oracle's border-tick:
+     the tick's size/position come from the dead .p-highlight-gated `--checkbox-check-*` vars,
+     so it draws sizeless/mispositioned. The glyph centres in the box via the box's own flex.
+     !important: the unlayered oracle loads after styles.scss, so its `content:""` tick rule
+     wins at equal specificity otherwise. */
+  content: "\e5ca" !important;
+  border: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  position: static !important;
+  transform: none !important;
+  font-size: 16px;
+  line-height: 1;
+}
+/* Stretched focus/hover halo (same as radiobutton): the oracle's host-level box-shadow state
+   layer was sized for a 20px square host; on the full-width row host it smears into a wide band. */
+.p-checkbox {
+  box-shadow: none !important;
+}
 
 /* PrimeNG v21 class-rename bridges → v17 md-dark-indigo oracle.
    v21 renamed/restructured these widgets; the legacy oracle CSS styles the v17
    class names so the new markup renders unstyled. Map the v21 classes to the
    oracle look. Unlayered + after the import so they beat the legacy layer. */
+
+/* Panel content (v17 plain block → v21 `.p-panel-content-container { display:grid }`).
+   The implicit grid column is `auto`, so it sizes to the content's max-content and
+   overflows the panel on wide rows (e.g. a long upload filename pushing past the right
+   edge). Bound the column to the panel width so children must shrink/truncate (the v17
+   block did this naturally). */
+.p-panel-content-container {
+  grid-template-columns: minmax(0, 1fr);
+}
 
 /* ToggleSwitch (v17 inputswitch): oracle styles .p-inputswitch-slider, v21 emits
    .p-toggleswitch-slider — track/knob/checked never painted.
@@ -308,6 +354,24 @@ p {
   border: 0 none;
 }
 
+/* Tabs (v17 p-tabview): oracle renders .p-tabview-nav/-panels transparent so the page
+   ground shows through; v21 .p-tablist/.p-tabpanels default to the #1e1e1e content surface. */
+.p-tablist,
+.p-tabpanels {
+  background: transparent;
+}
+
+/* User-page tabs (Profile/History/Playlists/Rated): the routerLink <a> renders inline and only
+   covers its text, leaving the tab's padding a dead zone — clicking it selects the tab visually
+   but never navigates. Expand the anchor to fill the whole tab (negative margins absorb the
+   tab's 16px/20px padding, re-applied on the link) so a click anywhere routes. */
+.p-tab > a {
+  display: block;
+  margin: -1rem -1.25rem;
+  padding: 1rem 1.25rem;
+  color: inherit;
+}
+
 /* Select overlay (v17 dropdown): oracle styles .p-dropdown-panel/-items/-item,
    v21 emits .p-select-overlay/-list/-option — panel + items render unstyled. */
 .p-select-overlay {
@@ -333,6 +397,38 @@ p {
   background: rgba(255, 255, 255, 0.04);
 }
 .p-select-overlay .p-select-empty-message {
+  padding: 1rem;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+/* Autocomplete overlay (v17 .p-autocomplete-panel): v21 emits .p-autocomplete-overlay/
+   -list/-option AND tags the panel .p-component-overlay, whose unlayered oracle rule paints
+   the modal-mask background rgba(0,0,0,.32) → the suggestion panel is semi-transparent and
+   page text behind it (e.g. "Studios (optional)") bleeds through. Bridge to the solid oracle
+   surface, mirroring .p-select-overlay. */
+.p-autocomplete-overlay {
+  background: #2b2b2b;
+  color: rgba(255, 255, 255, 0.87);
+  border: 0 none;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+.p-autocomplete-overlay .p-autocomplete-list {
+  padding: 0;
+}
+.p-autocomplete-overlay .p-autocomplete-option {
+  padding: 1rem;
+  color: rgba(255, 255, 255, 0.87);
+  background: transparent;
+}
+.p-autocomplete-overlay .p-autocomplete-option.p-autocomplete-option-selected {
+  color: #526ed3;
+  background: rgba(82, 110, 211, 0.16);
+}
+.p-autocomplete-overlay .p-autocomplete-option:not(.p-autocomplete-option-selected):hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.p-autocomplete-overlay .p-autocomplete-empty-message {
   padding: 1rem;
   color: rgba(255, 255, 255, 0.87);
 }
@@ -422,6 +518,23 @@ p {
   border-color: #526ed3 !important;
 }
 
+/* Unselected radios show a 1px dot inside the ring: v21's unchecked icon is `transform:
+   scale(0.1)` (a deliberate non-zero) while the unlayered oracle paints `.p-radiobutton-icon`
+   #526ED3 unconditionally — so a tiny blue dot peeks through every empty ring. Hide the icon
+   unless the host carries v21's `.p-radiobutton-checked` marker (v17 used scale(0)). */
+.p-radiobutton:not(.p-radiobutton-checked) .p-radiobutton-box .p-radiobutton-icon {
+  background: transparent;
+  transform: translateZ(0) scale(0);
+}
+
+/* Stretched focus/hover halo: the oracle's host-level state-layer (`box-shadow: 0 0 1px 10px`
+   on `.p-radiobutton`) was sized for v17's 20×20 circular host. The v21 label bridge makes the
+   host a `display:block; width:auto` row, so that 10px spread smears into a wide pill extending
+   right. Focus is the indigo box border (above), so drop the host halo entirely. */
+.p-radiobutton {
+  box-shadow: none !important;
+}
+
 /* Inputtext / datepicker-input focus ring (shots 14, 15): same v21 family as the
    radiobutton above. The v21 preset paints a focus.ring box-shadow + outline on the
    `:focus-visible` path; the oracle only zeroes the legacy `.p-inputtext:enabled:focus`,
@@ -437,6 +550,77 @@ p {
 .p-inputtext.ng-invalid:focus-visible,
 .p-datepicker-input.ng-invalid:focus-visible {
   border-color: #f44435 !important;
+}
+
+/* Form-field surfaces (v17 p-inputtextarea → v21 p-textarea, v17 p-dropdown → v21 p-select):
+   v21 renamed both classes, so the oracle's .p-inputtext/.p-dropdown rules miss them and the
+   fields fall back to v21's near-black default. Re-assert the v17 #1e1e1e surface + border. */
+.p-textarea,
+.p-select {
+  background: #1e1e1e;
+  color: rgba(255, 255, 255, 0.87);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+.p-textarea:enabled:hover,
+.p-select:not(.p-disabled):hover {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+.p-textarea:enabled:focus,
+.p-textarea:focus-visible,
+.p-select:not(.p-disabled).p-focus {
+  border-color: #526ed3;
+  box-shadow: none;
+  outline: 0 none;
+}
+
+/* Equal-height controls in the create-/configure-media forms (shared field ids). Running time
+   is a .p-inputtext and already matches the Title input height; the v21 p-select triggers
+   (original-language, release-date, last-air-date) render a shorter .p-select-label, so grow
+   their padding to the oracle input's 1rem and the whole block lines up at the Title height. */
+#original-language .p-select-label,
+#release-date .p-select-label,
+#last-air-date .p-select-label {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  line-height: 1.5rem;
+}
+
+/* Release date / Last air date pickers: the per-select sm:tw-pl-2 renders no visible gap (the
+   inner .p-select fills the host), so the Day/Month/Year boxes touch. Drop the dead padding and
+   add the same 8px column gap the Running time / Original language row uses. */
+#release-date,
+#last-air-date {
+  row-gap: 0.5rem; /* 8px vertical gap between Day/Month/Year when stacked (the per-select
+                      tw-pt-2 doesn't show — the inner .p-select fills the padded host) */
+}
+#release-date > p-select,
+#last-air-date > p-select {
+  padding-left: 0;
+  min-width: 0; /* let the 12-col selects shrink for the gap instead of wrapping the Year */
+}
+@media (min-width: 640px) {
+  #release-date,
+  #last-air-date {
+    flex-wrap: nowrap; /* shrink to fit one row (wrap would push the Year to a 2nd line) */
+    column-gap: 0.5rem; /* 8px, matching the Running time / Original language row */
+  }
+}
+
+/* Genres/Studios/Producers/Tags (p-autocomplete-full, multiple): the v21 token container
+   only sets min-height, so the box gains a row when the selected-count token renders and
+   loses it when cleared — the field jumps height as the selection changes. Pin a fixed
+   single-row height so changing the display never resizes it. */
+.p-autocomplete-full .p-autocomplete-input-multiple {
+  height: 56px;
+  overflow: hidden; /* no scrollbar — the count token always fits one line */
+  flex-wrap: nowrap;
+  align-items: center; /* vertically centre the "X items selected" token, left-aligned */
+}
+.p-autocomplete-full .p-autocomplete-input-multiple > li,
+.p-autocomplete-full .p-autocomplete-input-multiple .p-autocomplete-token {
+  white-space: nowrap; /* keep "X items selected" on one line so it stays centred, not clipped */
+  max-width: none;
 }
 
 /* p-input-icon-left (search overlay): a v17 layout class REMOVED in v21, and its

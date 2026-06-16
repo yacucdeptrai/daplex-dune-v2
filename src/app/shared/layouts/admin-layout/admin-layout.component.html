@@ -47,7 +47,7 @@
           @for (upload of uploadQueue; track trackId($index, upload)) {
             <div
               class="tw-flex tw-items-center tw-px-4 tw-py-2 hover:tw-bg-neutral-700 tw-transition-colors tw-duration-200 tw-delay-75 hover:tw-transition-none">
-              <p class="tw-truncate tw-flex-1 tw-text-base tw-mr-2">{{ upload.file.name }}</p>
+              <p class="tw-truncate tw-flex-1 tw-min-w-0 tw-text-base tw-mr-2">{{ upload.file.name }}</p>
               <div class="tw-relative tw-ml-auto tw-w-30px tw-h-30px">
                 <app-circular-progress class="tw-absolute tw-absolute-center" [percent]="upload.progress" [radius]="15"
                   [strokeWidth]="5">

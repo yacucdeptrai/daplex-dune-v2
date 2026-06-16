@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <div class="tw-px-3 tw-pt-3 tw-bg-neutral-800 tw-rounded-t">
+  <div class="tw-px-3 tw-pt-6 tw-bg-neutral-800 tw-rounded-t">
     <span class="p-input-icon-left tw-w-full">
       <i class="ms ms-search"></i>
       <input #inputSearch type="text" class="tw-w-full" [placeholder]="t('homeHeader.searchPlaceholder')" pInputText
@@ -55,13 +55,13 @@
             </div>
           }
         </div>
-        <div class="!tw-p-4 !tw-bg-neutral-850" pDialogActions>
-          <div class="tw-flex tw-items-center tw-text-xs tw-leading-3">
+        <div class="!tw-pl-9 !tw-pr-6 !tw-py-4 !tw-bg-neutral-850 !tw-rounded-b -tw-mx-6 -tw-mb-6" pDialogActions>
+          <div class="tw-flex tw-w-full tw-items-center tw-text-xs tw-leading-3">
             <div class="tw-flex">
               <div class="tw-border tw-p-0.5 tw-rounded">Enter</div>
               <span class="tw-ml-2 tw-leading-[17.6px]">{{ t('search.select') }}</span>
             </div>
-            <div class="tw-flex tw-ml-4">
+            <div class="tw-flex tw-ml-8">
               <div class="tw-border tw-rounded">
                 <span class="ms ms-arrow-upward-alt tw-text-sm tw-leading-3.5"></span>
               </div>
@@ -70,7 +70,7 @@
               </div>
               <span class="tw-ml-2 tw-leading-[17.6px]">{{ t('search.navigate') }}</span>
             </div>
-            <div class="tw-flex tw-ml-4">
+            <div class="tw-flex tw-ml-8">
               <div class="tw-border tw-p-0.5 tw-rounded">ESC</div>
               <span class="tw-ml-2 tw-leading-[17.6px]">{{ t('search.close') }}</span>
             </div>

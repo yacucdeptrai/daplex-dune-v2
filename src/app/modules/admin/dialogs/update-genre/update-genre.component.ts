@@ -16,6 +16,7 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
+import { DialogDismissDirective } from '../../../../shared/directives/dialog-dismiss/dialog-dismiss.directive';
 
 interface UpdateGenreForm {
   name: FormControl<string>;
@@ -29,6 +30,7 @@ interface UpdateGenreForm {
     styleUrls: ['./update-genre.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ItemDataService, DestroyService],
+    hostDirectives: [DialogDismissDirective],
     imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, ToggleSwitchModule, SelectModule, ButtonModule, FirstErrorKeyPipe]
 })
 export class UpdateGenreComponent implements OnInit {

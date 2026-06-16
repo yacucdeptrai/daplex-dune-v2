@@ -54,8 +54,9 @@ export class GenresComponent implements OnInit, OnDestroy {
       width: '500px',
       modal: true,
       styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' },
-      dismissableMask: true
+      dismissableMask: true,
+      closeOnEscape: true,
+      closable: true
     });
     dialogRef.onClose.pipe(first()).subscribe((result: boolean) => {
       if (!result) return;
@@ -69,8 +70,8 @@ export class GenresComponent implements OnInit, OnDestroy {
       width: '500px',
       modal: true,
       styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' },
-      dismissableMask: true
+      dismissableMask: true,
+      closable: true
     });
     dialogRef.onClose.pipe(first()).subscribe((result: boolean) => {
       if (!result) return;

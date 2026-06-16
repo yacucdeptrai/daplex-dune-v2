@@ -122,8 +122,10 @@ export class MediaComponent implements OnInit, OnDestroy {
       height: '100%',
       modal: true,
       styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem', 'overflow-y': 'hidden', 'padding': '0' },
-      dismissableMask: false
+      contentStyle: { 'overflow-y': 'hidden', 'padding': '0' },
+      dismissableMask: false,
+      closeOnEscape: true,
+      closable: true
     });
     dialogRef.onClose.pipe(first()).subscribe((result: boolean) => {
       if (!result) return;
