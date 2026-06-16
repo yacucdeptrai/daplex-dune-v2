@@ -94,26 +94,82 @@ p {
   }
 }
 
+/* ── App action bar — global layout primitive ────────────────────────────────
+   One consistent shape for "descriptive text on the left, action buttons strictly
+   on the right" rows: settings rows, save bars, dialog footers. Replaces the ad-hoc
+   tw-ml-auto + per-button tw-ml-2/tw-mr-2 scattered across templates. Wraps
+   gracefully on narrow viewports, and unifies button dimensions so a short "Save"
+   and a long "Edit email" read as one family (icon-only buttons keep their shape). */
+.app-action-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem; /* row-gap when wrapped · column-gap between text and actions */
+}
+.app-action-bar > p {
+  margin: 0;
+}
+.app-action-bar__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* keep multiple buttons right-aligned as a group */
+  flex-wrap: wrap;
+  gap: 0.5rem; /* uniform spacing between buttons — replaces tw-ml-2/tw-mr-2 */
+  margin-left: auto; /* strict right alignment of the whole group */
+}
+.app-action-bar__actions .p-button:not(.p-button-icon-only) {
+  min-width: 5.5rem;
+  justify-content: center;
+}
+.app-action-bar__actions .p-button.p-button-sm:not(.p-button-icon-only) {
+  min-width: 5rem;
+}
+
+/* ── App icon button — dark-mode visibility guard ─────────────────────────────
+   Icon glyphs (material-symbols `.ms`, primeicons `.pi`) paint with currentColor, so
+   a button whose color resolves dark leaves the glyph invisible on a dark surface.
+   Add .app-icon-btn to any icon-only / icon-bearing button to pin the glyph to the
+   theme's light text color so it is ALWAYS visible in dark mode. Solid colored
+   variants (success/danger/…) already provide their own contrast — don't add it there.
+   Use this on every new icon button to keep the issue from recurring. */
+.app-icon-btn,
+.app-icon-btn .p-button-icon,
+.app-icon-btn .p-togglebutton-icon,
+.app-icon-btn .ms,
+.app-icon-btn .pi,
+.app-icon-btn i[class*="ms-"],
+.app-icon-btn i[class*="pi-"] {
+  color: var(--p-text-color, rgba(255, 255, 255, 0.87));
+}
+
 /* PrimeNG v21 label-bearing controls (ktt45678 label/icon slots).
    The fork renders <label>/<i> INSIDE the box-sized host; v21 has no container/flex
    rules for them, so the box ovals and the label wraps vertically. Restore the v17
    inline layout. Transitional — to be migrated into the mddarkindigo preset at cutover. */
 .p-radiobutton {
-  /* Do NOT force display/width here — the app wraps radio options in `tw-flex`
-     full-width rows; overriding to inline-flex/width:auto shrinks them into small
-     side-by-side boxes ("not sync line, broke ugly"). Just align + space; the box
-     flex-shrink:0 below kills the oval inside the app's flex row. */
+  /* v21 styled root clamps the host to 20×20 (control-only); the fork renders the
+     label/icon INSIDE the host, so the clamp crushes the label into a hard "Only\nme"
+     wrap with the box pinned top. Release the clamp so the host is a real container.
+     Leave `display` to the consumer/styled (per-site: tw-block groups stack, history
+     radios flow inline) — only center, allow graceful narrow-view wrap, and free width. */
   align-items: center;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  width: auto;
+  height: auto;
 }
 .p-radiobutton .p-radiobutton-box {
-  flex: 0 0 auto;
+  flex: 0 0 auto; /* never shrink — keeps the box circular, not an oval */
+  display: inline-flex; /* stay inline-aligned with the label under block-display hosts */
+  vertical-align: middle;
   width: var(--p-radiobutton-width, 20px);
   height: var(--p-radiobutton-height, 20px);
 }
 .p-radiobutton .p-radiobutton-label {
-  line-height: 1;
-  white-space: nowrap;
+  display: inline-block; /* sit beside the box under block-display hosts */
+  vertical-align: middle;
+  margin-left: 0.5rem; /* oracle spacing; replaces flex `gap` so it works in block hosts too */
+  line-height: 1.25;
+  min-width: 0; /* allow the label to wrap instead of overflowing in narrow flex rows */
 }
 .p-radiobutton:not(.p-disabled),
 .p-radiobutton:not(.p-disabled) .p-radiobutton-label {
@@ -127,6 +183,17 @@ p {
   width: auto;
   height: auto;
   vertical-align: bottom;
+}
+/* Label-bearing toggle (ktt45678 [label] input) = a full-width settings row: text on
+   the left, slider pushed entirely to the right margin. Without this the inline-flex
+   host shrinks to content and the label+slider bunch together on the left. Slider-only
+   toggles (separate <label> + tw-ml-auto in dialogs) have no internal label, so they're
+   untouched and keep their inline-flex shape. */
+.p-toggleswitch:has(.p-toggleswitch-label) {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 1rem;
 }
 .p-toggleswitch .p-toggleswitch-slider {
   flex: 0 0 auto;
@@ -143,13 +210,27 @@ p {
 }
 
 .p-checkbox {
-  vertical-align: bottom;
+  /* Same v21 clamp bug as radiobutton: release the 20×20 host clamp so the inside
+     label/icon fit; leave `display` to the consumer; center + graceful wrap. */
+  align-items: center;
+  flex-wrap: wrap;
+  width: auto;
+  height: auto;
+  vertical-align: middle;
 }
 .p-checkbox .p-checkbox-box {
   flex: 0 0 auto;
+  display: inline-flex;
+  vertical-align: middle;
+  width: var(--p-checkbox-width, 20px);
+  height: var(--p-checkbox-height, 20px);
 }
 .p-checkbox .p-checkbox-label {
-  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.5rem;
+  line-height: 1.25;
+  min-width: 0;
   cursor: pointer;
 }
 
