@@ -132,8 +132,14 @@ describe('ConfigureMediaFormComponent — HAZARD-1 footer<->form bridge (live pa
     const host: HTMLElement = fixture.nativeElement;
     const child = formChild();
 
-    // Dirty a real control (the patch effect already armed the dirty watcher on load).
-    child.updateMediaForm.controls.title.setValue('Edited By QA');
+    // Dirty via a REAL DOM input event on the rendered title field. A user keystroke is a DOM event
+    // INSIDE the projected content, so it marks the OnPush <app-vertical-tab> dirty up the tree and its
+    // @if(toast.visible) re-renders the footer. A programmatic setValue flips updateMediaFormChanged but
+    // does NOT mark the OnPush parent, so the projected toast never materializes in the bed (it does live).
+    const titleInput = host.querySelector('input#title') as HTMLInputElement;
+    expect(titleInput).withContext('title field must render in the child form').toBeTruthy();
+    titleInput.value = 'Edited By QA';
+    titleInput.dispatchEvent(new Event('input'));
     tick();                         // detectFormChange valueChanges -> flips updateMediaFormChanged true
     fixture.detectChanges();
     flush();                        // flush @tabPanelToast slide animation (NoopAnimations)
@@ -165,7 +171,11 @@ describe('ConfigureMediaFormComponent — HAZARD-1 footer<->form bridge (live pa
     const host: HTMLElement = fixture.nativeElement;
     const child = formChild();
 
-    child.updateMediaForm.controls.title.setValue('Temp Edit');
+    // Dirty via a real DOM input event (marks the OnPush vertical-tab dirty so the footer projects).
+    const titleInput = host.querySelector('input#title') as HTMLInputElement;
+    expect(titleInput).withContext('title field must render in the child form').toBeTruthy();
+    titleInput.value = 'Temp Edit';
+    titleInput.dispatchEvent(new Event('input'));
     tick();
     fixture.detectChanges();
     flush();
