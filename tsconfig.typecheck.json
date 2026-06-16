@@ -1,0 +1,20 @@
+/* Additive type-only gate: covers app + specs + e2e + tooling .ts that the
+ * real build never typechecks. `ng build` stays the build gate; this catches
+ * unused code and broken e2e/tooling types the bundler ignores. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "types": [
+      "jasmine",
+      "node"
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "e2e/**/*.ts",
+    "playwright.config.ts"
+  ]
+}
