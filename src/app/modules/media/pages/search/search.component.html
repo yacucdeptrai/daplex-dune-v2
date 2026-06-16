@@ -4,7 +4,7 @@
     <div class="tw-my-8">
       <app-media-list [mediaList]="mediaList?.results" [loading]="loadingMediaList"></app-media-list>
     </div>
-    @if (mediaList) {
+    @if (mediaList && mediaList.totalResults > 0) {
       <p-paginator [rows]="itemsPerPage" [totalRecords]="mediaList.totalResults"
         (onPageChange)="onPageChange($event)">
       </p-paginator>
