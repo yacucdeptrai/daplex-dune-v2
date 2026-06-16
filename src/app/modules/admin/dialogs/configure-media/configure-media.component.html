@@ -22,8 +22,8 @@
               <div [formGroup]="formCmp.updateMediaForm" class="tw-inline-flex tw-h-full tw-items-center">
                 <label for="update-timestamp" class="tw-inline-block tw-text-base">{{
                   t('admin.updateMedia.updateTimestamp') }}</label>
-                <p-inputSwitch formControlName="updateTimestamp" inputId="update-timestamp" styleClass="tw-ml-2"
-                  form="update-media-form"></p-inputSwitch>
+                <p-toggleSwitch formControlName="updateTimestamp" inputId="update-timestamp" styleClass="tw-ml-2"
+                  form="update-media-form"></p-toggleSwitch>
               </div>
               <button pButton type="button" [label]="t('admin.updateMedia.cancel')" (click)="formCmp.onUpdateMediaFormReset()"
                 class="p-button-text p-button-secondary p-button-sm tw-ml-4" [disabled]="formCmp.updateMediaForm.disabled">

@@ -20,7 +20,7 @@ import { Genre, MediaDetails, MediaSubtitle, MediaVideo, Production, Tag } from 
 import { DestroyService, ItemDataService, MediaService, QueueUploadService } from '../../../../core/services';
 import { MediaFormHelperService } from '../../../../core/services/media-form-helper.service';
 import { shortDate } from '../../../../core/validators';
-import { dataURItoBlob, detectFormChange, fixNestedDialogFocus, replaceDialogHideMethod, timeStringToSeconds } from '../../../../core/utils';
+import { openDialog, dataURItoBlob, detectFormChange, fixNestedDialogFocus, replaceDialogHideMethod, timeStringToSeconds } from '../../../../core/utils';
 import {
   IMAGE_PREVIEW_MIMES, IMAGE_PREVIEW_SIZE, UPLOAD_BACKDROP_ASPECT_HEIGHT, UPLOAD_BACKDROP_ASPECT_WIDTH, UPLOAD_BACKDROP_MIN_HEIGHT,
   UPLOAD_BACKDROP_MIN_WIDTH, UPLOAD_BACKDROP_SIZE, UPLOAD_POSTER_ASPECT_HEIGHT, UPLOAD_POSTER_ASPECT_WIDTH, UPLOAD_POSTER_MIN_HEIGHT,
@@ -33,9 +33,9 @@ import { FormHandlerDirective } from '../../../../shared/directives/form-directi
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { InputTextModule } from 'primeng/inputtext';
 import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TextareaModule } from 'primeng/textarea';
 import { InputMaskModule } from 'primeng/inputmask';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ButtonModule } from 'primeng/button';
 import { AltAutoComplete } from '../../../../core/utils/primeng/autocomplete';
@@ -77,7 +77,7 @@ interface UpdateMediaForm extends Omit<CreateMediaForm, 'type'> { }
             useValue: 'common'
         }
     ],
-    imports: [TranslocoDirective, StepperComponent_1, CdkStep, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, InputMaskModule, DropdownModule, NgTemplateOutlet, RadioButtonModule, ButtonModule, AltAutoComplete, SharedModule, ChipModule, FileUploadComponent_1, CdkStepperPrevious, CdkStepperNext, FirstErrorKeyPipe]
+    imports: [TranslocoDirective, StepperComponent_1, CdkStep, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, TextareaModule, InputMaskModule, SelectModule, NgTemplateOutlet, RadioButtonModule, ButtonModule, AltAutoComplete, SharedModule, ChipModule, FileUploadComponent_1, CdkStepperPrevious, CdkStepperNext, FirstErrorKeyPipe]
 })
 export class CreateMediaComponent implements OnInit, AfterViewInit {
   @ViewChild('stepper') stepper?: StepperComponent;
@@ -347,7 +347,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
   }
 
   editImage(data: ImageEditorConfig): Observable<string[] | null> {
-    const dialogRef = this.dialogService.open(ImageEditorComponent, {
+    const dialogRef = openDialog(this.dialogService, ImageEditorComponent, {
       data: data,
       header: this.translocoService.translate('common.imageEditor.header'),
       width: '700px',
@@ -361,7 +361,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
 
   showAddVideoDialog(): void {
     if (!this.media) return;
-    const dialogRef = this.dialogService.open(AddVideoComponent, {
+    const dialogRef = openDialog(this.dialogService, AddVideoComponent, {
       data: { ...this.media },
       width: '700px',
       modal: true,
@@ -383,7 +383,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
     if (file && file.size > UPLOAD_SUBTITLE_SIZE)
       throw new Error(AppErrorCode.UPLOAD_SUBTITLE_TOO_LARGE);
     this.subtitleFileUpload?.clear();
-    const dialogRef = this.dialogService.open(AddSubtitleComponent, {
+    const dialogRef = openDialog(this.dialogService, AddSubtitleComponent, {
       data: { media: { ...this.media }, file: file },
       width: '500px',
       modal: true,
@@ -402,7 +402,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
 
   showAddEpisodeDialog(): void {
     if (this.media?.type !== MediaType.TV) return;
-    const dialogRef = this.dialogService.open(CreateEpisodeComponent, {
+    const dialogRef = openDialog(this.dialogService, CreateEpisodeComponent, {
       data: { media: { ...this.media }, episodes: [...this.media.tv.episodes] },
       width: '980px',
       height: '100%',
@@ -411,7 +411,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
       styleClass: 'p-dialog-header-sm',
       contentStyle: { 'margin-top': '-1.5rem', 'overflow-y': 'hidden', 'padding': '0px' }
     });
-    dialogRef.onClose.pipe(first()).subscribe((episode) => {
+    dialogRef.onClose.pipe(first()).subscribe((episode: any) => {
       if (!episode || !this.media) return;
       this.media.tv.episodes.push(episode);
       this.episodeCount++;

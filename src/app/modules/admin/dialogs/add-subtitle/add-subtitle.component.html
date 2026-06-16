@@ -4,11 +4,11 @@
   <form [formGroup]="addSubtitleForm" formHandler (ngSubmit)="onAddSubtitleFormSubmit()">
     <label for="language" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
       t('admin.addMediaSubtitle.language') }}</label>
-    <p-dropdown formControlName="language" [placeholder]="t('admin.addMediaSubtitle.languagePlaceholder')"
-      [options]="languages || []" [baseZIndex]="100" scrollHeight="400px" appendTo="body"
+    <p-select formControlName="language" [placeholder]="t('admin.addMediaSubtitle.languagePlaceholder')"
+      [options]="languages || []" scrollHeight="400px" appendTo="body"
       [disabledControl]="isAddingSubtitle" styleClass="tw-w-full" id="language"
-      panelStyleClass="md:tw-dropdown-cols-4 md:tw-max-w-2xl p-dropdown-xs">
-    </p-dropdown>
+      panelStyleClass="md:tw-dropdown-cols-4 md:tw-max-w-2xl p-select-xs">
+    </p-select>
     <small id="language-error" class="p-error tw-text-xs tw-block tw-my-2"
       [invalidControl]="addSubtitleForm.controls.language">{{ addSubtitleForm.controls.language.errors |
       firstErrorKey:'addMediaSubtitle':'language' }}</small>

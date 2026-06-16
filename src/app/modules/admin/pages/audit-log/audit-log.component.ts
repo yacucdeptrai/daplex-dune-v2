@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AuditLogDetailsComponent } from '../../dialogs/audit-log-details/audit-log-details.component';
 
+import { openDialog } from '../../../../core/utils';
 import { CursorPageAuditLogDto } from '../../../../core/dto/audit-log';
 import { AuditLog, CursorPaginated } from '../../../../core/models';
 import { AuditLogService } from '../../../../core/services';
@@ -103,7 +104,7 @@ export class AuditLogComponent implements OnInit, OnDestroy {
   }
 
   showAuditLogDetails(log: AuditLog): void {
-    const ref = this.dialogService.open(AuditLogDetailsComponent, {
+    const ref = openDialog(this.dialogService, AuditLogDetailsComponent, {
       data: { id: log._id },
       width: '720px',
       modal: true,

@@ -15,7 +15,7 @@ import { FileUploadComponent } from '../../../../shared/components/file-upload';
 import { AddSubtitleComponent } from '../add-subtitle';
 import { ImageEditorComponent } from '../../../../shared/dialogs/image-editor';
 import { AppErrorCode, MediaPStatus, MediaSourceStatus } from '../../../../core/enums';
-import { dataURItoBlob, translocoEscape, fixNestedDialogFocus, replaceDialogHideMethod, detectFormChange, secondsToTimeString, timeStringToSeconds } from '../../../../core/utils';
+import { openDialog, dataURItoBlob, translocoEscape, fixNestedDialogFocus, replaceDialogHideMethod, detectFormChange, secondsToTimeString, timeStringToSeconds } from '../../../../core/utils';
 import {
   IMAGE_PREVIEW_SIZE, UPLOAD_STILL_ASPECT_HEIGHT, UPLOAD_STILL_ASPECT_WIDTH, UPLOAD_STILL_MIN_HEIGHT,
   UPLOAD_STILL_MIN_WIDTH, UPLOAD_STILL_SIZE, UPLOAD_SUBTITLE_EXT, UPLOAD_SUBTITLE_SIZE
@@ -32,8 +32,8 @@ import { InvalidControlDirective } from '../../../../shared/directives/form-dire
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { DropdownModule } from 'primeng/dropdown';
+import { TextareaModule } from 'primeng/textarea';
+import { SelectModule } from 'primeng/select';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { PanelToastDirective } from '../../../../shared/components/vertical-tab/panel-toast.directive';
 import { FileUploadComponent as FileUploadComponent_1 } from '../../../../shared/components/file-upload/file-upload.component';
@@ -69,7 +69,7 @@ interface UpdateEpisodeForm {
             useValue: ['common', 'media', 'languages']
         }
     ],
-    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, InvalidControlDirective, InputMaskModule, InputTextModule, LazyLoadImageModule, InputTextareaModule, DropdownModule, RadioButtonModule, PanelToastDirective, FileUploadComponent_1, TableModule, SharedModule, NgTemplateOutlet, VideoPlayerComponent, ConfirmDialogModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, InvalidControlDirective, InputMaskModule, InputTextModule, LazyLoadImageModule, TextareaModule, SelectModule, RadioButtonModule, PanelToastDirective, FileUploadComponent_1, TableModule, SharedModule, NgTemplateOutlet, VideoPlayerComponent, ConfirmDialogModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
 })
 export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;
@@ -197,7 +197,7 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
     if (!element.files?.length || !this.episode) return;
     if (element.files[0].size > IMAGE_PREVIEW_SIZE)
       throw new Error(AppErrorCode.UPLOAD_STILL_TOO_LARGE);
-    const dialogRef = this.dialogService.open(ImageEditorComponent, {
+    const dialogRef = openDialog(this.dialogService, ImageEditorComponent, {
       data: {
         aspectRatioWidth: UPLOAD_STILL_ASPECT_WIDTH, aspectRatioHeight: UPLOAD_STILL_ASPECT_HEIGHT,
         minWidth: UPLOAD_STILL_MIN_WIDTH, minHeight: UPLOAD_STILL_MIN_HEIGHT,
@@ -308,7 +308,7 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
       throw new Error(AppErrorCode.UPLOAD_SUBTITLE_TOO_LARGE);
     this.subtitleFileUpload?.clear();
     const media = this.config.data!.media;
-    const dialogRef = this.dialogService.open(AddSubtitleComponent, {
+    const dialogRef = openDialog(this.dialogService, AddSubtitleComponent, {
       data: { media: { ...media }, episode: { ...this.episode }, file },
       width: '500px',
       modal: true,

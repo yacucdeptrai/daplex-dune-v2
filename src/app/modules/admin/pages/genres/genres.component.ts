@@ -9,7 +9,7 @@ import { Genre, Paginated } from '../../../../core/models';
 import { ConfirmActionService, GenresService } from '../../../../core/services';
 import { CreateGenreComponent } from '../../dialogs/create-genre';
 import { UpdateGenreComponent } from '../../dialogs/update-genre';
-import { buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
+import { openDialog, buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { SharedModule } from 'primeng/api';
@@ -50,7 +50,7 @@ export class GenresComponent implements OnInit, OnDestroy {
   }
 
   showCreateGenreDialog(): void {
-    const dialogRef = this.dialogService.open(CreateGenreComponent, {
+    const dialogRef = openDialog(this.dialogService, CreateGenreComponent, {
       width: '500px',
       modal: true,
       styleClass: 'p-dialog-header-sm',
@@ -64,7 +64,7 @@ export class GenresComponent implements OnInit, OnDestroy {
   }
 
   showUpdateGenreDialog(genre: Genre): void {
-    const dialogRef = this.dialogService.open(UpdateGenreComponent, {
+    const dialogRef = openDialog(this.dialogService, UpdateGenreComponent, {
       data: { ...genre },
       width: '500px',
       modal: true,

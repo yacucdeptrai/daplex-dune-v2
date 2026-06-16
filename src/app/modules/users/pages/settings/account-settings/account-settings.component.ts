@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { first, takeUntil } from 'rxjs';
 
+import { openDialog } from '../../../../../core/utils';
 import { ShortDate, UserDetails } from '../../../../../core/models';
 import { AuthService, DestroyService, UsersService } from '../../../../../core/services';
 import { UpdateBirthdateComponent } from '../../../dialogs/update-birthdate';
@@ -36,7 +37,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
   }
 
   showUpdateUsernameDialog(): void {
-    const dialogRef = this.dialogService.open(UpdateUsernameComponent, {
+    const dialogRef = openDialog(this.dialogService, UpdateUsernameComponent, {
       data: { ...this.currentUser },
       width: '500px',
       modal: true,
@@ -55,7 +56,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
   }
 
   showUpdateEmailDialog(): void {
-    const dialogRef = this.dialogService.open(UpdateEmailComponent, {
+    const dialogRef = openDialog(this.dialogService, UpdateEmailComponent, {
       data: { ...this.currentUser },
       width: '500px',
       modal: true,
@@ -74,7 +75,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
   }
 
   showUpdateBirthdateDialog(): void {
-    const dialogRef = this.dialogService.open(UpdateBirthdateComponent, {
+    const dialogRef = openDialog(this.dialogService, UpdateBirthdateComponent, {
       data: { ...this.currentUser },
       width: '500px',
       modal: true,
@@ -93,7 +94,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
   }
 
   showUpdatePasswordDialog(): void {
-    const dialogRef = this.dialogService.open(UpdatePasswordComponent, {
+    openDialog(this.dialogService, UpdatePasswordComponent, {
       data: { ...this.currentUser },
       width: '500px',
       modal: true,

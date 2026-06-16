@@ -9,7 +9,7 @@ import { AppErrorCode } from '../../../../../core/enums';
 import { UserDetails } from '../../../../../core/models';
 import { AuthService, DestroyService, UsersService } from '../../../../../core/services';
 import { ImageEditorComponent, ImageEditorConfig } from '../../../../../shared/dialogs/image-editor';
-import { dataURItoFile, detectFormChange } from '../../../../../core/utils';
+import { openDialog, dataURItoFile, detectFormChange } from '../../../../../core/utils';
 import {
   IMAGE_PREVIEW_SIZE, UPLOAD_AVATAR_MIN_HEIGHT, UPLOAD_AVATAR_MIN_WIDTH, UPLOAD_AVATAR_RATIO, UPLOAD_AVATAR_SIZE,
   UPLOAD_AVATAR_TYPES, UPLOAD_BANNER_MIN_HEIGHT, UPLOAD_BANNER_MIN_WIDTH, UPLOAD_BANNER_SIZE, UPLOAD_BANNER_TYPES
@@ -26,7 +26,7 @@ import { FormHandlerDirective } from '../../../../../shared/directives/form-dire
 import { DisabledControlDirective } from '../../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { InputTextModule } from 'primeng/inputtext';
 import { InvalidControlDirective } from '../../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TextareaModule } from 'primeng/textarea';
 import { RgbColorPipe } from '../../../../../shared/pipes/number-pipe/rgb-color/rgb-color.pipe';
 import { FirstErrorKeyPipe } from '../../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 import { MarkedPipe } from '../../../../../shared/pipes/markdown-pipe/marked/marked.pipe';
@@ -62,7 +62,7 @@ interface UpdateProfileForm {
             ])
         ])
     ],
-    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, ContextMenuTriggerDirective, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, AvatarComponent, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, RgbColorPipe, FirstErrorKeyPipe, MarkedPipe, SubstringPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, ContextMenuTriggerDirective, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, AvatarComponent, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, TextareaModule, RgbColorPipe, FirstErrorKeyPipe, MarkedPipe, SubstringPipe, ThumbhashUrlPipe]
 })
 export class ProfileSettingsComponent implements OnInit, OnDestroy {
   currentUser: UserDetails | null = null;
@@ -174,7 +174,7 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
   }
 
   editImage(data: Partial<ImageEditorConfig>) {
-    const dialogRef = this.dialogService.open(ImageEditorComponent, {
+    const dialogRef = openDialog(this.dialogService, ImageEditorComponent, {
       data: data,
       header: this.translocoService.translate('common.imageEditor.header'),
       width: '700px',

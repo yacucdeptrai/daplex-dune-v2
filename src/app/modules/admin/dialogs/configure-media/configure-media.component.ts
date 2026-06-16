@@ -17,7 +17,7 @@ import { ButtonModule } from 'primeng/button';
 import { NgTemplateOutlet } from '@angular/common';
 import { VerticalTabComponent } from '../../../../shared/components/vertical-tab/vertical-tab.component';
 import { TabPanelDirective } from '../../../../shared/components/vertical-tab/tab-panel.directive';
-import { InputSwitchModule } from 'primeng/inputswitch';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { PanelToastDirective } from '../../../../shared/components/vertical-tab/panel-toast.directive';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -41,7 +41,7 @@ import { ConfigureMediaFormComponent } from './components/configure-media-form';
             useValue: ['common', 'languages']
         }
     ],
-    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, ReactiveFormsModule, SharedModule, InputSwitchModule, PanelToastDirective, NgTemplateOutlet, ConfirmDialogModule, ProgressSpinnerModule, ConfigureMediaImagesComponent, ConfigureMediaVideosComponent, ConfigureMediaSubtitlesComponent, ConfigureMediaSourceComponent, ConfigureMediaEpisodesComponent, ConfigureMediaFormComponent]
+    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, ReactiveFormsModule, SharedModule, ToggleSwitchModule, PanelToastDirective, NgTemplateOutlet, ConfirmDialogModule, ProgressSpinnerModule, ConfigureMediaImagesComponent, ConfigureMediaVideosComponent, ConfigureMediaSubtitlesComponent, ConfigureMediaSourceComponent, ConfigureMediaEpisodesComponent, ConfigureMediaFormComponent]
 })
 export class ConfigureMediaComponent implements OnInit, AfterViewInit, OnDestroy {
   MediaType = MediaType;

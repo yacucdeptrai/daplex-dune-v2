@@ -9,7 +9,7 @@ import { CreatePlaylistComponent } from '../../dialogs/create-playlist';
 import { AddAllToPlaylistComponent } from '../../../../shared/dialogs/add-all-to-playlist';
 import { CursorPaginated, Playlist, PlaylistDetails, UserDetails } from '../../../../core/models';
 import { AuthService, ConfirmActionService, DestroyService, PlaylistsService } from '../../../../core/services';
-import { track_Id, translocoEscape } from '../../../../core/utils';
+import { openDialog, track_Id, translocoEscape } from '../../../../core/utils';
 import { MediaVisibility } from '../../../../core/enums';
 import { PlaylistSettingsComponent } from '../../../../shared/dialogs/playlist-settings';
 import { DecimalPipe } from '@angular/common';
@@ -108,7 +108,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   }
 
   showCreatePlaylistDialog() {
-    const dialogRef = this.dialogService.open(CreatePlaylistComponent, {
+    const dialogRef = openDialog(this.dialogService, CreatePlaylistComponent, {
       width: '500px',
       modal: true,
       styleClass: 'p-dialog-header-sm',
@@ -146,7 +146,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   }
 
   showPlaylistSettingsDialog(playlist: Playlist, playlistCard?: PlaylistCardComponent) {
-    const dialogRef = this.dialogService.open(PlaylistSettingsComponent, {
+    const dialogRef = openDialog(this.dialogService, PlaylistSettingsComponent, {
       data: { ...playlist },
       header: this.translocoService.translate('media.playlists.settings'),
       width: '720px',

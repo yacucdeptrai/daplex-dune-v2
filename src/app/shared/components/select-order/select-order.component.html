@@ -1,9 +1,9 @@
 <div [class]="styleClass()" class="tw-p-2 tw-bg-neutral-875">
   <div class="tw-w-full tw-flex">
-    <p-dropdown #dropdownOptions [options]="availableOptions()" [optionLabel]="optionLabel()" class="tw-ml-auto"
-      styleClass="p-dropdown-sm tw-w-56" panelStyleClass="p-dropdown-sm" scrollHeight="300px" [virtualScroll]="true"
+    <p-select #dropdownOptions [options]="availableOptions()" [optionLabel]="optionLabel()" class="tw-ml-auto"
+      styleClass="p-select-sm tw-w-56" panelStyleClass="p-select-sm" scrollHeight="300px" [virtualScroll]="true"
       [virtualScrollItemSize]="49" [placeholder]="t()('users.mediaSettings.addLanguage')" [disabled]="disabled()"
-      (onChange)="addOption($event.value); dropdownOptions.updateModel(null)"></p-dropdown>
+      (onChange)="addOption($event.value); dropdownOptions.updateModel(null)"></p-select>
   </div>
   <div class="tw-divider tw-mt-2"></div>
   <div>

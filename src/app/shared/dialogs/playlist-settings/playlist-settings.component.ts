@@ -14,7 +14,7 @@ import {
   UPLOAD_PLAYLIST_THUMBNAIL_RATIO, UPLOAD_PLAYLIST_THUMBNAIL_SIZE, UPLOAD_PLAYLIST_THUMBNAIL_TYPES
 } from '../../../../environments/config';
 import { AppErrorCode } from '../../../core/enums';
-import { dataURItoFile, fixNestedDialogFocus } from '../../../core/utils';
+import { openDialog, dataURItoFile, fixNestedDialogFocus } from '../../../core/utils';
 import { UpdatePlaylistDto } from '../../../core/dto/playlists';
 import { NgTemplateOutlet, NgClass } from '@angular/common';
 import { DragDropFileDirective } from '../../directives/form-directive/drap-drop-file/drag-drop-file.directive';
@@ -24,7 +24,7 @@ import { FormHandlerDirective } from '../../directives/form-directive/form-handl
 import { DisabledControlDirective } from '../../directives/form-directive/disabled-control/disabled-control.directive';
 import { InputTextModule } from 'primeng/inputtext';
 import { InvalidControlDirective } from '../../directives/form-directive/invalid-control/invalid-control.directive';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TextareaModule } from 'primeng/textarea';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FirstErrorKeyPipe } from '../../pipes/validation-pipe/first-error-key/first-error-key.pipe';
@@ -48,7 +48,7 @@ interface UpdatePlaylistForm {
             useValue: 'common'
         }
     ],
-    imports: [NgTemplateOutlet, DynamicDialogModule, TranslocoDirective, DragDropFileDirective, ButtonModule, LazyLoadImageModule, NgClass, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, InputTextareaModule, RadioButtonModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
+    imports: [NgTemplateOutlet, DynamicDialogModule, TranslocoDirective, DragDropFileDirective, ButtonModule, LazyLoadImageModule, NgClass, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, TextareaModule, RadioButtonModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
 })
 export class PlaylistSettingsComponent implements OnInit {
   @ViewChild('updatePlaylistFormEl') updatePlaylistFormEl?: NgForm;
@@ -110,7 +110,7 @@ export class PlaylistSettingsComponent implements OnInit {
       throw new Error(AppErrorCode.UPLOAD_PLAYLIST_THUMBNAIL_UNSUPORTED);
     if (file.size > IMAGE_PREVIEW_SIZE)
       throw new Error(AppErrorCode.UPLOAD_PLAYLIST_THUMBNAIL_TOO_LARGE);
-    const dialogRef = this.dialogService.open(ImageEditorComponent, {
+    const dialogRef = openDialog(this.dialogService, ImageEditorComponent, {
       data: {
         aspectRatioWidth: UPLOAD_PLAYLIST_THUMBNAIL_RATIO[0], aspectRatioHeight: UPLOAD_PLAYLIST_THUMBNAIL_RATIO[1],
         minWidth: UPLOAD_PLAYLIST_THUMBNAIL_MIN_WIDTH, minHeight: UPLOAD_PLAYLIST_THUMBNAIL_MIN_HEIGHT,

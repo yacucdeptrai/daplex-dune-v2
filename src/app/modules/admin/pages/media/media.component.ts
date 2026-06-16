@@ -19,7 +19,7 @@ import { MediaPStatus, MediaSourceStatus, MediaType, SocketMessage, SocketRoom }
 import { AddVideoComponent } from '../../dialogs/add-video';
 import { AddSubtitleComponent } from '../../dialogs/add-subtitle';
 import { AddSourceComponent } from '../../dialogs/add-source';
-import { buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
+import { openDialog, buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { SharedModule } from 'primeng/api';
@@ -116,7 +116,7 @@ export class MediaComponent implements OnInit, OnDestroy {
   }
 
   showCreateMediaDialog(type: string): void {
-    const dialogRef = this.dialogService.open(CreateMediaComponent, {
+    const dialogRef = openDialog(this.dialogService, CreateMediaComponent, {
       data: { type },
       width: '1024px',
       height: '100%',
@@ -132,7 +132,7 @@ export class MediaComponent implements OnInit, OnDestroy {
   }
 
   showConfigureMediaDialog(media: Media): void {
-    const dialogRef = this.dialogService.open(ConfigureMediaComponent, {
+    const dialogRef = openDialog(this.dialogService, ConfigureMediaComponent, {
       data: { ...media },
       width: '100%',
       height: '100%',

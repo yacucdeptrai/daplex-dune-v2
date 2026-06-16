@@ -75,23 +75,23 @@ export class AddToPlaylistComponent implements OnInit, OnDestroy {
   }
 
   addOrRemoveMedia(playlist: PlaylistToAdd, cbPlaylist: Checkbox) {
-    cbPlaylist.disabled = true;
+    cbPlaylist._disabled.set(true);
     cbPlaylist.cd.markForCheck();
     if (!playlist.hasMedia) {
       this.playlistsService.addToPlaylist(playlist._id, { mediaId: this.config.data!._id }).subscribe({
         next: () => playlist.hasMedia = true,
-        error: () => cbPlaylist.model = cbPlaylist.value = false
+        error: () => cbPlaylist.writeModelValue(cbPlaylist.falseValue)
       }).add(() => {
-        cbPlaylist.disabled = false;
+        cbPlaylist._disabled.set(false);
         cbPlaylist.cd.markForCheck();
       });
       return;
     }
     this.playlistsService.removePlaylistItem(playlist._id, { mediaId: this.config.data!._id }).subscribe({
       next: () => playlist.hasMedia = false,
-      error: () => cbPlaylist.model = cbPlaylist.value = true
+      error: () => cbPlaylist.writeModelValue(cbPlaylist.trueValue)
     }).add(() => {
-      cbPlaylist.disabled = false;
+      cbPlaylist._disabled.set(false);
       cbPlaylist.cd.markForCheck();
     });;
   }

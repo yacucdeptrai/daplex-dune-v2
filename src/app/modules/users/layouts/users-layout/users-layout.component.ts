@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { MenuItem } from 'primeng/api';
 import { filter, first, map, switchMap, takeUntil } from 'rxjs';
@@ -12,7 +12,7 @@ import { SITE_NAME } from '../../../../../environments/config';
 import { NgStyle } from '@angular/common';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { AvatarComponent } from '../../../../shared/components/avatar/avatar.component';
-import { TabMenuModule } from 'primeng/tabmenu';
+import { TabsModule } from 'primeng/tabs';
 import { RgbColorPipe } from '../../../../shared/pipes/number-pipe/rgb-color/rgb-color.pipe';
 import { SubstringPipe } from '../../../../shared/pipes/string-pipe/substring/substring.pipe';
 import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
@@ -26,7 +26,7 @@ import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thum
         UsersStateService,
         DestroyService
     ],
-    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, AvatarComponent, TabMenuModule, RouterOutlet, RgbColorPipe, SubstringPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, LazyLoadImageModule, NgStyle, AvatarComponent, TabsModule, RouterLink, RouterLinkActive, RouterOutlet, RgbColorPipe, SubstringPipe, ThumbhashUrlPipe]
 })
 export class UsersLayoutComponent implements OnInit, OnDestroy {
   user?: UserDetails;

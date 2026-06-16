@@ -4,6 +4,9 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { environment } from './environments/environment';
 import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
+import { providePrimeNG } from 'primeng/config';
+import MdDarkIndigo from '@primeuix/themes/mddarkindigo';
 import { AppInitializer } from './app/core/initializers/app.initializer';
 import { AuthService } from './app/core/services';
 import { GlobalErrorHandler } from './app/core/handlers/global-error-handler';
@@ -46,6 +49,21 @@ bootstrapApplication(AppComponent, {
             registrationStrategy: 'registerWhenStable:30000'
         }), TranslocoRootModule, RouterLoaderModule, HomeLayoutModule, ToastModule, OverlayPanelModule, MarkdownPipeModule, HtmlPipeModule, PermissionPipeModule, MediaFilterModule, RecaptchaModule),
         MessageService,
+        DialogService,
+        providePrimeNG({
+            ripple: true,
+            theme: {
+                preset: MdDarkIndigo,
+                options: {
+                    prefix: 'p',
+                    darkModeSelector: '.p-dark',
+                    cssLayer: {
+                        name: 'primeng',
+                        order: 'base, primeng, components, utilities'
+                    }
+                }
+            }
+        }),
         {
             provide: APP_INITIALIZER,
             useFactory: AppInitializer,

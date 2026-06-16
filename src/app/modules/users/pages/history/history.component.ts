@@ -17,11 +17,11 @@ import { TooltipModule } from 'primeng/tooltip';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { NgClass } from '@angular/common';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
-import { CalendarModule } from 'primeng/calendar';
+import { DatePickerModule } from 'primeng/datepicker';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { AltAutoComplete } from '../../../../core/utils/primeng/autocomplete';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { TableModule } from 'primeng/table';
@@ -52,7 +52,7 @@ interface FilterHistoryForm {
     styleUrls: ['./history.component.scss'],
     providers: [HistoryService, ItemDataService, DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoDirective, ToggleButtonModule, TooltipModule, SelectButtonModule, FormsModule, ReactiveFormsModule, FormHandlerDirective, CalendarModule, DisabledControlDirective, AltAutoComplete, RadioButtonModule, DropdownModule, ButtonModule, NgClass, InfiniteScrollDirective, HistoryCardComponent, TableModule, SharedModule, LazyLoadImageModule, ProgressBarModule, RouterLink, MenuTriggerDirective, MenuDirective, MenuItemDirective, ConfirmDialogModule, DateAltPipe, RelativeDatePipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ToggleButtonModule, TooltipModule, SelectButtonModule, FormsModule, ReactiveFormsModule, FormHandlerDirective, DatePickerModule, DisabledControlDirective, AltAutoComplete, RadioButtonModule, SelectModule, ButtonModule, NgClass, InfiniteScrollDirective, HistoryCardComponent, TableModule, SharedModule, LazyLoadImageModule, ProgressBarModule, RouterLink, MenuTriggerDirective, MenuDirective, MenuItemDirective, ConfirmDialogModule, DateAltPipe, RelativeDatePipe, ThumbhashUrlPipe]
 })
 export class HistoryComponent implements OnInit, OnDestroy {
   filterHistoryForm: FormGroup<FilterHistoryForm>;

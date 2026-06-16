@@ -39,18 +39,18 @@
                   t('auth.signUp.birthdate') }}</label>
                   <div id="birthdate" formGroupName="birthdate" class="dropdown-group tw-flex tw-flex-wrap tw-w-full"
                     aria-describedby="birthdate-error">
-                    <p-dropdown class="dropdown-group tw-w-full sm:tw-w-3/12" styleClass="tw-w-full" [options]="days"
+                    <p-select class="dropdown-group tw-w-full sm:tw-w-3/12" styleClass="tw-w-full" [options]="days"
                       formControlName="day" [appendTo]="dropdownZone" [placeholder]="t('auth.signUp.birthdateDay')"
                       scrollHeight="300px">
-                    </p-dropdown>
-                    <p-dropdown class="tw-w-full sm:tw-w-5/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+                    </p-select>
+                    <p-select class="tw-w-full sm:tw-w-5/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
                       [options]="months" formControlName="month" [appendTo]="dropdownZone"
                       [placeholder]="t('auth.signUp.birthdateMonth')" scrollHeight="300px">
-                    </p-dropdown>
-                    <p-dropdown class="tw-w-full sm:tw-w-4/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+                    </p-select>
+                    <p-select class="tw-w-full sm:tw-w-4/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
                       [options]="years" formControlName="year" [appendTo]="dropdownZone" [virtualScroll]="true"
                       [virtualScrollItemSize]="40.98" [placeholder]="t('auth.signUp.birthdateYear')" scrollHeight="300px">
-                    </p-dropdown>
+                    </p-select>
                   </div>
                   <small id="birthdate-error" class="p-error tw-text-xs tw-block tw-my-2"
                     [invalidControl]="signUpForm.controls.birthdate">{{ signUpForm.controls.birthdate.errors |
@@ -82,7 +82,7 @@
             </div>
           </div>
         </div>
-        <div #dropdownZone class="p-dropdown-xs"></div>
+        <div #dropdownZone class="p-select-xs"></div>
       </ng-container>
       <ng-template #loadingTpl>
         <div class="tw-h-screen-75"></div>

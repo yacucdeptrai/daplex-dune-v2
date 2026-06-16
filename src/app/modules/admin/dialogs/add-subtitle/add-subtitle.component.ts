@@ -12,7 +12,7 @@ import { UPLOAD_SUBTITLE_EXT, UPLOAD_SUBTITLE_SIZE } from '../../../../../enviro
 import { AddSubtitleForm } from '../../../../core/interfaces/forms';
 import { MediaType } from '../../../../core/enums';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { InvalidControlDirective } from '../../../../shared/directives/form-directive/invalid-control/invalid-control.directive';
 import { FileUploadComponent } from '../../../../shared/components/file-upload/file-upload.component';
@@ -25,7 +25,7 @@ import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/firs
     styleUrls: ['./add-subtitle.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ItemDataService, DestroyService],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DropdownModule, DisabledControlDirective, InvalidControlDirective, FileUploadComponent, ButtonModule, FirstErrorKeyPipe]
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, SelectModule, DisabledControlDirective, InvalidControlDirective, FileUploadComponent, ButtonModule, FirstErrorKeyPipe]
 })
 export class AddSubtitleComponent implements OnInit {
   languages?: DropdownOptionDto[];

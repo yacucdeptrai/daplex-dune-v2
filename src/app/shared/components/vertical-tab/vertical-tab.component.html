@@ -2,9 +2,14 @@
   '--menu-width': menuWidth, '--menu-spacing-x': menuSpacingX, '--menu-spacing-y': menuSpacingY,
   '--content-width': width, '--content-height': height }">
   <div class="md:tw-hidden">
-    <p-tabMenu [model]="tabMenuItems" [scrollable]="true" class="md:tw-hidden"
-      styleClass="tw-mb-[var(--menu-spacing-x)]">
-    </p-tabMenu>
+    <p-tabs [value]="selectedTabIndex ?? 0" [scrollable]="true" (valueChange)="onMobileTabChange($event)"
+      class="md:tw-hidden tw-mb-[var(--menu-spacing-x)]">
+      <p-tablist>
+        @for (item of tabMenuItems; track item.label; let i = $index) {
+          <p-tab [value]="i">{{ item.label }}</p-tab>
+        }
+      </p-tablist>
+    </p-tabs>
   </div>
   <div class="tw-flex">
     <div class="tw-hidden md:tw-block">

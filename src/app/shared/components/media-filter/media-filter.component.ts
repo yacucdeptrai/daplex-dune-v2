@@ -12,7 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DisabledControlDirective } from '../../directives/form-directive/disabled-control/disabled-control.directive';
 import { AltAutoComplete } from '../../../core/utils/primeng/autocomplete';
 import { SharedModule } from 'primeng/api';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { MenuTriggerDirective } from '../../directives/cdk-menu-custom/menu-trigger/menu-trigger.directive';
 import { TooltipModule } from 'primeng/tooltip';
@@ -51,7 +51,7 @@ interface FilterForm {
             useValue: 'media'
         }
     ],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputTextModule, DisabledControlDirective, AltAutoComplete, SharedModule, DropdownModule, ButtonModule, MenuTriggerDirective, TooltipModule, ToggleButtonModule, ChipModule, MenuDirective, MenuItemDirective, RouterLink, RouterLinkActive]
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputTextModule, DisabledControlDirective, AltAutoComplete, SharedModule, SelectModule, ButtonModule, MenuTriggerDirective, TooltipModule, ToggleButtonModule, ChipModule, MenuDirective, MenuItemDirective, RouterLink, RouterLinkActive]
 })
 export class MediaFilterComponent implements OnInit {
   @Output() onChange = new EventEmitter<MediaFilterOptionsDto>();

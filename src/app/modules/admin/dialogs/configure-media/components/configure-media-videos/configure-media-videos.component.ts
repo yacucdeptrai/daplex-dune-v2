@@ -7,7 +7,7 @@ import { MediaDetails, MediaVideo } from '../../../../../../core/models';
 import { ConfirmActionService, MediaService } from '../../../../../../core/services';
 import { AddVideoComponent } from '../../../add-video';
 import { UpdateVideoComponent } from '../../../update-video';
-import { fixNestedDialogFocus } from '../../../../../../core/utils';
+import { openDialog, fixNestedDialogFocus } from '../../../../../../core/utils';
 import { YOUTUBE_EMBED_URL, YOUTUBE_THUMBNAIL_URL } from '../../../../../../../environments/config';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
@@ -60,7 +60,7 @@ export class ConfigureMediaVideosComponent {
 
   showAddVideoDialog(): void {
     const media = this.media();
-    const dialogRef = this.dialogService.open(AddVideoComponent, {
+    const dialogRef = openDialog(this.dialogService, AddVideoComponent, {
       data: { ...media },
       width: '700px',
       modal: true,
@@ -77,7 +77,7 @@ export class ConfigureMediaVideosComponent {
 
   showUpdateVideoDialog(video: MediaVideo): void {
     const media = this.media();
-    const dialogRef = this.dialogService.open(UpdateVideoComponent, {
+    const dialogRef = openDialog(this.dialogService, UpdateVideoComponent, {
       data: { media: { ...media }, video: { ...video } },
       width: '700px',
       modal: true,

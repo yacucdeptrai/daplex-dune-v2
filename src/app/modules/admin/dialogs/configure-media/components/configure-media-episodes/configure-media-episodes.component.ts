@@ -11,7 +11,7 @@ import { AddSubtitleComponent } from '../../../add-subtitle';
 import { CreateEpisodeComponent } from '../../../create-episode';
 import { ConfigureEpisodeComponent } from '../../../configure-episode';
 import { AddSourceComponent } from '../../../add-source';
-import { fixNestedDialogFocus } from '../../../../../../core/utils';
+import { openDialog, fixNestedDialogFocus } from '../../../../../../core/utils';
 import { AppErrorCode, MediaPStatus, MediaSourceStatus } from '../../../../../../core/enums';
 import { UPLOAD_SUBTITLE_SIZE } from '../../../../../../../environments/config';
 import { ButtonModule } from 'primeng/button';
@@ -75,7 +75,7 @@ export class ConfigureMediaEpisodesComponent implements OnInit {
     const media = this.media();
     if (file && file.size > UPLOAD_SUBTITLE_SIZE)
       throw new Error(AppErrorCode.UPLOAD_SUBTITLE_TOO_LARGE);
-    const dialogRef = this.dialogService.open(AddSubtitleComponent, {
+    const dialogRef = openDialog(this.dialogService, AddSubtitleComponent, {
       data: { media: { ...media }, episode: episode ? { ...episode } : undefined, file: file },
       width: '500px',
       modal: true,
@@ -92,7 +92,7 @@ export class ConfigureMediaEpisodesComponent implements OnInit {
 
   showAddSourceDialog(episode?: TVEpisode): void {
     const media = this.media();
-    const dialogRef = this.dialogService.open(AddSourceComponent, {
+    const dialogRef = openDialog(this.dialogService, AddSourceComponent, {
       data: { media: { ...media }, episode: episode ? { ...episode } : undefined },
       width: '500px',
       modal: true,
@@ -107,7 +107,7 @@ export class ConfigureMediaEpisodesComponent implements OnInit {
 
   showCreateEpisodeDialog(): void {
     if (!this.episodes) return;
-    const dialogRef = this.dialogService.open(CreateEpisodeComponent, {
+    const dialogRef = openDialog(this.dialogService, CreateEpisodeComponent, {
       data: { media: { ...this.media() }, episodes: [...this.episodes] },
       width: '980px',
       height: '100%',
@@ -116,7 +116,7 @@ export class ConfigureMediaEpisodesComponent implements OnInit {
       styleClass: 'p-dialog-header-sm',
       contentStyle: { 'margin-top': '-1.5rem', 'overflow-y': 'hidden', 'padding': '0px' }
     });
-    dialogRef.onClose.pipe(first()).subscribe((episode) => {
+    dialogRef.onClose.pipe(first()).subscribe((episode: TVEpisode) => {
       if (!episode || !this.episodes) return;
       this.episodes.push(episode);
       this.updated.emit();
@@ -126,7 +126,7 @@ export class ConfigureMediaEpisodesComponent implements OnInit {
   }
 
   showConfigureEpisodeDialog(episode: TVEpisode): void {
-    const dialogRef = this.dialogService.open(ConfigureEpisodeComponent, {
+    const dialogRef = openDialog(this.dialogService, ConfigureEpisodeComponent, {
       data: { media: { ...this.media() }, episode: { ...episode } },
       width: '1280px',
       height: '100%',
@@ -138,7 +138,7 @@ export class ConfigureMediaEpisodesComponent implements OnInit {
       maskStyleClass: 'tw-z-[110]',
       autoZIndex: false
     });
-    dialogRef.onClose.pipe(first()).subscribe((updated) => {
+    dialogRef.onClose.pipe(first()).subscribe((updated: boolean) => {
       if (!updated) return;
       this.loadEpisodes(true);
     });

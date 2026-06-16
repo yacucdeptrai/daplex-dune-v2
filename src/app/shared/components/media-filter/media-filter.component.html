@@ -12,7 +12,7 @@
         panelStyleClass="md:tw-dropdown-cols-4 md:tw-w-full md:tw-max-w-xl">
       </p-multiSelect> -->
       <p-altAutoComplete #genreAutoComplete formControlName="genres" [suggestions]="genreSuggestions"
-        (completeMethod)="loadGenreSuggestions($event.query)" field="name" dataKey="_id" [multiple]="true"
+        (completeMethod)="loadGenreSuggestions($event.query)" optionLabel="name" dataKey="_id" [multiple]="true"
         [unique]="true" [placeholder]="t('media.filter.genre')" [completeOnFocus]="true" [hideOnSelect]="false"
         scrollHeight="300px" appendTo="body" styleClass="p-autocomplete-full p-autocomplete-xs"
         panelStyleClass="p-autocomplete-xs" inputId="genres" ariaLabel="Find genres"
@@ -25,30 +25,30 @@
           </div>
         </ng-template>
       </p-altAutoComplete>
-      <!-- <p-dropdown formControlName="sort" [options]="sortOptions || []" [overlayOptions]="{ baseZIndex: 100 }"
+      <!-- <p-select formControlName="sort" [options]="sortOptions || []" [overlayOptions]="{ baseZIndex: 100 }"
       scrollHeight="400px" [showClear]="true" [appendTo]="dropdownZone" [placeholder]="t('media.filter.sort')"
-      styleClass="tw-w-full p-dropdown-xs" panelStyleClass="md:tw-dropdown-cols-2 md:tw-w-full md:tw-max-w-lg">
-    </p-dropdown> -->
-    <p-dropdown formControlName="type" [options]="typeOptions || []" [overlayOptions]="{ baseZIndex: 100 }"
+      styleClass="tw-w-full p-select-xs" panelStyleClass="md:tw-dropdown-cols-2 md:tw-w-full md:tw-max-w-lg">
+    </p-select> -->
+    <p-select formControlName="type" [options]="typeOptions || []" [overlayOptions]="{ baseZIndex: 100 }"
       [showClear]="true" [appendTo]="dropdownZone" [placeholder]="t('media.filter.type')"
-      styleClass="tw-w-full p-dropdown-xs">
-    </p-dropdown>
-    <p-dropdown [hidden]="!showAdvanced" formControlName="status" [options]="statusOptions || []"
+      styleClass="tw-w-full p-select-xs">
+    </p-select>
+    <p-select [hidden]="!showAdvanced" formControlName="status" [options]="statusOptions || []"
       [overlayOptions]="{ baseZIndex: 100 }" scrollHeight="400px" [showClear]="true" [appendTo]="dropdownZone"
-      [placeholder]="t('media.filter.status')" styleClass="tw-w-full p-dropdown-xs">
-    </p-dropdown>
-    <p-dropdown [hidden]="!showAdvanced" formControlName="originalLang" [options]="languages || []"
+      [placeholder]="t('media.filter.status')" styleClass="tw-w-full p-select-xs">
+    </p-select>
+    <p-select [hidden]="!showAdvanced" formControlName="originalLang" [options]="languages || []"
       [overlayOptions]="{ baseZIndex: 100 }" scrollHeight="400px" [showClear]="true" [appendTo]="dropdownZone"
-      [placeholder]="t('media.filter.language')" styleClass="tw-w-full p-dropdown-xs"
+      [placeholder]="t('media.filter.language')" styleClass="tw-w-full p-select-xs"
       panelStyleClass="md:tw-dropdown-cols-4 md:tw-w-full md:tw-max-w-2xl">
-    </p-dropdown>
-    <p-dropdown [hidden]="!showAdvanced" formControlName="year" [options]="yearOptions || []"
+    </p-select>
+    <p-select [hidden]="!showAdvanced" formControlName="year" [options]="yearOptions || []"
       [overlayOptions]="{ baseZIndex: 100 }" scrollHeight="400px" [showClear]="true" [appendTo]="dropdownZone"
-      [placeholder]="t('media.filter.year')" styleClass="tw-w-full p-dropdown-xs"
+      [placeholder]="t('media.filter.year')" styleClass="tw-w-full p-select-xs"
       panelStyleClass="md:tw-dropdown-cols-4 md:tw-w-full md:tw-max-w-xl">
-    </p-dropdown>
+    </p-select>
     <p-altAutoComplete [hidden]="!showAdvanced" #tagAutoComplete formControlName="tags" [suggestions]="tagSuggestions"
-      (completeMethod)="loadTagSuggestions($event.query)" field="name" dataKey="_id" [multiple]="true" [unique]="true"
+      (completeMethod)="loadTagSuggestions($event.query)" optionLabel="name" dataKey="_id" [multiple]="true" [unique]="true"
       [placeholder]="t('media.filter.tag')" [completeOnFocus]="true" [hideOnSelect]="false" scrollHeight="300px"
       appendTo="body" styleClass="p-autocomplete-full p-autocomplete-xs" panelStyleClass="p-autocomplete-xs"
       inputId="tags" ariaLabel="Find tags" dropdownAriaLabel="Tag search results">
@@ -121,7 +121,7 @@
   }
 </div> -->
 </form>
-<div #dropdownZone class="p-dropdown-xs"></div>
+<div #dropdownZone class="p-select-xs"></div>
 <div #multiSelectZone class="p-multiselect-xs"></div>
 <ng-template #sortMenu>
   <div appMenu

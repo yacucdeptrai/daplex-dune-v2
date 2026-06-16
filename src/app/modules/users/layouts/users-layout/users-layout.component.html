@@ -34,7 +34,15 @@
         </div>
       </div>
     }
-    <p-tabMenu [model]="userMenuItems" styleClass="tw-text-white"></p-tabMenu>
+    <p-tabs [value]="0" class="tw-text-white">
+      <p-tablist>
+        @for (item of userMenuItems; track i; let i = $index) {
+          <p-tab [value]="i">
+            <a [routerLink]="item.routerLink" routerLinkActive [routerLinkActiveOptions]="item.routerLinkActiveOptions || { exact: false }">{{ item.label }}</a>
+          </p-tab>
+        }
+      </p-tablist>
+    </p-tabs>
     <div class="tw-min-h-screen">
       <router-outlet></router-outlet>
     </div>

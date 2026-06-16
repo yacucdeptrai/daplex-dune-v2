@@ -9,7 +9,7 @@ import { Paginated, Production } from '../../../../core/models';
 import { PaginateProductionsDto } from '../../../../core/dto/productions';
 import { CreateProductionComponent } from '../../dialogs/create-production';
 import { UpdateProductionComponent } from '../../dialogs/update-production';
-import { buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
+import { openDialog, buildTablePaginationParams, translocoEscape } from '../../../../core/utils';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { SharedModule } from 'primeng/api';
@@ -50,7 +50,7 @@ export class ProductionsComponent implements OnInit, OnDestroy {
   }
 
   showCreateProductionDialog(): void {
-    const dialogRef = this.dialogService.open(CreateProductionComponent, {
+    const dialogRef = openDialog(this.dialogService, CreateProductionComponent, {
       width: '500px',
       modal: true,
       styleClass: 'p-dialog-header-sm',
@@ -64,7 +64,7 @@ export class ProductionsComponent implements OnInit, OnDestroy {
   }
 
   showUpdateProductionDialog(production: Production): void {
-    const dialogRef = this.dialogService.open(UpdateProductionComponent, {
+    const dialogRef = openDialog(this.dialogService, UpdateProductionComponent, {
       data: { ...production },
       width: '500px',
       modal: true,

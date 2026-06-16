@@ -7,7 +7,7 @@ import { MediaDetails, MediaSubtitle } from '../../../../../../core/models';
 import { ConfirmActionService, MediaService } from '../../../../../../core/services';
 import { AddSubtitleComponent } from '../../../add-subtitle';
 import { FileUploadComponent } from '../../../../../../shared/components/file-upload';
-import { fixNestedDialogFocus } from '../../../../../../core/utils';
+import { openDialog, fixNestedDialogFocus } from '../../../../../../core/utils';
 import { AppErrorCode } from '../../../../../../core/enums';
 import { UPLOAD_SUBTITLE_SIZE } from '../../../../../../../environments/config';
 import { ButtonModule } from 'primeng/button';
@@ -41,7 +41,7 @@ export class ConfigureMediaSubtitlesComponent {
     if (file && file.size > UPLOAD_SUBTITLE_SIZE)
       throw new Error(AppErrorCode.UPLOAD_SUBTITLE_TOO_LARGE);
     this.subtitleFileUpload?.clear();
-    const dialogRef = this.dialogService.open(AddSubtitleComponent, {
+    const dialogRef = openDialog(this.dialogService, AddSubtitleComponent, {
       data: { media: { ...media }, episode: undefined, file: file },
       width: '500px',
       modal: true,

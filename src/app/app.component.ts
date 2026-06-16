@@ -21,6 +21,8 @@ export class AppComponent implements OnInit {
     private translocoService: TranslocoService) { }
 
   ngOnInit(): void {
+    // Force the always-on dark theme (covers test/SSR where index.html is bypassed)
+    document.documentElement.classList.add('p-dark');
     // Disable automatic scroll restoration to avoid race conditions
     this.viewportScroller.setHistoryScrollRestoration('manual');
     this.handleScrollOnNavigation();

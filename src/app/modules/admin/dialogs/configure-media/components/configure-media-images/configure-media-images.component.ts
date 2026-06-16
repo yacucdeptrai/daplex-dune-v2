@@ -6,7 +6,7 @@ import { Observable, first } from 'rxjs';
 import { MediaDetails } from '../../../../../../core/models';
 import { ConfirmActionService, MediaService } from '../../../../../../core/services';
 import { ImageEditorComponent, ImageEditorConfig } from '../../../../../../shared/dialogs/image-editor';
-import { dataURItoBlob, fixNestedDialogFocus, translocoEscape } from '../../../../../../core/utils';
+import { openDialog, dataURItoBlob, fixNestedDialogFocus, translocoEscape } from '../../../../../../core/utils';
 import { AppErrorCode } from '../../../../../../core/enums';
 import {
   IMAGE_PREVIEW_SIZE, UPLOAD_POSTER_SIZE, UPLOAD_BACKDROP_SIZE, UPLOAD_POSTER_MIN_WIDTH, UPLOAD_POSTER_MIN_HEIGHT,
@@ -82,7 +82,7 @@ export class ConfigureMediaImagesComponent {
   }
 
   editImage(data: ImageEditorConfig): Observable<string[] | null> {
-    const dialogRef = this.dialogService.open(ImageEditorComponent, {
+    const dialogRef = openDialog(this.dialogService, ImageEditorComponent, {
       data: data,
       header: this.translocoService.translate('common.imageEditor.header'),
       width: '700px',
