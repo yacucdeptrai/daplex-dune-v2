@@ -2,15 +2,26 @@
   <div class="tw-relative">
     @if (mediaList?.length) {
       <swiper-container #swiperRef init="false" [ngClass]="swiperClass || ''" (swiperslidechange)="onSwiperSlideChange($event)">
-        @for (media of mediaList; track track_Id($index, media)) {
+        @for (media of mediaList; track track_Id($index, media); let first = $first) {
           <swiper-slide>
             <div class="tw-flex">
               <div class="tw-hidden md:tw-block tw-w-full sm:tw-w-1/6 tw-flex-shrink-0 tw-min-w-[220px]">
                 <div class="tw-aspect-w-2 tw-aspect-h-3">
                   @if (media.thumbnailPosterUrl) {
-                    <img class="tw-object-cover tw-h-full"
-                      [lazyLoad]="media.thumbnailPosterUrl" [defaultImage]="media.posterPlaceholder | thumbhashUrl"
-                      [alt]="media.title" errorImage="assets/images/media-poster-md.png">
+                    @if (first) {
+                      <!-- LCP: eager + preload-scanner-visible, hero is the only high-priority image -->
+                      <img class="tw-object-cover tw-h-full"
+                        [src]="media.thumbnailPosterUrl"
+                        [srcset]="(media.smallPosterUrl ? media.smallPosterUrl + ' 250w, ' : '') + media.thumbnailPosterUrl + ' 450w' + (media.posterUrl ? ', ' + media.posterUrl + ' 750w' : '')"
+                        sizes="(min-width: 768px) 220px, 0px"
+                        fetchpriority="high" loading="eager" decoding="async"
+                        [alt]="media.title"
+                        onerror="this.onerror=null;this.src='assets/images/media-poster-md.png'">
+                    } @else {
+                      <img class="tw-object-cover tw-h-full"
+                        [lazyLoad]="media.thumbnailPosterUrl" [defaultImage]="media.posterPlaceholder | thumbhashUrl"
+                        [alt]="media.title" errorImage="assets/images/media-poster-md.png">
+                    }
                     } @else {
                       <img class="tw-object-cover tw-h-full" src="assets/images/media-poster-md.png" loading="lazy"
                         [alt]="media.title">

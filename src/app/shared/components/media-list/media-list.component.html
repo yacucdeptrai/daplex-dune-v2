@@ -43,7 +43,7 @@
                 @if (media.thumbnailPosterUrl) {
                   <img class="tw-object-cover" [lazyLoad]="media.thumbnailPosterUrl"
                     [defaultImage]="media.posterPlaceholder | thumbhashUrl" [alt]="media.title"
-                    errorImage="assets/images/media-poster-md.png">
+                    errorImage="assets/images/media-poster-md.png" decoding="async">
                 } @else {
                   <img class="tw-object-cover" src="assets/images/media-poster-md.png" loading="lazy"
                     [alt]="media.title">
@@ -89,7 +89,7 @@
                     @if (media.smallPosterUrl) {
                       <img class="tw-object-cover" [lazyLoad]="media.smallPosterUrl"
                         [defaultImage]="media.posterPlaceholder | thumbhashUrl" [alt]="media.title"
-                        errorImage="assets/images/media-poster-md.png">
+                        errorImage="assets/images/media-poster-md.png" decoding="async">
                     } @else {
                       <img class="tw-object-cover" src="assets/images/media-poster-md.png" loading="lazy"
                         [alt]="media.title">
