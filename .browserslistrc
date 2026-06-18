@@ -1,0 +1,17 @@
+# DaPlex supported-browser floor — the SINGLE SOURCE OF TRUTH for the build.
+# @angular/build (esbuild) reads this for BOTH JS down-leveling AND CSS autoprefixing.
+# Target: iOS 13 Safari (WebKit, span 13.0–13.7) + current Firefox (Gecko, incl. ESR).
+#
+# Without this file, Angular silently targets ~Safari 18 and emits native ?. / ?? / ??=
+# / ES2022 class fields that iOS 13 cannot parse → white screen on load.
+#
+# Angular WILL print: "Unsupported browsers: ios_saf 13.x, safari 13" — this is EXPECTED
+# and benign (Angular disclaims official support but still down-levels JS for them).
+# Do NOT treat that warning as a build failure, and do NOT add `dead`/`>0.5%` queries
+# (they would subtract iOS 13 back out).
+last 2 Chrome versions
+last 2 Edge versions
+last 2 Firefox versions
+Firefox ESR
+Safari >= 13
+iOS >= 13
