@@ -138,6 +138,28 @@
         "maxlength": "{{ validationErrors.createProduction.name.maxlength }}"
       }
     },
+    "createCollection": {
+      "name": {
+        "required": "Name is required",
+        "maxlength": "Name must not be longer than 500 characters"
+      },
+      "overview": {
+        "required": "Overview is required",
+        "minlength": "Overview must be at least 10 characters",
+        "maxlength": "Overview must not be longer than 2000 characters"
+      }
+    },
+    "updateCollection": {
+      "name": {
+        "required": "{{ validationErrors.createCollection.name.required }}",
+        "maxlength": "{{ validationErrors.createCollection.name.maxlength }}"
+      },
+      "overview": {
+        "required": "{{ validationErrors.createCollection.overview.required }}",
+        "minlength": "{{ validationErrors.createCollection.overview.minlength }}",
+        "maxlength": "{{ validationErrors.createCollection.overview.maxlength }}"
+      }
+    },
     "createMedia": {
       "title": {
         "required": "Title is required",
