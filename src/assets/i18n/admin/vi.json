@@ -3,6 +3,7 @@
     "media": "Phim",
     "genres": "Thể loại",
     "productions": "Nhà phát hành",
+    "collections": "Bộ sưu tập",
     "users": "Người dùng",
     "roles": "Vai trò",
     "auditLog": "Lịch sử thay đổi",
@@ -37,6 +38,22 @@
     "cancel": "{{ admin.createGenre.cancel }}",
     "submit": "Cập Nhật"
   },
+  "createCollection": {
+    "formHeader": "Thêm Bộ Sưu Tập Mới",
+    "name": "{{ admin.createGenre.name }}",
+    "overview": "Mô tả",
+    "overviewPlaceholder": "Một vài mô tả ngắn cho bộ sưu tập",
+    "cancel": "{{ admin.createGenre.cancel }}",
+    "submit": "{{ admin.createGenre.submit }}"
+  },
+  "updateCollection": {
+    "formHeader": "Cập Nhật Bộ Sưu Tập",
+    "name": "{{ admin.createGenre.name }}",
+    "overview": "{{ admin.createCollection.overview }}",
+    "overviewPlaceholder": "{{ admin.createCollection.overviewPlaceholder }}",
+    "cancel": "{{ admin.createGenre.cancel }}",
+    "submit": "{{ admin.updateGenre.submit }}"
+  },
   "updateProduction": {
     "formHeader": "Cập Nhật Công Ty",
     "name": "{{ admin.createGenre.name }}",
@@ -69,9 +86,11 @@
     "createGenreByName": "Thêm thể loại: {{ name }}",
     "createProductionByName": "Thêm công ty: {{ name }}",
     "createTagByName": "Thêm nhãn: {{ name }}",
+    "createCollectionByName": "Thêm bộ sưu tập: {{ name }}",
     "producers": "Nhà phát hành (không bắt buộc)",
     "studios": "Studio sản xuất (không bắt buộc)",
     "tags": "Nhãn (không bắt buộc)",
+    "collections": "Bộ sưu tập (không bắt buộc)",
     "selectedItems": "{ itemCount, plural, one {Đã chọn 1 mục} other {Đã chọn # mục} }",
     "runtime": "Thời lượng",
     "runtimePlaceholder": "Thời lượng của một bộ phim/tập phim (hh:mm:ss)",
@@ -168,9 +187,11 @@
     "createGenreByName": "{{ admin.createMedia.createGenreByName }}",
     "createTagByName": "{{ admin.createMedia.createTagByName }}",
     "createProductionByName": "{{ admin.createMedia.createProductionByName }}",
+    "createCollectionByName": "{{ admin.createMedia.createCollectionByName }}",
     "producers": "Producers (optional)",
     "studios": "Studios (optional)",
     "tags": "{{ admin.createMedia.tags }}",
+    "collections": "{{ admin.createMedia.collections }}",
     "selectedItems": "{{ admin.createMedia.selectedItems }}",
     "runtime": "{{ admin.createMedia.runtime }}",
     "runtimePlaceholder": "{{ admin.createMedia.runtimePlaceholder }}",
@@ -335,6 +356,16 @@
     "pageReport": "Showing '{first'} to '{last'} of '{totalRecords'} entries",
     "deleteConfirmationHeader": "Delete Company",
     "deleteConfirmation": "Are you sure you want to delete <strong>{{ name }}</strong>? This action cannot be undone."
+  },
+  "collections": {
+    "searchPlaceholder": "{{ admin.genres.searchPlaceholder }}",
+    "create": "{{ admin.genres.create }}",
+    "tableHeader": "Quản lý bộ sưu tập",
+    "name": "{{ admin.createGenre.name }}",
+    "mediaCount": "Số phim",
+    "pageReport": "Showing '{first'} to '{last'} of '{totalRecords'} entries",
+    "deleteConfirmationHeader": "Xóa bộ sưu tập",
+    "deleteConfirmation": "Bạn có chắc chắn muốn xóa <strong>{{ name }}</strong> không? Hành động này không thể hoàn tác."
   },
   "media": {
     "searchPlaceholder": "{{ admin.genres.searchPlaceholder }}",

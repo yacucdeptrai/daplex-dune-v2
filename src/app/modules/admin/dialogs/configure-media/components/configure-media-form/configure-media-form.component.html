@@ -141,6 +141,27 @@
         }
       </div>
     </div>
+    <div class="tw-flex max-md:tw-flex-wrap tw-my-2">
+      <div class="tw-w-full md:tw-w-1/3 tw-mb-8">
+        <label for="collections" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
+          t()('admin.updateMedia.collections') }}</label>
+        <p-altAutoComplete #collectionAC formControlName="collections" [suggestions]="collectionSuggestions"
+          (completeMethod)="loadCollectionSuggestions($event.query)" optionLabel="name" dataKey="_id"
+          [multiple]="true" [unique]="true" [completeOnFocus]="true" [hideOnSelect]="false" scrollHeight="300px"
+          appendTo="body" styleClass="p-autocomplete-full" panelStyleClass="p-autocomplete-xs"
+          inputId="collections" ariaLabel="Find collections" dropdownAriaLabel="Collection search results">
+          <ng-template let-values pTemplate="selectedItem">{{ t()('admin.updateMedia.selectedItems', { itemCount:
+            values.length }) }}</ng-template>
+        </p-altAutoComplete>
+      </div>
+      <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
+      <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-gap-2 tw-content-center">
+        @for (collection of updateMediaForm.value.collections; track collection._id || $index) {
+          <p-chip [label]="collection.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full"
+            (onRemove)="collectionAC.removeOptionByObject(collection); collectionAC.cd.markForCheck()"></p-chip>
+        }
+      </div>
+    </div>
     <label for="release-date" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
       t()('admin.updateMedia.releaseDate') }}</label>
     <div id="release-date" formGroupName="releaseDate" class="dropdown-group tw-flex tw-flex-wrap tw-w-full"

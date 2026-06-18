@@ -3,7 +3,7 @@ import { TranslocoService } from '@jsverse/transloco';
 import { of, throwError, config as rxConfig } from 'rxjs';
 
 import { ConfigureMediaFormComponent } from './configure-media-form.component';
-import { GenresService, ItemDataService, MediaService, ProductionsService, TagsService } from '../../../../../../core/services';
+import { CollectionService, GenresService, ItemDataService, MediaService, ProductionsService, TagsService } from '../../../../../../core/services';
 import { MediaStatus, MediaType } from '../../../../../../core/enums';
 import { mockDynamicDialogRef, mockTranslocoService } from '../../../../../../../testing/test-helpers';
 
@@ -66,6 +66,7 @@ describe('ConfigureMediaFormComponent', () => {
   let genresService: any;
   let productionsService: any;
   let tagsService: any;
+  let collectionService: any;
 
   // onUpdateMediaFormSubmit subscribes with a next-only handler (takeUntil), so an errored update
   // reports an *async* RxJS "unhandled error" on a later macrotask — after the triggering spec's
@@ -88,6 +89,7 @@ describe('ConfigureMediaFormComponent', () => {
     genresService = { findGenreSuggestions: jasmine.createSpy('findGenreSuggestions').and.returnValue(of([])) };
     productionsService = { findProductionSuggestions: jasmine.createSpy('findProductionSuggestions').and.returnValue(of([])) };
     tagsService = { findTagSuggestions: jasmine.createSpy('findTagSuggestions').and.returnValue(of([])) };
+    collectionService = { findCollectionSuggestions: jasmine.createSpy('findCollectionSuggestions').and.returnValue(of([])) };
 
     return TestBed.configureTestingModule({
       imports: [ConfigureMediaFormComponent],
@@ -98,6 +100,7 @@ describe('ConfigureMediaFormComponent', () => {
         { provide: GenresService, useValue: genresService },
         { provide: ProductionsService, useValue: productionsService },
         { provide: TagsService, useValue: tagsService },
+        { provide: CollectionService, useValue: collectionService },
         { provide: TranslocoService, useValue: mockTranslocoService() }
       ]
     })

@@ -16,7 +16,7 @@ import { CreateMediaDto, DropdownOptionDto } from '../../../../core/dto/media';
 import { AppErrorCode, MediaStatus, MediaType } from '../../../../core/enums';
 import { ShortDateForm } from '../../../../core/interfaces/forms';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
-import { Genre, MediaDetails, MediaSubtitle, MediaVideo, Production, Tag } from '../../../../core/models';
+import { Genre, MediaCollection, MediaDetails, MediaSubtitle, MediaVideo, Production, Tag } from '../../../../core/models';
 import { DestroyService, ItemDataService, MediaService, QueueUploadService } from '../../../../core/services';
 import { MediaFormHelperService } from '../../../../core/services/media-form-helper.service';
 import { shortDate } from '../../../../core/validators';
@@ -54,6 +54,7 @@ interface CreateMediaForm {
   producers: FormControl<Production[] | null>;
   studios: FormControl<Production[] | null>;
   tags: FormControl<Tag[] | null>;
+  collections: FormControl<MediaCollection[] | null>;
   runtime: FormControl<string | null>;
   adult: FormControl<boolean>;
   releaseDate: FormGroup<ShortDateForm>;
@@ -105,6 +106,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
   genreSuggestions: Genre[] = [];
   productionSuggestions: Production[] = [];
   tagSuggestions: Tag[] = [];
+  collectionSuggestions: MediaCollection[] = [];
 
   constructor(@Inject(DOCUMENT) private document: Document, private ref: ChangeDetectorRef,
     private dialogRef: DynamicDialogRef, private dialogService: DialogService, private config: DynamicDialogConfig<{ type: string }>,
@@ -124,6 +126,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
       producers: new FormControl(null),
       studios: new FormControl(null),
       tags: new FormControl(null),
+      collections: new FormControl(null),
       runtime: new FormControl(null, [Validators.required]),
       adult: new FormControl(false, { nonNullable: true, validators: Validators.required }),
       releaseDate: new FormGroup<ShortDateForm>({
@@ -144,6 +147,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
       producers: new FormControl(null),
       studios: new FormControl(null),
       tags: new FormControl(null),
+      collections: new FormControl(null),
       runtime: new FormControl(null, [Validators.required]),
       adult: new FormControl(false, { nonNullable: true, validators: Validators.required }),
       releaseDate: new FormGroup<ShortDateForm>({
@@ -204,6 +208,12 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
     }).add(() => this.ref.markForCheck());
   }
 
+  loadCollectionSuggestions(search?: string): void {
+    this.mediaFormHelper.findCollectionSuggestions(search).subscribe({
+      next: collections => this.collectionSuggestions = collections
+    }).add(() => this.ref.markForCheck());
+  }
+
   onCreateMediaFormSubmit(): void {
     if (this.createMediaForm.invalid) return;
     this.createMediaForm.disable({ emitEvent: false });
@@ -212,6 +222,8 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
     const studioIds = formValue.studios?.map(p => p._id) || [];
     const producerIds = formValue.producers?.map(p => p._id) || [];
     const tagIds = formValue.tags?.map(p => p._id) || [];
+    // Existing collections only — drop any create-on-the-fly sentinel (backend has no find-or-create).
+    const collectionIds = formValue.collections?.map(c => c._id).filter(id => !id.startsWith('create:name=')) || [];
     const runtimeValue = timeStringToSeconds(formValue.runtime)!;
     const createMediaDto: CreateMediaDto = {
       type: formValue.type,
@@ -223,6 +235,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
       producers: producerIds,
       studios: studioIds,
       tags: tagIds,
+      inCollections: collectionIds,
       runtime: runtimeValue,
       adult: formValue.adult,
       releaseDate: {

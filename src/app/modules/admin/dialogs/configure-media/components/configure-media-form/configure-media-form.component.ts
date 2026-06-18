@@ -6,7 +6,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
 
-import { MediaDetails, Genre, Production, Tag } from '../../../../../../core/models';
+import { MediaDetails, Genre, MediaCollection, Production, Tag } from '../../../../../../core/models';
 import { DestroyService, ItemDataService, MediaService } from '../../../../../../core/services';
 import { EditMediaForm, MediaFormHelperService } from '../../../../../../core/services/media-form-helper.service';
 import { DropdownOptionDto } from '../../../../../../core/dto/media';
@@ -62,6 +62,7 @@ export class ConfigureMediaFormComponent implements OnInit {
   genreSuggestions: Genre[] = [];
   productionSuggestions: Production[] = [];
   tagSuggestions: Tag[] = [];
+  collectionSuggestions: MediaCollection[] = [];
 
   private tvControlsAdded: boolean = false;
 
@@ -103,6 +104,12 @@ export class ConfigureMediaFormComponent implements OnInit {
   loadTagSuggestions(search?: string): void {
     this.mediaFormHelper.findTagSuggestions(search).subscribe({
       next: tags => this.tagSuggestions = tags
+    }).add(() => this.ref.markForCheck());
+  }
+
+  loadCollectionSuggestions(search?: string): void {
+    this.mediaFormHelper.findCollectionSuggestions(search).subscribe({
+      next: collections => this.collectionSuggestions = collections
     }).add(() => this.ref.markForCheck());
   }
 

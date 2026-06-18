@@ -3,6 +3,7 @@
     "media": "Media",
     "genres": "Genres",
     "productions": "Productions",
+    "collections": "Collections",
     "users": "Users",
     "roles": "Roles",
     "auditLog": "Audit Log",
@@ -45,6 +46,22 @@
     "cancel": "{{ admin.createGenre.cancel }}",
     "submit": "{{ admin.updateGenre.submit }}"
   },
+  "createCollection": {
+    "formHeader": "Create Collection",
+    "name": "{{ admin.createGenre.name }}",
+    "overview": "Overview",
+    "overviewPlaceholder": "Short description of the collection",
+    "cancel": "{{ admin.createGenre.cancel }}",
+    "submit": "{{ admin.createGenre.submit }}"
+  },
+  "updateCollection": {
+    "formHeader": "Update Collection",
+    "name": "{{ admin.createGenre.name }}",
+    "overview": "{{ admin.createCollection.overview }}",
+    "overviewPlaceholder": "{{ admin.createCollection.overviewPlaceholder }}",
+    "cancel": "{{ admin.createGenre.cancel }}",
+    "submit": "{{ admin.updateGenre.submit }}"
+  },
   "createMedia": {
     "movieStep1": "Details",
     "movieStep2": "Movie Elements",
@@ -69,9 +86,11 @@
     "createGenreByName": "Create Genre: {{ name }}",
     "createProductionByName": "Create Company: {{ name }}",
     "createTagByName": "Create Tag: {{ name }}",
+    "createCollectionByName": "Create Collection: {{ name }}",
     "producers": "Producers (optional)",
     "studios": "Studios (optional)",
     "tags": "Tags (optional)",
+    "collections": "Collections (optional)",
     "selectedItems": "{ itemCount, plural, one {1 item selected} other {# items selected} }",
     "runtime": "Running time",
     "runtimePlaceholder": "Duration of a movie/episode (hh:mm:ss)",
@@ -169,9 +188,11 @@
     "createGenreByName": "{{ admin.createMedia.createGenreByName }}",
     "createTagByName": "{{ admin.createMedia.createTagByName }}",
     "createProductionByName": "{{ admin.createMedia.createProductionByName }}",
+    "createCollectionByName": "{{ admin.createMedia.createCollectionByName }}",
     "producers": "Producers (optional)",
     "studios": "Studios (optional)",
     "tags": "{{ admin.createMedia.tags }}",
+    "collections": "{{ admin.createMedia.collections }}",
     "selectedItems": "{{ admin.createMedia.selectedItems }}",
     "runtime": "{{ admin.createMedia.runtime }}",
     "runtimePlaceholder": "{{ admin.createMedia.runtimePlaceholder }}",
@@ -336,6 +357,16 @@
     "country": "Country",
     "pageReport": "Showing '{first'} to '{last'} of '{totalRecords'} entries",
     "deleteConfirmationHeader": "Delete Company",
+    "deleteConfirmation": "Are you sure you want to delete <strong>{{ name }}</strong>? This action cannot be undone."
+  },
+  "collections": {
+    "searchPlaceholder": "{{ admin.genres.searchPlaceholder }}",
+    "create": "{{ admin.genres.create }}",
+    "tableHeader": "Manage Media Collections",
+    "name": "{{ admin.createGenre.name }}",
+    "mediaCount": "Titles",
+    "pageReport": "Showing '{first'} to '{last'} of '{totalRecords'} entries",
+    "deleteConfirmationHeader": "Delete Collection",
     "deleteConfirmation": "Are you sure you want to delete <strong>{{ name }}</strong>? This action cannot be undone."
   },
   "media": {

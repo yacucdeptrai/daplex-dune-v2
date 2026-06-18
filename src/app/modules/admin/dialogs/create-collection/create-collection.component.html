@@ -1,0 +1,28 @@
+<ng-container *transloco="let t">
+  <h3 class="tw-text-white tw-text-2xl tw-font-bold tw-text-center tw-mb-4">{{ t('admin.createCollection.formHeader')
+    }}</h3>
+  <form [formGroup]="createCollectionForm" formHandler (ngSubmit)="onCreateCollectionFormSubmit()">
+    <label for="name" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{ t('admin.createCollection.name')
+      }}</label>
+    <input formControlName="name" class="tw-w-full" id="name" type="text" aria-describedby="name-error" pInputText
+      autofocus>
+    <small id="name-error" class="p-error tw-text-xs tw-block tw-my-2"
+      [invalidControl]="createCollectionForm.controls.name">{{ createCollectionForm.controls.name.errors
+      | firstErrorKey:'createCollection':'name' }}</small>
+    <label for="overview" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
+      t('admin.createCollection.overview') }}</label>
+    <textarea formControlName="overview" class="tw-w-full" id="overview" aria-describedby="overview-error"
+      [placeholder]="t('admin.createCollection.overviewPlaceholder')" pTextarea [rows]="5"></textarea>
+    <small id="overview-error" class="p-error tw-text-xs tw-block tw-my-2"
+      [invalidControl]="createCollectionForm.controls.overview">{{ createCollectionForm.controls.overview.errors
+      | firstErrorKey:'createCollection':'overview' }}</small>
+    <div class="app-action-bar__actions tw-mt-4">
+      <button pButton type="button" [label]="t('admin.createCollection.cancel')"
+        (click)="onCreateCollectionFormCancel()" class="p-button-text p-button-secondary p-button-sm">
+      </button>
+      <button pButton type="submit" [label]="t('admin.createCollection.submit')" class="p-button p-button-sm"
+        [disabled]="createCollectionForm.disabled">
+      </button>
+    </div>
+  </form>
+</ng-container>

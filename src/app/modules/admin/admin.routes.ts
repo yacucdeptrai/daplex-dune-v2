@@ -8,6 +8,7 @@ import { ConfirmActionService, QueueUploadService } from '../../core/services';
 import { WS_AUTH, WS_NAMESPACE, WsService } from '../../shared/modules/ws';
 import { AdminLayoutComponent } from '../../shared/layouts/admin-layout';
 import { AuditLogComponent } from './pages/audit-log/audit-log.component';
+import { CollectionsComponent } from './pages/collections/collections.component';
 import { GenresComponent } from './pages/genres/genres.component';
 import { MediaComponent } from './pages/media/media.component';
 import { ProductionsComponent } from './pages/productions/productions.component';
@@ -52,6 +53,10 @@ export const ADMIN_ROUTES: Routes = [
       {
         path: 'productions',
         component: ProductionsComponent
+      },
+      {
+        path: 'collections',
+        component: CollectionsComponent
       },
       {
         path: 'media',

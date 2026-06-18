@@ -5,9 +5,10 @@ import { Observable } from 'rxjs';
 import { DropdownOptionDto, UpdateMediaDto } from '../dto/media';
 import { MediaStatus, MediaType } from '../enums';
 import { ExternalIdsForm, MediaScannerForm, ShortDateForm } from '../interfaces/forms';
-import { Genre, MediaDetails, Production, Tag } from '../models';
+import { Genre, MediaCollection, MediaDetails, Production, Tag } from '../models';
 import { secondsToTimeString, timeStringToSeconds } from '../utils';
 import { shortDate } from '../validators';
+import { CollectionService } from './collection.service';
 import { GenresService } from './genres.service';
 import { ItemDataService } from './item-data.service';
 import { ProductionsService } from './productions.service';
@@ -22,6 +23,7 @@ export interface UpdateMediaForm {
   producers: FormControl<Production[] | null>;
   studios: FormControl<Production[] | null>;
   tags: FormControl<Tag[] | null>;
+  collections: FormControl<MediaCollection[] | null>;
   runtime: FormControl<string | null>;
   adult: FormControl<boolean>;
   releaseDate: FormGroup<ShortDateForm>;
@@ -47,7 +49,7 @@ export type EditMediaFormValue = ReturnType<FormGroup<EditMediaForm>['getRawValu
 @Injectable({ providedIn: 'root' })
 export class MediaFormHelperService {
   constructor(private genresService: GenresService, private productionsService: ProductionsService,
-    private tagsService: TagsService) { }
+    private tagsService: TagsService, private collectionService: CollectionService) { }
 
   buildEditMediaForm(): FormGroup<EditMediaForm> {
     return new FormGroup<EditMediaForm>({
@@ -77,6 +79,7 @@ export class MediaFormHelperService {
       studios: media.studios,
       producers: media.producers,
       tags: media.tags,
+      collections: media.inCollections || null,
       runtime: secondsToTimeString(media.runtime),
       adult: media.adult,
       releaseDate: {
@@ -121,6 +124,7 @@ export class MediaFormHelperService {
       studios: media.studios,
       producers: media.producers,
       tags: media.tags,
+      collections: media.inCollections || null,
       runtime: runtimeValue,
       adult: media.adult,
       releaseDate: {
@@ -160,6 +164,12 @@ export class MediaFormHelperService {
 
   findTagSuggestions(search?: string): Observable<Tag[]> {
     return this.tagsService.findTagSuggestions(search);
+  }
+
+  // Media form selects EXISTING collections only — no inline create (the backend inCollections path
+  // is findById-only, with no find-or-create). Collections are created on the /admin/collections page.
+  findCollectionSuggestions(search?: string): Observable<MediaCollection[]> {
+    return this.collectionService.findCollectionSuggestions(search, { withCreateOption: false });
   }
 
   // ItemDataService is component-scoped, so callers pass their instance rather than the root service
@@ -202,6 +212,8 @@ export class MediaFormHelperService {
     if (opts?.editOnlyFields) {
       const scanner = formValue.scanner!;
       updateMediaDto.tags = formValue.tags?.map(p => p._id) || [];
+      // Drop any create-on-the-fly sentinel — collections are existing-only on the media form.
+      updateMediaDto.inCollections = formValue.collections?.map(c => c._id).filter(id => !id.startsWith('create:name=')) || [];
       updateMediaDto.externalIds = formValue.externalIds!;
       updateMediaDto.scanner = {
         enabled: scanner.enabled
@@ -243,6 +255,7 @@ export class MediaFormHelperService {
       producers: new FormControl<Production[] | null>(null),
       studios: new FormControl<Production[] | null>(null),
       tags: new FormControl<Tag[] | null>(null),
+      collections: new FormControl<MediaCollection[] | null>(null),
       runtime: new FormControl<string | null>(null, [Validators.required]),
       adult: new FormControl(false, { nonNullable: true, validators: Validators.required }),
       releaseDate: new FormGroup<ShortDateForm>({

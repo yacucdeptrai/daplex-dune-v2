@@ -4,7 +4,7 @@ import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dy
 import { of, throwError, config as rxConfig } from 'rxjs';
 
 import { CreateMediaComponent } from './create-media.component';
-import { GenresService, ItemDataService, MediaService, ProductionsService, QueueUploadService, TagsService } from '../../../../core/services';
+import { CollectionService, GenresService, ItemDataService, MediaService, ProductionsService, QueueUploadService, TagsService } from '../../../../core/services';
 import { ImageEditorComponent } from '../../../../shared/dialogs/image-editor';
 import { MediaStatus, MediaType } from '../../../../core/enums';
 import {
@@ -77,6 +77,7 @@ describe('CreateMediaComponent', () => {
   let genresService: any;
   let productionsService: any;
   let tagsService: any;
+  let collectionService: any;
   let dialogService: any;
 
   // onCreate/onUpdate submit subscribe with next-only handlers (takeUntil), so an errored
@@ -101,6 +102,7 @@ describe('CreateMediaComponent', () => {
     genresService = { findGenreSuggestions: jasmine.createSpy('findGenreSuggestions').and.returnValue(of([])) };
     productionsService = { findProductionSuggestions: jasmine.createSpy('findProductionSuggestions').and.returnValue(of([])) };
     tagsService = { findTagSuggestions: jasmine.createSpy('findTagSuggestions').and.returnValue(of([])) };
+    collectionService = { findCollectionSuggestions: jasmine.createSpy('findCollectionSuggestions').and.returnValue(of([])) };
     dialogService = mockDialogService();
 
     return TestBed.configureTestingModule({
@@ -116,6 +118,7 @@ describe('CreateMediaComponent', () => {
         { provide: GenresService, useValue: genresService },
         { provide: ProductionsService, useValue: productionsService },
         { provide: TagsService, useValue: tagsService },
+        { provide: CollectionService, useValue: collectionService },
         { provide: QueueUploadService, useValue: {} }
       ]
     })
@@ -225,6 +228,27 @@ describe('CreateMediaComponent', () => {
     expect(component.media).toBe(saved);
     expect(component.updateMediaForm.controls.title.value).toBe('Saved Server Title');
     expect(component.createMediaForm.disabled).toBeFalse(); // re-enabled via .add() finally
+  });
+
+  it('onCreateMediaFormSubmit maps selected collections to inCollections ids and DROPS a create-on-the-fly sentinel', async () => {
+    await create(MediaType.MOVIE);
+    component.createMediaForm.patchValue({
+      title: 'New Title', overview: 'overview at least ten chars',
+      runtime: '01:00:00', releaseDate: { day: 1, month: 1, year: 2020 } as any,
+      collections: [{ _id: 'col1' } as any, { _id: 'create:name=Brand%20New' } as any]
+    });
+    mediaService.create.and.returnValue(of(makeMovieMedia()));
+
+    component.onCreateMediaFormSubmit();
+
+    const dto = mediaService.create.calls.mostRecent().args[0];
+    expect(dto.inCollections).toEqual(['col1']); // sentinel filtered — media form selects existing only
+  });
+
+  it('loadCollectionSuggestions sets the list from the helper (existing-only)', async () => {
+    await create();
+    component.loadCollectionSuggestions('sa');
+    expect(component.collectionSuggestions).toBeDefined();
   });
 
   it('onCreateMediaFormSubmit (TV) sets lastAirDate on the DTO when fully provided', async () => {

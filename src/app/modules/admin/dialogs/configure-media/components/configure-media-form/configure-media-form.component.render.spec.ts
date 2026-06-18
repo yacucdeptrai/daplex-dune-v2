@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 
 import { ConfigureMediaComponent } from '../../configure-media.component';
 import { ConfigureMediaFormComponent } from './configure-media-form.component';
-import { ConfirmActionService, GenresService, MediaService, ProductionsService, TagsService } from '../../../../../../core/services';
+import { CollectionService, ConfirmActionService, GenresService, MediaService, ProductionsService, TagsService } from '../../../../../../core/services';
 import { WsService } from '../../../../../../shared/modules/ws';
 import { MediaPStatus, MediaSourceStatus, MediaStatus, MediaType } from '../../../../../../core/enums';
 import {
@@ -83,6 +83,7 @@ describe('ConfigureMediaFormComponent — HAZARD-1 footer<->form bridge (live pa
         { provide: GenresService, useValue: { findGenreSuggestions: () => of([]) } },
         { provide: ProductionsService, useValue: { findProductionSuggestions: () => of([]) } },
         { provide: TagsService, useValue: { findTagSuggestions: () => of([]) } },
+        { provide: CollectionService, useValue: { findCollectionSuggestions: () => of([]) } },
         { provide: DynamicDialogRef, useValue: mockDynamicDialogRef() },
         { provide: DynamicDialogConfig, useValue: mockDynamicDialogConfig({ _id: MEDIA_ID, type: MediaType.TV, title: MEDIA_TITLE }) },
         { provide: DialogService, useValue: mockDialogService() },

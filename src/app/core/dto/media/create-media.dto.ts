@@ -10,6 +10,7 @@ export interface CreateMediaDto {
   studios: string[] | null;
   producers: string[] | null;
   tags: string[] | null;
+  inCollections?: string[];
   runtime: number;
   adult: boolean;
   releaseDate: ShortDate;
