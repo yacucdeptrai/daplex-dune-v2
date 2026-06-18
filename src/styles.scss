@@ -709,3 +709,18 @@ p {
 .p-datepicker .p-datepicker-dropdown {
   flex: 0 0 auto;
 }
+
+/* Reduced-motion baseline (P3, WCAG 2.3.3): collapse owned CSS motion to ~instant when the
+   OS asks. 0.01ms (not 0s) so animationend/transitionend still fire; iteration-count:1 lands
+   looping keyframes on their final frame. End-states preserved — no exemption needed. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    /* stylelint-disable-next-line plugin/no-unsupported-browser-features -- scroll-behavior is Safari 16+; iOS 13 has no smooth-scroll to neutralize, so this is an inert no-op there (unknown CSS props are ignored, not a parse error) */
+    scroll-behavior: auto !important;
+  }
+}

@@ -2,7 +2,7 @@ import { ApplicationConfig, APP_INITIALIZER, ErrorHandler, importProvidersFrom }
 import { provideRouter, RouteReuseStrategy } from '@angular/router';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withInterceptors } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations, provideNoopAnimations } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { OverlayContainer, FullscreenOverlayContainer } from '@angular/cdk/overlay';
 import { withHttpCacheInterceptor, provideHttpCache } from '@ngneat/cashew';
@@ -33,10 +33,16 @@ import { HtmlPipeModule } from './shared/pipes/html-pipe';
 import { PermissionPipeModule } from './shared/pipes/permission-pipe';
 import { MediaFilterModule } from './shared/components/media-filter';
 
+// Honor OS reduce-motion at bootstrap: Noop driver neutralizes ALL Angular motion incl. the
+// imperative AnimationBuilder players a template @.disabled can't reach (P3, WCAG 2.3.3).
+const prefersReducedMotion =
+  typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    importProvidersFrom(BrowserModule, BrowserAnimationsModule, ServiceWorkerModule.register('ngsw-worker.js', {
+    prefersReducedMotion ? provideNoopAnimations() : provideAnimations(),
+    importProvidersFrom(BrowserModule, ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       registrationStrategy: 'registerWhenStable:30000'
     }), TranslocoRootModule, RouterLoaderModule, HomeLayoutModule, ToastModule, OverlayPanelModule, MarkdownPipeModule, HtmlPipeModule, PermissionPipeModule, MediaFilterModule, RecaptchaModule),
