@@ -61,5 +61,10 @@ export default defineConfig({
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    // Cross-engine smoke for the iOS 13 / Firefox support floor. WebKit here is a
+    // PROXY for real iOS 13 Safari, not the genuine engine — a manual real-device /
+    // BrowserStack pass is still required before final sign-off.
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
   ],
 });
