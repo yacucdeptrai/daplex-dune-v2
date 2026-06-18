@@ -41,11 +41,11 @@ const prefersReducedMotion =
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    prefersReducedMotion ? provideNoopAnimations() : provideAnimations(),
     importProvidersFrom(BrowserModule, ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       registrationStrategy: 'registerWhenStable:30000'
     }), TranslocoRootModule, RouterLoaderModule, HomeLayoutModule, ToastModule, OverlayPanelModule, MarkdownPipeModule, HtmlPipeModule, PermissionPipeModule, MediaFilterModule, RecaptchaModule),
+    prefersReducedMotion ? provideNoopAnimations() : provideAnimations(),
     MessageService,
     DialogService,
     providePrimeNG({
