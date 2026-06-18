@@ -8121,3 +8121,26 @@ p-autocomplete,
 .p-dropdown .p-dropdown-label:focus-visible {
   outline: 0 none;
 }
+
+/* ── iOS 13 flex-gap fallbacks (W0.16, additive only) ────────────────────────
+   iOS Safari < 14.5 has no flex `gap`. The rules above keep `gap` as primary for
+   modern browsers (unchanged); this block only adds margin spacing for engines
+   that lack `gap`, so iOS 13 gets the same visual spacing. Do NOT fold these into
+   the rules above — they must stay additive to preserve modern rendering. */
+@supports not (gap: 0.5rem) {
+  .p-autocomplete .p-autocomplete-multiple-container > * + * {
+    margin-left: 0.5rem;
+  }
+  .p-chips .p-chips-multiple-container > * + * {
+    margin-left: 0.5rem;
+  }
+  .p-multiselect.p-multiselect-chip .p-multiselect-label > * + * {
+    margin-left: 0.5rem;
+  }
+  .p-rating > * + * {
+    margin-left: 0.5rem;
+  }
+  .p-toolbar > * + * {
+    margin-left: 0.5rem;
+  }
+}

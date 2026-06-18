@@ -101,7 +101,7 @@
                   media.overview }}</p>
                 @if (showMoreDetails()) {
                   @if (media.genres.length) {
-                    <div class="tw-text-white tw-flex tw-flex-wrap tw-gap-1 tw-mt-2">
+                    <div class="tw-text-white tw-flex tw-flex-wrap tw-space-x-1 tw-space-y-1 tw-mt-2">
                       @for (genre of media.genres; track genre._id; let first = $first) {
                         <p-tag [value]="genre.name" [link]="['/list', 'genre', genre._id]"
                           styleClass="p-tag-secondary tw-text-sm tw-font-medium tw-px-2.5 tw-rounded-full"></p-tag>

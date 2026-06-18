@@ -62,6 +62,7 @@ p {
   display: none;
 }
 
+/* stylelint-disable-next-line plugin/no-unsupported-browser-features -- @layer is framework-wide (Tailwind's own base/components/utilities emit it); iOS 13 layering is a Tailwind-level concern, out of this slice's owned worklist. Deferred — see W0.16 02_impl.md. */
 @layer components {
   .tw-divider {
     @apply tw-border-neutral-625 tw-border-t tw-px-5;
@@ -100,6 +101,7 @@ p {
    tw-ml-auto + per-button tw-ml-2/tw-mr-2 scattered across templates. Wraps
    gracefully on narrow viewports, and unifies button dimensions so a short "Save"
    and a long "Edit email" read as one family (icon-only buttons keep their shape). */
+/* stylelint-disable-next-line plugin/no-unsupported-browser-features -- flex `gap` has an iOS 13 margin fallback in the @supports-not block below */
 .app-action-bar {
   display: flex;
   align-items: center;
@@ -109,6 +111,14 @@ p {
 .app-action-bar > p {
   margin: 0;
 }
+/* iOS 13 (< Safari 14.5) has no flex `gap` — margin fallback for the column gap.
+   Modern browsers keep `gap` above and ignore this @supports-not block. */
+@supports not (gap: 1rem) {
+  .app-action-bar > * + * {
+    margin-left: 1rem;
+  }
+}
+/* stylelint-disable-next-line plugin/no-unsupported-browser-features -- flex `gap` has an iOS 13 margin fallback in the @supports-not block below */
 .app-action-bar__actions {
   display: flex;
   align-items: center;
@@ -116,6 +126,11 @@ p {
   flex-wrap: wrap;
   gap: 0.5rem; /* uniform spacing between buttons — replaces tw-ml-2/tw-mr-2 */
   margin-left: auto; /* strict right alignment of the whole group */
+}
+@supports not (gap: 1rem) {
+  .app-action-bar__actions > * + * {
+    margin-left: 0.5rem;
+  }
 }
 .app-action-bar__actions .p-button:not(.p-button-icon-only) {
   min-width: 5.5rem;
@@ -176,6 +191,7 @@ p {
   cursor: pointer;
 }
 
+/* stylelint-disable-next-line plugin/no-unsupported-browser-features -- flex `gap` has an iOS 13 margin fallback in the @supports-not block below */
 .p-toggleswitch {
   display: inline-flex;
   align-items: center;
@@ -184,16 +200,30 @@ p {
   height: auto;
   vertical-align: bottom;
 }
+/* iOS 13 flex-gap fallback — mirrors the radiobutton margin approach. */
+@supports not (gap: 1rem) {
+  .p-toggleswitch > * + * {
+    margin-left: 0.5rem;
+  }
+}
 /* Label-bearing toggle (ktt45678 [label] input) = a full-width settings row: text on
    the left, slider pushed entirely to the right margin. Without this the inline-flex
    host shrinks to content and the label+slider bunch together on the left. Slider-only
    toggles (separate <label> + tw-ml-auto in dialogs) have no internal label, so they're
-   untouched and keep their inline-flex shape. */
-.p-toggleswitch:has(.p-toggleswitch-label) {
+   untouched and keep their inline-flex shape.
+   iOS 13 lacks `:has()` (15.4+), so the label-bearing host carries a static
+   `.p-toggleswitch--has-label` marker class instead of being matched by `:has()`. */
+/* stylelint-disable-next-line plugin/no-unsupported-browser-features -- flex `gap` has an iOS 13 margin fallback in the @supports-not block below */
+.p-toggleswitch--has-label {
   display: flex;
   width: 100%;
   justify-content: space-between;
   gap: 1rem;
+}
+@supports not (gap: 1rem) {
+  .p-toggleswitch--has-label > * + * {
+    margin-left: 1rem;
+  }
 }
 .p-toggleswitch .p-toggleswitch-slider {
   flex: 0 0 auto;
@@ -461,6 +491,7 @@ p {
 .p-autocomplete {
   width: 100%;
 }
+/* stylelint-disable-next-line plugin/no-unsupported-browser-features -- flex `gap` has an iOS 13 margin fallback in the @supports-not block below */
 .p-autocomplete-input-multiple {
   display: flex;
   flex-wrap: wrap;
@@ -475,6 +506,12 @@ p {
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 4px;
   color: rgba(255, 255, 255, 0.87);
+}
+/* iOS 13 flex-gap fallback for the token row. */
+@supports not (gap: 0.5rem) {
+  .p-autocomplete-input-multiple > * + * {
+    margin-left: 0.5rem;
+  }
 }
 .p-autocomplete-input-multiple:not(.p-disabled):hover,
 .p-autocomplete:not(.p-disabled).p-focus .p-autocomplete-input-multiple {
@@ -511,7 +548,10 @@ p {
    oracle only zeroes the legacy `.p-radiobutton-box.p-focus`, a class v21 never sets.
    Re-assert the oracle convention (--focus-ring:none) on the v21 focus-visible path:
    focus is the indigo border only, no ring/shadow. */
-.p-radiobutton:not(.p-disabled):has(.p-radiobutton-input:focus-visible) .p-radiobutton-box {
+/* iOS 13 lacks both `:has()` (15.4+) and `:focus-visible` (15.4+). The radio input is the
+   host's only focusable descendant, so `:focus-within` (iOS 13-safe) matches exactly when it
+   is focused — same target, same indigo-border-only result, no `:has`/`:focus-visible`. */
+.p-radiobutton:not(.p-disabled):focus-within .p-radiobutton-box {
   box-shadow: none !important;
   outline: 0 none !important;
   outline-offset: 0 !important;
@@ -540,14 +580,22 @@ p {
    `:focus-visible` path; the oracle only zeroes the legacy `.p-inputtext:enabled:focus`,
    which v21 does not trigger for keyboard/programmatic focus → the ring leaks through.
    Re-assert the v17 convention: focused input is a flat indigo #526ed3 border, no ring. */
+/* `:focus` is paired with `:focus-visible` so iOS 13 (which lacks `:focus-visible`,
+   15.4+) still gets the flat indigo border on keyboard/programmatic focus. */
+/* stylelint-disable-next-line plugin/no-unsupported-browser-features -- :focus fallback paired below */
+.p-inputtext:focus,
 .p-inputtext:focus-visible,
+.p-datepicker-input:focus,
 .p-datepicker-input:focus-visible {
   box-shadow: none !important;
   outline: 0 none !important;
   outline-offset: 0 !important;
   border-color: #526ed3 !important;
 }
+/* stylelint-disable-next-line plugin/no-unsupported-browser-features -- :focus fallback paired below */
+.p-inputtext.ng-invalid:focus,
 .p-inputtext.ng-invalid:focus-visible,
+.p-datepicker-input.ng-invalid:focus,
 .p-datepicker-input.ng-invalid:focus-visible {
   border-color: #f44435 !important;
 }
@@ -566,6 +614,7 @@ p {
 .p-select:not(.p-disabled):hover {
   border-color: rgba(255, 255, 255, 0.6);
 }
+/* stylelint-disable-next-line plugin/no-unsupported-browser-features -- :enabled:focus fallback paired below covers iOS 13 */
 .p-textarea:enabled:focus,
 .p-textarea:focus-visible,
 .p-select:not(.p-disabled).p-focus {

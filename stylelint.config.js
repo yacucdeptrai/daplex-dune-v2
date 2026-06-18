@@ -23,6 +23,25 @@ module.exports = {
         // Report partial-support features (e.g. flex `gap`) too — those are exactly
         // the iOS 13 traps we care about.
         ignorePartialSupport: false,
+        // Features intentionally NOT gated, each for a verified reason. The real
+        // iOS-13 traps (flexbox-gap, css-has, css-is/where, css-cascade-layers,
+        // css-focus-visible) stay ACTIVE so a new unguarded use is still caught;
+        // guarded sites use a per-line stylelint-disable with a reason.
+        ignore: [
+          // We author SCSS; Angular's compiler flattens `&`/descendant nesting to
+          // plain CSS before ship, so iOS 13 never receives native CSS Nesting.
+          // (30 source-only false positives — see W0.0 baseline §1a.)
+          'css-nesting',
+          // Misattribution: the warning cites only future Edge/FF/Chrome partial
+          // support for `flex-wrap: nowrap`, no iOS — it is not an iOS 13 trap.
+          'multicolumn',
+          // `overflow: hidden` partial-support nuance only; the plain value we use
+          // is fully supported on iOS 13. (W0.0 baseline §1b — benign.)
+          'css-overflow',
+          // `minmax()` is supported on iOS 13.4+ (partial 13.0–13.3 only) and used
+          // in a grid template where the column still resolves; low-risk per baseline.
+          'css-math-functions',
+        ],
       },
     ],
   },

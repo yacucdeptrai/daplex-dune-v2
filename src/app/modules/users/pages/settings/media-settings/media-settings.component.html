@@ -12,19 +12,19 @@
       <small id="limit-desc" class="tw-text-sm tw-font-medium tw-block tw-mt-2 tw-text-gray-400">{{
       t('users.mediaSettings.historyLimitDesc') }}</small>
 
-      <p-toggleSwitch formControlName="paused" class="tw-mt-4" labelStyleClass="tw-font-medium"
+      <p-toggleSwitch formControlName="paused" class="tw-mt-4 p-toggleswitch--has-label" labelStyleClass="tw-font-medium"
       [label]="t('users.mediaSettings.paused')" aria-describedby="pause-history-desc"></p-toggleSwitch>
       <small id="pause-history-desc" class="tw-text-sm tw-font-medium tw-block tw-mt-2 tw-text-gray-400">{{
       t('users.mediaSettings.pauseHistoryDescription') }}</small>
 
-      <p-toggleSwitch formControlName="prefAudioLang" class="tw-mt-4" labelStyleClass="tw-font-medium"
+      <p-toggleSwitch formControlName="prefAudioLang" class="tw-mt-4 p-toggleswitch--has-label" labelStyleClass="tw-font-medium"
       [label]="t('users.mediaSettings.enablePrefAudioLang')" aria-describedby="pref-audio-lang-desc"></p-toggleSwitch>
       <small id="pref-audio-lang-desc" class="tw-text-sm tw-font-medium tw-block tw-mt-2 tw-text-gray-400">{{
       t('users.mediaSettings.prefLangDescription') }}</small>
       <app-select-order formControlName="prefAudioLangList" [t]="t" styleClass="tw-mt-4" [options]="languageList()"
       optionLabel="label" optionValue="value" fixedValue="default"></app-select-order>
 
-      <p-toggleSwitch formControlName="prefSubtitleLang" class="tw-mt-4" labelStyleClass="tw-font-medium"
+      <p-toggleSwitch formControlName="prefSubtitleLang" class="tw-mt-4 p-toggleswitch--has-label" labelStyleClass="tw-font-medium"
         [label]="t('users.mediaSettings.enablePrefSubtitleLang')"
       aria-describedby="pref-subtitle-lang-desc"></p-toggleSwitch>
       <small id="pref-subtitle-lang-desc" class="tw-text-sm tw-font-medium tw-block tw-mt-2 tw-text-gray-400">{{

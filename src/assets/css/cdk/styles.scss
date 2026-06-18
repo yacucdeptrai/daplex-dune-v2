@@ -55,17 +55,22 @@
   margin-right: 0.5rem;
 }
 
-:is(.cdk-menu, .slide-menu) {
+/* iOS 13 lacks `:is()`/`:where()` (14+); each group is expanded to explicit
+   comma-separated selectors. SCSS nesting duplicates the children across both
+   parents, matching what `:is()` would have produced. */
+.cdk-menu,
+.slide-menu {
   @include menu;
 
-  :is(.cdk-menu-item, .slide-menu-item) {
+  .cdk-menu-item,
+  .slide-menu-item {
     @include menu-item;
 
     > i:first-child {
       @include menu-item-icon;
     }
 
-    &:hover:not(:is(.cdk-menu-item-active, .slide-menu-item-active)) {
+    &:hover:not(.cdk-menu-item-active):not(.slide-menu-item-active) {
       @include menu-item-hover;
     }
 
@@ -78,11 +83,13 @@
     }
   }
 
-  :is(.cdk-menu-item-sm, .slide-menu-item-sm) {
+  .cdk-menu-item-sm,
+  .slide-menu-item-sm {
     @include menu-item-sm;
   }
 
-  :is(.cdk-menu-item-active, .slide-menu-item-active) {
+  .cdk-menu-item-active,
+  .slide-menu-item-active {
     @include menu-item-active;
   }
 }
@@ -92,13 +99,15 @@
   .slide-menu-item {
     white-space: nowrap;
 
-    &:is(.slide-menu-checkbox, .slide-menu-radio) {
+    &.slide-menu-checkbox,
+    &.slide-menu-radio {
       > i[role="checkbox"] {
         visibility: hidden;
       }
     }
 
-    &:is(.slide-menu-checkbox-checked, .slide-menu-radio-checked) {
+    &.slide-menu-checkbox-checked,
+    &.slide-menu-radio-checked {
       > i[role="checkbox"] {
         visibility: visible;
       }

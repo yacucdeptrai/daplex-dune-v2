@@ -245,7 +245,7 @@
       <app-slide-menu class="media-menu" [ngClass]="{ 'media-menu-mobile tw-w-96': playerSupports.isMobile() }">
         @if (canReqNext()) {
           <p-toggleSwitch slideMenuItemCheckbox [ngModel]="playerSettings.autoNext()" [label]="t()('player.menu.autoNext')"
-            styleClass="p-toggleswitch-sm" icon="ms ms-queue-play-next" (onChange)="toggleAutoNext($event.checked)">
+            styleClass="p-toggleswitch-sm p-toggleswitch--has-label" icon="ms ms-queue-play-next" (onChange)="toggleAutoNext($event.checked)">
           </p-toggleSwitch>
         }
         <button slideMenuItem [slideMenuTriggerFor]="playbackSpeedMenu">

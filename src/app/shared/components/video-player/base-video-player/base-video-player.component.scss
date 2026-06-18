@@ -15,8 +15,12 @@ media-time-slider {
   d: path("M 12,26 16,26 16,10 12,10 z M 21,26 25,26 25,10 21,10 z");
 }
 
-/* Volume controls */
-.player-volume-area.player-volume-area-active > media-volume-slider, media-volume-slider:focus-visible {
+/* Volume controls. `:focus` is paired with `:focus-visible` so iOS 13 (no
+   `:focus-visible`) still widens the slider on keyboard focus. */
+/* stylelint-disable-next-line plugin/no-unsupported-browser-features -- :focus fallback paired */
+.player-volume-area.player-volume-area-active > media-volume-slider,
+media-volume-slider:focus,
+media-volume-slider:focus-visible {
   @apply tw-w-14;
 }
 
