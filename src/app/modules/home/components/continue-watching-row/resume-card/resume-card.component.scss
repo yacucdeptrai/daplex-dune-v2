@@ -24,9 +24,14 @@
   }
 }
 
-// Play affordance reveal: opacity fade only when motion is allowed; instant under reduced-motion.
-.resume-card__play {
+// Resume CTA brightens on hover/focus of the card; instant under reduced-motion.
+.resume-card__cta {
   @media (prefers-reduced-motion: no-preference) {
-    transition: opacity 200ms ease;
+    transition: background-color 200ms ease;
   }
+}
+
+.resume-card:hover .resume-card__cta,
+.resume-card:focus-within .resume-card__cta {
+  background-color: rgb(255 255 255 / 85%);
 }

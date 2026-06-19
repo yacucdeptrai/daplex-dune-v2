@@ -63,10 +63,24 @@ describe('ResumeCardComponent', () => {
     fixture.detectChanges();
   }
 
-  it('renders a landscape 16:9 image box, not a portrait poster', async () => {
+  it('renders a full-bleed 16:9 backdrop with a portrait 2:3 poster inset', async () => {
     await setup(makeHistory());
-    expect(fixture.nativeElement.querySelector('.tw-aspect-w-16.tw-aspect-h-9')).withContext('16:9 box').not.toBeNull();
-    expect(fixture.nativeElement.querySelector('.tw-aspect-w-2')).withContext('no 2:3 poster box').toBeNull();
+    expect(fixture.nativeElement.querySelector('.tw-aspect-w-16.tw-aspect-h-9')).withContext('16:9 backdrop box').not.toBeNull();
+    expect(fixture.nativeElement.querySelector('.resume-card__poster .tw-aspect-w-2.tw-aspect-h-3'))
+      .withContext('2:3 poster inset layered on the backdrop').not.toBeNull();
+  });
+
+  it('renders a visible Resume CTA that is NOT a separate interactive (single tab stop)', async () => {
+    await setup(makeHistory(), { home: { mediaList: { resume: 'Resume', timeLeft: 'left' } } });
+    const cta = fixture.nativeElement.querySelector('.resume-card__cta') as HTMLElement;
+    expect(cta).withContext('visible Resume CTA').not.toBeNull();
+    expect(cta.textContent).toContain('Resume');
+    // The CTA is a styled span inside the link, never a nested <button>/<a> (no interactive nesting).
+    expect(cta.tagName.toLowerCase()).withContext('CTA is a span, not a button').toBe('span');
+    const link = fixture.nativeElement.querySelector('a[href]') as HTMLAnchorElement;
+    expect(link.contains(cta)).withContext('CTA lives inside the single card link').toBeTrue();
+    expect(link.querySelector('button')).withContext('no interactive nested in the anchor').toBeNull();
+    expect(link.querySelectorAll('a').length).withContext('no nested anchor').toBe(0);
   });
 
   it('uses the episode still as the landscape image for a TV item', async () => {
@@ -99,7 +113,20 @@ describe('ResumeCardComponent', () => {
     // The poster image renders inside the 16:9 box (top-anchored) as the graceful fallback.
     const img = fixture.nativeElement.querySelector('img.tw-object-top') as HTMLImageElement;
     expect(img).withContext('poster framed into the 16:9 box').not.toBeNull();
-    expect(img.getAttribute('alt')).toBe('The Movie');
+    expect(img.getAttribute('alt')).withContext('decorative backdrop image').toBe('');
+  });
+
+  it('marks BOTH card images decorative (alt="") so the title is not announced per image (WCAG 1.1.1)', async () => {
+    const history = makeHistory({
+      media: { _id: 'm1', title: 'The Movie', runtime: 600, thumbnailBackdropUrl: 'bd.jpg', thumbnailPosterUrl: 'poster.jpg' } as HistoryGroupable['media']
+    });
+    await setup(history, { home: { mediaList: { resume: 'Resume', timeLeft: 'left' } } });
+    const imgs = Array.from(fixture.nativeElement.querySelectorAll('img')) as HTMLImageElement[];
+    expect(imgs.length).withContext('backdrop + poster inset').toBe(2);
+    imgs.forEach(img => expect(img.getAttribute('alt')).withContext('decorative image').toBe(''));
+    // The link still carries a non-empty accessible name from its visible title text (inside the anchor).
+    const link = fixture.nativeElement.querySelector('a[href]') as HTMLAnchorElement;
+    expect(link.textContent?.trim()).withContext('link accessible name survives alt=""').toContain('The Movie');
   });
 
   it('computes the progress value as time / runtime * 100 (episode runtime wins for TV)', async () => {
@@ -155,17 +182,18 @@ describe('ResumeCardComponent', () => {
     expect(bar.hasAttribute('aria-level')).withContext('invalid aria-level stripped').toBeFalse();
   });
 
-  it('renders the Resume · Episode N · mm:ss-left label and exposes it via the meta id', async () => {
+  it('exposes title + Episode N · mm:ss-left + the Resume CTA via the meta id', async () => {
     const history = makeHistory({
       time: 150,
       episode: { epNumber: 3, runtime: 1500 } as HistoryGroupable['episode']
     });
     await setup(history, { home: { mediaList: { resume: 'Resume', timeLeft: 'left' } }, media: { episode: { episodePrefix: 'Episode' } } });
     const meta = fixture.nativeElement.querySelector('#meta-1') as HTMLElement;
-    expect(meta).withContext('meta line carries the describedby id').not.toBeNull();
-    expect(meta.textContent).toContain('Resume');
+    expect(meta).withContext('meta block carries the describedby id').not.toBeNull();
+    expect(meta.textContent).toContain('The Movie'); // title
     expect(meta.textContent).toContain('Episode 3');
     expect(meta.textContent).toContain('22:30'); // 1500 - 150 = 1350s left
+    expect(meta.textContent).toContain('Resume'); // the in-link CTA is part of the description
   });
 
   it('keeps the quick-actions menu trigger keyboard-reachable (focus-visible, not hover-only)', async () => {

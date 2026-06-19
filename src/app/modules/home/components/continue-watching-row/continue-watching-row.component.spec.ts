@@ -64,12 +64,12 @@ describe('ContinueWatchingRowComponent', () => {
     req.flush({ results: [], hasNextPage: false, totalResults: 0 });
   });
 
-  it('reserves a placeholder landscape row while loading, before data resolves (CLS)', () => {
+  it('reserves a 3-card placeholder row while loading, before data resolves (CLS)', () => {
     fixture.detectChanges(); // request in flight, not yet flushed → loading branch
     const section = fixture.nativeElement.querySelector('section');
     expect(section).withContext('rail section is present while loading').not.toBeNull();
     const placeholders = fixture.nativeElement.querySelectorAll('[data-skeleton]');
-    expect(placeholders.length).withContext('one reserved row of placeholder cards').toBe(5);
+    expect(placeholders.length).withContext('skeleton reserves the capped 3-card height').toBe(3);
     expect(fixture.nativeElement.querySelector('app-resume-card')).withContext('no real cards yet').toBeNull();
     httpMock.expectOne(r => r.url.endsWith('history')).flush({ results: [], hasNextPage: false, totalResults: 0 });
   });
@@ -102,6 +102,43 @@ describe('ContinueWatchingRowComponent', () => {
     // Single-row scroller, not a wrapping grid (AC2).
     const row = fixture.nativeElement.querySelector('.tw-overflow-x-auto');
     expect(row).withContext('horizontally scrollable rail row').not.toBeNull();
+  });
+
+  it('collapses a TV show to one card — its most-recently-watched episode (date-desc first)', () => {
+    fixture.detectChanges();
+    // Recency-sorted list: two in-progress episodes of show m-show, ep3 first (most recent).
+    const ep3 = makeHistory('h1', {
+      media: { _id: 'm-show', title: 'The Show', runtime: 600 } as HistoryGroupable['media'],
+      episode: { epNumber: 3, runtime: 1500 } as HistoryGroupable['episode']
+    });
+    const ep2 = makeHistory('h2', {
+      media: { _id: 'm-show', title: 'The Show', runtime: 600 } as HistoryGroupable['media'],
+      episode: { epNumber: 2, runtime: 1500 } as HistoryGroupable['episode']
+    });
+    const movie = makeHistory('h3', { media: { _id: 'm-movie', title: 'A Movie', runtime: 600 } as HistoryGroupable['media'] });
+    httpMock.expectOne(r => r.url.endsWith('history')).flush({
+      results: [ep3, ep2, movie], hasNextPage: false, totalResults: 3
+    });
+    fixture.detectChanges();
+
+    // One card for the show (its most-recent ep3), plus the movie → 2 cards, not 3.
+    expect(fixture.nativeElement.querySelectorAll('app-resume-card').length).withContext('show deduped to one card').toBe(2);
+    const kept = fixture.componentInstance.results();
+    expect(kept.length).toBe(2);
+    expect(kept[0].episode?.epNumber).withContext('kept the most-recent episode of the show').toBe(3);
+    expect(kept[1].media._id).toBe('m-movie');
+  });
+
+  it('caps the rail at 3 cards AFTER dedup (a generous fetch still yields at most 3)', () => {
+    fixture.detectChanges();
+    // Five distinct media — more than the cap; dedup is a no-op here, slice trims to 3.
+    const five = Array.from({ length: 5 }, (_, i) =>
+      makeHistory(`h${i}`, { media: { _id: `m-${i}`, title: `T${i}`, runtime: 600 } as HistoryGroupable['media'] }));
+    httpMock.expectOne(r => r.url.endsWith('history')).flush({ results: five, hasNextPage: false, totalResults: 5 });
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelectorAll('app-resume-card').length).withContext('capped at 3').toBe(3);
+    expect(fixture.componentInstance.results().map(h => h.media._id)).toEqual(['m-0', 'm-1', 'm-2']);
   });
 
   it('omits the rail entirely when there are no in-progress items (AC9)', () => {

@@ -17,11 +17,11 @@ import { ThumbhashUrlPipe } from '../../../../../shared/pipes/placeholder-pipe/t
 import { StripAriaLevelDirective } from '../../../../../shared/directives/strip-aria-level/strip-aria-level.directive';
 import { TimeLeftPipe } from '../time-left.pipe';
 
-// Landscape (16:9) resume card for the signed-in home rail. Distinct from the portrait
-// HistoryCardComponent (still used on the user-history page): the image-priority chain,
-// over-image gradient + play affordance, and 16:9 layout differ enough to warrant a
-// dedicated primitive. Reuses the card's proven seams (resume link, progress bar, quick
-// actions). Relies on the rail's component-scoped DestroyService provider (NG0201 boundary).
+// Landscape resume card for the signed-in home rail. Distinct from the portrait
+// HistoryCardComponent (still used on the user-history page): a full-bleed backdrop with a
+// portrait poster inset on the left, a visible Resume CTA, and a bottom progress bar.
+// Reuses the card's proven seams (resume link, progress bar, quick actions). Relies on the
+// rail's component-scoped DestroyService provider (NG0201 boundary).
 @Component({
   selector: 'app-resume-card [history]',
   templateUrl: './resume-card.component.html',

@@ -1,41 +1,80 @@
 <ng-container *transloco="let t">
   <div class="resume-card tw-group tw-relative tw-rounded-md" [appContextMenuTriggerFor]="resumeMenu">
     <!-- Whole card is one focusable resume link; the same routerLink + queryParams as the
-      portrait history card, so it resumes at the saved position. -->
-    <a #mediaLink [routerLink]="['/watch', history.media._id]"
+      portrait history card, so it resumes at the saved position. The Resume affordance below
+      is a button-STYLED span (part of this link), not a nested interactive. -->
+    <a [routerLink]="['/watch', history.media._id]"
       [queryParams]="{ ep: history.episode?.epNumber, t: history.time }"
       [attr.aria-describedby]="resumeMetaId"
-      class="tw-block tw-rounded-md focus-visible:tw-outline-none focus-visible:tw-shadow-focus-box">
-      <div class="tw-relative tw-overflow-hidden tw-rounded-md tw-bg-neutral-725">
+      class="resume-card__link tw-block tw-rounded-md tw-overflow-hidden tw-bg-neutral-725
+        focus-visible:tw-outline-none focus-visible:tw-shadow-focus-box">
+      <!-- Full-bleed backdrop: episode still (TV) → media backdrop (movie) → poster-framed
+        fallback. Thumbnail tier, below the billboard — never the LCP element. Decorative
+        (alt=""): the title is visible text in the link + surfaced via aria-describedby. -->
+      <div class="resume-card__backdrop tw-relative tw-overflow-hidden tw-rounded-md tw-bg-neutral-725">
         <div class="tw-aspect-w-16 tw-aspect-h-9 [&>*]:tw-rounded-md">
           @if (landscapeUrl) {
             <img class="tw-object-cover"
               [lazyLoad]="landscapeUrl" [defaultImage]="landscapePlaceholder | thumbhashUrl"
-              placeholderStyleClass="tw-rounded-md" [alt]="history.media.title"
+              placeholderStyleClass="tw-rounded-md" alt=""
               errorImage="assets/images/episode-image-md.png">
+          } @else if (history.media.thumbnailPosterUrl) {
+            <img class="tw-object-cover tw-object-top"
+              [lazyLoad]="history.media.thumbnailPosterUrl"
+              [defaultImage]="history.media.posterPlaceholder | thumbhashUrl"
+              placeholderStyleClass="tw-rounded-md" alt=""
+              errorImage="assets/images/media-poster-error-md.png">
           } @else {
-            <!-- Fallback: poster framed into the 16:9 box, top-anchored, under a bottom-up scrim. -->
-            @if (history.media.thumbnailPosterUrl) {
-              <img class="tw-object-cover tw-object-top"
-                [lazyLoad]="history.media.thumbnailPosterUrl"
-                [defaultImage]="history.media.posterPlaceholder | thumbhashUrl"
-                placeholderStyleClass="tw-rounded-md" [alt]="history.media.title"
-                errorImage="assets/images/media-poster-error-md.png">
-            } @else {
-              <img class="tw-object-cover tw-object-top" src="assets/images/media-poster-md.png" loading="lazy"
-                [alt]="history.media.title">
-            }
+            <img class="tw-object-cover tw-object-top" src="assets/images/media-poster-md.png" loading="lazy"
+              alt="">
           }
         </div>
-        <!-- Over-image gradient scrim: anchors the metadata + play affordance against any image. -->
+        <!-- Scrim: darkens left→right + bottom so the poster, text, and CTA stay legible on any image. -->
         <div class="tw-absolute tw-inset-0 tw-rounded-md tw-pointer-events-none
-          tw-bg-gradient-to-t tw-from-black/80 tw-via-black/20 tw-to-transparent"></div>
-        <!-- Play / Resume affordance: a visual cue (not a separate tab stop) revealed on hover
-          and keyboard focus of the card link. Opacity only — reduced-motion safe. -->
-        <div class="resume-card__play tw-absolute tw-inset-0 tw-flex tw-items-center tw-justify-center
-          tw-opacity-0 group-hover:tw-opacity-100 group-focus-visible:tw-opacity-100" aria-hidden="true">
-          <i class="ms ms-play-circle tw-text-white tw-text-6xl tw-drop-shadow-lg"></i>
+          tw-bg-gradient-to-r tw-from-black/85 tw-via-black/55 tw-to-black/25"></div>
+        <div class="tw-absolute tw-inset-0 tw-rounded-md tw-pointer-events-none
+          tw-bg-gradient-to-t tw-from-black/70 tw-to-transparent"></div>
+
+        <!-- Foreground content layered on the backdrop: poster + text + Resume CTA. -->
+        <div class="tw-absolute tw-inset-0 tw-flex tw-items-center tw-p-3">
+          <!-- Portrait poster thumbnail inset on the left. Decorative (alt="") — the title
+            announces once via the link's visible text + aria-describedby, not per image. -->
+          <div class="resume-card__poster tw-flex-shrink-0 tw-w-16 sm:tw-w-20 tw-rounded
+            tw-overflow-hidden tw-shadow-lg tw-bg-neutral-850">
+            <div class="tw-aspect-w-2 tw-aspect-h-3 [&>*]:tw-rounded">
+              @if (history.media.thumbnailPosterUrl) {
+                <img class="tw-object-cover"
+                  [lazyLoad]="history.media.thumbnailPosterUrl"
+                  [defaultImage]="history.media.posterPlaceholder | thumbhashUrl"
+                  placeholderStyleClass="tw-rounded" alt=""
+                  errorImage="assets/images/media-poster-error-md.png">
+              } @else {
+                <img class="tw-object-cover" src="assets/images/media-poster-md.png" loading="lazy"
+                  alt="">
+              }
+            </div>
+          </div>
+          <!-- Title + meta + Resume CTA, right of the poster. -->
+          <div [id]="resumeMetaId" class="tw-flex-grow tw-min-w-0 tw-ml-3">
+            <p class="tw-text-white tw-text-sm sm:tw-text-base tw-font-semibold tw-line-clamp-2">
+              {{ history.media.title }}
+            </p>
+            <p class="tw-text-gray-300 tw-text-xs sm:tw-text-sm tw-mt-1 tw-line-clamp-1">
+              @if (history.episode) {
+                <span>{{ t('media.episode.episodePrefix') }} {{ history.episode.epNumber }} &middot; </span>
+              }
+              <span>{{ history.time | timeLeft : runtime }} {{ t('home.mediaList.timeLeft') }}</span>
+            </p>
+            <!-- Button-STYLED span (not a real button): the visible Resume CTA is part of the
+              single card link, so the card stays one tab stop. -->
+            <span class="resume-card__cta tw-inline-flex tw-items-center tw-mt-2 tw-px-3 tw-py-1
+              tw-rounded tw-bg-white tw-text-black tw-text-xs sm:tw-text-sm tw-font-semibold">
+              <i class="ms ms-play-arrow tw-text-base tw-mr-1" aria-hidden="true"></i>
+              {{ t('home.mediaList.resume') }}
+            </span>
+          </div>
         </div>
+
         @if (history.paused) {
           <div class="tw-absolute tw-top-1.5 tw-right-1.5 tw-text-white/90">
             <i class="ms ms-pause ms-icon-sm"></i>
@@ -47,26 +86,16 @@
         </p-progressBar>
       </div>
     </a>
-    <!-- Off-image metadata: Resume · Episode N · mm:ss left + title; describes the card link (AT). -->
-    <div class="tw-flex tw-items-start tw-mt-2">
-      <div [id]="resumeMetaId" class="tw-flex-grow tw-min-w-0 tw-cursor-pointer" (click)="mediaLink.click()">
-        <p class="tw-text-white tw-text-xs sm:tw-text-sm tw-font-medium tw-line-clamp-1">{{ history.media.title }}</p>
-        <p class="tw-text-gray-400 tw-text-xs sm:tw-text-sm tw-mt-1 tw-line-clamp-1">
-          <span class="tw-font-semibold tw-text-orange-400">{{ t('home.mediaList.resume') }}</span>
-          @if (history.episode) {
-            <span> &middot; {{ t('media.episode.episodePrefix') }} {{ history.episode.epNumber }}</span>
-          }
-          <span> &middot; {{ history.time | timeLeft : runtime }} {{ t('home.mediaList.timeLeft') }}</span>
-        </p>
-      </div>
-      <button pButton [appMenuTriggerFor]="resumeMenu" icon="ms ms-more-vert" type="button"
-        aria-label="Toggle history menu" class="p-button-rounded p-button-text p-button-secondary p-button-sm
-        p-button-sm-icon tw-ml-1 tw-flex-shrink-0 focus-visible:!tw-shadow-focus-box tw-invisible
-        group-hover:tw-visible group-focus-within:tw-visible" #resumeMenuButton #resumeMenuTrigger="appMenuTriggerFor"
-        (cdkMenuOpened)="onHistoryMenuClick(resumeMenuButton, true)"
-        (cdkMenuClosed)="onHistoryMenuClick(resumeMenuButton, false)">
-      </button>
-    </div>
+    <!-- Quick-actions menu: a SEPARATE sibling button OUTSIDE the card link, reachable on
+      hover AND keyboard focus-within (WCAG 2.1.1). One clean focus order: card link + this. -->
+    <button pButton [appMenuTriggerFor]="resumeMenu" icon="ms ms-more-vert" type="button"
+      aria-label="Toggle history menu" class="resume-card__menu-btn p-button-rounded p-button-text
+      p-button-secondary p-button-sm p-button-sm-icon tw-absolute tw-top-1 tw-right-1
+      focus-visible:!tw-shadow-focus-box tw-invisible group-hover:tw-visible group-focus-within:tw-visible"
+      #resumeMenuButton #resumeMenuTrigger="appMenuTriggerFor"
+      (cdkMenuOpened)="onHistoryMenuClick(resumeMenuButton, true)"
+      (cdkMenuClosed)="onHistoryMenuClick(resumeMenuButton, false)">
+    </button>
     <ng-template #resumeMenu>
       <div appMenu>
         <button appMenuItem (click)="onAddToPlaylist.emit(history.media)">
