@@ -15,3 +15,4 @@ export * from './queue-upload.service';
 export * from './ratings.service';
 export * from './tags.service';
 export * from './users.service';
+export * from './watch-progress.service';

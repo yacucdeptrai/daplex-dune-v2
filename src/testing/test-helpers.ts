@@ -132,19 +132,25 @@ export function provideMockActivatedRoute(
 }
 
 
-/** Empty in-memory transloco loader for specs (no HTTP). */
-class EmptyTranslocoLoader implements TranslocoLoader {
+// Per-call translation tree for the in-memory loader (set by provideTranslocoTesting).
+let translocoTestTranslation: Record<string, unknown> = {};
+
+/** In-memory transloco loader for specs (no HTTP); serves the tree given to provideTranslocoTesting. */
+class InMemoryTranslocoLoader implements TranslocoLoader {
   getTranslation() {
-    return of({});
+    return of(translocoTestTranslation);
   }
 }
 
 /**
  * Transloco providers for specs that build standalone components importing TranslocoModule
- * (its pipe/directive need TRANSLOCO_TRANSPILER + TranslocoService). Default transpiler +
- * empty loader: missing keys fall through to the key itself.
+ * (its pipe/directive need TRANSLOCO_TRANSPILER + TranslocoService). Default = empty tree:
+ * missing keys fall through to the key itself. Pass a nested tree
+ * (e.g. `{ media: { actions: { watchProgress: 'Watch progress' } } }`) to assert RESOLVED
+ * text, then `await TestBed.inject(TranslocoService).load('en')` before the first detectChanges.
  */
-export function provideTranslocoTesting(): (Provider | EnvironmentProviders)[] {
+export function provideTranslocoTesting(translation: Record<string, unknown> = {}): (Provider | EnvironmentProviders)[] {
+  translocoTestTranslation = translation;
   return [
     provideTransloco({
       config: {
@@ -153,7 +159,7 @@ export function provideTranslocoTesting(): (Provider | EnvironmentProviders)[] {
         reRenderOnLangChange: false,
         prodMode: false
       },
-      loader: EmptyTranslocoLoader
+      loader: InMemoryTranslocoLoader
     })
   ];
 }

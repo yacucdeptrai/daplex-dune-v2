@@ -2,6 +2,7 @@ import { ErrorHandler } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
+import { TranslocoService } from '@jsverse/transloco';
 import { of } from 'rxjs';
 
 import { ContinueWatchingRowComponent } from './continue-watching-row.component';
@@ -126,13 +127,16 @@ describe('ContinueWatchingRowComponent (real card, DI scope)', () => {
       imports: [ContinueWatchingRowComponent],
       providers: [
         ...HTTP_TEST_PROVIDERS,
-        provideTranslocoTesting(),
+        // Real media tree so the card's progress-bar aria-label resolves to text.
+        provideTranslocoTesting({ media: { actions: { watchProgress: 'Watch progress' } } }),
         provideRouter([]),
         provideMockActivatedRoute(),
         { provide: AuthService, useValue: { currentUser$: of(null), currentUser: null } },
         { provide: ErrorHandler, useValue: errorHandler }
       ]
     }).compileComponents(); // HistoryCardComponent NOT stubbed
+
+    await TestBed.inject(TranslocoService).load('en').toPromise();
 
     fixture = TestBed.createComponent(ContinueWatchingRowComponent);
     httpMock = TestBed.inject(HttpTestingController);
@@ -167,7 +171,7 @@ describe('ContinueWatchingRowComponent (real card, DI scope)', () => {
     expect(link.className).withContext('keyboard focus ring (WCAG 2.4.7)').toContain('focus-visible:tw-shadow-focus-box');
     const bar = fixture.nativeElement.querySelector('[role="progressbar"]') as HTMLElement;
     expect(bar).withContext('progress bar rendered').not.toBeNull();
-    expect(bar.getAttribute('aria-label')).withContext('accessible name (i18n key resolved)').toBe('media.watchProgress');
+    expect(bar.getAttribute('aria-label')).withContext('accessible name (i18n key resolved)').toBe('Watch progress');
     expect(bar.hasAttribute('aria-level')).withContext('invalid aria-level stripped').toBeFalse();
   });
 

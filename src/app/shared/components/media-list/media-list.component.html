@@ -38,7 +38,7 @@
             [appOverlayOrigin]="overlayMediaInfo" [overlayData]="media" overlayShowDelay="500" overlayHideDelay="0"
             [overlayOffsetY]="100" overlayTriggerOn="hover" overlayTouchGestures="off">
             <!-- [appContextMenuTriggerFor]="mediaMenu" -->
-            <div>
+            <div class="tw-relative">
               <div class="tw-aspect-w-2 tw-aspect-h-3 tw-rounded-t-md tw-overflow-hidden">
                 @if (media.thumbnailPosterUrl) {
                   <img class="tw-object-cover" [lazyLoad]="media.thumbnailPosterUrl"
@@ -49,6 +49,13 @@
                     [alt]="media.title">
                 }
               </div>
+              <!-- Resume progress overlay (signed-in, partially watched) -->
+              @if (progressFor(media._id); as pct) {
+                <div class="tw-absolute tw-left-0 tw-bottom-0 tw-right-0">
+                  <p-progressBar appStripAriaLevel [attr.aria-label]="t('media.actions.watchProgress')" [value]="pct"
+                    styleClass="tw-h-1"></p-progressBar>
+                </div>
+              }
               <p class="tw-left-0 tw-bottom-0 tw-right-0 tw-bg-indigo-700 tw-flex tw-content-between tw-py-1 tw-px-2
               tw-rounded-b-md">
                 <small class="tw-text-xs tw-font-semibold">{{ media.releaseDate.year }}</small>

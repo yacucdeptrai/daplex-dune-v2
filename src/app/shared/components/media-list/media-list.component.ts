@@ -4,7 +4,7 @@ import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { Media } from '../../../core/models';
-import { AuthService } from '../../../core/services';
+import { AuthService, WatchProgressService } from '../../../core/services';
 import { MediaType } from '../../../core/enums';
 import { AddToPlaylistComponent } from '../../dialogs/add-to-playlist';
 import { track_Id } from '../../../core/utils';
@@ -19,6 +19,8 @@ import { MenuItemDirective } from '../../directives/cdk-menu-custom/menu-item/me
 import { ShortDatePipe } from '../../pipes/date-time-pipe/short-date/short-date.pipe';
 import { TimePipe } from '../../pipes/date-time-pipe/time/time.pipe';
 import { ThumbhashUrlPipe } from '../../pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { StripAriaLevelDirective } from '../../directives/strip-aria-level/strip-aria-level.directive';
 
 @Component({
     selector: 'app-media-list',
@@ -32,7 +34,7 @@ import { ThumbhashUrlPipe } from '../../pipes/placeholder-pipe/thumbhash-url/thu
             useValue: 'media'
         }
     ],
-    imports: [TranslocoDirective, SkeletonComponent, NgTemplateOutlet, RouterLink, AppOverlayOrigin, LazyLoadImageModule, ButtonModule, MenuTriggerDirective, AppConnectedOverlay, MenuDirective, MenuItemDirective, DecimalPipe, ShortDatePipe, TimePipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, SkeletonComponent, NgTemplateOutlet, RouterLink, AppOverlayOrigin, LazyLoadImageModule, ButtonModule, MenuTriggerDirective, AppConnectedOverlay, MenuDirective, MenuItemDirective, DecimalPipe, ShortDatePipe, TimePipe, ThumbhashUrlPipe, ProgressBarModule, StripAriaLevelDirective]
 })
 export class MediaListComponent implements OnInit, OnDestroy {
   track_Id = track_Id;
@@ -45,8 +47,14 @@ export class MediaListComponent implements OnInit, OnDestroy {
   skeletonArray: Array<any>;
 
   constructor(private renderer: Renderer2, private dialogService: DialogService, private translocoService: TranslocoService,
-    private authService: AuthService, private router: Router) {
+    private authService: AuthService, private router: Router, private watchProgress: WatchProgressService) {
     this.skeletonArray = new Array(this.itemLimit);
+  }
+
+  // Resume percent for a poster, or null (no overlay) when none / anonymous.
+  // Reads a signal-backed map, so the OnPush template re-renders when progress lands.
+  progressFor(mediaId: string): number | null {
+    return this.watchProgress.progressFor(mediaId);
   }
 
   ngOnInit(): void {

@@ -23,7 +23,7 @@
                   <i class="ms ms-pause ms-icon-sm tw-mr-1"></i>
                 </div>
               }
-              <p-progressBar appStripAriaLevel [attr.aria-label]="t('media.watchProgress')"
+              <p-progressBar appStripAriaLevel [attr.aria-label]="t('media.actions.watchProgress')"
                 [value]="history.time / (history.episode && history.episode.runtime || history.media.runtime) * 100"
               styleClass="tw-h-1 tw-rounded-b-md"></p-progressBar>
             </div>
