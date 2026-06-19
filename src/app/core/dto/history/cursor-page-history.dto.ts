@@ -9,4 +9,5 @@ export interface CursorPageHistoryDto {
   mediaYear?: number | null;
   mediaAdult?: boolean | null;
   mediaGenres?: string | string[];
+  inProgress?: boolean;
 }

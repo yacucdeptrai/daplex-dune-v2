@@ -14,16 +14,20 @@ import { MenuTriggerDirective } from '../../../../shared/directives/cdk-menu-cus
 import { MenuDirective } from '../../../../shared/directives/cdk-menu-custom/menu/menu.directive';
 import { MenuItemDirective } from '../../../../shared/directives/cdk-menu-custom/menu-item/menu-item.directive';
 import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
+import { StripAriaLevelDirective } from '../../../../shared/directives/strip-aria-level/strip-aria-level.directive';
 
 @Component({
     selector: 'app-history-card [history]',
     templateUrl: './history-card.component.html',
     styleUrls: ['./history-card.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoDirective, ContextMenuTriggerDirective, RouterLink, LazyLoadImageModule, ProgressBarModule, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, NgClass, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ContextMenuTriggerDirective, RouterLink, LazyLoadImageModule, ProgressBarModule, ButtonModule, MenuTriggerDirective, MenuDirective, MenuItemDirective, NgClass, ThumbhashUrlPipe, StripAriaLevelDirective]
 })
 export class HistoryCardComponent implements OnInit {
   @Input() history!: HistoryGroupable;
+  // Optional id of an external element describing the resume context (e.g. the rail's
+  // "Episode N · mm:ss left" line); associated with the card link for screen readers.
+  @Input() resumeMetaId?: string;
   @Output() onAddToPlaylist = new EventEmitter<Media>();
   @Output() onPauseAndUnpause = new EventEmitter<{ history: HistoryGroupable, originalEvent: MouseEvent }>();
   @Output() onDelete = new EventEmitter<HistoryGroupable>();

@@ -8,5 +8,5 @@ export interface History {
   time: number;
   date: string;
   paused: boolean;
-  watched: boolean;
+  watched: number;
 }

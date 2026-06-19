@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Meta } from '@angular/platform-browser';
 import { withCache } from '@ngneat/cashew';
 
 import { Media, Paginated } from '../../../../core/models';
-import { MediaService } from '../../../../core/services';
+import { AuthService, MediaService } from '../../../../core/services';
 import { CacheKey } from '../../../../core/enums';
 import { catchError, merge, of, tap } from 'rxjs';
 import { SITE_NAME } from '../../../../../environments/config';
@@ -12,6 +13,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { FeaturedMediaComponent } from '../../components/featured-media/featured-media.component';
 import { MediaListComponent } from '../../../../shared/components/media-list/media-list.component';
 import { MediaTopComponent } from '../../../../shared/components/media-top/media-top.component';
+import { ContinueWatchingRowComponent } from '../../components/continue-watching-row';
 
 @Component({
     selector: 'app-home',
@@ -19,7 +21,7 @@ import { MediaTopComponent } from '../../../../shared/components/media-top/media
     styleUrls: ['./home.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DialogService],
-    imports: [TranslocoDirective, FeaturedMediaComponent, MediaListComponent, MediaTopComponent]
+    imports: [TranslocoDirective, FeaturedMediaComponent, MediaListComponent, MediaTopComponent, ContinueWatchingRowComponent]
 })
 export class HomeComponent implements OnInit, OnDestroy {
   loadingFeaturedMedia: boolean = false;
@@ -31,8 +33,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   lastAddedMedia?: Paginated<Media>;
   mostViewedMedia?: Paginated<Media>;
   topRatedMedia?: Paginated<Media>;
+  signedIn = signal(false);
 
-  constructor(private ref: ChangeDetectorRef, private meta: Meta, private mediaService: MediaService) { }
+  constructor(private ref: ChangeDetectorRef, private meta: Meta, private mediaService: MediaService,
+    private authService: AuthService) {
+    // Resume rail is conditional on auth; the row (and its history call) only mounts when signed in.
+    this.authService.currentUser$.pipe(takeUntilDestroyed()).subscribe(user => {
+      this.signedIn.set(!!user);
+      this.ref.markForCheck();
+    });
+  }
 
   ngOnInit(): void {
     this.setHomeMeta();

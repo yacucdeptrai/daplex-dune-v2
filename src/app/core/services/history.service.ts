@@ -14,7 +14,7 @@ export class HistoryService {
   findPage(cursorPageHistoryDto?: CursorPageHistoryDto) {
     const params: HttpParamsObject = {};
     if (cursorPageHistoryDto) {
-      const { pageToken, limit, startDate, endDate, mediaIds, mediaType, mediaOriginalLanguage, mediaYear, mediaAdult, mediaGenres } = cursorPageHistoryDto;
+      const { pageToken, limit, startDate, endDate, mediaIds, mediaType, mediaOriginalLanguage, mediaYear, mediaAdult, mediaGenres, inProgress } = cursorPageHistoryDto;
       pageToken && (params['pageToken'] = pageToken);
       limit && (params['limit'] = limit);
       startDate && (params['startDate'] = startDate);
@@ -25,6 +25,7 @@ export class HistoryService {
       mediaYear && (params['mediaYear'] = mediaYear);
       mediaAdult && (params['mediaAdult'] = mediaAdult);
       mediaGenres && (params['mediaGenres'] = mediaGenres);
+      inProgress && (params['inProgress'] = inProgress);
     }
     return this.http.get<CursorPaginated<HistoryGroupable>>('history', { params });
   }

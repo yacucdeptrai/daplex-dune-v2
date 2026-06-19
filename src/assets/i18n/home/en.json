@@ -1,5 +1,8 @@
 {
   "mediaList": {
+    "continueWatching": "Continue Watching",
+    "resume": "Resume",
+    "timeLeft": "left",
     "newReleases": "New Releases",
     "lastUpdated": "Last Updated",
     "newAdded": "New Added",

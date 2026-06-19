@@ -6,7 +6,8 @@
     "share": "Share",
     "showMore": "Show more",
     "showLess": "Show less",
-    "viewCollection": "View collection"
+    "viewCollection": "View collection",
+    "watchProgress": "Watch progress"
   },
   "list": {
     "runtimeValue": "{{ runtime }} min",

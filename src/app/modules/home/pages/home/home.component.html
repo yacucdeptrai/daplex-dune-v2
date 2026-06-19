@@ -7,6 +7,9 @@
     </div>
     <div class="tw-flex tw-flex-wrap tw-mx-4">
       <div class="tw-w-full xl:tw-w-3/4">
+        @if (signedIn()) {
+          <app-continue-watching-row></app-continue-watching-row>
+        }
         <div class="tw-mt-4">
           <h3 class="tw-text-gray-200 tw-text-lg tw-font-bold tw-uppercase">{{ t('home.mediaList.newReleases') }}</h3>
         </div>
