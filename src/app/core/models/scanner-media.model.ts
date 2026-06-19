@@ -29,6 +29,9 @@ export interface ScannerMediaDetails {
   overview: string;
   originalLanguage: string;     // ISO-639-1
   genres: string[];             // NAMES only
+  studios?: string[];           // NAMES only
+  producers?: string[];         // NAMES only
+  tags?: string[];              // NAMES only
   runtime: number;              // SECONDS
   status: string;               // free-form provider label
   releaseDate: string;

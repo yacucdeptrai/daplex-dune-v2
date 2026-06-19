@@ -47,15 +47,19 @@ function makeCreateForm() {
 describe('MediaFormHelperService.applyScannedData', () => {
   let helper: MediaFormHelperService;
   let genresService: any;
+  let productionsService: any;
+  let tagsService: any;
 
   beforeEach(() => {
     genresService = { findGenreSuggestions: jasmine.createSpy('findGenreSuggestions').and.returnValue(of([])) };
+    productionsService = { findProductionSuggestions: jasmine.createSpy('findProductionSuggestions').and.returnValue(of([])) };
+    tagsService = { findTagSuggestions: jasmine.createSpy('findTagSuggestions').and.returnValue(of([])) };
     TestBed.configureTestingModule({
       providers: [
         MediaFormHelperService,
         { provide: GenresService, useValue: genresService },
-        { provide: ProductionsService, useValue: {} },
-        { provide: TagsService, useValue: {} },
+        { provide: ProductionsService, useValue: productionsService },
+        { provide: TagsService, useValue: tagsService },
         { provide: CollectionService, useValue: {} }
       ]
     });
@@ -69,6 +73,30 @@ describe('MediaFormHelperService.applyScannedData', () => {
       const hits = catalog[name] ?? [];
       const out = [...hits];
       if (name && name.length <= 32 && !hits.some(g => g.name === name)) {
+        out.push({ _id: `create:name=${encodeURIComponent(name)}`, name: `Create "${name}"` });
+      }
+      return of(out);
+    });
+  }
+
+  // Mirrors ProductionsService.findProductionSuggestions: appends a sentinel when name <= 150 and unmatched.
+  function mockProductionSuggestions(catalog: Record<string, { _id: string; name: string }[]>): void {
+    productionsService.findProductionSuggestions.and.callFake((name: string) => {
+      const hits = catalog[name] ?? [];
+      const out = [...hits];
+      if (name && name.length <= 150 && !hits.some(p => p.name === name)) {
+        out.push({ _id: `create:name=${encodeURIComponent(name)}`, name: `Create "${name}"` });
+      }
+      return of(out);
+    });
+  }
+
+  // Mirrors TagsService.findTagSuggestions: appends a sentinel only when name <= 32 and unmatched.
+  function mockTagSuggestions(catalog: Record<string, { _id: string; name: string }[]>): void {
+    tagsService.findTagSuggestions.and.callFake((name: string) => {
+      const hits = catalog[name] ?? [];
+      const out = [...hits];
+      if (name && name.length <= 32 && !hits.some(t => t.name === name)) {
         out.push({ _id: `create:name=${encodeURIComponent(name)}`, name: `Create "${name}"` });
       }
       return of(out);
@@ -195,5 +223,52 @@ describe('MediaFormHelperService.applyScannedData', () => {
     helper.applyScannedData(createForm, makeDetails(), MediaType.MOVIE).subscribe();
     expect(createForm.controls.title.value).toBe('Dune');
     expect(createForm.contains('externalIds')).toBeFalse();
+  });
+
+  // Studios and producers both resolve via findProductionSuggestions (<=150-char guard), mirroring genres.
+  it('resolves studios: existing Production (case-insensitive) reuses its doc, unmatched <=150 becomes a sentinel', () => {
+    mockProductionSuggestions({ 'legendary pictures': [{ _id: 'p1', name: 'Legendary Pictures' }], 'Villeneuve Films': [] });
+    const form = helper.buildEditMediaForm();
+    helper.applyScannedData(form, makeDetails({ studios: ['legendary pictures', 'Villeneuve Films'] }), MediaType.MOVIE).subscribe();
+    const studios = form.controls.studios.value!;
+    expect(studios.length).toBe(2);
+    expect(studios[0]._id).toBe('p1');
+    expect(studios[1]._id).toBe(`create:name=${encodeURIComponent('Villeneuve Films')}`);
+  });
+
+  it('resolves producers via the same production search and patches the producers control', () => {
+    mockProductionSuggestions({ 'Warner Bros': [{ _id: 'p2', name: 'Warner Bros' }] });
+    const form = helper.buildEditMediaForm();
+    helper.applyScannedData(form, makeDetails({ producers: ['Warner Bros'] }), MediaType.MOVIE).subscribe();
+    const producers = form.controls.producers.value!;
+    expect(producers.length).toBe(1);
+    expect(producers[0]._id).toBe('p2');
+  });
+
+  it('resolves tags: existing reuses its doc, unmatched <=32 becomes a sentinel, >32 is dropped', () => {
+    const tooLong = 'A Tag Keyword That Is Definitely Over Thirty-Two Characters';
+    mockTagSuggestions({ 'space opera': [{ _id: 't1', name: 'Space Opera' }], desert: [], [tooLong]: [] });
+    const form = helper.buildEditMediaForm();
+    helper.applyScannedData(form, makeDetails({ tags: ['space opera', 'desert', tooLong] }), MediaType.MOVIE).subscribe();
+    const tags = form.controls.tags.value!;
+    expect(tags.length).toBe(2);
+    expect(tags[0]._id).toBe('t1');
+    expect(tags[1]._id).toBe(`create:name=${encodeURIComponent('desert')}`);
+  });
+
+  it('leaves studios/producers/tags untouched when the scan carries none (no clobber)', () => {
+    const form = helper.buildEditMediaForm();
+    const studio = [{ _id: 's0', name: 'Existing Studio' }] as any;
+    const tag = [{ _id: 'g0', name: 'Existing Tag' }] as any;
+    form.controls.studios.setValue(studio);
+    form.controls.producers.setValue(studio);
+    form.controls.tags.setValue(tag);
+    // makeDetails leaves studios/producers/tags undefined.
+    helper.applyScannedData(form, makeDetails(), MediaType.MOVIE).subscribe();
+    expect(form.controls.studios.value).toBe(studio);
+    expect(form.controls.producers.value).toBe(studio);
+    expect(form.controls.tags.value).toBe(tag);
+    expect(productionsService.findProductionSuggestions).not.toHaveBeenCalled();
+    expect(tagsService.findTagSuggestions).not.toHaveBeenCalled();
   });
 });

@@ -165,7 +165,12 @@ export class MediaFormHelperService {
     type: MediaType, languages: DropdownOptionDto[] = []): Observable<void> {
     const isTv = type === MediaType.TV;
     const releaseSource = isTv ? details.firstAirDate : details.releaseDate;
-    return this.resolveGenres(details.genres).pipe(map(genres => {
+    return forkJoin({
+      genres: this.resolveGenres(details.genres),
+      studios: this.resolvePlainProductions(details.studios || []),
+      producers: this.resolvePlainProductions(details.producers || []),
+      tags: this.resolveTags(details.tags || [])
+    }).pipe(map(({ genres, studios, producers, tags }) => {
       form.patchValue({
         title: details.title,
         originalTitle: details.originalTitle || null,
@@ -174,7 +179,11 @@ export class MediaFormHelperService {
         adult: details.adult,
         status: this.mapScannerStatus(details.status, type, form.controls.status.value)
       });
+      // Each entity patch is skipped on an empty resolve so a scan missing a list never clobbers the control.
       if (genres.length) form.controls.genres.setValue(genres);
+      if (studios.length) form.controls.studios.setValue(studios);
+      if (producers.length) form.controls.producers.setValue(producers);
+      if (tags.length) form.controls.tags.setValue(tags);
       const lang = this.matchLanguageValue(details.originalLanguage, languages);
       if (lang) form.controls.originalLanguage.setValue(lang);
       this.patchShortDate(form.controls.releaseDate, releaseSource);
@@ -221,6 +230,37 @@ export class MediaFormHelperService {
         })
       ));
     return forkJoin(lookups).pipe(map(resolved => resolved.filter((g): g is Genre => !!g)));
+  }
+
+  // Resolves scanned production NAMES (studios and producers share this — both are Production[]) the same
+  // way as genres: existing case-insensitive .name match, else the create:name= sentinel (created on submit
+  // by findOrCreateEntities), else null (>150 chars / un-creatable) which is dropped.
+  private resolvePlainProductions(names: string[]): Observable<Production[]> {
+    if (!names?.length) return of([]);
+    const lookups = names.map(name =>
+      this.productionsService.findProductionSuggestions(name, { withCreateOption: true }).pipe(
+        map(suggestions => {
+          const existing = suggestions.find(p => p._id && !p._id.startsWith('create:')
+            && p.name.toLowerCase() === name.toLowerCase());
+          return existing ?? suggestions.find(p => p._id?.startsWith('create:name=')) ?? null;
+        })
+      ));
+    return forkJoin(lookups).pipe(map(resolved => resolved.filter((p): p is Production => !!p)));
+  }
+
+  // Resolves scanned tag NAMES the same way as genres; the create sentinel is appended by the service only
+  // when name <= 32 chars (so a longer scanned keyword resolves to null and is dropped).
+  private resolveTags(names: string[]): Observable<Tag[]> {
+    if (!names?.length) return of([]);
+    const lookups = names.map(name =>
+      this.tagsService.findTagSuggestions(name, { withCreateOption: true }).pipe(
+        map(suggestions => {
+          const existing = suggestions.find(t => t._id && !t._id.startsWith('create:')
+            && t.name.toLowerCase() === name.toLowerCase());
+          return existing ?? suggestions.find(t => t._id?.startsWith('create:name=')) ?? null;
+        })
+      ));
+    return forkJoin(lookups).pipe(map(resolved => resolved.filter((t): t is Tag => !!t)));
   }
 
   // Maps a raw provider status onto MediaStatus; an unrecognised string keeps the form's current value.

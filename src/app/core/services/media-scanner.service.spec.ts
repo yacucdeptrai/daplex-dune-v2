@@ -56,4 +56,27 @@ describe('MediaScannerService', () => {
     expect(req.request.params.get('type')).toBe('tv');
     req.flush({ id: 42, title: 'Show' });
   });
+
+  // The wire serializes studios/productions as Production objects ({name,country}) and names the producer
+  // list `productions`; findOne flattens both to name-arrays and renames productions -> producers.
+  it('findOne flattens studios Production[] to names and renames wire `productions` to producers names', () => {
+    let result: any;
+    service.findOne(7, { provider: 'tvdb', type: 'tv' }).subscribe(r => (result = r));
+    httpMock.expectOne(r => r.url === 'media-scanner/7').flush({
+      id: 7, title: 'Dune',
+      studios: [{ name: 'Legendary Pictures', country: 'US' }, { name: 'Villeneuve Films', country: 'CA' }],
+      productions: [{ name: 'Warner Bros', country: 'US' }]
+    });
+    expect(result.studios).toEqual(['Legendary Pictures', 'Villeneuve Films']);
+    expect(result.producers).toEqual(['Warner Bros']);
+    expect(result.productions).toBeUndefined();
+  });
+
+  it('findOne maps missing/empty studios + productions to [] (TMDB studios=[])', () => {
+    let result: any;
+    service.findOne(8, { provider: 'tmdb', type: 'movie' }).subscribe(r => (result = r));
+    httpMock.expectOne(r => r.url === 'media-scanner/8').flush({ id: 8, title: 'Dune', studios: [] });
+    expect(result.studios).toEqual([]);
+    expect(result.producers).toEqual([]);
+  });
 });
