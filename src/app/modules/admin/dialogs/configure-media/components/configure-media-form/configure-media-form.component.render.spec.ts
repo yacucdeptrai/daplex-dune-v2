@@ -121,6 +121,17 @@ describe('ConfigureMediaFormComponent — HAZARD-1 footer<->form bridge (live pa
     expect(formChild().updateMediaForm).withContext('exposed FormGroup the footer binds').toBeTruthy();
   });
 
+  it('renders 5 external-id inputs incl. a labelled tvdb field', () => {
+    const host: HTMLElement = fixture.nativeElement;
+    const ids = ['tmdb', 'tvdb', 'imdb', 'anilist', 'mal'];
+    for (const id of ids) {
+      const input = host.querySelector(`input#external-ids-${id}`);
+      expect(input).withContext(`external-ids-${id} input must render`).toBeTruthy();
+    }
+    const tvdbLabel = host.querySelector('label[for="external-ids-tvdb"]');
+    expect(tvdbLabel).withContext('the tvdb input must have an associated <label for>').toBeTruthy();
+  });
+
   it('footer is HIDDEN while the form is pristine (formCmp.updateMediaFormChanged is false)', () => {
     const host: HTMLElement = fixture.nativeElement;
     expect(formChild().updateMediaFormChanged).withContext('pristine after patch').toBeFalse();

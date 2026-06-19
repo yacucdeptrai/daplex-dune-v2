@@ -9,7 +9,7 @@ import { ProductionsService } from './productions.service';
 import { TagsService } from './tags.service';
 import { MediaType } from '../enums';
 import { ShortDateForm, UpdateEpisodeForm } from '../interfaces/forms';
-import { ScannerEpisode } from '../models';
+import { ScannerEpisode, ScannerMediaDetails } from '../models';
 import { shortDate } from '../validators';
 
 /**
@@ -187,6 +187,37 @@ describe('MediaFormHelperService (collections)', () => {
       const form = buildEpisodeForm();
       helper.applyScannedEpisode(form, makeEpisode({ episodeNumber: 99 }));
       expect(form.controls.episodeNumber.value).toBe(3);
+    });
+  });
+
+  describe('externalIds.tvdb', () => {
+    function makeDetails(overrides: Partial<ScannerMediaDetails> = {}): ScannerMediaDetails {
+      return {
+        id: 99, title: 'Scanned', originalTitle: '', overview: 'an overview', originalLanguage: 'en',
+        genres: [], runtime: 3600, status: 'released', releaseDate: '2020-01-01', adult: false,
+        externalIds: { tvdb: 7777 }, posterUrl: '', backdropUrl: '', ...overrides
+      };
+    }
+
+    it('buildEditMediaForm includes a tvdb control (null default, min/maxLength validators)', () => {
+      const form = helper.buildEditMediaForm();
+      const tvdb = form.controls.externalIds.controls.tvdb;
+      expect(tvdb).toBeDefined();
+      expect(tvdb.value).toBeNull();
+      tvdb.setValue(-1);
+      expect(tvdb.hasError('min')).toBeTrue();
+    });
+
+    it('applyScannedData patches externalIds.tvdb from the scan', () => {
+      const form = helper.buildEditMediaForm();
+      helper.applyScannedData(form, makeDetails(), MediaType.MOVIE).subscribe();
+      expect(form.controls.externalIds.controls.tvdb.value).toBe(7777);
+    });
+
+    it('applyScannedData leaves tvdb null when the scan omits it', () => {
+      const form = helper.buildEditMediaForm();
+      helper.applyScannedData(form, makeDetails({ externalIds: {} }), MediaType.MOVIE).subscribe();
+      expect(form.controls.externalIds.controls.tvdb.value).toBeNull();
     });
   });
 });

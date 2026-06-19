@@ -453,6 +453,7 @@
   },
   "externalIds": {
     "tmdb": "TBDb ID",
+    "tvdb": "TheTVDB ID",
     "imdb": "IMDb ID",
     "aniList": "AniList ID",
     "mal": "MyAnimeList ID"

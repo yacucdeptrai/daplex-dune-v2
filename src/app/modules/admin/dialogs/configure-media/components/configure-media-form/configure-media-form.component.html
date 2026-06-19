@@ -269,7 +269,7 @@
     <div class="tw-divider tw-my-8"></div>
     <h3 class="tw-text-white tw-text-xl tw-font-semibold tw-mb-4">{{ t()('admin.updateMedia.scanner') }}</h3>
     <div formGroupName="externalIds" class="tw-flex tw-flex-wrap">
-      <div class="tw-w-full sm:tw-w-1/4">
+      <div class="tw-w-full sm:tw-w-1/5">
         <label for="external-ids-tmdb" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
           t()('admin.externalIds.tmdb') }}</label>
         <input formControlName="tmdb" class="tw-w-full" id="external-ids-tmdb" type="number" min="0"
@@ -280,7 +280,18 @@
           firstErrorKey:'updateMedia':'externalIds.tmdb'
           }}</small>
       </div>
-      <div class="tw-w-full sm:tw-w-1/4 sm:tw-pl-2">
+      <div class="tw-w-full sm:tw-w-1/5 sm:tw-pl-2">
+        <label for="external-ids-tvdb" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
+          t()('admin.externalIds.tvdb') }}</label>
+        <input formControlName="tvdb" class="tw-w-full" id="external-ids-tvdb" type="number" min="0"
+          aria-describedby="external-ids-tvdb-error" pInputText>
+        <small id="external-ids-tvdb-error" class="p-error tw-text-xs tw-block tw-my-2"
+          [invalidControl]="updateMediaForm.controls.externalIds.controls.tvdb">{{
+          updateMediaForm.controls.externalIds.controls.tvdb.errors |
+          firstErrorKey:'updateMedia':'externalIds.tvdb'
+          }}</small>
+      </div>
+      <div class="tw-w-full sm:tw-w-1/5 sm:tw-pl-2">
         <label for="external-ids-imdb" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
           t()('admin.externalIds.imdb') }}</label>
         <input formControlName="imdb" class="tw-w-full" id="external-ids-imdb" type="text"
@@ -291,7 +302,7 @@
           firstErrorKey:'updateMedia':'externalIds.imdb'
           }}</small>
       </div>
-      <div class="tw-w-full sm:tw-w-1/4 sm:tw-pl-2">
+      <div class="tw-w-full sm:tw-w-1/5 sm:tw-pl-2">
         <label for="external-ids-anilist" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
           t()('admin.externalIds.aniList') }}</label>
         <input formControlName="aniList" class="tw-w-full" id="external-ids-anilist" type="number" min="0"
@@ -301,7 +312,7 @@
           updateMediaForm.controls.externalIds.controls.aniList.errors |
           firstErrorKey:'updateMedia':'externalIds.aniList' }}</small>
       </div>
-      <div class="tw-w-full sm:tw-w-1/4 sm:tw-pl-2">
+      <div class="tw-w-full sm:tw-w-1/5 sm:tw-pl-2">
         <label for="external-ids-mal" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
           t()('admin.externalIds.mal') }}</label>
         <input formControlName="mal" class="tw-w-full" id="external-ids-mal" type="number" min="0"

@@ -56,6 +56,7 @@ export class MediaFormHelperService {
       ...this.buildBaseControls(),
       externalIds: new FormGroup<ExternalIdsForm>({
         tmdb: new FormControl(null, { validators: [Validators.min(0), Validators.maxLength(10)] }),
+        tvdb: new FormControl(null, { validators: [Validators.min(0), Validators.maxLength(10)] }),
         imdb: new FormControl(null, { validators: Validators.maxLength(50) }),
         aniList: new FormControl(null, { validators: [Validators.min(0), Validators.maxLength(10)] }),
         mal: new FormControl(null, { validators: [Validators.min(0), Validators.maxLength(10)] })
@@ -184,7 +185,8 @@ export class MediaFormHelperService {
       if (externalIds) {
         externalIds.patchValue({
           imdb: details.externalIds?.imdb ?? null,
-          tmdb: details.externalIds?.tmdb ?? null
+          tmdb: details.externalIds?.tmdb ?? null,
+          tvdb: details.externalIds?.tvdb ?? null
         });
       }
     }));

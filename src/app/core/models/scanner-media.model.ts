@@ -15,6 +15,7 @@ export interface ScannerMedia {
 export interface ScannerExternalIds {
   imdb?: string;
   tmdb?: number;
+  tvdb?: number;
   aniList?: number;
   mal?: number;
 }
