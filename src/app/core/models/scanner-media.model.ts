@@ -59,3 +59,20 @@ export interface ScannerDetailsDto {
   type: string;
   language?: string;
 }
+
+// One serialized provider episode (GET .../episodes/:e). airDate is a 'YYYY-MM-DD' STRING, NOT the
+// local ShortDate object — the string type makes a wrong .day/.month/.year access a compile error.
+export interface ScannerEpisode {
+  episodeNumber: number;
+  name: string;
+  overview: string;
+  runtime: number;              // SECONDS
+  airDate: string;              // 'YYYY-MM-DD'
+  stillUrl?: string;
+}
+
+// Per-episode scan query — provider+language only (no type; the endpoint rejects it).
+export interface ScannerEpisodeDto {
+  provider?: string;
+  language?: string;
+}

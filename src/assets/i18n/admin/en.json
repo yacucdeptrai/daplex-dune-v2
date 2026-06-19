@@ -324,7 +324,9 @@
     "deleteSource": "{{ admin.configureMedia.deleteSource }}",
     "unsavedChanges": "{{ admin.configureMedia.unsavedChanges }}",
     "saveImage": "{{ admin.configureMedia.saveImage }}",
-    "cancelUploadImage": "{{ admin.configureMedia.cancelUploadImage }}"
+    "cancelUploadImage": "{{ admin.configureMedia.cancelUploadImage }}",
+    "scan": "Scan from provider",
+    "scanDisabledHint": "Set a TMDB id and a scanner season on the media to scan episodes."
   },
   "updateEpisode": {
     "episodeNumber": "{{ admin.createEpisode.episodeNumber }}",

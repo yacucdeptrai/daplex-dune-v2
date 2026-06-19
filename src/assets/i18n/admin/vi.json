@@ -322,7 +322,9 @@
     "deleteSource": "{{ admin.configureMedia.deleteSource }}",
     "unsavedChanges": "{{ admin.configureMedia.unsavedChanges }}",
     "saveImage": "{{ admin.configureMedia.saveImage }}",
-    "cancelUploadImage": "{{ admin.configureMedia.cancelUploadImage }}"
+    "cancelUploadImage": "{{ admin.configureMedia.cancelUploadImage }}",
+    "scan": "Quét từ nhà cung cấp",
+    "scanDisabledHint": "Đặt mã TMDB và mùa quét trên media để quét các tập."
   },
   "updateEpisode": {
     "episodeNumber": "{{ admin.createEpisode.episodeNumber }}",

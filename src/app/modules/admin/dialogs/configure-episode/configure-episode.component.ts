@@ -7,10 +7,10 @@ import { first, takeUntil } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
 
 import { DropdownOptionDto, UpdateTVEpisodeDto } from '../../../../core/dto/media';
-import { ConfirmActionService, DestroyService, ItemDataService, MediaService, QueueUploadService } from '../../../../core/services';
+import { ConfirmActionService, DestroyService, ItemDataService, MediaFormHelperService, MediaScannerService, MediaService, QueueUploadService } from '../../../../core/services';
 import { fileExtension, maxFileSize, shortDate } from '../../../../core/validators';
 import { MediaDetails, MediaStream, MediaSubtitle, TVEpisodeDetails } from '../../../../core/models';
-import { AddSubtitleForm, ShortDateForm } from '../../../../core/interfaces/forms';
+import { AddSubtitleForm, ShortDateForm, UpdateEpisodeForm } from '../../../../core/interfaces/forms';
 import { FileUploadComponent } from '../../../../shared/components/file-upload';
 import { AddSubtitleComponent } from '../add-subtitle';
 import { ImageEditorComponent } from '../../../../shared/dialogs/image-editor';
@@ -22,6 +22,7 @@ import {
 } from '../../../../../environments/config';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
 import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 import { NgTemplateOutlet } from '@angular/common';
 import { VerticalTabComponent } from '../../../../shared/components/vertical-tab/vertical-tab.component';
 import { TabPanelDirective } from '../../../../shared/components/vertical-tab/tab-panel.directive';
@@ -46,16 +47,6 @@ import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/firs
 import { ThumbhashUrlPipe } from '../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
 
-interface UpdateEpisodeForm {
-  episodeNumber: FormControl<number>;
-  name: FormControl<string>;
-  overview: FormControl<string>;
-  runtime: FormControl<string | null>;
-  airDate: FormGroup<ShortDateForm>;
-  visibility: FormControl<number>;
-  translate: FormControl<string>;
-}
-
 @Component({
     selector: 'app-configure-episode',
     templateUrl: './configure-episode.component.html',
@@ -69,7 +60,7 @@ interface UpdateEpisodeForm {
             useValue: ['common', 'media', 'languages']
         }
     ],
-    imports: [TranslocoDirective, ButtonModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, InvalidControlDirective, InputMaskModule, InputTextModule, LazyLoadImageModule, TextareaModule, SelectModule, RadioButtonModule, PanelToastDirective, FileUploadComponent_1, TableModule, SharedModule, NgTemplateOutlet, VideoPlayerComponent, ConfirmDialogModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
+    imports: [TranslocoDirective, ButtonModule, TooltipModule, VerticalTabComponent, TabPanelDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, InputNumberModule, DisabledControlDirective, InvalidControlDirective, InputMaskModule, InputTextModule, LazyLoadImageModule, TextareaModule, SelectModule, RadioButtonModule, PanelToastDirective, FileUploadComponent_1, TableModule, SharedModule, NgTemplateOutlet, VideoPlayerComponent, ConfirmDialogModule, ProgressSpinnerModule, FirstErrorKeyPipe, ThumbhashUrlPipe]
 })
 export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
   @ViewChild('subtitleFileUpload') subtitleFileUpload?: FileUploadComponent;
@@ -82,6 +73,7 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
   addSubtitleForm: FormGroup<AddSubtitleForm>;
   updateEpisodeInitValue = {};
   updateEpisodeFormChanged: boolean = false;
+  isScanning: boolean = false;
   isUpdatingStill: boolean = false;
   isUpdated: boolean = false;
   isUploadingSource: boolean = false;
@@ -97,6 +89,7 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
     private dialogRef: DynamicDialogRef, private config: DynamicDialogConfig<{ media: MediaDetails, episode: TVEpisodeDetails }>,
     private dialogService: DialogService, private confirmAction: ConfirmActionService, private mediaService: MediaService,
     private itemDataService: ItemDataService, private queueUploadService: QueueUploadService,
+    private mediaScannerService: MediaScannerService, private mediaFormHelper: MediaFormHelperService,
     private translocoService: TranslocoService, private destroyService: DestroyService) {
     const lang = this.translocoService.getActiveLang();
     this.addSubtitleForm = new FormGroup<AddSubtitleForm>({
@@ -170,11 +163,7 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
       next: (episode) => {
         this.episode = episode;
         this.updateEpisodeInitValue = cloneDeep(this.updateEpisodeForm.value);
-        detectFormChange(this.updateEpisodeForm, this.updateEpisodeInitValue, () => {
-          this.updateEpisodeFormChanged = false;
-        }, () => {
-          this.updateEpisodeFormChanged = true;
-        }).pipe(takeUntil(this.destroyService)).subscribe();
+        this.detectUpdateEpisodeFormChange();
         this.isUpdated = true;
       }
     }).add(() => {
@@ -185,6 +174,35 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
 
   onUpdateEpisodeFormReset(): void {
     this.updateEpisodeForm.reset(this.updateEpisodeInitValue);
+    this.detectUpdateEpisodeFormChange();
+  }
+
+  // Scan is per-episode but the season is GLOBAL on the media, so it needs both a tmdb id and a set
+  // tvSeason — there is no per-episode fallback.
+  get canScanEpisode(): boolean {
+    const media = this.config.data?.media;
+    return !!media?.externalIds?.tmdb && media?.scanner?.tvSeason != null;
+  }
+
+  // Fetches one provider episode and auto-fills the general tab. The detect re-run (no init re-snapshot)
+  // arms the unsaved-changes footer; the http-error interceptor owns the 503 toast.
+  scanEpisode(): void {
+    if (!this.canScanEpisode || this.isScanning || !this.episode) return;
+    const media = this.config.data!.media;
+    this.isScanning = true;
+    this.mediaScannerService.findEpisode(media.externalIds.tmdb, media.scanner!.tvSeason!, this.episode.epNumber, { provider: 'tmdb' })
+      .pipe(takeUntil(this.destroyService)).subscribe({
+        next: (episode) => {
+          this.detectUpdateEpisodeFormChange();
+          this.mediaFormHelper.applyScannedEpisode(this.updateEpisodeForm, episode);
+        }
+      }).add(() => {
+        this.isScanning = false;
+        this.ref.markForCheck();
+      });
+  }
+
+  detectUpdateEpisodeFormChange(): void {
     detectFormChange(this.updateEpisodeForm, this.updateEpisodeInitValue, () => {
       this.updateEpisodeFormChanged = false;
     }, () => {
@@ -288,11 +306,7 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
       visibility: episode.visibility
     });
     this.updateEpisodeInitValue = cloneDeep(this.updateEpisodeForm.value);
-    detectFormChange(this.updateEpisodeForm, this.updateEpisodeInitValue, () => {
-      this.updateEpisodeFormChanged = false;
-    }, () => {
-      this.updateEpisodeFormChanged = true;
-    }).pipe(takeUntil(this.destroyService)).subscribe();
+    this.detectUpdateEpisodeFormChange();
   }
 
   loadSubtitleFormData(episode: TVEpisodeDetails): void {

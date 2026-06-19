@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Paginated, ScannerDetailsDto, ScannerMedia, ScannerMediaDetails, ScannerSearchDto } from '../models';
+import { Paginated, ScannerDetailsDto, ScannerEpisode, ScannerEpisodeDto, ScannerMedia, ScannerMediaDetails, ScannerSearchDto } from '../models';
 import { toTruthyHttpParams } from '../utils';
 
 // Thin root client for the MANAGE_MEDIA-gated provider scan (TMDB/TVDB). Mirrors the truthy-param
@@ -20,8 +20,11 @@ export class MediaScannerService {
     return this.http.get<ScannerMediaDetails>(`media-scanner/${id}`, { params });
   }
 
+  findEpisode(id: number, season: number, episode: number, dto: ScannerEpisodeDto) {
+    const params = toTruthyHttpParams(dto);
+    return this.http.get<ScannerEpisode>(`media-scanner/${id}/seasons/${season}/episodes/${episode}`, { params });
+  }
+
   // sub-slice 2 — image import:
   // findImages(id: number, dto: ScannerDetailsDto) { return this.http.get<ScannerImages>(`media-scanner/${id}/images`, { params: toTruthyHttpParams(dto) }); }
-  // sub-slice 3 — per-episode scan:
-  // findEpisode(id: number, season: number, episode: number, dto: ScannerDetailsDto) { return this.http.get<ScannerEpisode>(`media-scanner/${id}/seasons/${season}/episodes/${episode}`, { params: toTruthyHttpParams(dto) }); }
 }

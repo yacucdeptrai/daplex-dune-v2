@@ -4,8 +4,8 @@ import { Observable, forkJoin, map, of } from 'rxjs';
 
 import { DropdownOptionDto, UpdateMediaDto } from '../dto/media';
 import { MediaStatus, MediaType } from '../enums';
-import { ExternalIdsForm, MediaScannerForm, ShortDateForm } from '../interfaces/forms';
-import { Genre, MediaCollection, MediaDetails, Production, ScannerMediaDetails, Tag } from '../models';
+import { ExternalIdsForm, MediaScannerForm, ShortDateForm, UpdateEpisodeForm } from '../interfaces/forms';
+import { Genre, MediaCollection, MediaDetails, Production, ScannerEpisode, ScannerMediaDetails, Tag } from '../models';
 import { secondsToTimeString, timeStringToSeconds } from '../utils';
 import { shortDate } from '../validators';
 import { CollectionService } from './collection.service';
@@ -188,6 +188,21 @@ export class MediaFormHelperService {
         });
       }
     }));
+  }
+
+  // Synchronously auto-fills the episode form from a provider scan (no genre/language resolution, so no
+  // Observable). runtime is in SECONDS and may arrive NaN/undefined — only patch it when finite, else keep
+  // the safe '00:00:00' default (secondsToTimeString(NaN) wouldn't throw, but the guard pins intent and
+  // never lands a null that fails Validators.required). airDate is a 'YYYY-MM-DD' STRING routed through
+  // patchShortDate (NOT spread as .day/.month/.year — that shape is the local model's, not the scanner's).
+  // episodeNumber is left untouched: the scan URL already targets this row, so re-patching only risks drift.
+  applyScannedEpisode(form: FormGroup<UpdateEpisodeForm>, episode: ScannerEpisode): void {
+    form.patchValue({
+      name: episode.name,
+      overview: episode.overview || '',
+      runtime: Number.isFinite(episode.runtime) ? secondsToTimeString(episode.runtime) : '00:00:00'
+    });
+    this.patchShortDate(form.controls.airDate, episode.airDate);
   }
 
   // Resolves each scanned genre NAME to a local Genre via the suggestion search, keeping only an exact

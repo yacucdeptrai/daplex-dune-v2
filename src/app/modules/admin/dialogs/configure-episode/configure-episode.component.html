@@ -11,7 +11,23 @@
         contentStyleClass="tw-ml-6 tw-mr-6 md:tw-ml-0">
         <!--General info-->
         <ng-template appTabPanel [label]="t('admin.configureEpisode.general')" id="general" [separator]="true">
-          <p class="tw-text-white tw-font-semibold tw-text-xl">{{ t('admin.configureEpisode.general') }}</p>
+          <div class="tw-flex tw-items-center tw-flex-wrap tw-gap-2">
+            <p class="tw-text-white tw-font-semibold tw-text-xl">{{ t('admin.configureEpisode.general') }}</p>
+            <span class="tw-ml-auto" [pTooltip]="canScanEpisode ? '' : t('admin.configureEpisode.scanDisabledHint')"
+              tooltipPosition="bottom">
+              <!-- aria-disabled (not native disabled) when ungated: keeps the button focusable so the reason reaches AT -->
+              <button pButton type="button" icon="ms ms-cloud-download" [label]="t('admin.configureEpisode.scan')"
+                class="p-button-sm p-button-secondary p-button-outlined"
+                [class.tw-opacity-50]="!canScanEpisode" [class.tw-cursor-not-allowed]="!canScanEpisode"
+                [attr.aria-label]="t('admin.configureEpisode.scan')" [attr.aria-disabled]="!canScanEpisode"
+                [attr.aria-describedby]="canScanEpisode ? null : 'scan-disabled-hint'"
+                [disabled]="isScanning" [loading]="isScanning" (click)="scanEpisode()">
+              </button>
+              @if (!canScanEpisode) {
+                <span id="scan-disabled-hint" class="tw-sr-only">{{ t('admin.configureEpisode.scanDisabledHint') }}</span>
+              }
+            </span>
+          </div>
           <div class="tw-mt-4 tw-mb-24">
             <form id="update-episode-form" [formGroup]="updateEpisodeForm" formHandler
               (ngSubmit)="onUpdateEpisodeFormSubmit()">
