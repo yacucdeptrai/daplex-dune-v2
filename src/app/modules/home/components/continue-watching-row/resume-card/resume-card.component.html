@@ -1,0 +1,93 @@
+<ng-container *transloco="let t">
+  <div class="resume-card tw-group tw-relative tw-rounded-md" [appContextMenuTriggerFor]="resumeMenu">
+    <!-- Whole card is one focusable resume link; the same routerLink + queryParams as the
+      portrait history card, so it resumes at the saved position. -->
+    <a #mediaLink [routerLink]="['/watch', history.media._id]"
+      [queryParams]="{ ep: history.episode?.epNumber, t: history.time }"
+      [attr.aria-describedby]="resumeMetaId"
+      class="tw-block tw-rounded-md focus-visible:tw-outline-none focus-visible:tw-shadow-focus-box">
+      <div class="tw-relative tw-overflow-hidden tw-rounded-md tw-bg-neutral-725">
+        <div class="tw-aspect-w-16 tw-aspect-h-9 [&>*]:tw-rounded-md">
+          @if (landscapeUrl) {
+            <img class="tw-object-cover"
+              [lazyLoad]="landscapeUrl" [defaultImage]="landscapePlaceholder | thumbhashUrl"
+              placeholderStyleClass="tw-rounded-md" [alt]="history.media.title"
+              errorImage="assets/images/episode-image-md.png">
+          } @else {
+            <!-- Fallback: poster framed into the 16:9 box, top-anchored, under a bottom-up scrim. -->
+            @if (history.media.thumbnailPosterUrl) {
+              <img class="tw-object-cover tw-object-top"
+                [lazyLoad]="history.media.thumbnailPosterUrl"
+                [defaultImage]="history.media.posterPlaceholder | thumbhashUrl"
+                placeholderStyleClass="tw-rounded-md" [alt]="history.media.title"
+                errorImage="assets/images/media-poster-error-md.png">
+            } @else {
+              <img class="tw-object-cover tw-object-top" src="assets/images/media-poster-md.png" loading="lazy"
+                [alt]="history.media.title">
+            }
+          }
+        </div>
+        <!-- Over-image gradient scrim: anchors the metadata + play affordance against any image. -->
+        <div class="tw-absolute tw-inset-0 tw-rounded-md tw-pointer-events-none
+          tw-bg-gradient-to-t tw-from-black/80 tw-via-black/20 tw-to-transparent"></div>
+        <!-- Play / Resume affordance: a visual cue (not a separate tab stop) revealed on hover
+          and keyboard focus of the card link. Opacity only — reduced-motion safe. -->
+        <div class="resume-card__play tw-absolute tw-inset-0 tw-flex tw-items-center tw-justify-center
+          tw-opacity-0 group-hover:tw-opacity-100 group-focus-visible:tw-opacity-100" aria-hidden="true">
+          <i class="ms ms-play-circle tw-text-white tw-text-6xl tw-drop-shadow-lg"></i>
+        </div>
+        @if (history.paused) {
+          <div class="tw-absolute tw-top-1.5 tw-right-1.5 tw-text-white/90">
+            <i class="ms ms-pause ms-icon-sm"></i>
+          </div>
+        }
+        <p-progressBar appStripAriaLevel [attr.aria-label]="t('media.actions.watchProgress')"
+          [value]="progress"
+          styleClass="resume-card__progress tw-absolute tw-left-0 tw-right-0 tw-bottom-0 tw-h-1 tw-rounded-b-md">
+        </p-progressBar>
+      </div>
+    </a>
+    <!-- Off-image metadata: Resume · Episode N · mm:ss left + title; describes the card link (AT). -->
+    <div class="tw-flex tw-items-start tw-mt-2">
+      <div [id]="resumeMetaId" class="tw-flex-grow tw-min-w-0 tw-cursor-pointer" (click)="mediaLink.click()">
+        <p class="tw-text-white tw-text-xs sm:tw-text-sm tw-font-medium tw-line-clamp-1">{{ history.media.title }}</p>
+        <p class="tw-text-gray-400 tw-text-xs sm:tw-text-sm tw-mt-1 tw-line-clamp-1">
+          <span class="tw-font-semibold tw-text-orange-400">{{ t('home.mediaList.resume') }}</span>
+          @if (history.episode) {
+            <span> &middot; {{ t('media.episode.episodePrefix') }} {{ history.episode.epNumber }}</span>
+          }
+          <span> &middot; {{ history.time | timeLeft : runtime }} {{ t('home.mediaList.timeLeft') }}</span>
+        </p>
+      </div>
+      <button pButton [appMenuTriggerFor]="resumeMenu" icon="ms ms-more-vert" type="button"
+        aria-label="Toggle history menu" class="p-button-rounded p-button-text p-button-secondary p-button-sm
+        p-button-sm-icon tw-ml-1 tw-flex-shrink-0 focus-visible:!tw-shadow-focus-box tw-invisible
+        group-hover:tw-visible group-focus-within:tw-visible" #resumeMenuButton #resumeMenuTrigger="appMenuTriggerFor"
+        (cdkMenuOpened)="onHistoryMenuClick(resumeMenuButton, true)"
+        (cdkMenuClosed)="onHistoryMenuClick(resumeMenuButton, false)">
+      </button>
+    </div>
+    <ng-template #resumeMenu>
+      <div appMenu>
+        <button appMenuItem (click)="onAddToPlaylist.emit(history.media)">
+          <i class="ms ms-playlist-add"></i>
+          <span>{{ t('media.playlists.addToPlaylist') }}</span>
+        </button>
+        @if (currentUser && currentUser._id === userId) {
+          <button appMenuItem (click)="onPauseAndUnpause.emit({ history: history, originalEvent: $event })">
+            <i class="ms" [ngClass]="history.paused ? 'ms-resume' : 'ms-pause'"></i>
+            @if (!history.paused) {
+              <span>{{ t('users.history.pauseHistory') }}</span>
+            } @else {
+              <span>{{ t('users.history.unpauseHistory') }}</span>
+            }
+          </button>
+          <button appMenuItem (click)="onDelete.emit(history)">
+            <i class="ms ms-delete"></i>
+            <span>{{ t('users.history.delete') }}</span>
+          </button>
+        }
+      </div>
+    </ng-template>
+  </div>
+</ng-container>

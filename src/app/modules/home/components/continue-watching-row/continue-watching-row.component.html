@@ -1,20 +1,21 @@
 <ng-container *transloco="let t">
-  <!-- Reserve the row's height while loading so cards swap in with zero CLS; collapse
-    entirely only once resolved-empty (AC5 — a one-time settle for the empty case). -->
+  <!-- Reserve the rail's height while loading so cards swap in with zero CLS; collapse
+    entirely only once resolved-empty (AC9 — a one-time settle for the empty case). -->
   @if (loading() || results().length) {
     <section aria-labelledby="continue-watching-heading">
       <div class="tw-mt-4">
-        <h3 id="continue-watching-heading" class="tw-text-gray-200 tw-text-lg tw-font-bold tw-uppercase">
+        <h3 id="continue-watching-heading" class="tw-text-gray-200 tw-text-xl tw-font-bold tw-uppercase">
           {{ t('home.mediaList.continueWatching') }}
         </h3>
       </div>
-      <div class="tw-my-4 tw-text-white tw-grid tw-grid-cols-2 xs:tw-grid-cols-3 md:tw-grid-cols-4
-        lg:tw-grid-cols-5 xl:tw-grid-cols-6">
+      <!-- Single-row horizontal rail (not a wrapping grid). No flex `gap` (iOS-13 floor) —
+        margin spacing via tw-space-x; landscape cards are wider than the poster rails below. -->
+      <div class="tw-my-4 tw-flex tw-overflow-x-auto tw-space-x-3 tw-pb-2 tw--mx-1 tw-px-1">
         @if (loading()) {
-          <!-- Static, motion-free placeholders matching one card cell's height. -->
           @for (cell of skeletonCells; track $index) {
-            <div class="tw-px-1.5 tw-py-2" aria-hidden="true">
-              <div class="tw-aspect-w-2 tw-aspect-h-3">
+            <!-- Static, motion-free placeholders matching one landscape card's height. -->
+            <div class="tw-flex-shrink-0 tw-w-64 sm:tw-w-72 lg:tw-w-80" data-skeleton aria-hidden="true">
+              <div class="tw-aspect-w-16 tw-aspect-h-9">
                 <div class="tw-bg-neutral-725 tw-rounded-md"></div>
               </div>
               <div class="tw-bg-neutral-725 tw-rounded tw-h-4 tw-mt-2"></div>
@@ -23,18 +24,8 @@
           }
         } @else {
           @for (history of results(); track history._id) {
-            <div>
-              <app-history-card [history]="history" [resumeMetaId]="'resume-meta-' + history._id"></app-history-card>
-              <p [id]="'resume-meta-' + history._id"
-                class="tw-text-gray-400 tw-text-xs sm:tw-text-sm tw-px-1.5 tw-mt-1 tw-line-clamp-1">
-                <span class="tw-font-semibold tw-text-gray-200">{{ t('home.mediaList.resume') }}</span>
-                @if (history.episode) {
-                  <span> &middot; {{ t('media.episode.episodePrefix') }} {{ history.episode.epNumber }}</span>
-                }
-                <span> &middot; {{ history.time | timeLeft : (history.episode?.runtime ?? history.media.runtime) }}
-                  {{ t('home.mediaList.timeLeft') }}</span>
-              </p>
-            </div>
+            <app-resume-card class="tw-flex-shrink-0 tw-w-64 sm:tw-w-72 lg:tw-w-80"
+              [history]="history" [resumeMetaId]="'resume-meta-' + history._id"></app-resume-card>
           }
         }
       </div>

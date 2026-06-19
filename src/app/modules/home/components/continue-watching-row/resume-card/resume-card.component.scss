@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+// Designed hover/focus: a slight scale + lift that reads "interactive" without theatrics.
+// Transform/transition are applied only when motion is allowed; under prefers-reduced-motion
+// the card still elevates (box-shadow, no translate) so the affordance survives without motion.
+.resume-card {
+  transition: box-shadow 200ms ease;
+
+  &:hover,
+  &:focus-within {
+    box-shadow: 0 8px 24px rgb(0 0 0 / 45%);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: transform 200ms ease, box-shadow 200ms ease;
+    will-change: transform;
+
+    &:hover,
+    &:focus-within {
+      transform: scale(1.03);
+    }
+  }
+}
+
+// Play affordance reveal: opacity fade only when motion is allowed; instant under reduced-motion.
+.resume-card__play {
+  @media (prefers-reduced-motion: no-preference) {
+    transition: opacity 200ms ease;
+  }
+}
