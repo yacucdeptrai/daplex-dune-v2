@@ -70,7 +70,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   showUpdateCollectionDialog(collection: MediaCollection): void {
     const dialogRef = openDialog(this.dialogService, UpdateCollectionComponent, {
       data: { ...collection },
-      width: '500px',
+      width: '700px',
       modal: true,
       styleClass: 'p-dialog-header-sm',
       dismissableMask: true,

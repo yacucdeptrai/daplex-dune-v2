@@ -25,4 +25,14 @@
       </button>
     </div>
   </form>
+  <!--Image section stays live regardless of the overview-hydration gate; it only needs _id.-->
+  <hr class="tw-border-white/10 tw-my-5">
+  <app-collection-images [collection]="collection" [t]="t" [parentDialogRef]="dialogRef"
+    (collectionChange)="onCollectionChange($event)" />
+  <!--In-modal delete confirm host for the image section (route-scoped ConfirmationService).-->
+  <p-confirmDialog [blockScroll]="false" key="inModal" [style]="{width: '500px'}" [baseZIndex]="1000"
+    acceptButtonStyleClass="p-button-danger p-button-sm"
+    rejectButtonStyleClass="p-button-text p-button-secondary p-button-sm" rejectIcon="" acceptIcon=""
+    [dismissableMask]="true">
+  </p-confirmDialog>
 </ng-container>

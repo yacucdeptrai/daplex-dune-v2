@@ -4,9 +4,10 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
 import { UpdateCollectionDto } from '../../../../core/dto/collections';
-import { MediaCollection } from '../../../../core/models';
+import { MediaCollection, MediaCollectionDetails } from '../../../../core/models';
 import { CollectionService, DestroyService } from '../../../../core/services';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { CollectionImagesComponent } from './components/collection-images/collection-images.component';
 import { FormHandlerDirective } from '../../../../shared/directives/form-directive/form-handler/form-handler.directive';
 import { DisabledControlDirective } from '../../../../shared/directives/form-directive/disabled-control/disabled-control.directive';
 import { InputTextModule } from 'primeng/inputtext';
@@ -15,6 +16,7 @@ import { InvalidControlDirective } from '../../../../shared/directives/form-dire
 import { ButtonModule } from 'primeng/button';
 import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/first-error-key/first-error-key.pipe';
 import { DialogDismissDirective } from '../../../../shared/directives/dialog-dismiss/dialog-dismiss.directive';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 interface UpdateCollectionForm {
   name: FormControl<string>;
@@ -28,13 +30,17 @@ interface UpdateCollectionForm {
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
     hostDirectives: [DialogDismissDirective],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, TextareaModule, InvalidControlDirective, ButtonModule, FirstErrorKeyPipe]
+    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, TextareaModule, InvalidControlDirective, ButtonModule, FirstErrorKeyPipe, CollectionImagesComponent, ConfirmDialogModule]
 })
 export class UpdateCollectionComponent implements OnInit {
   updateCollectionForm: FormGroup<UpdateCollectionForm>;
+  // The image section needs only `_id` (available immediately), so it lives independent of the
+  // overview-hydration gate that disables the form. Seeded from the row, refreshed by findOne.
+  collection: MediaCollectionDetails;
 
-  constructor(private ref: ChangeDetectorRef, private dialogRef: DynamicDialogRef, private config: DynamicDialogConfig<MediaCollection>,
+  constructor(private ref: ChangeDetectorRef, public dialogRef: DynamicDialogRef, private config: DynamicDialogConfig<MediaCollection>,
     private collectionService: CollectionService, private destroyService: DestroyService) {
+    this.collection = { ...this.config.data!, overview: '', media: [] } as MediaCollectionDetails;
     this.updateCollectionForm = new FormGroup<UpdateCollectionForm>({
       name: new FormControl(this.config.data!.name || '', { nonNullable: true, validators: [Validators.required, Validators.maxLength(500)] }),
       overview: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(10), Validators.maxLength(2000)] })
@@ -45,14 +51,20 @@ export class UpdateCollectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // The list row carries only name + count; fetch the detail to pre-fill the overview.
+    // The list row carries only name + count; fetch the detail to pre-fill the overview + preview.
     this.collectionService.findOne(this.config.data!._id).pipe(takeUntil(this.destroyService)).subscribe({
       next: collection => {
+        this.collection = collection;
         this.updateCollectionForm.patchValue({ name: collection.name, overview: collection.overview });
         this.updateCollectionForm.enable({ emitEvent: false });
         this.ref.markForCheck();
       }
     });
+  }
+
+  onCollectionChange(collection: MediaCollectionDetails): void {
+    this.collection = collection;
+    this.ref.markForCheck();
   }
 
   onUpdateCollectionFormSubmit(): void {

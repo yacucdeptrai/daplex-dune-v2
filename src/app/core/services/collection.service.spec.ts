@@ -58,4 +58,46 @@ describe('CollectionService', () => {
     expect(req.request.params.keys().sort()).toEqual(['limit', 'pageToken', 'sort']);
     req.flush({});
   });
+
+  it('uploadPoster PATCHes multipart file to collections/:id/poster and returns the collection', () => {
+    const blob = new Blob(['x'], { type: 'image/png' });
+    let result: any;
+    service.uploadPoster('c1', blob, 'p.png').subscribe(r => (result = r));
+    const req = httpMock.expectOne('collections/c1/poster');
+    expect(req.request.method).toBe('PATCH');
+    const body = req.request.body as FormData;
+    expect(body instanceof FormData).toBeTrue();
+    expect((body.get('file') as File).name).toBe('p.png');
+    req.flush({ _id: 'c1', thumbnailPosterUrl: 'tp' });
+    expect(result.thumbnailPosterUrl).toBe('tp');
+  });
+
+  it('uploadPoster derives the file name from the blob when none is given', () => {
+    service.uploadPoster('c1', new Blob([''], { type: 'image/png' })).subscribe();
+    const req = httpMock.expectOne('collections/c1/poster');
+    expect((req.request.body.get('file') as File).name).toBe('image.png');
+    req.flush({});
+  });
+
+  it('deletePoster issues DELETE collections/:id/poster', () => {
+    service.deletePoster('c1').subscribe();
+    const req = httpMock.expectOne('collections/c1/poster');
+    expect(req.request.method).toBe('DELETE');
+    req.flush(null);
+  });
+
+  it('uploadBackdrop PATCHes multipart file to collections/:id/backdrop', () => {
+    service.uploadBackdrop('c1', new Blob(['x'], { type: 'image/png' }), 'b.png').subscribe();
+    const req = httpMock.expectOne('collections/c1/backdrop');
+    expect(req.request.method).toBe('PATCH');
+    expect((req.request.body.get('file') as File).name).toBe('b.png');
+    req.flush({});
+  });
+
+  it('deleteBackdrop issues DELETE collections/:id/backdrop', () => {
+    service.deleteBackdrop('c1').subscribe();
+    const req = httpMock.expectOne('collections/c1/backdrop');
+    expect(req.request.method).toBe('DELETE');
+    req.flush(null);
+  });
 });

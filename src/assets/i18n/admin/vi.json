@@ -52,7 +52,16 @@
     "overview": "{{ admin.createCollection.overview }}",
     "overviewPlaceholder": "{{ admin.createCollection.overviewPlaceholder }}",
     "cancel": "{{ admin.createGenre.cancel }}",
-    "submit": "{{ admin.updateGenre.submit }}"
+    "submit": "{{ admin.updateGenre.submit }}",
+    "images": "Hình ảnh",
+    "uploadPoster": "Tải lên áp phích",
+    "deletePoster": "Xóa áp phích",
+    "uploadBackdrop": "Tải lên ảnh nền",
+    "deleteBackdrop": "Xóa ảnh nền",
+    "deletePosterConfirmationHeader": "Xóa Áp Phích",
+    "deletePosterConfirmation": "Bạn có chắc chắn muốn xóa <strong>áp phích của {{ name }}</strong> không? Hành động này không thể hoàn tác.",
+    "deleteBackdropConfirmationHeader": "Xóa Ảnh Nền",
+    "deleteBackdropConfirmation": "Bạn có chắc chắn muốn xóa <strong>ảnh nền của {{ name }}</strong> không? Hành động này không thể hoàn tác."
   },
   "updateProduction": {
     "formHeader": "Cập Nhật Công Ty",

@@ -60,7 +60,16 @@
     "overview": "{{ admin.createCollection.overview }}",
     "overviewPlaceholder": "{{ admin.createCollection.overviewPlaceholder }}",
     "cancel": "{{ admin.createGenre.cancel }}",
-    "submit": "{{ admin.updateGenre.submit }}"
+    "submit": "{{ admin.updateGenre.submit }}",
+    "images": "Images",
+    "uploadPoster": "Upload a poster",
+    "deletePoster": "Delete poster",
+    "uploadBackdrop": "Upload a backdrop",
+    "deleteBackdrop": "Delete backdrop",
+    "deletePosterConfirmationHeader": "Delete Poster",
+    "deletePosterConfirmation": "Are you sure you want to delete <strong>{{ name }}'s poster</strong>? This action cannot be undone.",
+    "deleteBackdropConfirmationHeader": "Delete Backdrop",
+    "deleteBackdropConfirmation": "Are you sure you want to delete <strong>{{ name }}'s backdrop</strong>? This action cannot be undone."
   },
   "createMedia": {
     "movieStep1": "Details",

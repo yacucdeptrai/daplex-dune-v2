@@ -6,7 +6,7 @@ import { map } from 'rxjs';
 import { CreateCollectionDto, CursorPageCollectionsDto, CursorPageMediaDto, PaginateCollectionsDto, RemoveCollectionsDto, UpdateCollectionDto } from '../dto/collections';
 import { CursorPaginated, Media, MediaCollection, MediaCollectionDetails, Paginated } from '../models';
 import { FindSuggestionsOptions } from '../interfaces/options';
-import { toTruthyHttpParams } from '../utils';
+import { getImageName, toTruthyHttpParams } from '../utils';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +49,26 @@ export class CollectionService {
   findAllMedia(id: string, cursorPageMediaDto: CursorPageMediaDto) {
     const params = toTruthyHttpParams(cursorPageMediaDto);
     return this.http.get<CursorPaginated<Media>>(`collections/${id}/media`, { params });
+  }
+
+  uploadPoster(id: string, poster: File | Blob, name?: string) {
+    const data = new FormData();
+    data.set('file', poster, name ?? getImageName(poster));
+    return this.http.patch<MediaCollectionDetails>(`collections/${id}/poster`, data);
+  }
+
+  deletePoster(id: string) {
+    return this.http.delete(`collections/${id}/poster`);
+  }
+
+  uploadBackdrop(id: string, backdrop: File | Blob, name?: string) {
+    const data = new FormData();
+    data.set('file', backdrop, name ?? getImageName(backdrop));
+    return this.http.patch<MediaCollectionDetails>(`collections/${id}/backdrop`, data);
+  }
+
+  deleteBackdrop(id: string) {
+    return this.http.delete(`collections/${id}/backdrop`);
   }
 
   findCollectionSuggestions(search?: string, options: FindSuggestionsOptions = {}) {
