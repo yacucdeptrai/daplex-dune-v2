@@ -20,6 +20,7 @@ import { ButtonModule } from 'primeng/button';
 interface UpdateMediaForm {
   historyLimit: FormControl<number>;
   paused: FormControl<boolean>;
+  autoNext: FormControl<boolean>;
   prefAudioLang: FormControl<boolean>;
   prefAudioLangList: FormControl<string[]>;
   prefSubtitleLang: FormControl<boolean>;
@@ -58,6 +59,7 @@ export class MediaSettingsComponent implements OnInit {
     this.updateMediaForm = new FormGroup<UpdateMediaForm>({
       historyLimit: new FormControl(),
       paused: new FormControl(),
+      autoNext: new FormControl(),
       prefAudioLang: new FormControl(),
       prefAudioLangList: new FormControl([], { nonNullable: true }),
       prefSubtitleLang: new FormControl(),
@@ -85,6 +87,7 @@ export class MediaSettingsComponent implements OnInit {
     this.updateMediaForm.patchValue({
       historyLimit: historySettings.limit || 90,
       paused: historySettings.paused || false,
+      autoNext: playerSettings.autoNext ?? false,
       prefAudioLang: playerSettings.prefAudioLang || false,
       prefAudioLangList: playerSettings.prefAudioLangList || ['default'],
       prefSubtitleLang: playerSettings.prefSubtitleLang || false,
@@ -119,6 +122,7 @@ export class MediaSettingsComponent implements OnInit {
         paused: formValue.paused
       },
       player: {
+        autoNext: formValue.autoNext,
         prefAudioLang: formValue.prefAudioLang,
         prefAudioLangList: formValue.prefAudioLangList,
         prefSubtitleLang: formValue.prefSubtitleLang,
