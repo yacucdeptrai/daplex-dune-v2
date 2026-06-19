@@ -14,6 +14,7 @@ export * from './media-collection.model';
 export * from './media-details.model';
 export * from './media-external-ids.model';
 export * from './media-external-streams.model';
+export * from './media-progress.model';
 export * from './media-scanner-data.model';
 export * from './media-stream-file.model';
 export * from './media-stream-subtitle.model';
