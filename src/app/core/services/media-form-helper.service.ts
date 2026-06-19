@@ -207,13 +207,18 @@ export class MediaFormHelperService {
     this.patchShortDate(form.controls.airDate, episode.airDate);
   }
 
-  // Resolves each scanned genre NAME to a local Genre via the suggestion search, keeping only an exact
-  // case-insensitive .name match (no create-on-the-fly) and dropping the rest, so submit's g._id map holds.
+  // Resolves each scanned genre NAME to a local Genre via the suggestion search: prefers an existing
+  // case-insensitive .name match, else the create:name= sentinel (so submit's findOrCreateEntities creates
+  // it — same path as the manual picker), else null (un-creatable / >32 chars) which is dropped.
   private resolveGenres(names: string[]): Observable<Genre[]> {
     if (!names?.length) return of([]);
     const lookups = names.map(name =>
-      this.genresService.findGenreSuggestions(name, { withCreateOption: false }).pipe(
-        map(matches => matches.find(g => g._id && g.name.toLowerCase() === name.toLowerCase()))
+      this.genresService.findGenreSuggestions(name, { withCreateOption: true }).pipe(
+        map(suggestions => {
+          const existing = suggestions.find(g => g._id && !g._id.startsWith('create:')
+            && g.name.toLowerCase() === name.toLowerCase());
+          return existing ?? suggestions.find(g => g._id?.startsWith('create:name=')) ?? null;
+        })
       ));
     return forkJoin(lookups).pipe(map(resolved => resolved.filter((g): g is Genre => !!g)));
   }

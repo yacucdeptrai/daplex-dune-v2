@@ -62,16 +62,54 @@ describe('MediaFormHelperService.applyScannedData', () => {
     helper = TestBed.inject(MediaFormHelperService);
   });
 
-  it('resolves scanned genre names to Genre[] and drops unmatched', () => {
+  // Mirrors GenresService.findGenreSuggestions(name, { withCreateOption: true }): returns the catalog
+  // hits, then appends a create:name= sentinel when name <= 32 chars and has no exact case-sensitive match.
+  function mockSuggestions(catalog: Record<string, { _id: string; name: string }[]>): void {
     genresService.findGenreSuggestions.and.callFake((name: string) => {
-      if (name === 'Action') return of([{ _id: 'g1', name: 'Action' }]);
-      return of([{ _id: 'g9', name: 'Drama' }]); // no exact match for 'Sci-Fi & Fantasy'
+      const hits = catalog[name] ?? [];
+      const out = [...hits];
+      if (name && name.length <= 32 && !hits.some(g => g.name === name)) {
+        out.push({ _id: `create:name=${encodeURIComponent(name)}`, name: `Create "${name}"` });
+      }
+      return of(out);
     });
+  }
+
+  it('resolves a name matching an existing genre (case-insensitive) to that existing Genre', () => {
+    mockSuggestions({ action: [{ _id: 'g1', name: 'Action' }] });
     const form = helper.buildEditMediaForm();
-    helper.applyScannedData(form, makeDetails({ genres: ['Action', 'Sci-Fi & Fantasy'] }), MediaType.MOVIE).subscribe();
+    helper.applyScannedData(form, makeDetails({ genres: ['action'] }), MediaType.MOVIE).subscribe();
     const genres = form.controls.genres.value!;
     expect(genres.length).toBe(1);
     expect(genres[0]._id).toBe('g1');
+  });
+
+  it('resolves an unmatched <=32-char name to the create:name= sentinel (created on submit)', () => {
+    mockSuggestions({ 'Sci-Fi & Fantasy': [{ _id: 'g9', name: 'Drama' }] }); // no exact match
+    const form = helper.buildEditMediaForm();
+    helper.applyScannedData(form, makeDetails({ genres: ['Sci-Fi & Fantasy'] }), MediaType.MOVIE).subscribe();
+    const genres = form.controls.genres.value!;
+    expect(genres.length).toBe(1);
+    expect(genres[0]._id).toBe(`create:name=${encodeURIComponent('Sci-Fi & Fantasy')}`);
+  });
+
+  it('drops an unmatched >32-char name (no sentinel past the length guard)', () => {
+    const tooLong = 'A Genre Name That Is Definitely Over Thirty-Two Characters';
+    mockSuggestions({ [tooLong]: [] }); // >32 chars, so the service appends no sentinel
+    const form = helper.buildEditMediaForm();
+    helper.applyScannedData(form, makeDetails({ genres: [tooLong] }), MediaType.MOVIE).subscribe();
+    expect(form.controls.genres.value ?? []).toEqual([]);
+  });
+
+  it('mixed list resolves existing + creates new, dropping the too-long name', () => {
+    const tooLong = 'A Genre Name That Is Definitely Over Thirty-Two Characters';
+    mockSuggestions({ Action: [{ _id: 'g1', name: 'Action' }], Thriller: [], [tooLong]: [] });
+    const form = helper.buildEditMediaForm();
+    helper.applyScannedData(form, makeDetails({ genres: ['Action', 'Thriller', tooLong] }), MediaType.MOVIE).subscribe();
+    const genres = form.controls.genres.value!;
+    expect(genres.length).toBe(2);
+    expect(genres[0]._id).toBe('g1');
+    expect(genres[1]._id).toBe(`create:name=${encodeURIComponent('Thriller')}`);
   });
 
   it('patches originalLanguage only when the code is in the passed list, else leaves it unchanged', () => {
