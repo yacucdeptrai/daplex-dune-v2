@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin, map, of } from 'rxjs';
 
 import { DropdownOptionDto, UpdateMediaDto } from '../dto/media';
 import { MediaStatus, MediaType } from '../enums';
 import { ExternalIdsForm, MediaScannerForm, ShortDateForm } from '../interfaces/forms';
-import { Genre, MediaCollection, MediaDetails, Production, Tag } from '../models';
+import { Genre, MediaCollection, MediaDetails, Production, ScannerMediaDetails, Tag } from '../models';
 import { secondsToTimeString, timeStringToSeconds } from '../utils';
 import { shortDate } from '../validators';
 import { CollectionService } from './collection.service';
@@ -56,7 +56,7 @@ export class MediaFormHelperService {
       ...this.buildBaseControls(),
       externalIds: new FormGroup<ExternalIdsForm>({
         tmdb: new FormControl(null, { validators: [Validators.min(0), Validators.maxLength(10)] }),
-        imdb: new FormControl(null, { validators: Validators.maxLength(10) }),
+        imdb: new FormControl(null, { validators: Validators.maxLength(50) }),
         aniList: new FormControl(null, { validators: [Validators.min(0), Validators.maxLength(10)] }),
         mal: new FormControl(null, { validators: [Validators.min(0), Validators.maxLength(10)] })
       }, { updateOn: 'change' }),
@@ -152,6 +152,82 @@ export class MediaFormHelperService {
       });
     }
     return tvControlsAdded;
+  }
+
+  // Auto-fills text/date/genre/externalId controls from a provider scan. Genre name-resolution is
+  // async (N lookups) so this returns an Observable that completes after the patch lands; callers
+  // re-snapshot their dirty baseline on completion. Never routes through the patch helpers (those
+  // read the local MediaDetails shape, not the scanner one). externalIds patched on the edit form only.
+  // languages is the caller's option array (from its component-scoped ItemDataService); originalLanguage
+  // is patched only when the scanned code matches an option, mirroring the status keep-current rule.
+  applyScannedData(form: FormGroup<UpdateMediaForm> | FormGroup<EditMediaForm>, details: ScannerMediaDetails,
+    type: MediaType, languages: DropdownOptionDto[] = []): Observable<void> {
+    const isTv = type === MediaType.TV;
+    const releaseSource = isTv ? details.firstAirDate : details.releaseDate;
+    return this.resolveGenres(details.genres).pipe(map(genres => {
+      form.patchValue({
+        title: details.title,
+        originalTitle: details.originalTitle || null,
+        overview: details.overview,
+        runtime: secondsToTimeString(details.runtime),
+        adult: details.adult,
+        status: this.mapScannerStatus(details.status, type, form.controls.status.value)
+      });
+      if (genres.length) form.controls.genres.setValue(genres);
+      const lang = this.matchLanguageValue(details.originalLanguage, languages);
+      if (lang) form.controls.originalLanguage.setValue(lang);
+      this.patchShortDate(form.controls.releaseDate, releaseSource);
+      if (isTv) this.patchShortDate(form.controls.lastAirDate ?? null, details.lastAirDate);
+      // externalIds exists only on the edit form; look it up off the base FormGroup (the typed union's
+      // per-branch get() overloads aren't mutually callable) and patch when present.
+      const externalIds = (form as FormGroup).get('externalIds') as FormGroup<ExternalIdsForm> | null;
+      if (externalIds) {
+        externalIds.patchValue({
+          imdb: details.externalIds?.imdb ?? null,
+          tmdb: details.externalIds?.tmdb ?? null
+        });
+      }
+    }));
+  }
+
+  // Resolves each scanned genre NAME to a local Genre via the suggestion search, keeping only an exact
+  // case-insensitive .name match (no create-on-the-fly) and dropping the rest, so submit's g._id map holds.
+  private resolveGenres(names: string[]): Observable<Genre[]> {
+    if (!names?.length) return of([]);
+    const lookups = names.map(name =>
+      this.genresService.findGenreSuggestions(name, { withCreateOption: false }).pipe(
+        map(matches => matches.find(g => g._id && g.name.toLowerCase() === name.toLowerCase()))
+      ));
+    return forkJoin(lookups).pipe(map(resolved => resolved.filter((g): g is Genre => !!g)));
+  }
+
+  // Maps a raw provider status onto MediaStatus; an unrecognised string keeps the form's current value.
+  private mapScannerStatus(raw: string, type: MediaType, current: string): string {
+    const value = (raw || '').toLowerCase();
+    if (type === MediaType.MOVIE) {
+      if (value === 'released') return MediaStatus.RELEASED;
+      if (['in production', 'planned', 'post production', 'rumored', 'upcoming'].includes(value)) return MediaStatus.UPCOMING;
+      return current;
+    }
+    if (['returning series', 'airing', 'continuing'].includes(value)) return MediaStatus.AIRING;
+    if (['ended', 'canceled', 'cancelled', 'aired', 'completed'].includes(value)) return MediaStatus.AIRED;
+    if (['in production', 'planned', 'upcoming', 'pilot'].includes(value)) return MediaStatus.UPCOMING;
+    return current;
+  }
+
+  // Parses 'YYYY-MM-DD' into the ShortDate sub-controls; blank/malformed input is skipped (never NaN).
+  private patchShortDate(group: FormGroup | null, value?: string): void {
+    if (!group || !value) return;
+    const [year, month, day] = value.split('-').map(Number);
+    if (!year || !month || !day) return;
+    group.patchValue({ day, month, year });
+  }
+
+  // Returns the scanned ISO code only when it matches an option value; an unknown code returns null so
+  // the caller leaves the control unchanged (never lands an out-of-range value the dropdown can't show).
+  private matchLanguageValue(code: string, languages: DropdownOptionDto[]): string | null {
+    if (!code) return null;
+    return languages.some(option => option.value === code) ? code : null;
   }
 
   findGenreSuggestions(search?: string): Observable<Genre[]> {

@@ -32,6 +32,7 @@ export * from './playlist.model';
 export * from './production-details.model';
 export * from './production.model';
 export * from './rating-details.model';
+export * from './scanner-media.model';
 export * from './rating.model';
 export * from './role-details.model';
 export * from './role.model';

@@ -8,6 +8,7 @@ export * from './audit-log.service';
 export * from './item-data.service';
 export * from './media.service';
 export * from './media-form-helper.service';
+export * from './media-scanner.service';
 export * from './media-meta.service';
 export * from './playlists.service';
 export * from './productions.service';

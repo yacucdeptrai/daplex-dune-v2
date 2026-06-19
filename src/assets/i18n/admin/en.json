@@ -71,6 +71,18 @@
     "deleteBackdropConfirmationHeader": "Delete Backdrop",
     "deleteBackdropConfirmation": "Are you sure you want to delete <strong>{{ name }}'s backdrop</strong>? This action cannot be undone."
   },
+  "scannerImport": {
+    "header": "Import from provider",
+    "importButton": "Import from provider",
+    "provider": "Provider",
+    "type": "Type",
+    "searchLabel": "Search provider",
+    "searchPlaceholder": "Search a title…",
+    "typeToSearch": "Type to search a provider",
+    "searching": "Searching…",
+    "noResults": "No results found",
+    "resultsLabel": "Provider results"
+  },
   "createMedia": {
     "movieStep1": "Details",
     "movieStep2": "Movie Elements",

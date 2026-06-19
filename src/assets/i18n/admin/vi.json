@@ -71,6 +71,18 @@
     "cancel": "{{ admin.createGenre.cancel }}",
     "submit": "{{ admin.updateGenre.submit }}"
   },
+  "scannerImport": {
+    "header": "Nhập từ nhà cung cấp",
+    "importButton": "Nhập từ nhà cung cấp",
+    "provider": "Nhà cung cấp",
+    "type": "Loại",
+    "searchLabel": "Tìm kiếm nhà cung cấp",
+    "searchPlaceholder": "Tìm một tựa đề…",
+    "typeToSearch": "Nhập để tìm kiếm",
+    "searching": "Đang tìm…",
+    "noResults": "Không tìm thấy kết quả",
+    "resultsLabel": "Kết quả từ nhà cung cấp"
+  },
   "createMedia": {
     "movieStep1": "Thông Tin Chi Tiết",
     "movieStep2": "Dữ Liệu Phim",

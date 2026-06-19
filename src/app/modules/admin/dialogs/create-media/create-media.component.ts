@@ -16,9 +16,10 @@ import { CreateMediaDto, DropdownOptionDto } from '../../../../core/dto/media';
 import { AppErrorCode, MediaStatus, MediaType } from '../../../../core/enums';
 import { ShortDateForm } from '../../../../core/interfaces/forms';
 import { ExtStreamSelected } from '../../../../core/interfaces/events';
-import { Genre, MediaCollection, MediaDetails, MediaSubtitle, MediaVideo, Production, Tag } from '../../../../core/models';
+import { Genre, MediaCollection, MediaDetails, MediaSubtitle, MediaVideo, Production, ScannerMediaDetails, Tag } from '../../../../core/models';
 import { DestroyService, ItemDataService, MediaService, QueueUploadService } from '../../../../core/services';
-import { MediaFormHelperService } from '../../../../core/services/media-form-helper.service';
+import { MediaFormHelperService, UpdateMediaForm as UpdateMediaFormHelper } from '../../../../core/services/media-form-helper.service';
+import { MediaScannerImportComponent } from '../media-scanner-import';
 import { shortDate } from '../../../../core/validators';
 import { openDialog, dataURItoBlob, detectFormChange, fixNestedDialogFocus, replaceDialogHideMethod, timeStringToSeconds } from '../../../../core/utils';
 import {
@@ -266,6 +267,28 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
       }
     }).add(() => {
       this.createMediaForm.enable({ emitEvent: false });
+    });
+  }
+
+  // Opens the provider-search dialog; on pick, auto-fills the create form's text/date/genre controls
+  // (no externalIds control on the create form — applyScannedData skips it).
+  openScannerImport(): void {
+    const type = this.createMediaForm.controls.type.value;
+    const dialogRef = openDialog(this.dialogService, MediaScannerImportComponent, {
+      data: { type },
+      header: this.translocoService.translate('admin.scannerImport.header'),
+      width: '560px',
+      modal: true,
+      dismissableMask: false,
+      styleClass: 'p-dialog-header-sm'
+    });
+    fixNestedDialogFocus(dialogRef, this.dialogRef, this.dialogService, this.renderer, this.document);
+    dialogRef.onClose.pipe(first()).subscribe((details: ScannerMediaDetails | undefined) => {
+      if (!details) return;
+      // CreateMediaForm is structurally UpdateMediaForm plus `type`; cast to the helper's shared shape.
+      const form = this.createMediaForm as unknown as FormGroup<UpdateMediaFormHelper>;
+      this.mediaFormHelper.applyScannedData(form, details, type as MediaType, this.languages)
+        .pipe(takeUntil(this.destroyService)).subscribe().add(() => this.ref.markForCheck());
     });
   }
 

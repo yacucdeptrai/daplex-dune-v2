@@ -1,16 +1,17 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, input, output, effect } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, input, output, effect, Renderer2, Inject, DOCUMENT } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoService, TranslocoTranslateFn } from '@jsverse/transloco';
 import { SharedModule } from 'primeng/api';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { takeUntil } from 'rxjs';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { first, takeUntil } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
 
-import { MediaDetails, Genre, MediaCollection, Production, Tag } from '../../../../../../core/models';
+import { MediaDetails, Genre, MediaCollection, Production, ScannerMediaDetails, Tag } from '../../../../../../core/models';
 import { DestroyService, ItemDataService, MediaService } from '../../../../../../core/services';
 import { EditMediaForm, MediaFormHelperService } from '../../../../../../core/services/media-form-helper.service';
 import { DropdownOptionDto } from '../../../../../../core/dto/media';
-import { detectFormChange } from '../../../../../../core/utils';
+import { detectFormChange, fixNestedDialogFocus, openDialog } from '../../../../../../core/utils';
+import { MediaScannerImportComponent } from '../../../media-scanner-import';
 import { MediaStatus, MediaType } from '../../../../../../core/enums';
 import { ButtonModule } from 'primeng/button';
 import { FormHandlerDirective } from '../../../../../../shared/directives/form-directive/form-handler/form-handler.directive';
@@ -66,9 +67,10 @@ export class ConfigureMediaFormComponent implements OnInit {
 
   private tvControlsAdded: boolean = false;
 
-  constructor(private ref: ChangeDetectorRef, private mediaService: MediaService,
-    private itemDataService: ItemDataService, private mediaFormHelper: MediaFormHelperService,
-    private destroyService: DestroyService) {
+  constructor(@Inject(DOCUMENT) private document: Document, private ref: ChangeDetectorRef,
+    private mediaService: MediaService, private itemDataService: ItemDataService,
+    private mediaFormHelper: MediaFormHelperService, private dialogService: DialogService,
+    private renderer: Renderer2, private destroyService: DestroyService) {
     this.updateMediaForm = this.mediaFormHelper.buildEditMediaForm();
 
     // Patch the form reactively whenever media arrives/changes (initial load + socket REFRESH_MEDIA).
@@ -133,6 +135,29 @@ export class ConfigureMediaFormComponent implements OnInit {
   onUpdateMediaFormReset(): void {
     this.updateMediaForm.reset(this.updateMediaInitValue);
     this.detectUpdateMediaFormChange();
+  }
+
+  // Opens the provider-search dialog on top of the configure-media dialog; on pick, auto-fills the
+  // edit form (incl. externalIds) and re-snapshots the dirty baseline so the footer reflects the change.
+  openScannerImport(): void {
+    const type = this.media().type as MediaType;
+    const dialogRef = openDialog(this.dialogService, MediaScannerImportComponent, {
+      data: { type },
+      header: this.t()('admin.scannerImport.header'),
+      width: '560px',
+      modal: true,
+      dismissableMask: false,
+      styleClass: 'p-dialog-header-sm'
+    });
+    fixNestedDialogFocus(dialogRef, this.parentDialogRef(), this.dialogService, this.renderer, this.document);
+    dialogRef.onClose.pipe(first()).subscribe((details: ScannerMediaDetails | undefined) => {
+      if (!details) return;
+      this.mediaFormHelper.applyScannedData(this.updateMediaForm, details, type, this.languages)
+        .pipe(takeUntil(this.destroyService)).subscribe().add(() => {
+          this.detectUpdateMediaFormChange();
+          this.ref.markForCheck();
+        });
+    });
   }
 
   patchUpdateMediaForm(media: MediaDetails): void {

@@ -6,6 +6,12 @@
       @if (!media) {
         <form [formGroup]="createMediaForm" formHandler (ngSubmit)="onCreateMediaFormSubmit()">
           <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-16rem)] tw-px-6">
+            <div class="tw-flex tw-justify-end tw-mb-3">
+              <!-- a11y contrast: inline white until the tw-! important prefix is enabled -->
+              <button type="button" pButton class="p-button-sm p-button-outlined" style="color:#fff;border-color:rgba(255,255,255,0.6)" (click)="openScannerImport()">
+                <span class="ms ms-cloud-download tw-mr-1.5"></span>{{ t('admin.scannerImport.importButton') }}
+              </button>
+            </div>
             <div class="tw-flex tw-flex-wrap">
               <div class="tw-w-full md:tw-w-1/2">
                 <label for="title" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{

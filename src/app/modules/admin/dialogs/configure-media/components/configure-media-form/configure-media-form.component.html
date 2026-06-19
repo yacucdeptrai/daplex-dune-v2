@@ -1,4 +1,10 @@
-<p class="tw-text-white tw-font-bold tw-text-2xl">{{ t()('admin.configureMedia.general') }}</p>
+<div class="tw-flex tw-items-center tw-justify-between">
+  <p class="tw-text-white tw-font-bold tw-text-2xl">{{ t()('admin.configureMedia.general') }}</p>
+  <!-- a11y contrast: inline white until the tw-! important prefix is enabled -->
+  <button type="button" pButton class="p-button-sm p-button-outlined" style="color:#fff;border-color:rgba(255,255,255,0.6)" (click)="openScannerImport()">
+    <span class="ms ms-cloud-download tw-mr-1.5"></span>{{ t()('admin.scannerImport.importButton') }}
+  </button>
+</div>
 <div class="tw-mt-4 tw-mb-24">
   <form id="update-media-form" [formGroup]="updateMediaForm" formHandler (ngSubmit)="onUpdateMediaFormSubmit()">
     <div class="tw-flex tw-flex-wrap">

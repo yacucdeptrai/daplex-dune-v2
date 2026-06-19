@@ -2,10 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslocoService } from '@jsverse/transloco';
 import { of, throwError, config as rxConfig } from 'rxjs';
 
+import { DialogService } from 'primeng/dynamicdialog';
+
 import { ConfigureMediaFormComponent } from './configure-media-form.component';
 import { CollectionService, GenresService, ItemDataService, MediaService, ProductionsService, TagsService } from '../../../../../../core/services';
 import { MediaStatus, MediaType } from '../../../../../../core/enums';
-import { mockDynamicDialogRef, mockTranslocoService } from '../../../../../../../testing/test-helpers';
+import { mockDialogService, mockDynamicDialogRef, mockTranslocoService } from '../../../../../../../testing/test-helpers';
 
 /**
  * Characterization tests for the extracted ConfigureMediaFormComponent (General edit-form tab).
@@ -101,6 +103,7 @@ describe('ConfigureMediaFormComponent', () => {
         { provide: ProductionsService, useValue: productionsService },
         { provide: TagsService, useValue: tagsService },
         { provide: CollectionService, useValue: collectionService },
+        { provide: DialogService, useValue: mockDialogService() },
         { provide: TranslocoService, useValue: mockTranslocoService() }
       ]
     })

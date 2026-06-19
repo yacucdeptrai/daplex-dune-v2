@@ -1,0 +1,71 @@
+<ng-container *transloco="let t">
+  <div class="tw-px-4 tw-pt-3 tw-bg-neutral-800 tw-rounded-t">
+    <div class="tw-flex tw-gap-2 tw-mb-3">
+      <p-select styleClass="tw-w-32" [options]="providerOptions" [ngModel]="provider()"
+        (ngModelChange)="onProviderChange($event)" appendTo="body"
+        [ariaLabel]="t('admin.scannerImport.provider')"></p-select>
+      <p-select styleClass="tw-w-32" [options]="typeOptions" [ngModel]="type()"
+        (ngModelChange)="onTypeChange($event)" appendTo="body"
+        [ariaLabel]="t('admin.scannerImport.type')"></p-select>
+    </div>
+    <label for="scanner-query" class="tw-sr-only">{{ t('admin.scannerImport.searchLabel') }}</label>
+    <span class="p-input-icon-left tw-w-full tw-block">
+      <i class="ms ms-search"></i>
+      <input #searchInput id="scanner-query" type="text" class="tw-w-full" pInputText autofocus
+        [placeholder]="t('admin.scannerImport.searchPlaceholder')"
+        [ngModel]="query()" (ngModelChange)="onQueryInput($event)"
+        (keydown)="onKeydown($event)" (keyup)="onKeyup($event)"
+        role="combobox" aria-controls="scanner-results" aria-autocomplete="list"
+        [attr.aria-expanded]="results().length > 0"
+        [attr.aria-activedescendant]="selectedIndex() >= 0 ? 'scanner-result-' + selectedIndex() : null" />
+    </span>
+  </div>
+  <div pDialogContent class="tw-my-3 !tw-px-3 !tw-py-0">
+    @if (loading()) {
+      <div class="tw-w-4/5 tw-mx-auto tw-text-center tw-py-8">
+        <p>{{ t('admin.scannerImport.searching') }}</p>
+      </div>
+    } @else if (!query()) {
+      <div class="tw-w-4/5 tw-mx-auto tw-text-center tw-py-8">
+        <p>{{ t('admin.scannerImport.typeToSearch') }}</p>
+      </div>
+    } @else if (!results().length) {
+      <div class="tw-w-4/5 tw-mx-auto tw-text-center tw-py-8">
+        <p>{{ t('admin.scannerImport.noResults') }}</p>
+      </div>
+    } @else {
+      <ul id="scanner-results" role="listbox" class="tw-list-none tw-m-0 tw-p-0"
+        [attr.aria-label]="t('admin.scannerImport.resultsLabel')">
+        @for (media of results(); track media.id) {
+          <li #resultItem [id]="'scanner-result-' + $index" role="option" [attr.aria-selected]="selectedIndex() === $index" tabindex="0"
+            class="tw-group tw-flex tw-rounded tw-bg-neutral-875 hover:tw-bg-neutral-850 focus-visible:tw-shadow-focus-box tw-cursor-pointer tw-transition-colors tw-duration-200"
+            [class.tw-mt-2]="!$first" [class.tw-bg-neutral-850]="selectedIndex() === $index"
+            (mousemove)="selectedIndex.set($index)" (click)="pick(media)">
+            <div class="tw-w-14">
+              <div class="tw-aspect-w-2 tw-aspect-h-3 tw-rounded-sm tw-overflow-hidden">
+                @if (media.posterUrl) {
+                  <img class="tw-object-cover" [lazyLoad]="media.posterUrl" [alt]="media.title"
+                    errorImage="assets/images/media-poster-sm.png">
+                } @else {
+                  <img class="tw-object-cover" src="assets/images/media-poster-sm.png" loading="lazy" alt="">
+                }
+              </div>
+            </div>
+            <div class="tw-text-white tw-flex-1 tw-m-2 tw-text-sm">
+              <p class="tw-font-bold tw-whitespace-normal tw-line-clamp-2">{{ media.title }}</p>
+              @if (media.releaseDate) {
+                <div class="tw-flex tw-items-center tw-text-xs tw-text-gray-400 tw-mt-1">
+                  <span class="ms ms-calendar-today ms-icon-xs tw-mr-1.5"></span>
+                  <p class="tw-font-bold">{{ media.releaseDate }}</p>
+                </div>
+              }
+            </div>
+            @if (selectedIndex() === $index) {
+              <span class="ms ms-subdirectory-arrow-left tw-self-center tw-mr-3 tw-opacity-75"></span>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</ng-container>
