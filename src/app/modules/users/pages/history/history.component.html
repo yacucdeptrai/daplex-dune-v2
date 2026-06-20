@@ -24,10 +24,10 @@
               <p-datepicker formControlName="startDate" [maxDate]="maxCalendarDate" [readonlyInput]="false"
                 [baseZIndex]="100" [showIcon]="true" [appendTo]="dropdownZone"
                 [placeholder]="t('users.filterHistory.startDate')" class="tw-block" styleClass="tw-w-full tw-mt-2"
-              inputStyleClass="p-inputtext-xs" icon="ms ms-calendar-today"></p-datepicker>
+              inputStyleClass="p-inputtext-xs" panelStyleClass="history-datepicker-panel" icon="ms ms-calendar-today"></p-datepicker>
               <p-datepicker formControlName="endDate" [maxDate]="maxCalendarDate" [readonlyInput]="false" [baseZIndex]="100"
                 [showIcon]="true" [appendTo]="dropdownZone" [placeholder]="t('users.filterHistory.endDate')"
-                class="tw-block" styleClass="tw-w-full tw-mt-2" inputStyleClass="p-inputtext-xs"
+                class="tw-block" styleClass="tw-w-full tw-mt-2" inputStyleClass="p-inputtext-xs" panelStyleClass="history-datepicker-panel"
               icon="ms ms-calendar-today"></p-datepicker>
               <label class="tw-inline-block tw-text-base tw-font-medium tw-mt-2">{{
               t('users.filterHistory.mediaFilters') }}</label>
@@ -53,15 +53,15 @@
                 <div class="tw-w-full lg:tw-w-3/5">
                   <p-select formControlName="mediaOriginalLanguage" [options]="languages"
                     [overlayOptions]="{ baseZIndex: 100, appendTo: dropdownZone }" scrollHeight="300px" [showClear]="true"
-                    [placeholder]="t('users.filterHistory.mediaOriginalLanguage')" [virtualScroll]="true"
-                    [virtualScrollItemSize]="40.98" styleClass="tw-w-full p-select-xs">
+                    [placeholder]="t('users.filterHistory.mediaOriginalLanguage')"
+                    styleClass="tw-w-full p-select-xs">
                   </p-select>
                 </div>
                 <div class="tw-w-full lg:tw-w-2/5 lg:tw-pl-2 tw-mt-2 lg:tw-mt-0">
                   <p-select formControlName="mediaYear" [options]="yearOptions"
                     [overlayOptions]="{ baseZIndex: 100, appendTo: dropdownZone }" scrollHeight="300px" [showClear]="true"
-                    [placeholder]="t('users.filterHistory.mediaYear')" [virtualScroll]="true"
-                    [virtualScrollItemSize]="40.98" styleClass="tw-w-full p-select-xs">
+                    [placeholder]="t('users.filterHistory.mediaYear')"
+                    styleClass="tw-w-full p-select-xs">
                   </p-select>
                 </div>
               </div>

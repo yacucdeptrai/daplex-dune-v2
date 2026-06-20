@@ -242,6 +242,25 @@ p {
   display: none;
 }
 
+/* History date-picker panel: keep the month/year picker views the same width as the day view
+   (≈ the input) instead of ballooning to ~577px. v21 renamed the month/year grids, so the
+   oracle's v17 .p-monthpicker/.p-yearpicker rules no longer constrain them and the cells
+   render oversized — grid them to fit the panel width. */
+.history-datepicker-panel {
+  width: 20.5rem;
+  max-width: calc(100vw - 2rem);
+}
+.history-datepicker-panel .p-datepicker-month-view,
+.history-datepicker-panel .p-datepicker-year-view {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.history-datepicker-panel .p-datepicker-month,
+.history-datepicker-panel .p-datepicker-year {
+  width: auto;
+  min-width: 0;
+}
+
 /* Select dropdown scrollbars: the global thin scrollbar only targets <html>, so each
    dropdown's scroll container falls back to the OS scrollbar — on Windows that shows
    up/down arrow buttons. Match the app's thin, button-less scrollbar. */
