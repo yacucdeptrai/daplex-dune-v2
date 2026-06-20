@@ -55,7 +55,7 @@
         "ng-recaptcha": "13.2.1",
         "ngx-infinite-scroll": "21.0.0",
         "primeicons": "^7.0.0",
-        "primeng": "npm:@yacucdeptrai/primeng@21.1.9-F4",
+        "primeng": "npm:@yacucdeptrai/primeng@21.1.9-F6",
         "rxjs": "7.8.1",
         "socket.io-client": "4.7.5",
         "swiper": "12.2.0",

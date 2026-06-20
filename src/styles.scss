@@ -305,12 +305,13 @@ p {
 }
 /* Single checkmark: v21 renders the check as a Material Symbols glyph (.p-checkbox-icon.ms-check),
    but the legacy oracle still draws its own rotated border-tick via the box ::before — two
-   overlapping checks. Drop the oracle tick and colour the glyph white for one clean mark. */
+   overlapping checks. Drop the oracle tick and colour the glyph dark for one clean mark. */
 .p-checkbox.p-checkbox-checked .p-checkbox-box::before {
   display: none;
 }
 .p-checkbox.p-checkbox-checked .p-checkbox-box .p-checkbox-icon {
-  color: #fff;
+  color: #121212;
+  --wght: 700; /* bold Material Symbols check — the .ms font-variation-settings reads --wght */
 }
 /* Ripple shape: the oracle gives the host border-radius:50% + a 10px-spread halo (sized for the
    20px v17 host). The full-width fix above stretched that into a wide oval across the row. Drop it
