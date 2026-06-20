@@ -21,7 +21,7 @@ export function fixNestedDialogFocus(dialogRef: DynamicDialogRef | null, parent:
   if (dialogComponent) dialogComponent.unbindGlobalListeners();
   if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
   dialogRef.onDestroy.pipe(first()).subscribe(() => {
-    if (!dialogComponent?.dialog?.container()) return;
+    if (!dialogComponent?.container) return;
     blockScroll(renderer, document);
     dialogComponent.moveOnTop();
     dialogComponent.bindGlobalListeners();
