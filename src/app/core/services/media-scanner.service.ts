@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 
-import { Paginated, ScannerDetailsDto, ScannerEpisode, ScannerEpisodeDto, ScannerMedia, ScannerMediaDetails, ScannerSearchDto } from '../models';
+import { Paginated, ScannerDetailsDto, ScannerEpisode, ScannerEpisodeDto, ScannerImages, ScannerMedia, ScannerMediaDetails, ScannerSearchDto } from '../models';
 import { toTruthyHttpParams } from '../utils';
 
 // Raw GET media-scanner/:id shape. The server serializes studios/productions as Production objects
@@ -42,6 +42,10 @@ export class MediaScannerService {
     return this.http.get<ScannerEpisode>(`media-scanner/${id}/seasons/${season}/episodes/${episode}`, { params });
   }
 
-  // sub-slice 2 — image import:
-  // findImages(id: number, dto: ScannerDetailsDto) { return this.http.get<ScannerImages>(`media-scanner/${id}/images`, { params: toTruthyHttpParams(dto) }); }
+  // Provider poster/backdrop candidates. The server serializes the clean { posters, backdrops } shape
+  // with absolute fileUrls — no adapter needed (unlike findOne).
+  findImages(id: number, dto: ScannerDetailsDto) {
+    const params = toTruthyHttpParams(dto);
+    return this.http.get<ScannerImages>(`media-scanner/${id}/images`, { params });
+  }
 }

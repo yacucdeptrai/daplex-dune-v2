@@ -1,12 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Renderer2 } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { of, throwError } from 'rxjs';
+import { Subject, of, throwError } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 import { ConfigureMediaImagesComponent } from './configure-media-images.component';
-import { ConfirmActionService, MediaService } from '../../../../../../core/services';
+import { ConfirmActionService, MediaScannerService, MediaService } from '../../../../../../core/services';
 import { MediaSourceStatus, MediaStatus, MediaType } from '../../../../../../core/enums';
 import { mockDialogService, mockDynamicDialogRef, mockTranslocoService } from '../../../../../../../testing/test-helpers';
 
@@ -41,6 +42,7 @@ describe('ConfigureMediaImagesComponent', () => {
   let component: ConfigureMediaImagesComponent;
   let fixture: ComponentFixture<ConfigureMediaImagesComponent>;
   let mediaService: any;
+  let scannerService: any;
   let dialogService: any;
   let confirmationService: ConfirmationService;
 
@@ -48,8 +50,16 @@ describe('ConfigureMediaImagesComponent', () => {
     mediaService = {
       uploadPoster: jasmine.createSpy('uploadPoster').and.returnValue(of({ posterUrl: 'new-poster' })),
       uploadBackdrop: jasmine.createSpy('uploadBackdrop').and.returnValue(of({ backdropUrl: 'new-backdrop' })),
+      uploadPosterFromUrl: jasmine.createSpy('uploadPosterFromUrl').and.returnValue(of({ posterUrl: 'from-url-poster' })),
+      uploadBackdropFromUrl: jasmine.createSpy('uploadBackdropFromUrl').and.returnValue(of({ backdropUrl: 'from-url-backdrop' })),
       deletePoster: jasmine.createSpy('deletePoster').and.returnValue(of(undefined)),
       deleteBackdrop: jasmine.createSpy('deleteBackdrop').and.returnValue(of(undefined))
+    };
+    scannerService = {
+      findImages: jasmine.createSpy('findImages').and.returnValue(of({
+        posters: [{ aspectRatio: 0.667, height: 1500, width: 1000, fileUrl: 'https://image.tmdb.org/p.jpg' }],
+        backdrops: [{ aspectRatio: NaN, height: 720, width: 1280, fileUrl: 'https://artworks.thetvdb.com/b.jpg' }]
+      }))
     };
 
     return TestBed.configureTestingModule({
@@ -60,6 +70,7 @@ describe('ConfigureMediaImagesComponent', () => {
         ConfirmationService,
         ConfirmActionService,
         { provide: MediaService, useValue: mediaService },
+        { provide: MediaScannerService, useValue: scannerService },
         { provide: TranslocoService, useValue: mockTranslocoService() }
       ]
     })
@@ -240,5 +251,104 @@ describe('ConfigureMediaImagesComponent', () => {
     confirmSpy.calls.mostRecent().args[0].accept!();
     expect(setProp).toHaveBeenCalledWith(button, 'disabled', true);
     expect(setProp).toHaveBeenCalledWith(button, 'disabled', false);
+  });
+
+  // ── Import from provider ──────────────────────────────────────────────────
+  it('canImport is false with neither tmdb nor tvdb id (null-seeded externalIds)', async () => {
+    await create(makeMovieMedia({ externalIds: { imdb: '', tmdb: null, tvdb: null, aniList: null, mal: null } }));
+    expect(component.canImport).toBeFalse();
+  });
+
+  it('canImport is true when a tmdb id is present', async () => {
+    await create(makeMovieMedia({ externalIds: { tmdb: 603, tvdb: null } }));
+    expect(component.canImport).toBeTrue();
+  });
+
+  it('canImport is true when only a tvdb id is present (tmdb falsy)', async () => {
+    await create(makeMovieMedia({ externalIds: { tmdb: 0, tvdb: 1234 } }));
+    expect(component.canImport).toBeTrue();
+  });
+
+  it('onImportPoster no-ops when no external id is set', async () => {
+    await create(makeMovieMedia({ externalIds: { tmdb: null, tvdb: null } }));
+    component.onImportPoster();
+    expect(scannerService.findImages).not.toHaveBeenCalled();
+  });
+
+  it('onImportPoster fetches tmdb posters, opens the chooser, and on pick uploads + emits merged media + updated', async () => {
+    await create(makeMovieMedia({ externalIds: { tmdb: 603, tvdb: null } }));
+    dialogService.open.and.returnValue({ ...mockDynamicDialogRef(), onClose: of('https://image.tmdb.org/p.jpg') });
+    let merged: any; let updated = false;
+    component.mediaChange.subscribe(m => (merged = m));
+    component.updated.subscribe(() => (updated = true));
+
+    component.onImportPoster();
+
+    const [id, dto] = scannerService.findImages.calls.mostRecent().args;
+    expect(id).toBe(603);
+    expect(dto.provider).toBe('tmdb');
+    expect(dto.type).toBe(MediaType.MOVIE);
+    expect(dialogService.open).toHaveBeenCalled();
+    const cfg = dialogService.open.calls.mostRecent().args[1];
+    expect(cfg.data.kind).toBe('poster');
+    expect(cfg.data.items.length).toBe(1);
+    expect(mediaService.uploadPosterFromUrl).toHaveBeenCalledWith(MEDIA_ID, 'https://image.tmdb.org/p.jpg');
+    expect(merged.posterUrl).toBe('from-url-poster');
+    expect(updated).toBeTrue();
+    expect(component.isImportingPoster).toBeFalse();
+  });
+
+  it('onImportPoster does not upload, and clears the loading flag, when the chooser is dismissed without a pick', async () => {
+    await create(makeMovieMedia({ externalIds: { tmdb: 603, tvdb: null } }));
+    dialogService.open.and.returnValue({ ...mockDynamicDialogRef(), onClose: of(undefined) });
+    component.onImportPoster();
+    expect(scannerService.findImages).toHaveBeenCalled();
+    expect(mediaService.uploadPosterFromUrl).not.toHaveBeenCalled();
+    expect(component.isImportingPoster).toBeFalse();
+  });
+
+  // M1: the loading flag must span fetch -> async chooser-close -> upload as one phase. Uses a deferred
+  // onClose (Subject) + a delayed upload so the two-phase lifecycle is actually exercised (a synchronous
+  // `of(...)` onClose, as the other specs use, would let the bug through).
+  it('keeps isImportingPoster true across the async chooser-close and the upload, clearing only when the upload settles', fakeAsync(async () => {
+    await create(makeMovieMedia({ externalIds: { tmdb: 603, tvdb: null } }));
+    const onClose$ = new Subject<string>();
+    dialogService.open.and.returnValue({ ...mockDynamicDialogRef(), onClose: onClose$.asObservable() });
+    mediaService.uploadPosterFromUrl.and.returnValue(of({ posterUrl: 'from-url-poster' }).pipe(delay(10)));
+
+    component.onImportPoster();
+    // fetch resolved synchronously, chooser open, nothing picked yet -> flag held
+    expect(component.isImportingPoster).withContext('held while chooser open').toBeTrue();
+    expect(mediaService.uploadPosterFromUrl).not.toHaveBeenCalled();
+
+    onClose$.next('https://image.tmdb.org/p.jpg');
+    onClose$.complete();
+    // upload in flight -> flag still held
+    expect(mediaService.uploadPosterFromUrl).toHaveBeenCalledWith(MEDIA_ID, 'https://image.tmdb.org/p.jpg');
+    expect(component.isImportingPoster).withContext('held during upload').toBeTrue();
+
+    tick(10);
+    // upload settled -> single clear
+    expect(component.isImportingPoster).withContext('cleared after upload').toBeFalse();
+  }));
+
+  it('onImportBackdrop uploads from the chosen url and emits merged media WITHOUT updated', async () => {
+    await create(makeMovieMedia({ externalIds: { tmdb: 0, tvdb: 1234 } }));
+    dialogService.open.and.returnValue({ ...mockDynamicDialogRef(), onClose: of('https://artworks.thetvdb.com/b.jpg') });
+    let merged: any; let updated = false;
+    component.mediaChange.subscribe(m => (merged = m));
+    component.updated.subscribe(() => (updated = true));
+
+    component.onImportBackdrop();
+
+    const [id, dto] = scannerService.findImages.calls.mostRecent().args;
+    expect(id).toBe(1234);
+    expect(dto.provider).toBe('tvdb');
+    const cfg = dialogService.open.calls.mostRecent().args[1];
+    expect(cfg.data.kind).toBe('backdrop');
+    expect(mediaService.uploadBackdropFromUrl).toHaveBeenCalledWith(MEDIA_ID, 'https://artworks.thetvdb.com/b.jpg');
+    expect(merged.backdropUrl).toBe('from-url-backdrop');
+    expect(updated).toBeFalse();
+    expect(component.isImportingBackdrop).toBeFalse();
   });
 });

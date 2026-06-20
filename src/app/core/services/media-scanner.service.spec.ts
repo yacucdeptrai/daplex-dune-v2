@@ -79,4 +79,35 @@ describe('MediaScannerService', () => {
     expect(result.studios).toEqual([]);
     expect(result.producers).toEqual([]);
   });
+
+  it('findImages GETs media-scanner/:id/images with provider + type params', () => {
+    service.findImages(42, { provider: 'tmdb', type: 'movie', language: 'en-US' }).subscribe();
+    const req = httpMock.expectOne(r => r.url === 'media-scanner/42/images');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.params.get('provider')).toBe('tmdb');
+    expect(req.request.params.get('type')).toBe('movie');
+    expect(req.request.params.get('language')).toBe('en-US');
+    req.flush({ posters: [], backdrops: [] });
+  });
+
+  it('findImages omits a falsy language (toTruthyHttpParams drops it)', () => {
+    service.findImages(7, { provider: 'tvdb', type: 'tv' }).subscribe();
+    const req = httpMock.expectOne(r => r.url === 'media-scanner/7/images');
+    expect(req.request.params.has('language')).toBeFalse();
+    req.flush({ posters: [], backdrops: [] });
+  });
+
+  // The model reads the URL as fileUrl (not filePath); the server serializes the clean shape -> no adapter.
+  it('findImages returns the { posters, backdrops } shape with fileUrl items (incl. NaN aspectRatio)', () => {
+    let result: any;
+    service.findImages(1, { provider: 'tvdb', type: 'tv' }).subscribe(r => (result = r));
+    httpMock.expectOne(r => r.url === 'media-scanner/1/images').flush({
+      posters: [{ aspectRatio: 0.667, height: 1500, width: 1000, fileUrl: 'https://image.tmdb.org/p.jpg' }],
+      backdrops: [{ aspectRatio: NaN, height: 720, width: 1280, fileUrl: 'https://artworks.thetvdb.com/b.jpg' }]
+    });
+    expect(result.posters[0].fileUrl).toBe('https://image.tmdb.org/p.jpg');
+    expect(result.posters[0].filePath).toBeUndefined();
+    expect(result.backdrops[0].fileUrl).toBe('https://artworks.thetvdb.com/b.jpg');
+    expect(Number.isNaN(result.backdrops[0].aspectRatio)).toBeTrue();
+  });
 });

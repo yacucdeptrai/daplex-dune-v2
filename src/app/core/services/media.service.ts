@@ -100,6 +100,12 @@ export class MediaService {
     return this.http.patch<MediaDetails>(`media/${id}/poster`, data).pipe(tap(() => this.invalidateHomeMediaCache()));
   }
 
+  // Server-side import from a provider URL. JSON { url } body (not FormData) so the interceptor's
+  // url branch reads req.body.url; same MediaDetails return + cache-bust as the multipart upload.
+  uploadPosterFromUrl(id: string, url: string) {
+    return this.http.patch<MediaDetails>(`media/${id}/poster`, { url }).pipe(tap(() => this.invalidateHomeMediaCache()));
+  }
+
   deletePoster(id: string) {
     return this.http.delete(`media/${id}/poster`);
   }
@@ -110,6 +116,10 @@ export class MediaService {
     const data = new FormData();
     data.set('file', backdrop, name);
     return this.http.patch<MediaDetails>(`media/${id}/backdrop`, data).pipe(tap(() => this.invalidateHomeMediaCache()));
+  }
+
+  uploadBackdropFromUrl(id: string, url: string) {
+    return this.http.patch<MediaDetails>(`media/${id}/backdrop`, { url }).pipe(tap(() => this.invalidateHomeMediaCache()));
   }
 
   deleteBackdrop(id: string) {

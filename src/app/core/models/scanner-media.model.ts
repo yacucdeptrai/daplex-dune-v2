@@ -80,3 +80,18 @@ export interface ScannerEpisodeDto {
   provider?: string;
   language?: string;
 }
+
+// GET media-scanner/:id/images — provider image candidates. fileUrl is the absolute provider URL
+// (image.tmdb.org / artworks.thetvdb.com); aspectRatio can be NaN (TVDB). The chosen fileUrl is sent
+// as the { url } PATCH body to media/:id/poster|backdrop.
+export interface ScannerImageItem {
+  aspectRatio: number;   // may be NaN (TVDB)
+  height: number;
+  width: number;
+  fileUrl: string;       // absolute provider URL — the value sent as { url }
+}
+
+export interface ScannerImages {
+  posters: ScannerImageItem[];
+  backdrops: ScannerImageItem[];
+}

@@ -3,17 +3,19 @@ import { TranslocoService, TranslocoTranslateFn } from '@jsverse/transloco';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, first } from 'rxjs';
 
-import { MediaDetails } from '../../../../../../core/models';
-import { ConfirmActionService, MediaService } from '../../../../../../core/services';
+import { MediaDetails, ScannerImageItem } from '../../../../../../core/models';
+import { ConfirmActionService, MediaScannerService, MediaService } from '../../../../../../core/services';
 import { ImageEditorComponent, ImageEditorConfig } from '../../../../../../shared/dialogs/image-editor';
 import { openDialog, dataURItoBlob, fixNestedDialogFocus, translocoEscape } from '../../../../../../core/utils';
-import { AppErrorCode } from '../../../../../../core/enums';
+import { AppErrorCode, MediaType } from '../../../../../../core/enums';
+import { MediaImageChooserComponent } from '../../../media-image-chooser/media-image-chooser.component';
 import {
   IMAGE_PREVIEW_SIZE, UPLOAD_POSTER_SIZE, UPLOAD_BACKDROP_SIZE, UPLOAD_POSTER_MIN_WIDTH, UPLOAD_POSTER_MIN_HEIGHT,
   UPLOAD_BACKDROP_MIN_WIDTH, UPLOAD_BACKDROP_MIN_HEIGHT, UPLOAD_POSTER_ASPECT_WIDTH, UPLOAD_POSTER_ASPECT_HEIGHT,
   UPLOAD_BACKDROP_ASPECT_WIDTH, UPLOAD_BACKDROP_ASPECT_HEIGHT
 } from '../../../../../../../environments/config';
 import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ThumbhashUrlPipe } from '../../../../../../shared/pipes/placeholder-pipe/thumbhash-url/thumbhash-url.pipe';
 
@@ -25,7 +27,7 @@ import { ThumbhashUrlPipe } from '../../../../../../shared/pipes/placeholder-pip
   selector: 'app-configure-media-images',
   templateUrl: './configure-media-images.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonModule, LazyLoadImageModule, ThumbhashUrlPipe]
+  imports: [ButtonModule, TooltipModule, LazyLoadImageModule, ThumbhashUrlPipe]
 })
 export class ConfigureMediaImagesComponent {
   media = input.required<MediaDetails>();
@@ -36,6 +38,8 @@ export class ConfigureMediaImagesComponent {
 
   isUpdatingPoster: boolean = false;
   isUpdatingBackdrop: boolean = false;
+  isImportingPoster: boolean = false;
+  isImportingBackdrop: boolean = false;
   posterPreviewName?: string;
   backdropPreviewName?: string;
   posterPreviewUri?: string;
@@ -43,7 +47,21 @@ export class ConfigureMediaImagesComponent {
 
   constructor(@Inject(DOCUMENT) private document: Document, private ref: ChangeDetectorRef, private renderer: Renderer2,
     private dialogService: DialogService, private confirmAction: ConfirmActionService,
-    private mediaService: MediaService, private translocoService: TranslocoService) { }
+    private mediaService: MediaService, private mediaScannerService: MediaScannerService,
+    private translocoService: TranslocoService) { }
+
+  // Provider resolution for the import-from-provider action. The ids type as number but seed null in
+  // practice, so falsy is treated as absent; tmdb is preferred over tvdb (matches scanEpisode/import).
+  private resolveProvider(): { provider: string; providerId: number } | null {
+    const ids = this.media().externalIds;
+    if (ids?.tmdb) return { provider: 'tmdb', providerId: ids.tmdb };
+    if (ids?.tvdb) return { provider: 'tvdb', providerId: ids.tvdb };
+    return null;
+  }
+
+  get canImport(): boolean {
+    return this.resolveProvider() !== null;
+  }
 
   onInputPosterChange(event: Event): void {
     const element = <HTMLInputElement>event.target;
@@ -92,6 +110,103 @@ export class ConfigureMediaImagesComponent {
     });
     fixNestedDialogFocus(dialogRef, this.parentDialogRef(), this.dialogService, this.renderer, this.document);
     return dialogRef.onClose.pipe(first());
+  }
+
+  onImportPoster(): void {
+    const resolved = this.resolveProvider();
+    if (!resolved || this.isImportingPoster) return;
+    this.isImportingPoster = true;
+    const media = this.media();
+    // The flag spans fetch -> async chooser -> upload as one phase. Once the chooser opens it owns the
+    // flag (the onClose handler clears on dismiss; applyImportedPoster clears when the upload settles);
+    // the findImages finalizer only clears when no chooser opened (the fetch errored).
+    let chooserOpened = false;
+    this.mediaScannerService.findImages(resolved.providerId, { provider: resolved.provider, type: media.type as MediaType })
+      .pipe(first()).subscribe({
+        next: (images) => {
+          chooserOpened = true;
+          this.openChooser('poster', images.posters).subscribe(fileUrl => {
+            if (fileUrl) {
+              this.applyImportedPoster(media, fileUrl);
+            } else {
+              this.isImportingPoster = false;
+              this.ref.markForCheck();
+            }
+          });
+        }
+      }).add(() => {
+        if (!chooserOpened) {
+          this.isImportingPoster = false;
+          this.ref.markForCheck();
+        }
+      });
+  }
+
+  onImportBackdrop(): void {
+    const resolved = this.resolveProvider();
+    if (!resolved || this.isImportingBackdrop) return;
+    this.isImportingBackdrop = true;
+    const media = this.media();
+    let chooserOpened = false;
+    this.mediaScannerService.findImages(resolved.providerId, { provider: resolved.provider, type: media.type as MediaType })
+      .pipe(first()).subscribe({
+        next: (images) => {
+          chooserOpened = true;
+          this.openChooser('backdrop', images.backdrops).subscribe(fileUrl => {
+            if (fileUrl) {
+              this.applyImportedBackdrop(media, fileUrl);
+            } else {
+              this.isImportingBackdrop = false;
+              this.ref.markForCheck();
+            }
+          });
+        }
+      }).add(() => {
+        if (!chooserOpened) {
+          this.isImportingBackdrop = false;
+          this.ref.markForCheck();
+        }
+      });
+  }
+
+  // Opens the provider-image chooser focus-trapped over the configure-media dialog (same wiring as
+  // editImage) and resolves with the chosen fileUrl (or undefined on dismiss).
+  private openChooser(kind: 'poster' | 'backdrop', items: ScannerImageItem[]): Observable<string | undefined> {
+    const dialogRef = openDialog(this.dialogService, MediaImageChooserComponent, {
+      data: { items, kind },
+      header: this.translocoService.translate('admin.imageChooser.header'),
+      width: '700px',
+      modal: true,
+      dismissableMask: false,
+      styleClass: 'p-dialog-header-sm'
+    });
+    fixNestedDialogFocus(dialogRef, this.parentDialogRef(), this.dialogService, this.renderer, this.document);
+    return dialogRef.onClose.pipe(first());
+  }
+
+  // The import flag is already set by the opener and held across the async chooser close; this owns
+  // the single clear when the upload settles.
+  private applyImportedPoster(media: MediaDetails, fileUrl: string): void {
+    this.mediaService.uploadPosterFromUrl(media._id, fileUrl).subscribe({
+      next: (paritalMedia) => {
+        this.mediaChange.emit({ ...media, ...paritalMedia });
+        this.updated.emit();
+      }
+    }).add(() => {
+      this.isImportingPoster = false;
+      this.ref.markForCheck();
+    });
+  }
+
+  private applyImportedBackdrop(media: MediaDetails, fileUrl: string): void {
+    this.mediaService.uploadBackdropFromUrl(media._id, fileUrl).subscribe({
+      next: (paritalMedia) => {
+        this.mediaChange.emit({ ...media, ...paritalMedia });
+      }
+    }).add(() => {
+      this.isImportingBackdrop = false;
+      this.ref.markForCheck();
+    });
   }
 
   onUpdatePosterSubmit(): void {

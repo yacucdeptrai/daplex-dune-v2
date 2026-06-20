@@ -140,6 +140,17 @@ p {
   min-width: 5rem;
 }
 
+/* ── Image chooser grid — provider poster/backdrop picker ─────────────────────
+   Responsive thumbnail grid for the import-from-provider dialog. Grid `gap` is
+   iOS-13-safe (only flex `gap` lacks support); auto-fill keeps cells uniform as
+   the dialog narrows. Each cell drives its own fixed aspect box (never the
+   provider's aspectRatio, which is NaN for TVDB) so the grid never shifts. */
+.app-image-chooser-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  gap: 0.75rem;
+}
+
 /* ── App icon button — dark-mode visibility guard ─────────────────────────────
    Icon glyphs (material-symbols `.ms`, primeicons `.pi`) paint with currentColor, so
    a button whose color resolves dark leaves the glyph invisible on a dark surface.

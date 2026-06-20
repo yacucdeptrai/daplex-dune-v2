@@ -83,6 +83,13 @@
     "noResults": "Không tìm thấy kết quả",
     "resultsLabel": "Kết quả từ nhà cung cấp"
   },
+  "imageChooser": {
+    "header": "Chọn một hình ảnh",
+    "empty": "Không tìm thấy hình ảnh",
+    "gridLabel": "Tùy chọn hình ảnh từ nhà cung cấp",
+    "posterOption": "Tùy chọn áp phích {{ index }}",
+    "backdropOption": "Tùy chọn ảnh nền {{ index }}"
+  },
   "createMedia": {
     "movieStep1": "Thông Tin Chi Tiết",
     "movieStep2": "Dữ Liệu Phim",
@@ -166,6 +173,8 @@
     "saveImage": "Save",
     "cancelUploadImage": "Cancel",
     "deleteImage": "Remove",
+    "importFromProvider": "Nhập từ nhà cung cấp",
+    "importDisabledHint": "Đặt ID TMDB hoặc TVDB cho phương tiện để nhập hình ảnh từ nhà cung cấp.",
     "addVideo": "Add Video",
     "updateVideo": "Edit",
     "deleteVideo": "Delete",

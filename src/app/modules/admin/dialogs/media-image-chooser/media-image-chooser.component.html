@@ -1,0 +1,35 @@
+<ng-container *transloco="let t">
+  <div pDialogContent class="tw-my-3 !tw-px-3 !tw-py-0">
+    @if (!items.length) {
+      <div class="tw-w-4/5 tw-mx-auto tw-text-center tw-py-8">
+        <p class="tw-text-gray-300">{{ t('admin.imageChooser.empty') }}</p>
+      </div>
+    } @else {
+      <ul id="image-chooser-grid" role="listbox" class="app-image-chooser-grid tw-list-none tw-m-0 tw-p-0"
+        [attr.aria-label]="t('admin.imageChooser.gridLabel')"
+        [attr.aria-activedescendant]="selectedIndex() >= 0 ? 'image-chooser-option-' + selectedIndex() : null"
+        (keydown)="onKeydown($event)" (keyup)="onKeyup($event)">
+        @for (item of items; track $index) {
+          <li #imageItem [id]="'image-chooser-option-' + $index" role="option" tabindex="0"
+            [attr.aria-selected]="selectedIndex() === $index"
+            class="tw-group tw-rounded-lg tw-overflow-hidden tw-bg-neutral-875 tw-cursor-pointer tw-transition-shadow tw-duration-200 hover:tw-shadow-lg focus-visible:tw-shadow-focus-box"
+            [class.tw-shadow-focus-box]="selectedIndex() === $index"
+            (mouseenter)="selectedIndex.set($index)" (click)="pick(item)">
+            <div [class.tw-aspect-w-2]="kind === 'poster'" [class.tw-aspect-h-3]="kind === 'poster'"
+              [class.tw-aspect-w-16]="kind === 'backdrop'" [class.tw-aspect-h-9]="kind === 'backdrop'">
+              @if (kind === 'poster') {
+                <img class="tw-object-cover" [lazyLoad]="item.fileUrl"
+                  [alt]="t('admin.imageChooser.posterOption', { index: $index + 1 })"
+                  errorImage="assets/images/media-poster-error-md.png">
+              } @else {
+                <img class="tw-object-cover" [lazyLoad]="item.fileUrl"
+                  [alt]="t('admin.imageChooser.backdropOption', { index: $index + 1 })"
+                  errorImage="assets/images/media-backdrop-error-md.png">
+              }
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</ng-container>

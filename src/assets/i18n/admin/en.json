@@ -83,6 +83,13 @@
     "noResults": "No results found",
     "resultsLabel": "Provider results"
   },
+  "imageChooser": {
+    "header": "Choose an image",
+    "empty": "No images found",
+    "gridLabel": "Provider image options",
+    "posterOption": "Poster option {{ index }}",
+    "backdropOption": "Backdrop option {{ index }}"
+  },
   "createMedia": {
     "movieStep1": "Details",
     "movieStep2": "Movie Elements",
@@ -167,6 +174,8 @@
     "saveImage": "Save",
     "cancelUploadImage": "Cancel",
     "deleteImage": "Remove",
+    "importFromProvider": "Import from provider",
+    "importDisabledHint": "Set a TMDB or TVDB id on the media to import images from a provider.",
     "addVideo": "Add Video",
     "updateVideo": "Edit",
     "deleteVideo": "Delete",
