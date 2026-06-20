@@ -303,6 +303,26 @@ p {
   background: #526ed3;
   border-color: #526ed3;
 }
+/* Single checkmark: v21 renders the check as a Material Symbols glyph (.p-checkbox-icon.ms-check),
+   but the legacy oracle still draws its own rotated border-tick via the box ::before — two
+   overlapping checks. Drop the oracle tick and colour the glyph white for one clean mark. */
+.p-checkbox.p-checkbox-checked .p-checkbox-box::before {
+  display: none;
+}
+.p-checkbox.p-checkbox-checked .p-checkbox-box .p-checkbox-icon {
+  color: #fff;
+}
+/* Ripple shape: the oracle gives the host border-radius:50% + a 10px-spread halo (sized for the
+   20px v17 host). The full-width fix above stretched that into a wide oval across the row. Drop it
+   on the host and keep a contained focus outline on the 20px box for keyboard a11y. */
+.p-checkbox.tw-w-full {
+  border-radius: 0;
+  box-shadow: none !important;
+}
+.p-checkbox.tw-w-full.p-checkbox-focused .p-checkbox-box {
+  outline: 2px solid rgba(82, 110, 211, 0.8);
+  outline-offset: 2px;
+}
 
 /* Select dropdown scrollbars: the global thin scrollbar only targets <html>, so each
    dropdown's scroll container falls back to the OS scrollbar — on Windows that shows
