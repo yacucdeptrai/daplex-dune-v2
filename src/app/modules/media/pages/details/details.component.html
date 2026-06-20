@@ -233,12 +233,12 @@
             </ng-template>
             <ng-template #genreList let-genreListStyleClass="genreListStyleClass">
               @if (media.genres.length) {
-                <div class="tw-text-white tw-flex tw-flex-wrap tw-space-x-1 tw-space-y-1"
+                <div class="tw-text-white tw-flex tw-flex-wrap tw-items-center -tw-m-0.5"
                   [ngClass]="genreListStyleClass">
-                  @for (genre of media.genres; track track_Id($index, genre); let first = $first) {
+                  @for (genre of media.genres; track track_Id($index, genre)) {
                     <p-tag [value]="genre.name"
                       [link]="['/list', 'genre', genre._id]"
-                    styleClass="p-tag-secondary tw-text-sm tw-font-medium tw-px-2.5 tw-rounded-full"></p-tag>
+                    styleClass="p-tag-secondary tw-text-sm tw-font-medium tw-px-2.5 tw-rounded-full tw-m-0.5"></p-tag>
                   }
                 </div>
               } @else {
