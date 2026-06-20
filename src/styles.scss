@@ -281,19 +281,12 @@ p {
   padding-left: 2.5rem;
 }
 
-/* Table paginator: center the "Showing X to Y of Z entries" report. It's the first flex child,
-   so the right-aligned page controls otherwise leave it off-center. Pin it to the paginator
-   center on >=md; on small screens it stays in flow so it can't overlap the wrapped controls. */
-@media (min-width: 768px) {
-  .p-paginator {
-    position: relative;
-  }
-  .p-paginator .p-paginator-current {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
+/* Paginator "Showing … entries" report: the element is a 48px-tall block with a 24px
+   line-height, so its text rode at the top of the box while the page buttons centre their
+   glyphs. Centre the text so the whole row sits on one line. */
+.p-paginator .p-paginator-current {
+  display: flex;
+  align-items: center;
 }
 
 /* Select dropdown scrollbars: the global thin scrollbar only targets <html>, so each
