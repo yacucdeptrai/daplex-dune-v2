@@ -281,6 +281,21 @@ p {
   padding-left: 2.5rem;
 }
 
+/* Table paginator: center the "Showing X to Y of Z entries" report. It's the first flex child,
+   so the right-aligned page controls otherwise leave it off-center. Pin it to the paginator
+   center on >=md; on small screens it stays in flow so it can't overlap the wrapped controls. */
+@media (min-width: 768px) {
+  .p-paginator {
+    position: relative;
+  }
+  .p-paginator .p-paginator-current {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
 /* Select dropdown scrollbars: the global thin scrollbar only targets <html>, so each
    dropdown's scroll container falls back to the OS scrollbar — on Windows that shows
    up/down arrow buttons. Match the app's thin, button-less scrollbar. */
