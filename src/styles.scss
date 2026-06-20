@@ -11,8 +11,13 @@
 @import "./assets/css/vidstack/sliders.scss";
 @import "./assets/css/vidstack/captions.scss";
 
-/* PrimeNG — theme is the -F4 preset + fork BaseStyle (legacy oracle import dropped at cutover) */
+/* PrimeNG — theme is the -F4 preset + fork BaseStyle, with the legacy md-dark-indigo-custom.css
+   re-enabled as a transitional un-layered override. The preset's per-component tier-3 colors
+   (secondary/muted/text-button colors, --font-family/--maskbg vars) still inherit Material's
+   zinc ramp instead of the legacy white-alpha values; the oracle (un-layered, so it beats the
+   preset's @layer primeng) masks that gap until tier-3 is pinned in the preset. */
 @import "../node_modules/primeicons/primeicons.css";
+@import "./assets/css/primeng/md-dark-indigo-custom.css";
 
 /* Tailwind */
 @import "../node_modules/tailwindcss/base";
