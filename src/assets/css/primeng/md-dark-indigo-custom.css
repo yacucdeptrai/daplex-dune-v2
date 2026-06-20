@@ -1619,65 +1619,6 @@ p-password.p-password-clearable.p-password-mask .p-password-clear-icon {
   right: 3rem;
 }
 
-.p-radiobutton {
-  width: 20px;
-  height: 20px;
-}
-.p-radiobutton .p-radiobutton-box {
-  border: 2px solid rgba(255, 255, 255, 0.7);
-  background: #1e1e1e;
-  width: 20px;
-  height: 20px;
-  color: rgba(255, 255, 255, 0.87);
-  border-radius: 50%;
-  transition: background-color 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s, background-size 0.2s cubic-bezier(0.64, 0.09, 0.08, 1);
-}
-.p-radiobutton .p-radiobutton-box:not(.p-disabled):not(.p-highlight):hover {
-  border-color: rgba(255, 255, 255, 0.6);
-}
-.p-radiobutton .p-radiobutton-box:not(.p-disabled).p-focus {
-  outline: 0 none;
-  outline-offset: 0;
-  box-shadow: none;
-  border-color: #526ED3;
-}
-.p-radiobutton .p-radiobutton-box .p-radiobutton-icon {
-  width: 10px;
-  height: 10px;
-  transition-duration: 0.2s;
-  background-color: #526ED3;
-}
-.p-radiobutton .p-radiobutton-box.p-highlight {
-  border-color: #526ED3;
-  background: #121212;
-}
-.p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover {
-  border-color: #526ED3;
-  background: #121212;
-  color: #526ED3;
-}
-
-p-radiobutton.ng-dirty.ng-invalid > .p-radiobutton > .p-radiobutton-box {
-  border-color: #f44435;
-}
-
-.p-input-filled .p-radiobutton .p-radiobutton-box {
-  background-color: rgba(255, 255, 255, 0.06);
-}
-.p-input-filled .p-radiobutton .p-radiobutton-box:not(.p-disabled):hover {
-  background-color: rgba(255, 255, 255, 0.08);
-}
-.p-input-filled .p-radiobutton .p-radiobutton-box.p-highlight {
-  background: #121212;
-}
-.p-input-filled .p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover {
-  background: #121212;
-}
-
-.p-radiobutton-label {
-  margin-left: 0.5rem;
-}
-
 .p-rating {
   gap: 0.5rem;
 }
@@ -7291,39 +7232,6 @@ p-multiselect.ng-dirty.ng-invalid .p-multiselect:not(.p-disabled).p-focus {
 }
 .p-progressbar .p-progressbar-label {
   display: none !important;
-}
-
-.p-radiobutton {
-  border-radius: 50%;
-  transition: box-shadow 0.2s;
-}
-.p-radiobutton .p-radiobutton-box:not(.p-disabled):not(.p-highlight):hover {
-  border: 2px solid rgba(255, 255, 255, 0.7);
-}
-.p-radiobutton .p-radiobutton-box:not(.p-disabled).p-focus {
-  border: 2px solid rgba(255, 255, 255, 0.7);
-}
-.p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled).p-focus {
-  border-color: #526ED3;
-}
-.p-radiobutton:not(.p-radiobutton-disabled):hover {
-  box-shadow: 0 0 1px 10px rgba(255, 255, 255, 0.04);
-}
-.p-radiobutton:not(.p-radiobutton-disabled).p-radiobutton-focused {
-  box-shadow: 0 0 1px 10px rgba(255, 255, 255, 0.12);
-}
-.p-radiobutton.p-radiobutton-checked:not(.p-radiobutton-disabled):hover {
-  box-shadow: 0 0 1px 10px rgba(82, 110, 211, 0.04);
-}
-.p-radiobutton.p-radiobutton-checked:not(.p-radiobutton-disabled).p-radiobutton-focused {
-  box-shadow: 0 0 1px 10px rgba(82, 110, 211, 0.12);
-}
-
-.p-input-filled .p-radiobutton .p-radiobutton-box {
-  background-color: #1e1e1e;
-}
-.p-input-filled .p-radiobutton .p-radiobutton-box:not(.p-disabled):hover {
-  background-color: #1e1e1e;
 }
 
 .p-rating .p-rating-icon {
