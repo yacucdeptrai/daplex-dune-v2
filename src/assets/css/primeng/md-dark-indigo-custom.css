@@ -312,11 +312,6 @@
   font-weight: normal;
 }
 
-.p-component-overlay {
-  background-color: rgba(0, 0, 0, 0.32);
-  transition-duration: 0.2s;
-}
-
 .p-disabled, .p-component:disabled {
   opacity: 0.38;
 }
