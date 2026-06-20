@@ -48,6 +48,7 @@ export class CollectionMediaListComponent implements OnInit, OnDestroy {
       header: this.translocoService.translate('media.playlists.addToPlaylists'),
       width: '320px',
       modal: true,
+      closable: true,
       dismissableMask: true,
       styleClass: 'p-dialog-header-sm'
     });

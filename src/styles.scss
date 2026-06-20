@@ -289,6 +289,21 @@ p {
   align-items: center;
 }
 
+/* Full-width checkbox rows (add-to-playlist): v21's .p-checkbox sets a fixed box-sized width
+   that beats the @layer tw-w-full utility, collapsing the row — the label truncated to nothing
+   and the trailing visibility icon overflowed past the right edge. Honour tw-w-full so the flex
+   row spans the dialog and the icon's tw-flex-1/tw-text-right can right-align it. */
+.p-checkbox.tw-w-full {
+  width: 100%;
+}
+/* Checked fill: the legacy oracle only colours .p-checkbox-box.p-highlight (v17 put the marker
+   on the box); v21 marks the HOST (.p-checkbox-checked), so checked boxes stayed dark. Re-apply
+   the accent on the v21 checked box. */
+.p-checkbox.p-checkbox-checked .p-checkbox-box {
+  background: #526ed3;
+  border-color: #526ed3;
+}
+
 /* Select dropdown scrollbars: the global thin scrollbar only targets <html>, so each
    dropdown's scroll container falls back to the OS scrollbar — on Windows that shows
    up/down arrow buttons. Match the app's thin, button-less scrollbar. */
