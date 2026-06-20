@@ -261,6 +261,26 @@ p {
   min-width: 0;
 }
 
+/* Search inputs (p-input-icon-left): v21 dropped the "icon inside the input" behavior of
+   this v17 class (replaced by <p-iconfield>), so the leading magnifying-glass icon floated
+   above the field. Restore it — the wrapper is the positioning context, the icon sits
+   absolutely centered at the left, and the input gets left padding to clear it. */
+.p-input-icon-left {
+  position: relative;
+  display: block;
+}
+.p-input-icon-left > i {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+  line-height: 1;
+  pointer-events: none;
+}
+.p-input-icon-left > .p-inputtext {
+  padding-left: 2.5rem;
+}
+
 /* Select dropdown scrollbars: the global thin scrollbar only targets <html>, so each
    dropdown's scroll container falls back to the OS scrollbar — on Windows that shows
    up/down arrow buttons. Match the app's thin, button-less scrollbar. */
