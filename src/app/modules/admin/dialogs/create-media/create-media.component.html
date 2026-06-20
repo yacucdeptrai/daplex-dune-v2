@@ -72,17 +72,17 @@
             </ng-container>
             <label for="release-date" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
               t('admin.createMedia.releaseDate') }}</label>
-            <div id="release-date" formGroupName="releaseDate" class="dropdown-group tw-flex tw-flex-wrap tw-w-full"
+            <div id="release-date" formGroupName="releaseDate" class="dropdown-group tw-flex tw-flex-nowrap tw-w-full"
               aria-describedby="release-date-error">
-              <p-select class="tw-w-full sm:tw-w-3/12" styleClass="tw-w-full" panelStyleClass="p-select-xs"
+              <p-select class="tw-w-3/12 tw-min-w-0" styleClass="tw-w-full" panelStyleClass="p-select-xs"
                 [options]="days" formControlName="day" appendTo="body" [placeholder]="t('admin.createMedia.day')"
                 scrollHeight="300px">
               </p-select>
-              <p-select class="tw-w-full sm:tw-w-5/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+              <p-select class="tw-w-5/12 tw-min-w-0 tw-ml-2" styleClass="tw-w-full"
                 panelStyleClass="p-select-xs" [options]="months" formControlName="month" appendTo="body"
                 [placeholder]="t('admin.createMedia.month')" scrollHeight="300px">
               </p-select>
-              <p-select class="tw-w-full sm:tw-w-4/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+              <p-select class="tw-w-4/12 tw-min-w-0 tw-ml-2" styleClass="tw-w-full"
                 panelStyleClass="p-select-xs md:tw-dropdown-cols-4 md:tw-max-w-sm" [options]="years"
                 formControlName="year" appendTo="body" [placeholder]="t('admin.createMedia.year')" scrollHeight="300px">
               </p-select>
@@ -93,19 +93,19 @@
             @if (createMediaForm.value.type === MediaType.TV) {
               <label for="last-air-date" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
                 t('admin.createMedia.lastAirDate') }}</label>
-              <div id="last-air-date" formGroupName="lastAirDate" class="dropdown-group tw-flex tw-flex-wrap tw-w-full"
+              <div id="last-air-date" formGroupName="lastAirDate" class="dropdown-group tw-flex tw-flex-nowrap tw-w-full"
                 aria-describedby="last-air-date-error">
-                <p-select class="tw-w-full sm:tw-w-3/12" styleClass="tw-w-full" panelStyleClass="p-select-xs"
-                  [options]="days" [showClear]="true" formControlName="day" appendTo="body"
+                <p-select class="tw-w-3/12 tw-min-w-0" styleClass="tw-w-full" panelStyleClass="p-select-xs"
+                  [options]="days" formControlName="day" appendTo="body"
                   [placeholder]="t('admin.createMedia.day')" scrollHeight="300px">
                 </p-select>
-                <p-select class="tw-w-full sm:tw-w-5/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
-                  panelStyleClass="p-select-xs" [options]="months" [showClear]="true" formControlName="month"
+                <p-select class="tw-w-5/12 tw-min-w-0 tw-ml-2" styleClass="tw-w-full"
+                  panelStyleClass="p-select-xs" [options]="months" formControlName="month"
                   appendTo="body" [placeholder]="t('admin.createMedia.month')" scrollHeight="300px">
                 </p-select>
-                <p-select class="tw-w-full sm:tw-w-4/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+                <p-select class="tw-w-4/12 tw-min-w-0 tw-ml-2" styleClass="tw-w-full"
                   panelStyleClass="p-select-xs md:tw-dropdown-cols-4 md:tw-max-w-sm" [options]="years"
-                  [showClear]="true" formControlName="year" appendTo="body" [placeholder]="t('admin.createMedia.year')"
+                  formControlName="year" appendTo="body" [placeholder]="t('admin.createMedia.year')"
                   scrollHeight="300px">
                 </p-select>
               </div>
@@ -241,17 +241,17 @@
             </ng-container>
             <label for="release-date" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
               t('admin.updateMedia.releaseDate') }}</label>
-            <div id="release-date" formGroupName="releaseDate" class="dropdown-group tw-flex tw-flex-wrap tw-w-full"
+            <div id="release-date" formGroupName="releaseDate" class="dropdown-group tw-flex tw-flex-nowrap tw-w-full"
               aria-describedby="release-date-error">
-              <p-select class="tw-w-full sm:tw-w-3/12" styleClass="tw-w-full" panelStyleClass="p-select-xs"
+              <p-select class="tw-w-3/12 tw-min-w-0" styleClass="tw-w-full" panelStyleClass="p-select-xs"
                 [options]="days" formControlName="day" appendTo="body" [placeholder]="t('admin.updateMedia.day')"
                 scrollHeight="300px">
               </p-select>
-              <p-select class="tw-w-full sm:tw-w-5/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+              <p-select class="tw-w-5/12 tw-min-w-0 tw-ml-2" styleClass="tw-w-full"
                 panelStyleClass="p-select-xs" [options]="months" formControlName="month" appendTo="body"
                 [placeholder]="t('admin.updateMedia.month')" scrollHeight="300px">
               </p-select>
-              <p-select class="tw-w-full sm:tw-w-4/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+              <p-select class="tw-w-4/12 tw-min-w-0 tw-ml-2" styleClass="tw-w-full"
                 panelStyleClass="p-select-xs md:tw-dropdown-cols-4 md:tw-max-w-sm" [options]="years"
                 formControlName="year" appendTo="body" [placeholder]="t('admin.updateMedia.year')" scrollHeight="300px">
               </p-select>
@@ -262,19 +262,19 @@
             @if (createMediaForm.value.type === MediaType.TV) {
               <label for="last-air-date" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
                 t('admin.updateMedia.lastAirDate') }}</label>
-              <div id="last-air-date" formGroupName="lastAirDate" class="dropdown-group tw-flex tw-flex-wrap tw-w-full"
+              <div id="last-air-date" formGroupName="lastAirDate" class="dropdown-group tw-flex tw-flex-nowrap tw-w-full"
                 aria-describedby="last-air-date-error">
-                <p-select class="tw-w-full sm:tw-w-3/12" styleClass="tw-w-full" panelStyleClass="p-select-xs"
-                  [options]="days" [showClear]="true" formControlName="day" appendTo="body"
+                <p-select class="tw-w-3/12 tw-min-w-0" styleClass="tw-w-full" panelStyleClass="p-select-xs"
+                  [options]="days" formControlName="day" appendTo="body"
                   [placeholder]="t('admin.updateMedia.day')" scrollHeight="300px">
                 </p-select>
-                <p-select class="tw-w-full sm:tw-w-5/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
-                  panelStyleClass="p-select-xs" [options]="months" [showClear]="true" formControlName="month"
+                <p-select class="tw-w-5/12 tw-min-w-0 tw-ml-2" styleClass="tw-w-full"
+                  panelStyleClass="p-select-xs" [options]="months" formControlName="month"
                   appendTo="body" [placeholder]="t('admin.updateMedia.month')" scrollHeight="300px">
                 </p-select>
-                <p-select class="tw-w-full sm:tw-w-4/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+                <p-select class="tw-w-4/12 tw-min-w-0 tw-ml-2" styleClass="tw-w-full"
                   panelStyleClass="p-select-xs md:tw-dropdown-cols-4 md:tw-max-w-sm" [options]="years"
-                  [showClear]="true" formControlName="year" appendTo="body" [placeholder]="t('admin.updateMedia.year')"
+                  formControlName="year" appendTo="body" [placeholder]="t('admin.updateMedia.year')"
                   scrollHeight="300px">
                 </p-select>
               </div>

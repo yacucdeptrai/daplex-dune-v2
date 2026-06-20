@@ -37,19 +37,19 @@
                   firstErrorKey:'signUp':'password' }}</small>
                   <label for="birthdate" class="tw-text-white tw-inline-block tw-text-base tw-font-medium tw-mb-2">{{
                   t('auth.signUp.birthdate') }}</label>
-                  <div id="birthdate" formGroupName="birthdate" class="dropdown-group tw-flex tw-flex-wrap tw-w-full"
+                  <div id="birthdate" formGroupName="birthdate" class="dropdown-group tw-flex tw-flex-nowrap tw-w-full"
                     aria-describedby="birthdate-error">
-                    <p-select class="dropdown-group tw-w-full sm:tw-w-3/12" styleClass="tw-w-full" [options]="days"
+                    <p-select class="dropdown-group tw-w-3/12 tw-min-w-0" styleClass="tw-w-full" [options]="days"
                       formControlName="day" [appendTo]="dropdownZone" [placeholder]="t('auth.signUp.birthdateDay')"
                       scrollHeight="300px">
                     </p-select>
-                    <p-select class="tw-w-full sm:tw-w-5/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+                    <p-select class="tw-w-5/12 tw-min-w-0 tw-ml-2" styleClass="tw-w-full"
                       [options]="months" formControlName="month" [appendTo]="dropdownZone"
                       [placeholder]="t('auth.signUp.birthdateMonth')" scrollHeight="300px">
                     </p-select>
-                    <p-select class="tw-w-full sm:tw-w-4/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
-                      [options]="years" formControlName="year" [appendTo]="dropdownZone" [virtualScroll]="true"
-                      [virtualScrollItemSize]="40.98" [placeholder]="t('auth.signUp.birthdateYear')" scrollHeight="300px">
+                    <p-select class="tw-w-4/12 tw-min-w-0 tw-ml-2" styleClass="tw-w-full"
+                      [options]="years" formControlName="year" [appendTo]="dropdownZone"
+                      [placeholder]="t('auth.signUp.birthdateYear')" scrollHeight="300px">
                     </p-select>
                   </div>
                   <small id="birthdate-error" class="p-error tw-text-xs tw-block tw-my-2"

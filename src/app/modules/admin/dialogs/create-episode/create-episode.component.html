@@ -54,17 +54,17 @@
               | firstErrorKey:'createEpisode':'overview' }}</small>
               <label for="air-date" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
               t('admin.createEpisode.airDate') }}</label>
-              <div id="air-date" formGroupName="airDate" class="dropdown-group tw-flex tw-flex-wrap tw-w-full"
+              <div id="air-date" formGroupName="airDate" class="dropdown-group tw-flex tw-flex-nowrap tw-w-full"
                 aria-describedby="air-date-error">
-                <p-select class="tw-w-full sm:tw-w-3/12" styleClass="tw-w-full" panelStyleClass="p-select-sm"
+                <p-select class="tw-w-3/12 tw-min-w-0" styleClass="tw-w-full" panelStyleClass="p-select-sm"
                   [options]="days" formControlName="day" appendTo="body" [placeholder]="t('admin.createEpisode.day')"
                   scrollHeight="300px">
                 </p-select>
-                <p-select class="tw-w-full sm:tw-w-5/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+                <p-select class="tw-w-5/12 tw-min-w-0 tw-ml-2" styleClass="tw-w-full"
                   panelStyleClass="p-select-sm" [options]="months" formControlName="month" appendTo="body"
                   [placeholder]="t('admin.createEpisode.month')" scrollHeight="300px">
                 </p-select>
-                <p-select class="tw-w-full sm:tw-w-4/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+                <p-select class="tw-w-4/12 tw-min-w-0 tw-ml-2" styleClass="tw-w-full"
                   panelStyleClass="p-select-sm" [options]="years" formControlName="year" appendTo="body"
                   [placeholder]="t('admin.createEpisode.year')" scrollHeight="300px">
                 </p-select>
@@ -145,17 +145,17 @@
                 | firstErrorKey:'updateEpisode':'overview' }}</small>
                 <label for="air-date" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
                 t('admin.updateEpisode.airDate') }}</label>
-                <div id="air-date" formGroupName="airDate" class="dropdown-group tw-flex tw-flex-wrap tw-w-full"
+                <div id="air-date" formGroupName="airDate" class="dropdown-group tw-flex tw-flex-nowrap tw-w-full"
                   aria-describedby="air-date-error">
-                  <p-select class="tw-w-full sm:tw-w-3/12" styleClass="tw-w-full" panelStyleClass="p-select-sm"
+                  <p-select class="tw-w-3/12 tw-min-w-0" styleClass="tw-w-full" panelStyleClass="p-select-sm"
                     [options]="days" formControlName="day" appendTo="body" [placeholder]="t('admin.updateEpisode.day')"
                     scrollHeight="300px">
                   </p-select>
-                  <p-select class="tw-w-full sm:tw-w-5/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+                  <p-select class="tw-w-5/12 tw-min-w-0 tw-ml-2" styleClass="tw-w-full"
                     panelStyleClass="p-select-sm" [options]="months" formControlName="month" appendTo="body"
                     [placeholder]="t('admin.updateEpisode.month')" scrollHeight="300px">
                   </p-select>
-                  <p-select class="tw-w-full sm:tw-w-4/12 tw-pt-2 sm:tw-pt-0 sm:tw-pl-2" styleClass="tw-w-full"
+                  <p-select class="tw-w-4/12 tw-min-w-0 tw-ml-2" styleClass="tw-w-full"
                     panelStyleClass="p-select-sm" [options]="years" formControlName="year" appendTo="body"
                     [placeholder]="t('admin.updateEpisode.year')" scrollHeight="300px">
                   </p-select>
