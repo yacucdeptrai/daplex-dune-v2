@@ -3,6 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Inject, ChangeDetectorRef, 
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { MessageService } from 'primeng/api';
 import { first, takeUntil } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
 
@@ -14,7 +15,7 @@ import { AddSubtitleForm, ShortDateForm, UpdateEpisodeForm } from '../../../../c
 import { FileUploadComponent } from '../../../../shared/components/file-upload';
 import { AddSubtitleComponent } from '../add-subtitle';
 import { ImageEditorComponent } from '../../../../shared/dialogs/image-editor';
-import { AppErrorCode, MediaPStatus, MediaSourceStatus } from '../../../../core/enums';
+import { AppErrorCode, MediaPStatus, MediaSourceStatus, ToastKey } from '../../../../core/enums';
 import { openDialog, dataURItoBlob, translocoEscape, fixNestedDialogFocus, replaceDialogHideMethod, detectFormChange, secondsToTimeString, timeStringToSeconds } from '../../../../core/utils';
 import {
   IMAGE_PREVIEW_SIZE, UPLOAD_STILL_ASPECT_HEIGHT, UPLOAD_STILL_ASPECT_WIDTH, UPLOAD_STILL_MIN_HEIGHT,
@@ -74,6 +75,7 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
   updateEpisodeInitValue = {};
   updateEpisodeFormChanged: boolean = false;
   isScanning: boolean = false;
+  isImportingStill: boolean = false;
   isUpdatingStill: boolean = false;
   isUpdated: boolean = false;
   isUploadingSource: boolean = false;
@@ -90,7 +92,8 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
     private dialogService: DialogService, private confirmAction: ConfirmActionService, private mediaService: MediaService,
     private itemDataService: ItemDataService, private queueUploadService: QueueUploadService,
     private mediaScannerService: MediaScannerService, private mediaFormHelper: MediaFormHelperService,
-    private translocoService: TranslocoService, private destroyService: DestroyService) {
+    private translocoService: TranslocoService, private messageService: MessageService,
+    private destroyService: DestroyService) {
     const lang = this.translocoService.getActiveLang();
     this.addSubtitleForm = new FormGroup<AddSubtitleForm>({
       language: new FormControl(lang, Validators.required),
@@ -199,6 +202,49 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
       }).add(() => {
         this.isScanning = false;
         this.ref.markForCheck();
+      });
+  }
+
+  // Fetches the provider still and stores it server-side (no download+re-upload). One flag spans BOTH
+  // legs (provider lookup -> upload) so the spinner never drops between them: the outer finalizer clears
+  // only when the upload never started (no provider still or no episode); the upload owns the clear when
+  // it settles. The http-error interceptor owns transport errors; a missing still is an info toast.
+  importStill(): void {
+    if (!this.canScanEpisode || this.isImportingStill || !this.episode) return;
+    const media = this.config.data!.media;
+    const mediaId = media._id;
+    const episodeId = this.config.data!.episode._id;
+    this.isImportingStill = true;
+    let uploadStarted = false;
+    this.mediaScannerService.findEpisode(media.externalIds.tmdb, media.scanner!.tvSeason!, this.episode.epNumber, { provider: 'tmdb' })
+      .pipe(takeUntil(this.destroyService)).subscribe({
+        next: (episode) => {
+          if (!episode.stillUrl) {
+            this.messageService.add({
+              key: ToastKey.APP, severity: 'info',
+              summary: this.translocoService.translate('admin.configureEpisode.importStill'),
+              detail: this.translocoService.translate('admin.configureEpisode.noProviderStill'), life: 6000
+            });
+            return;
+          }
+          uploadStarted = true;
+          this.mediaService.uploadStillFromUrl(mediaId, episodeId, episode.stillUrl)
+            .pipe(takeUntil(this.destroyService)).subscribe({
+              next: (partialEpisode) => {
+                if (!this.episode) return;
+                this.episode = { ...this.episode, ...partialEpisode };
+                this.isUpdated = true;
+              }
+            }).add(() => {
+              this.isImportingStill = false;
+              this.ref.markForCheck();
+            });
+        }
+      }).add(() => {
+        if (!uploadStarted) {
+          this.isImportingStill = false;
+          this.ref.markForCheck();
+        }
       });
   }
 

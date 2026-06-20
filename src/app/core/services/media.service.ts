@@ -195,6 +195,10 @@ export class MediaService {
     return this.http.patch<TVEpisodeDetails>(`media/${id}/tv/episodes/${episodeId}/still`, data);
   }
 
+  uploadStillFromUrl(id: string, episodeId: string, url: string) {
+    return this.http.patch<TVEpisodeDetails>(`media/${id}/tv/episodes/${episodeId}/still`, { url });
+  }
+
   deleteStill(id: string, episodeId: string) {
     return this.http.delete(`media/${id}/tv/episodes/${episodeId}/still`);
   }

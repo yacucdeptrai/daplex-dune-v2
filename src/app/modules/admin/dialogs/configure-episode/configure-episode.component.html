@@ -95,6 +95,20 @@
                                 <button pButton type="button" icon="ms ms-upload" class="p-button-rounded p-button-text"
                                   (click)="inputUploadPoster.click()">
                                 </button>
+                                <span [pTooltip]="canScanEpisode ? t('admin.configureEpisode.importStill') : t('admin.configureEpisode.scanDisabledHint')"
+                                  tooltipPosition="bottom">
+                                  <!-- aria-disabled (not native disabled) when ungated: stays focusable so the reason reaches AT -->
+                                  <button pButton type="button" icon="ms ms-cloud-download"
+                                    class="p-button-rounded p-button-text tw-ml-1"
+                                    [class.tw-opacity-50]="!canScanEpisode" [class.tw-cursor-not-allowed]="!canScanEpisode"
+                                    [attr.aria-label]="t('admin.configureEpisode.importStill')" [attr.aria-disabled]="!canScanEpisode"
+                                    [attr.aria-describedby]="canScanEpisode ? null : 'import-still-disabled-hint'"
+                                    [disabled]="isImportingStill" [loading]="isImportingStill" (click)="importStill()">
+                                  </button>
+                                  @if (!canScanEpisode) {
+                                    <span id="import-still-disabled-hint" class="tw-sr-only">{{ t('admin.configureEpisode.scanDisabledHint') }}</span>
+                                  }
+                                </span>
                                 <button pButton type="button" icon="ms ms-delete" (click)="deleteStill($event)"
                                   class="p-button-rounded p-button-text p-button-danger tw-ml-1" [disabled]="!episode.stillUrl">
                                 </button>

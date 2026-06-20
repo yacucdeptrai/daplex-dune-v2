@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { of } from 'rxjs';
 
@@ -28,6 +28,12 @@ function scanButton(host: HTMLElement): HTMLButtonElement | null {
   return host.querySelector('button .ms-cloud-download')?.closest('button') as HTMLButtonElement | null;
 }
 
+// The import-still button shares the cloud-download icon with Scan, so disambiguate by accessible name.
+function importStillButton(host: HTMLElement): HTMLButtonElement | null {
+  const buttons = Array.from(host.querySelectorAll<HTMLButtonElement>('button[aria-label]'));
+  return buttons.find(b => b.getAttribute('aria-label') === 'admin.configureEpisode.importStill') ?? null;
+}
+
 function setup(media: any) {
   TestBed.configureTestingModule({
     imports: [ConfigureEpisodeComponent],
@@ -38,6 +44,7 @@ function setup(media: any) {
       { provide: DialogService, useValue: mockDialogService() },
       ConfirmationService,
       ConfirmActionService,
+      MessageService,
       { provide: MediaService, useValue: { findOneTVEpisode: () => of(EPISODE) } },
       { provide: MediaScannerService, useValue: { findEpisode: jasmine.createSpy('findEpisode').and.returnValue(of()) } },
       { provide: MediaFormHelperService, useValue: { applyScannedEpisode: () => undefined } },
@@ -85,5 +92,38 @@ describe('ConfigureEpisodeComponent (live render, mocked services)', () => {
     expect(button?.hasAttribute('disabled')).toBeFalse();
     expect(button?.getAttribute('aria-describedby')).withContext('no hint when actionable').toBeNull();
     expect(host.querySelector('#scan-disabled-hint')).toBeNull();
+  });
+
+  // The still-section import button mirrors the Scan gating: aria-disabled (focusable) + describedby hint
+  // when there is no tmdb id / tvSeason.
+  it('renders the import-still button aria-disabled + focusable + describedby when ungated', () => {
+    setup({ _id: 'm1', externalIds: {}, scanner: { enabled: true } });
+    fixture = TestBed.createComponent(ConfigureEpisodeComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    const host = fixture.nativeElement as HTMLElement;
+    const button = importStillButton(host);
+    expect(component.canScanEpisode).toBeFalse();
+    expect(button).withContext('the import-still button renders in the still section').toBeTruthy();
+    expect(button?.getAttribute('aria-disabled')).withContext('aria-disabled, not native disabled').toBe('true');
+    expect(button?.hasAttribute('disabled')).withContext('NOT natively disabled (stays focusable)').toBeFalse();
+    expect(button?.getAttribute('aria-describedby')).withContext('points at the hint').toBe('import-still-disabled-hint');
+    const hint = host.querySelector('#import-still-disabled-hint');
+    expect(hint).withContext('the reason hint is rendered').toBeTruthy();
+    expect(hint?.textContent?.trim().length).toBeGreaterThan(0);
+  });
+
+  it('renders the import-still button ENABLED (no aria-disabled, no hint) when gated open', () => {
+    setup({ _id: 'm1', externalIds: { tmdb: 42 }, scanner: { enabled: true, tvSeason: 2 } });
+    fixture = TestBed.createComponent(ConfigureEpisodeComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    const host = fixture.nativeElement as HTMLElement;
+    const button = importStillButton(host);
+    expect(component.canScanEpisode).toBeTrue();
+    expect(button?.getAttribute('aria-disabled')).withContext('not aria-disabled when gated open').toBe('false');
+    expect(button?.hasAttribute('disabled')).toBeFalse();
+    expect(button?.getAttribute('aria-describedby')).withContext('no hint when actionable').toBeNull();
+    expect(host.querySelector('#import-still-disabled-hint')).toBeNull();
   });
 });
