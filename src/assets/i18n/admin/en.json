@@ -90,6 +90,16 @@
     "posterOption": "Poster option {{ index }}",
     "backdropOption": "Backdrop option {{ index }}"
   },
+  "videoChooser": {
+    "header": "Import trailers",
+    "empty": "No trailers found",
+    "listLabel": "Provider trailer options",
+    "official": "Official",
+    "import": "Import ({{ count }})",
+    "imported": "Trailers imported.",
+    "noProviderVideos": "The provider has no trailers for this title.",
+    "noImportableVideos": "All provider trailers are already added."
+  },
   "createMedia": {
     "movieStep1": "Details",
     "movieStep2": "Movie Elements",
@@ -176,6 +186,7 @@
     "deleteImage": "Remove",
     "importFromProvider": "Import from provider",
     "importDisabledHint": "Set a TMDB or TVDB id on the media to import images from a provider.",
+    "importVideosDisabledHint": "Set a TMDB or TVDB id on the media to import trailers from a provider.",
     "addVideo": "Add Video",
     "updateVideo": "Edit",
     "deleteVideo": "Delete",

@@ -20,6 +20,16 @@ export interface ScannerExternalIds {
   mal?: number;
 }
 
+// One provider trailer/teaser (GET media-scanner/:id `videos`). The wire shape — NOT the local
+// MediaVideo: no _id (never persisted) and no site (always YouTube; both providers pre-filter to it).
+// The key is the 11-char YouTube id; the watch URL is reconstructed on import.
+export interface ScannerVideoItem {
+  name: string;
+  key: string;
+  type: string;       // 'Trailer' | 'Teaser' (free-form provider label)
+  official: boolean;
+}
+
 // Auto-fill source (GET media-scanner/:id). Movie-only / tv-only fields are optional: the
 // server serializes per Expose group, so the absent type's fields never arrive.
 export interface ScannerMediaDetails {
@@ -39,6 +49,7 @@ export interface ScannerMediaDetails {
   externalIds: ScannerExternalIds;
   posterUrl: string;
   backdropUrl: string;
+  videos?: ScannerVideoItem[];  // YouTube trailers/teasers — absent when a provider has none
   // tv-only:
   firstAirDate?: string;
   lastAirDate?: string;

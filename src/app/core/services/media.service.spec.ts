@@ -50,4 +50,16 @@ describe('MediaService', () => {
     req.flush({ backdropUrl: 'new' });
     expect(invalidate).toHaveBeenCalled();
   });
+
+  it('importVideoFromScan reconstructs the watch URL and POSTs { name, url, official }', () => {
+    service.importVideoFromScan('m1', { key: 'abc11abc11a', name: 'Official Trailer', official: true }).subscribe();
+    const req = httpMock.expectOne('media/m1/videos');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({
+      name: 'Official Trailer',
+      url: 'https://www.youtube.com/watch?v=abc11abc11a',
+      official: true
+    });
+    req.flush([]);
+  });
 });

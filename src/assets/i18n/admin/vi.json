@@ -90,6 +90,16 @@
     "posterOption": "Tùy chọn áp phích {{ index }}",
     "backdropOption": "Tùy chọn ảnh nền {{ index }}"
   },
+  "videoChooser": {
+    "header": "Nhập trailer",
+    "empty": "Không tìm thấy trailer",
+    "listLabel": "Tùy chọn trailer từ nhà cung cấp",
+    "official": "Chính thức",
+    "import": "Nhập ({{ count }})",
+    "imported": "Đã nhập trailer.",
+    "noProviderVideos": "Nhà cung cấp không có trailer cho tựa đề này.",
+    "noImportableVideos": "Tất cả trailer của nhà cung cấp đã được thêm."
+  },
   "createMedia": {
     "movieStep1": "Thông Tin Chi Tiết",
     "movieStep2": "Dữ Liệu Phim",
@@ -175,6 +185,7 @@
     "deleteImage": "Remove",
     "importFromProvider": "Nhập từ nhà cung cấp",
     "importDisabledHint": "Đặt ID TMDB hoặc TVDB cho phương tiện để nhập hình ảnh từ nhà cung cấp.",
+    "importVideosDisabledHint": "Đặt ID TMDB hoặc TVDB cho phương tiện để nhập trailer từ nhà cung cấp.",
     "addVideo": "Add Video",
     "updateVideo": "Edit",
     "deleteVideo": "Delete",

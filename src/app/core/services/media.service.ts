@@ -135,6 +135,14 @@ export class MediaService {
     return this.http.post<MediaVideo[]>(`media/${id}/videos`, { name, url });
   }
 
+  // Import a provider trailer. Reconstructs the YouTube watch URL from the scanner key so the
+  // endpoint re-extracts + validates it (key.length===11); sends `official` (which manual addVideo
+  // drops). Returns the full updated MediaVideo[].
+  importVideoFromScan(id: string, video: { key: string; name?: string; official: boolean }) {
+    const url = `https://www.youtube.com/watch?v=${video.key}`;
+    return this.http.post<MediaVideo[]>(`media/${id}/videos`, { name: video.name, url, official: video.official });
+  }
+
   updateVideo(id: string, videoId: string, updateMediaVideoDto: UpdateMediaVideoDto) {
     const { name, url, translate } = updateMediaVideoDto;
     return this.http.patch<MediaVideo[]>(`media/${id}/videos/${videoId}`, { name, url, translate });

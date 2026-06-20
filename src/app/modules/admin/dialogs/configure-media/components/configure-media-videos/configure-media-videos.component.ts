@@ -1,17 +1,21 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, Inject, input, output, DOCUMENT } from '@angular/core';
 import { TranslocoService, TranslocoTranslateFn } from '@jsverse/transloco';
+import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { first } from 'rxjs';
+import { first, from, concatMap, last } from 'rxjs';
 
-import { MediaDetails, MediaVideo } from '../../../../../../core/models';
-import { ConfirmActionService, MediaService } from '../../../../../../core/services';
+import { MediaDetails, MediaVideo, ScannerVideoItem } from '../../../../../../core/models';
+import { MediaType, ToastKey } from '../../../../../../core/enums';
+import { ConfirmActionService, MediaScannerService, MediaService } from '../../../../../../core/services';
 import { AddVideoComponent } from '../../../add-video';
 import { UpdateVideoComponent } from '../../../update-video';
+import { MediaVideoChooserComponent } from '../../../media-video-chooser/media-video-chooser.component';
 import { openDialog, fixNestedDialogFocus } from '../../../../../../core/utils';
 import { YOUTUBE_EMBED_URL, YOUTUBE_THUMBNAIL_URL } from '../../../../../../../environments/config';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
+import { TooltipModule } from 'primeng/tooltip';
 import { SharedModule } from 'primeng/api';
 import { SafeUrlPipe } from '../../../../../../shared/pipes/url-pipe/safe-url/safe-url.pipe';
 
@@ -23,7 +27,7 @@ import { SafeUrlPipe } from '../../../../../../shared/pipes/url-pipe/safe-url/sa
   selector: 'app-configure-media-videos',
   templateUrl: './configure-media-videos.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonModule, TableModule, DialogModule, SharedModule, SafeUrlPipe]
+  imports: [ButtonModule, TableModule, DialogModule, TooltipModule, SharedModule, SafeUrlPipe]
 })
 export class ConfigureMediaVideosComponent {
   media = input.required<MediaDetails>();
@@ -34,12 +38,110 @@ export class ConfigureMediaVideosComponent {
   loadingVideo: boolean = false;
   displayVideo: boolean = false;
   activeVideoIndex: number = 0;
+  isImportingVideos: boolean = false;
   youtubeUrl = YOUTUBE_EMBED_URL;
   youtubeThumbnailUrl = YOUTUBE_THUMBNAIL_URL;
 
   constructor(@Inject(DOCUMENT) private document: Document, private ref: ChangeDetectorRef, private renderer: Renderer2,
     private dialogService: DialogService, private confirmAction: ConfirmActionService,
-    private mediaService: MediaService, private translocoService: TranslocoService) { }
+    private mediaService: MediaService, private mediaScannerService: MediaScannerService,
+    private messageService: MessageService, private translocoService: TranslocoService) { }
+
+  // tmdb preferred over tvdb; ids type as number but seed null in practice, so falsy is absent.
+  private resolveProvider(): { provider: string; providerId: number } | null {
+    const ids = this.media().externalIds;
+    if (ids?.tmdb) return { provider: 'tmdb', providerId: ids.tmdb };
+    if (ids?.tvdb) return { provider: 'tvdb', providerId: ids.tvdb };
+    return null;
+  }
+
+  get canImportVideos(): boolean {
+    return this.resolveProvider() !== null;
+  }
+
+  importFromProvider(): void {
+    const resolved = this.resolveProvider();
+    if (!resolved || this.isImportingVideos) return;
+    this.isImportingVideos = true;
+    const media = this.media();
+    // The flag spans fetch -> async chooser -> sequential import as one phase. Once the chooser opens
+    // it owns the flag; the findOne finalizer only clears when no chooser opened (empty/all-present/error).
+    let chooserOpened = false;
+    this.mediaScannerService.findOne(resolved.providerId, { provider: resolved.provider, type: media.type as MediaType })
+      .pipe(first()).subscribe({
+        next: (details) => {
+          const providerVideos = details.videos ?? [];
+          if (!providerVideos.length) {
+            this.notify('admin.videoChooser.noProviderVideos');
+            return;
+          }
+          // Dedup against already-present keys.
+          const existingKeys = new Set(media.videos.map(v => v.key));
+          const importable = providerVideos.filter(v => !existingKeys.has(v.key));
+          if (!importable.length) {
+            this.notify('admin.videoChooser.noImportableVideos');
+            return;
+          }
+          chooserOpened = true;
+          this.openChooser(importable).subscribe(selection => {
+            if (selection?.length) {
+              this.importSequentially(media, selection);
+            } else {
+              this.isImportingVideos = false;
+              this.ref.markForCheck();
+            }
+          });
+        }
+      }).add(() => {
+        if (!chooserOpened) {
+          this.isImportingVideos = false;
+          this.ref.markForCheck();
+        }
+      });
+  }
+
+  // Opens the multi-select trailer chooser focus-trapped over the configure-media dialog; resolves with
+  // the chosen ScannerVideoItem[] (null on cancel).
+  private openChooser(items: ScannerVideoItem[]) {
+    const dialogRef = openDialog(this.dialogService, MediaVideoChooserComponent, {
+      data: { items },
+      header: this.translocoService.translate('admin.videoChooser.header'),
+      width: '700px',
+      modal: true,
+      dismissableMask: false,
+      styleClass: 'p-dialog-header-sm'
+    });
+    fixNestedDialogFocus(dialogRef, this.parentDialogRef(), this.dialogService, this.renderer, this.document);
+    return dialogRef.onClose.pipe(first());
+  }
+
+  // Imports SEQUENTIALLY (concatMap) — the BE addMediaVideo does findOne->push->save per request, so
+  // concurrent POSTs lost-update. concatMap subscribes (fires the POST) one at a time, only after the
+  // previous settles. Each POST returns the full MediaVideo[]; the LAST is authoritative.
+  private importSequentially(media: MediaDetails, selection: ScannerVideoItem[]): void {
+    from(selection).pipe(
+      concatMap(v => this.mediaService.importVideoFromScan(media._id, { key: v.key, name: v.name, official: v.official })),
+      last()
+    ).subscribe({
+      next: (videos) => {
+        this.mediaChange.emit({ ...media, videos });
+        this.notify('admin.videoChooser.imported', 'success');
+      },
+      // http-error interceptor owns the toast; swallow here so a failed POST is no unhandled error.
+      error: () => { }
+    }).add(() => {
+      this.isImportingVideos = false;
+      this.ref.markForCheck();
+    });
+  }
+
+  private notify(detailKey: string, severity: 'info' | 'success' = 'info'): void {
+    this.messageService.add({
+      key: ToastKey.APP, severity,
+      summary: this.translocoService.translate('admin.configureMedia.importFromProvider'),
+      detail: this.translocoService.translate(detailKey), life: 6000
+    });
+  }
 
   loadVideos(): void {
     const media = this.media();

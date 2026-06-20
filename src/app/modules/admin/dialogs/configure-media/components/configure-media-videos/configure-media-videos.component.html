@@ -1,5 +1,18 @@
 <p class="tw-text-white tw-font-bold tw-text-2xl">{{ t()('admin.configureMedia.videos') }}</p>
-<div class="tw-text-right tw-my-3">
+<div class="app-action-bar__actions tw-my-3">
+  <span [pTooltip]="canImportVideos ? '' : t()('admin.configureMedia.importVideosDisabledHint')" tooltipPosition="bottom">
+    <!-- aria-disabled (not native disabled) when ungated: keeps the button focusable so the reason reaches AT -->
+    <button pButton type="button" icon="ms ms-cloud-download" class="p-button-outlined"
+      [class.tw-opacity-50]="!canImportVideos" [class.tw-cursor-not-allowed]="!canImportVideos"
+      [label]="t()('admin.configureMedia.importFromProvider')" [attr.aria-disabled]="!canImportVideos"
+      [attr.aria-describedby]="canImportVideos ? null : 'import-videos-disabled-hint'"
+      [attr.aria-busy]="isImportingVideos"
+      [disabled]="isImportingVideos" [loading]="isImportingVideos" (click)="importFromProvider()">
+    </button>
+    @if (!canImportVideos) {
+      <span id="import-videos-disabled-hint" class="tw-sr-only">{{ t()('admin.configureMedia.importVideosDisabledHint') }}</span>
+    }
+  </span>
   <button pButton type="button" role="dialog" [label]="t()('admin.configureMedia.addVideo')"
     (click)="showAddVideoDialog()">
   </button>
