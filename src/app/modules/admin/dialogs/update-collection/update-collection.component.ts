@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
 import { UpdateCollectionDto } from '../../../../core/dto/collections';
@@ -30,7 +30,7 @@ interface UpdateCollectionForm {
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
     hostDirectives: [DialogDismissDirective],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, TextareaModule, InvalidControlDirective, ButtonModule, FirstErrorKeyPipe, CollectionImagesComponent, ConfirmDialogModule]
+    imports: [DynamicDialogModule, TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, TextareaModule, InvalidControlDirective, ButtonModule, FirstErrorKeyPipe, CollectionImagesComponent, ConfirmDialogModule]
 })
 export class UpdateCollectionComponent implements OnInit {
   updateCollectionForm: FormGroup<UpdateCollectionForm>;

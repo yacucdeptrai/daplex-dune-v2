@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
 import { DestroyService, QueueUploadService } from '../../../../core/services';
@@ -26,7 +26,7 @@ interface AddSourceForm {
     styleUrls: ['./add-source.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroyService],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, FileUploadComponent, DisabledControlDirective, InvalidControlDirective, ButtonModule, FirstErrorKeyPipe]
+    imports: [DynamicDialogModule, TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, FileUploadComponent, DisabledControlDirective, InvalidControlDirective, ButtonModule, FirstErrorKeyPipe]
 })
 export class AddSourceComponent implements OnInit {
   @ViewChild('addSourceFormElement') addSourceFormElement?: NgForm;

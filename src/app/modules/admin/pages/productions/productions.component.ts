@@ -53,7 +53,7 @@ export class ProductionsComponent implements OnInit, OnDestroy {
     const dialogRef = openDialog(this.dialogService, CreateProductionComponent, {
       width: '500px',
       modal: true,
-      styleClass: 'p-dialog-header-sm',
+      styleClass: 'p-dialog-header-sm app-form-dialog',
       dismissableMask: true,
       closeOnEscape: true,
       closable: true
@@ -69,7 +69,7 @@ export class ProductionsComponent implements OnInit, OnDestroy {
       data: { ...production },
       width: '500px',
       modal: true,
-      styleClass: 'p-dialog-header-sm',
+      styleClass: 'p-dialog-header-sm app-form-dialog',
       dismissableMask: true,
       closable: true
     });

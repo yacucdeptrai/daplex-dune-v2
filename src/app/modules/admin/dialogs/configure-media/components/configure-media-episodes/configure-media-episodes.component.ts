@@ -80,8 +80,7 @@ export class ConfigureMediaEpisodesComponent implements OnInit {
       width: '500px',
       modal: true,
       dismissableMask: false,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' }
+      styleClass: 'p-dialog-header-sm app-form-dialog'
     });
     dialogRef.onClose.pipe(first()).subscribe((subtitles: MediaSubtitle[]) => {
       if (!subtitles) return;
@@ -97,8 +96,7 @@ export class ConfigureMediaEpisodesComponent implements OnInit {
       width: '500px',
       modal: true,
       dismissableMask: false,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' }
+      styleClass: 'p-dialog-header-sm app-form-dialog'
     });
     //dialogRef.onClose.pipe(first()).subscribe() => {
     //});
@@ -110,11 +108,10 @@ export class ConfigureMediaEpisodesComponent implements OnInit {
     const dialogRef = openDialog(this.dialogService, CreateEpisodeComponent, {
       data: { media: { ...this.media() }, episodes: [...this.episodes] },
       width: '980px',
-      height: '100%',
       modal: true,
       dismissableMask: false,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem', 'overflow-y': 'hidden', 'padding': '0px' }
+      styleClass: 'p-dialog-header-sm app-form-dialog',
+      contentStyle: { 'overflow-y': 'hidden', 'padding': '0px' }
     });
     dialogRef.onClose.pipe(first()).subscribe((episode: TVEpisode) => {
       if (!episode || !this.episodes) return;

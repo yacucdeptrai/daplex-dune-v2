@@ -1,32 +1,38 @@
+<p-dialog-title></p-dialog-title>
 <ng-container *transloco="let t">
-  <h3 class="tw-text-white tw-text-2xl tw-font-bold tw-text-center tw-mb-4">{{ t('admin.updateGenre.formHeader') }}</h3>
-  <form [formGroup]="updateGenreForm" formHandler (ngSubmit)="onUpdateGenreFormSubmit()">
-    <label for="name" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{ t('admin.updateGenre.name')
-      }}</label>
-    <input formControlName="name" class="tw-w-full" id="name" type="text" aria-describedby="name-error" pInputText
-      autofocus>
-    <small id="name-error" class="p-error tw-text-xs tw-block tw-my-2"
-      [invalidControl]="updateGenreForm.controls.name">{{ updateGenreForm.controls.name.errors |
-      firstErrorKey:'updateGenre':'name' }}</small>
-    <div class="tw-flex tw-my-2">
-      <label for="is-translation" class="tw-inline-block tw-text-base tw-font-medium">{{
-        t('admin.updateGenre.isTranslation') }}</label>
-      <p-toggleSwitch formControlName="isTranslation" id="is-translation" class="tw-ml-auto"></p-toggleSwitch>
-    </div>
-    <div class="tw-flex tw-mt-2 tw-mb-8">
-      <label for="translate" class="tw-inline-block tw-text-base tw-font-medium">{{ t('admin.updateGenre.translate')
+  <div pDialogContent class="tw-relative" style="padding-top: 3rem">
+    <button pButton type="button" icon="ms ms-close" (click)="onUpdateGenreFormCancel()"
+      [attr.aria-label]="t('admin.updateGenre.cancel')" class="p-button-text p-button-secondary p-button-rounded
+      p-button-sm p-button-sm-icon tw-absolute tw-top-6 tw-right-0"></button>
+    <h3 class="tw-text-white tw-text-2xl tw-font-bold tw-text-center tw-mb-4">{{ t('admin.updateGenre.formHeader') }}</h3>
+    <form id="update-genre-form" [formGroup]="updateGenreForm" formHandler (ngSubmit)="onUpdateGenreFormSubmit()">
+      <label for="name" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{ t('admin.updateGenre.name')
         }}</label>
-      <p-select formControlName="translate" id="translate" class="tw-ml-auto" panelStyleClass="p-select-sm"
-        appendTo="body" [options]="translateOptions" [disabledControl]="!updateGenreForm.controls.isTranslation.value">
-      </p-select>
-    </div>
-    <div class="app-action-bar__actions tw-mt-4">
-      <button pButton type="button" [label]="t('admin.updateGenre.cancel')" (click)="onUpdateGenreFormCancel()"
-        class="p-button-text p-button-secondary p-button-sm">
-      </button>
-      <button pButton type="submit" [label]="t('admin.updateGenre.submit')"
-        class="p-button-success p-button-sm" [disabled]="updateGenreForm.disabled">
-      </button>
-    </div>
-  </form>
+      <input formControlName="name" class="tw-w-full" id="name" type="text" aria-describedby="name-error" pInputText
+        autofocus>
+      <small id="name-error" class="p-error tw-text-xs tw-block tw-my-2"
+        [invalidControl]="updateGenreForm.controls.name">{{ updateGenreForm.controls.name.errors |
+        firstErrorKey:'updateGenre':'name' }}</small>
+      <div class="tw-flex tw-my-2">
+        <label for="is-translation" class="tw-inline-block tw-text-base tw-font-medium">{{
+          t('admin.updateGenre.isTranslation') }}</label>
+        <p-toggleSwitch formControlName="isTranslation" id="is-translation" class="tw-ml-auto"></p-toggleSwitch>
+      </div>
+      <div class="tw-flex tw-mt-2 tw-mb-8">
+        <label for="translate" class="tw-inline-block tw-text-base tw-font-medium">{{ t('admin.updateGenre.translate')
+          }}</label>
+        <p-select formControlName="translate" id="translate" class="tw-ml-auto" panelStyleClass="p-select-sm"
+          appendTo="body" [options]="translateOptions" [disabledControl]="!updateGenreForm.controls.isTranslation.value">
+        </p-select>
+      </div>
+    </form>
+  </div>
+  <div pDialogActions class="app-action-bar__actions">
+    <button pButton type="button" [label]="t('admin.updateGenre.cancel')" (click)="onUpdateGenreFormCancel()"
+      class="p-button-text p-button-secondary p-button-sm">
+    </button>
+    <button pButton type="submit" form="update-genre-form" [label]="t('admin.updateGenre.submit')"
+      class="p-button-success p-button-sm" [disabled]="updateGenreForm.disabled">
+    </button>
+  </div>
 </ng-container>

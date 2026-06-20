@@ -145,8 +145,7 @@ describe('ConfigureMediaVideosComponent', () => {
     expect(opts.width).toBe('700px');
     expect(opts.modal).toBeTrue();
     expect(opts.dismissableMask).toBeFalse();
-    expect(opts.styleClass).toBe('p-dialog-header-sm');
-    expect(opts.contentStyle).toEqual({ 'margin-top': '-1.5rem' });
+    expect(opts.styleClass).toContain('app-form-dialog');
   });
 
   it('showAddVideoDialog emits {...media, videos:[...videos]} on onClose(MediaVideo[])', async () => {
@@ -185,8 +184,7 @@ describe('ConfigureMediaVideosComponent', () => {
     expect(opts.data.media._id).toBe(MEDIA_ID);
     expect(opts.data.video._id).toBe('v1');
     expect(opts.width).toBe('700px');
-    expect(opts.styleClass).toBe('p-dialog-header-sm');
-    expect(opts.contentStyle).toEqual({ 'margin-top': '-1.5rem' });
+    expect(opts.styleClass).toContain('app-form-dialog');
   });
 
   it('showUpdateVideoDialog emits {...media, videos} on onClose(MediaVideo[])', async () => {

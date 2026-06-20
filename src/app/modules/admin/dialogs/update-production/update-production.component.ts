@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
 import { DropdownOptionDto } from '../../../../core/dto/media';
@@ -28,7 +28,7 @@ interface UpdateProductionForm {
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ItemDataService, DestroyService],
     hostDirectives: [DialogDismissDirective],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, SelectModule, ButtonModule, FirstErrorKeyPipe]
+    imports: [DynamicDialogModule, TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, SelectModule, ButtonModule, FirstErrorKeyPipe]
 })
 export class UpdateProductionComponent implements OnInit {
   isUpdatingProduction: boolean = false;

@@ -1,12 +1,17 @@
 <ng-container *transloco="let t">
-  <h3 class="tw-text-white tw-text-2xl tw-font-bold tw-text-center">{{ t('admin.createEpisode.formHeader')
+  <div class="tw-absolute tw-right-6 tw-top-6 tw-z-50">
+    <button type="button" role="button" aria-label="Close dialog" pButton icon="ms ms-close"
+      class="p-button-rounded p-button-secondary p-button-text tw-ml-auto" (click)="closeDialog()">
+    </button>
+  </div>
+  <h3 class="tw-text-white tw-text-2xl tw-font-bold tw-text-center" style="padding-top: 3rem">{{ t('admin.createEpisode.formHeader')
   }}</h3>
   <app-stepper #stepper [linear]="true" headerStyleClass="tw-mx-5 tw-my-4" aria-label="Create episode">
     <cdk-step [label]="t('admin.createEpisode.step1')" [stepControl]="createEpisodeForm" [completed]="!!episode"
       [editable]="true">
       @if (!episode) {
         <form [formGroup]="createEpisodeForm" formHandler (ngSubmit)="onCreateEpisodeFormSubmit()">
-          <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
+          <div class="p-scrollbar tw-overflow-y-auto tw-max-h-[calc(90vh_-_18rem)] tw-px-6">
             <div class="tw-flex tw-flex-wrap">
               <div class="tw-w-full md:tw-w-1/2">
                 <label for="episode-number" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
@@ -85,7 +90,7 @@
                 </div>
               </div>
             </div>
-            <div class="app-action-bar__actions tw-my-4 tw-px-7">
+            <div class="app-action-bar__actions tw-mt-4 tw-mb-6 tw-px-7">
               <button pButton type="button" [label]="t('admin.createEpisode.cancel')"
                 (click)="onCreateEpisodeFormCancel()" class="p-button-text p-button-secondary p-button-sm">
               </button>
@@ -96,7 +101,7 @@
           </form>
         } @else {
           <form [formGroup]="updateEpisodeForm" formHandler (ngSubmit)="onUpdateEpisodeFormSubmit()">
-            <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
+            <div class="p-scrollbar tw-overflow-y-auto tw-max-h-[calc(90vh_-_18rem)] tw-px-6">
               <div class="tw-flex tw-flex-wrap">
                 <div class="tw-w-full md:tw-w-1/2">
                   <label for="episode-number" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
@@ -177,7 +182,7 @@
                   </div>
                 </div>
               </div>
-              <div class="app-action-bar__actions tw-my-4 tw-px-7">
+              <div class="app-action-bar__actions tw-mt-4 tw-mb-6 tw-px-7">
                 <button pButton type="button" [label]="t('admin.updateEpisode.cancel')"
                   (click)="onUpdateEpisodeFormReset()" class="p-button-text p-button-secondary p-button-sm"
                   [disabled]="!updateFormChanged">
@@ -192,7 +197,7 @@
         <cdk-step [label]="t('admin.createEpisode.step2')" [optional]="true" [editable]="true"
           aria-label="Episode elements">
           @if (episode) {
-            <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
+            <div class="p-scrollbar tw-overflow-y-auto tw-max-h-[calc(90vh_-_18rem)] tw-px-6">
               <div class="tw-flex tw-items-center tw-px-8 tw-py-4 tw-bg-neutral-875 tw-rounded-md tw-shadow-sm">
                 <div class="tw-w-auto">
                   <p class="tw-text-lg tw-font-medium">{{ t('admin.createEpisode.addStillLabel') }}</p>
@@ -228,7 +233,7 @@
               </div>
             </div>
           }
-          <div class="app-action-bar__actions tw-my-4 tw-px-7">
+          <div class="app-action-bar__actions tw-mt-4 tw-mb-6 tw-px-7">
             <button pButton type="button" [label]="t('admin.createEpisode.previous')"
               class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious [disabled]="isUpdatingStill">
             </button>
@@ -239,7 +244,7 @@
         </cdk-step>
         <cdk-step [label]="t('admin.createEpisode.step3')" [optional]="true" [editable]="true" aria-label="Episode source">
           @if (episode) {
-            <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
+            <div class="p-scrollbar tw-overflow-y-auto tw-max-h-[calc(90vh_-_18rem)] tw-px-6">
               <p class="tw-text-lg tw-font-medium tw-mb-2">{{ t('admin.createEpisode.addEpisodeSourceLabel') }}</p>
               <app-file-upload accept=".mp4, .mkv, .webm, .m2ts" styleClass="tw-max-w-xl tw-h-40 tw-mx-auto"
                 ariaLabel="Upload episode source" [label]="t('admin.createEpisode.chooseFile')"
@@ -248,7 +253,7 @@
               </app-file-upload>
             </div>
           }
-          <div class="app-action-bar__actions tw-my-4 tw-px-7">
+          <div class="app-action-bar__actions tw-mt-4 tw-mb-6 tw-px-7">
             <button pButton type="button" [label]="t('admin.createEpisode.previous')"
               class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious [disabled]="isUpdatingStill">
             </button>
@@ -258,13 +263,13 @@
           </div>
         </cdk-step>
         <cdk-step [label]="t('admin.createEpisode.step4')" [optional]="true" [editable]="true" aria-label="Finish">
-          <div class="p-scrollbar tw-overflow-y-auto tw-h-[calc(90vh-14rem)] tw-px-6">
+          <div class="p-scrollbar tw-overflow-y-auto tw-max-h-[calc(90vh_-_18rem)] tw-px-6">
             <div class="tw-mx-auto tw-mt-16 tw-text-center">
               <p class="tw-text-2xl tw-font-medium tw-mb-2">{{ t('admin.createEpisode.finishLabel') }}</p>
               <p class="tw-text-lg tw-mb-4">{{ t('admin.createEpisode.finishDescription') }}</p>
             </div>
           </div>
-          <div class="app-action-bar__actions tw-my-4 tw-px-7">
+          <div class="app-action-bar__actions tw-mt-4 tw-mb-6 tw-px-7">
             <button pButton type="button" [label]="t('admin.createEpisode.previous')"
               class="p-button-text p-button-secondary p-button-sm" cdkStepperPrevious>
             </button>

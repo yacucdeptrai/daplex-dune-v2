@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogRef, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
 import { CreatePlaylistForm } from '../../../../core/interfaces/forms';
@@ -25,7 +25,7 @@ interface CreatePlaylistWithDescForm extends CreatePlaylistForm {
     styleUrls: ['./create-playlist.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [PlaylistsService, DestroyService],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, TextareaModule, RadioButtonModule, ButtonModule, FirstErrorKeyPipe]
+    imports: [DynamicDialogModule, TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, TextareaModule, RadioButtonModule, ButtonModule, FirstErrorKeyPipe]
 })
 export class CreatePlaylistComponent {
   createPlaylistForm: FormGroup<CreatePlaylistWithDescForm>;

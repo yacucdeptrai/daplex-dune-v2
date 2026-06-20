@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
 import { DropdownOptionDto, UpdateMediaVideoDto } from '../../../../core/dto/media';
@@ -32,7 +32,7 @@ interface UpdateVideoForm {
     styleUrls: ['./update-video.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ItemDataService, DestroyService],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, ToggleSwitchModule, SelectModule, ButtonModule, FirstErrorKeyPipe, SafeUrlPipe]
+    imports: [DynamicDialogModule, TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, ToggleSwitchModule, SelectModule, ButtonModule, FirstErrorKeyPipe, SafeUrlPipe]
 })
 export class UpdateVideoComponent implements OnInit {
   youtubeUrl = YOUTUBE_EMBED_URL;

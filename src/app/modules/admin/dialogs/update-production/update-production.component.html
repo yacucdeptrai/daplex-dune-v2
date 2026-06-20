@@ -1,27 +1,34 @@
+<p-dialog-title></p-dialog-title>
 <ng-container *transloco="let t">
-  <h3 class="tw-text-white tw-text-2xl tw-font-bold tw-text-center tw-mb-4">{{ t('admin.updateProduction.formHeader')
-    }}</h3>
-  <form [formGroup]="updateProductionForm" formHandler (ngSubmit)="onUpdateProductionFormSubmit()">
-    <label for="name" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{ t('admin.updateProduction.name')
-      }}</label>
-    <input formControlName="name" class="tw-w-full" id="name" type="text" aria-describedby="name-error" pInputText
-      autofocus>
-    <small id="name-error" class="p-error tw-text-xs tw-block tw-my-2"
-      [invalidControl]="updateProductionForm.controls.name">{{ updateProductionForm.controls.name.errors
-      | firstErrorKey:'updateProduction':'name' }}</small>
-    <label for="country" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
-      t('admin.updateProduction.country') }}</label>
-    <p-select id="country" formControlName="country" [options]="countryOptions || []" scrollHeight="250px"
-      [placeholder]="t('admin.updateProduction.countryPlaceholder')" [showClear]="true" appendTo="body"
-      panelStyleClass="p-select-sm" styleClass="tw-w-full tw-mb-4" [disabledControl]="isUpdatingProduction">
-    </p-select>
-    <div class="app-action-bar__actions tw-mt-4">
-      <button pButton type="button" [label]="t('admin.updateProduction.cancel')"
-        (click)="onUpdateProductionFormCancel()" class="p-button-text p-button-secondary p-button-sm">
-      </button>
-      <button pButton type="submit" [label]="t('admin.updateProduction.submit')"
-        class="p-button-success p-button-sm" [disabled]="updateProductionForm.disabled">
-      </button>
-    </div>
-  </form>
+  <div pDialogContent class="tw-relative" style="padding-top: 3rem">
+    <button pButton type="button" icon="ms ms-close" (click)="onUpdateProductionFormCancel()"
+      [attr.aria-label]="t('admin.updateProduction.cancel')" class="p-button-text p-button-secondary p-button-rounded
+      p-button-sm p-button-sm-icon tw-absolute tw-top-6 tw-right-0"></button>
+    <h3 class="tw-text-white tw-text-2xl tw-font-bold tw-text-center tw-mb-4">{{ t('admin.updateProduction.formHeader')
+      }}</h3>
+    <form id="update-production-form" [formGroup]="updateProductionForm" formHandler
+      (ngSubmit)="onUpdateProductionFormSubmit()">
+      <label for="name" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{ t('admin.updateProduction.name')
+        }}</label>
+      <input formControlName="name" class="tw-w-full" id="name" type="text" aria-describedby="name-error" pInputText
+        autofocus>
+      <small id="name-error" class="p-error tw-text-xs tw-block tw-my-2"
+        [invalidControl]="updateProductionForm.controls.name">{{ updateProductionForm.controls.name.errors
+        | firstErrorKey:'updateProduction':'name' }}</small>
+      <label for="country" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
+        t('admin.updateProduction.country') }}</label>
+      <p-select id="country" formControlName="country" [options]="countryOptions || []" scrollHeight="250px"
+        [placeholder]="t('admin.updateProduction.countryPlaceholder')" [showClear]="true" appendTo="body"
+        panelStyleClass="p-select-sm" styleClass="tw-w-full tw-mb-4" [disabledControl]="isUpdatingProduction">
+      </p-select>
+    </form>
+  </div>
+  <div pDialogActions class="app-action-bar__actions">
+    <button pButton type="button" [label]="t('admin.updateProduction.cancel')"
+      (click)="onUpdateProductionFormCancel()" class="p-button-text p-button-secondary p-button-sm">
+    </button>
+    <button pButton type="submit" form="update-production-form" [label]="t('admin.updateProduction.submit')"
+      class="p-button-success p-button-sm" [disabled]="updateProductionForm.disabled">
+    </button>
+  </div>
 </ng-container>

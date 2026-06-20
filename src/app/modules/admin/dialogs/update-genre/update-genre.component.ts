@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs';
 
 import { UpdateGenreDto } from '../../../../core/dto/genres';
@@ -31,7 +31,7 @@ interface UpdateGenreForm {
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ItemDataService, DestroyService],
     hostDirectives: [DialogDismissDirective],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, ToggleSwitchModule, SelectModule, ButtonModule, FirstErrorKeyPipe]
+    imports: [DynamicDialogModule, TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, DisabledControlDirective, InputTextModule, InvalidControlDirective, ToggleSwitchModule, SelectModule, ButtonModule, FirstErrorKeyPipe]
 })
 export class UpdateGenreComponent implements OnInit {
   updateGenreForm: FormGroup<UpdateGenreForm>;

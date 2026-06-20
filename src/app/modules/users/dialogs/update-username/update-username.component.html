@@ -1,6 +1,9 @@
 <p-dialog-title></p-dialog-title>
 <ng-container *transloco="let t">
-  <div pDialogContent>
+  <div pDialogContent class="tw-relative" style="padding-top: 3rem">
+    <button pButton type="button" icon="ms ms-close" (click)="onUpdateUsernameFormCancel()"
+      [attr.aria-label]="t('users.updateUsername.cancel')" class="p-button-text p-button-secondary p-button-rounded
+      p-button-sm p-button-sm-icon tw-absolute tw-top-6 tw-right-0"></button>
     <h3 class="tw-text-white tw-text-2xl tw-font-bold tw-text-center tw-mb-4">{{ t('users.updateUsername.formHeader') }}
     </h3>
     <form id="update-username-form" [formGroup]="updateUsernameForm" formHandler

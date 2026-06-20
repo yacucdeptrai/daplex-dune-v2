@@ -373,8 +373,7 @@ export class ConfigureEpisodeComponent implements OnInit, AfterViewInit {
       width: '500px',
       modal: true,
       dismissableMask: false,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' }
+      styleClass: 'p-dialog-header-sm app-form-dialog'
     });
     dialogRef.onClose.pipe(first()).subscribe((subtitles: MediaSubtitle[]) => {
       if (!subtitles || !this.episode) return;

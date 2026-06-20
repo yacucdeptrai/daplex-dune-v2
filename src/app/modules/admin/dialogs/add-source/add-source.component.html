@@ -1,18 +1,24 @@
+<p-dialog-title></p-dialog-title>
 <ng-container *transloco="let t">
-  <h3 class="tw-text-white tw-text-2xl tw-font-bold tw-text-center tw-mb-4">
-    {{ t('admin.addMediaSource.formHeader') }}
-  </h3>
-  <form #addSourceFormElement="ngForm" [formGroup]="addSourceForm" formHandler (ngSubmit)="onAddSourceFormSubmit()">
-    <app-file-upload formControlName="file" accept=".mp4, .mkv, .webm, .m2ts" ariaDescribedby="file-error"
-      [label]="t('admin.addMediaSource.chooseFile')" [disabledControl]="isAddingSource">
-    </app-file-upload>
-    <small id="file-error" class="p-error tw-text-xs tw-block tw-my-2"
-      [invalidControl]="addSourceForm.controls.file">{{ addSourceForm.controls.file.errors |
-      firstErrorKey:'addMediaSource':'file' }}</small>
-    <div class="app-action-bar__actions tw-mt-4">
-      <button pButton type="button" [label]="t('admin.addMediaSubtitle.cancel')" (click)="onAddSourceFormCancel()"
-        class="p-button-text p-button-secondary p-button-sm">
-      </button>
-    </div>
-  </form>
+  <div pDialogContent class="tw-relative" style="padding-top: 3rem">
+    <button pButton type="button" icon="ms ms-close" (click)="onAddSourceFormCancel()"
+      [attr.aria-label]="t('admin.addMediaSource.cancel')" class="p-button-text p-button-secondary p-button-rounded
+      p-button-sm p-button-sm-icon tw-absolute tw-top-6 tw-right-0"></button>
+    <h3 class="tw-text-white tw-text-2xl tw-font-bold tw-text-center tw-mb-4">
+      {{ t('admin.addMediaSource.formHeader') }}
+    </h3>
+    <form #addSourceFormElement="ngForm" [formGroup]="addSourceForm" formHandler (ngSubmit)="onAddSourceFormSubmit()">
+      <app-file-upload formControlName="file" accept=".mp4, .mkv, .webm, .m2ts" ariaDescribedby="file-error"
+        [label]="t('admin.addMediaSource.chooseFile')" [disabledControl]="isAddingSource">
+      </app-file-upload>
+      <small id="file-error" class="p-error tw-text-xs tw-block tw-my-2"
+        [invalidControl]="addSourceForm.controls.file">{{ addSourceForm.controls.file.errors |
+        firstErrorKey:'addMediaSource':'file' }}</small>
+    </form>
+  </div>
+  <div pDialogActions class="app-action-bar__actions">
+    <button pButton type="button" [label]="t('admin.addMediaSubtitle.cancel')" (click)="onAddSourceFormCancel()"
+      class="p-button-text p-button-secondary p-button-sm">
+    </button>
+  </div>
 </ng-container>

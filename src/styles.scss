@@ -226,6 +226,126 @@ p {
   max-width: none;
 }
 
+/* Form dialogs (account/admin/playlist edit forms): symmetric top/bottom spacing. The close
+   X (inset, not flush) sits 24px below the card top via the content's absolute position; zero
+   the outer content's bottom padding and give the footer a 24px bottom so the action buttons
+   sit the same 24px above the card bottom — equal insets. The title is rendered in-content
+   (centered h3), so the dialog's own (empty) header bar is hidden — non-minimal dialogs
+   otherwise render a ~16px empty header that pushes the X down and breaks the symmetry. */
+.app-form-dialog > .p-dialog-content {
+  padding-bottom: 0;
+}
+.app-form-dialog .p-dialog-footer {
+  padding-bottom: 1.5rem;
+}
+.app-form-dialog .p-dialog-header {
+  display: none;
+}
+
+/* Select dropdown scrollbars: the global thin scrollbar only targets <html>, so each
+   dropdown's scroll container falls back to the OS scrollbar — on Windows that shows
+   up/down arrow buttons. Match the app's thin, button-less scrollbar. */
+.p-select-overlay .p-select-list-container,
+.p-select-overlay .p-virtualscroller {
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  &::-webkit-scrollbar-button {
+    display: none; /* drop the up/down arrows */
+  }
+  &::-webkit-scrollbar-track {
+    background: #424242;
+    border-radius: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #646464;
+    border-radius: 5px;
+  }
+}
+
+/* History filter sidebar: repair the Start/End date boxes and unify control heights.
+   The v17→v21 rename left the oracle styling .p-datepicker as the old popup PANEL
+   (padding/bg/border) though v21 uses it as the input host, and the host stays
+   display:block so the input can't flex to fill — a tiny input + a seam'd dropdown button
+   float in an empty dark box. Make the host a clean flex wrapper, fill the input, overlay
+   the calendar icon inside it, and pin every control to 42px. Physical props (iOS 13). */
+.history-filter {
+  .p-datepicker {
+    display: flex;
+    position: relative;
+    width: 100%;
+    padding: 0;
+    background: transparent;
+    border: 0;
+  }
+  .p-datepicker-input {
+    flex: 1 1 auto;
+    width: 1%;
+    padding-right: 2.5rem; /* clear the overlaid calendar icon */
+  }
+  .p-datepicker-dropdown {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  /* Centre the select's label/value vertically at the reduced height */
+  .p-select-label {
+    display: flex;
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  /* Uniform 42px box height across every filter control */
+  .p-datepicker-input,
+  .p-datepicker-dropdown,
+  .p-select,
+  .p-autocomplete-full .p-autocomplete-input-multiple {
+    height: 42px;
+  }
+  /* The autocomplete container is sized by min-height (token preset), so height alone is
+     clamped back up — pin min-height too. */
+  .p-autocomplete-full .p-autocomplete-input-multiple {
+    min-height: 42px;
+  }
+}
+
+/* Slider (p-sliderAlt): the fork port declares its positioning in SliderAltStyle.style but
+   never injects it, and the oracle only skins colors/size + centering margins — so the range
+   fill and handle stay position:static, ignore their %-width/left, and collapse to 0 (invisible).
+   Restore the absolute-positioning skeleton the preset expects. Physical props for iOS 13. */
+.p-slider {
+  position: relative;
+}
+.p-slider .p-slider-range,
+.p-slider .p-slider-handle {
+  position: absolute;
+  display: block;
+}
+.p-slider-horizontal .p-slider-range {
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+.p-slider-horizontal .p-slider-handle {
+  top: 50%;
+}
+.p-slider-vertical .p-slider-range {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.p-slider-vertical .p-slider-handle {
+  left: 50%;
+}
+
 /* Reduced-motion baseline (P3, WCAG 2.3.3): collapse owned CSS motion to ~instant when the
    OS asks. 0.01ms (not 0s) so animationend/transitionend still fire; iteration-count:1 lands
    looping keyframes on their final frame. End-states preserved — no exemption needed. */

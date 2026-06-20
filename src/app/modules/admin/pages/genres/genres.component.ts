@@ -53,7 +53,7 @@ export class GenresComponent implements OnInit, OnDestroy {
     const dialogRef = openDialog(this.dialogService, CreateGenreComponent, {
       width: '500px',
       modal: true,
-      styleClass: 'p-dialog-header-sm',
+      styleClass: 'p-dialog-header-sm app-form-dialog',
       dismissableMask: true,
       closeOnEscape: true,
       closable: true
@@ -69,7 +69,7 @@ export class GenresComponent implements OnInit, OnDestroy {
       data: { ...genre },
       width: '500px',
       modal: true,
-      styleClass: 'p-dialog-header-sm',
+      styleClass: 'p-dialog-header-sm app-form-dialog',
       dismissableMask: true,
       closable: true
     });

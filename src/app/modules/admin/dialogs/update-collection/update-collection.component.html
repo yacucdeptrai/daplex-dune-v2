@@ -1,38 +1,44 @@
+<p-dialog-title></p-dialog-title>
 <ng-container *transloco="let t">
-  <h3 class="tw-text-white tw-text-2xl tw-font-bold tw-text-center tw-mb-4">{{ t('admin.updateCollection.formHeader')
-    }}</h3>
-  <form [formGroup]="updateCollectionForm" formHandler (ngSubmit)="onUpdateCollectionFormSubmit()">
-    <label for="name" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{ t('admin.updateCollection.name')
-      }}</label>
-    <input formControlName="name" class="tw-w-full" id="name" type="text" aria-describedby="name-error" pInputText
-      autofocus>
-    <small id="name-error" class="p-error tw-text-xs tw-block tw-my-2"
-      [invalidControl]="updateCollectionForm.controls.name">{{ updateCollectionForm.controls.name.errors |
-      firstErrorKey:'updateCollection':'name' }}</small>
-    <label for="overview" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
-      t('admin.updateCollection.overview') }}</label>
-    <textarea formControlName="overview" class="tw-w-full" id="overview" aria-describedby="overview-error"
-      [placeholder]="t('admin.updateCollection.overviewPlaceholder')" pTextarea [rows]="5"></textarea>
-    <small id="overview-error" class="p-error tw-text-xs tw-block tw-my-2"
-      [invalidControl]="updateCollectionForm.controls.overview">{{ updateCollectionForm.controls.overview.errors |
-      firstErrorKey:'updateCollection':'overview' }}</small>
-    <div class="app-action-bar__actions tw-mt-4">
-      <button pButton type="button" [label]="t('admin.updateCollection.cancel')"
-        (click)="onUpdateCollectionFormCancel()" class="p-button-text p-button-secondary p-button-sm">
-      </button>
-      <button pButton type="submit" [label]="t('admin.updateCollection.submit')" class="p-button-success p-button-sm"
-        [disabled]="updateCollectionForm.disabled">
-      </button>
-    </div>
-  </form>
-  <!--Image section stays live regardless of the overview-hydration gate; it only needs _id.-->
-  <hr class="tw-border-white/10 tw-my-5">
-  <app-collection-images [collection]="collection" [t]="t" [parentDialogRef]="dialogRef"
-    (collectionChange)="onCollectionChange($event)" />
-  <!--In-modal delete confirm host for the image section (route-scoped ConfirmationService).-->
-  <p-confirmDialog [blockScroll]="false" key="inModal" [style]="{width: '500px'}" [baseZIndex]="1000"
-    acceptButtonStyleClass="p-button-danger p-button-sm"
-    rejectButtonStyleClass="p-button-text p-button-secondary p-button-sm" rejectIcon="" acceptIcon=""
-    [dismissableMask]="true">
-  </p-confirmDialog>
+  <div pDialogContent class="tw-relative" style="padding-top: 3rem">
+    <button pButton type="button" icon="ms ms-close" (click)="onUpdateCollectionFormCancel()"
+      [attr.aria-label]="t('admin.updateCollection.cancel')" class="p-button-text p-button-secondary p-button-rounded
+      p-button-sm p-button-sm-icon tw-absolute tw-top-6 tw-right-0"></button>
+    <h3 class="tw-text-white tw-text-2xl tw-font-bold tw-text-center tw-mb-4">{{ t('admin.updateCollection.formHeader')
+      }}</h3>
+    <form [formGroup]="updateCollectionForm" formHandler (ngSubmit)="onUpdateCollectionFormSubmit()">
+      <label for="name" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{ t('admin.updateCollection.name')
+        }}</label>
+      <input formControlName="name" class="tw-w-full" id="name" type="text" aria-describedby="name-error" pInputText
+        autofocus>
+      <small id="name-error" class="p-error tw-text-xs tw-block tw-my-2"
+        [invalidControl]="updateCollectionForm.controls.name">{{ updateCollectionForm.controls.name.errors |
+        firstErrorKey:'updateCollection':'name' }}</small>
+      <label for="overview" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
+        t('admin.updateCollection.overview') }}</label>
+      <textarea formControlName="overview" class="tw-w-full" id="overview" aria-describedby="overview-error"
+        [placeholder]="t('admin.updateCollection.overviewPlaceholder')" pTextarea [rows]="5"></textarea>
+      <small id="overview-error" class="p-error tw-text-xs tw-block tw-my-2"
+        [invalidControl]="updateCollectionForm.controls.overview">{{ updateCollectionForm.controls.overview.errors |
+        firstErrorKey:'updateCollection':'overview' }}</small>
+      <div class="app-action-bar__actions tw-mt-4">
+        <button pButton type="button" [label]="t('admin.updateCollection.cancel')"
+          (click)="onUpdateCollectionFormCancel()" class="p-button-text p-button-secondary p-button-sm">
+        </button>
+        <button pButton type="submit" [label]="t('admin.updateCollection.submit')" class="p-button-success p-button-sm"
+          [disabled]="updateCollectionForm.disabled">
+        </button>
+      </div>
+    </form>
+    <!--Image section stays live regardless of the overview-hydration gate; it only needs _id.-->
+    <hr class="tw-border-white/10 tw-my-5">
+    <app-collection-images [collection]="collection" [t]="t" [parentDialogRef]="dialogRef"
+      (collectionChange)="onCollectionChange($event)" />
+    <!--In-modal delete confirm host for the image section (route-scoped ConfirmationService).-->
+    <p-confirmDialog [blockScroll]="false" key="inModal" [style]="{width: '500px'}" [baseZIndex]="1000"
+      acceptButtonStyleClass="p-button-danger p-button-sm"
+      rejectButtonStyleClass="p-button-text p-button-secondary p-button-sm" rejectIcon="" acceptIcon=""
+      [dismissableMask]="true">
+    </p-confirmDialog>
+  </div>
 </ng-container>

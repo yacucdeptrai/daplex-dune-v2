@@ -17,7 +17,8 @@
       @if (showFilterForm) {
         <div class="md:tw-sticky md:tw-top-4 tw-w-full md:tw-w-1/4 md:tw-h-fit">
           <div class="tw-bg-neutral-850 tw-text-white tw-px-4 tw-py-8 tw-rounded-md">
-            <form [formGroup]="filterHistoryForm" formHandler (ngSubmit)="onFilterHistoryFormSubmit()">
+            <form [formGroup]="filterHistoryForm" formHandler (ngSubmit)="onFilterHistoryFormSubmit()"
+              class="history-filter">
               <label for="media-search" class="tw-inline-block tw-text-base tw-font-medium tw-mb-1.5">{{
               t('users.filterHistory.range') }}</label>
               <p-datepicker formControlName="startDate" [maxDate]="maxCalendarDate" [readonlyInput]="false"

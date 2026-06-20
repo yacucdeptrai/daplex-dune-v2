@@ -402,8 +402,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
       width: '700px',
       modal: true,
       dismissableMask: false,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' }
+      styleClass: 'p-dialog-header-sm app-form-dialog'
     });
     dialogRef.onClose.pipe(first()).subscribe((videos: MediaVideo[]) => {
       if (!videos || !this.media) return;
@@ -424,8 +423,7 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
       width: '500px',
       modal: true,
       dismissableMask: false,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' }
+      styleClass: 'p-dialog-header-sm app-form-dialog'
     });
     dialogRef.onClose.pipe(first()).subscribe((subtitles: MediaSubtitle[]) => {
       if (!subtitles || !this.media) return;
@@ -441,11 +439,10 @@ export class CreateMediaComponent implements OnInit, AfterViewInit {
     const dialogRef = openDialog(this.dialogService, CreateEpisodeComponent, {
       data: { media: { ...this.media }, episodes: [...this.media.tv.episodes] },
       width: '980px',
-      height: '100%',
       modal: true,
       dismissableMask: false,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem', 'overflow-y': 'hidden', 'padding': '0px' }
+      styleClass: 'p-dialog-header-sm app-form-dialog',
+      contentStyle: { 'overflow-y': 'hidden', 'padding': '0px' }
     });
     dialogRef.onClose.pipe(first()).subscribe((episode: any) => {
       if (!episode || !this.media) return;

@@ -111,8 +111,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
     const dialogRef = openDialog(this.dialogService, CreatePlaylistComponent, {
       width: '500px',
       modal: true,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' },
+      styleClass: 'p-dialog-header-sm app-form-dialog',
       dismissableMask: true
     });
     dialogRef.onClose.pipe(first()).subscribe((result: PlaylistDetails) => {
@@ -148,11 +147,10 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   showPlaylistSettingsDialog(playlist: Playlist, playlistCard?: PlaylistCardComponent) {
     const dialogRef = openDialog(this.dialogService, PlaylistSettingsComponent, {
       data: { ...playlist },
-      header: this.translocoService.translate('media.playlists.settings'),
       width: '720px',
       modal: true,
       dismissableMask: true,
-      styleClass: 'p-dialog-header-sm',
+      styleClass: 'p-dialog-header-sm app-form-dialog',
       minimal: true,
       viewContainerRef: this.viewContainerRef
     });

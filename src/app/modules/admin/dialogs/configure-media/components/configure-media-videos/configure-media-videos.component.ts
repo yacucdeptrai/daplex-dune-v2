@@ -167,8 +167,7 @@ export class ConfigureMediaVideosComponent {
       width: '700px',
       modal: true,
       dismissableMask: false,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' }
+      styleClass: 'p-dialog-header-sm app-form-dialog'
     });
     dialogRef.onClose.pipe(first()).subscribe((videos: MediaVideo[]) => {
       if (!videos) return;
@@ -184,8 +183,7 @@ export class ConfigureMediaVideosComponent {
       width: '700px',
       modal: true,
       dismissableMask: false,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' }
+      styleClass: 'p-dialog-header-sm app-form-dialog'
     });
     dialogRef.onClose.pipe(first()).subscribe((videos: MediaVideo[]) => {
       if (!videos) return;

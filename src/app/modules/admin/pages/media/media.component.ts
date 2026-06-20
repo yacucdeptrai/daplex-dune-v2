@@ -158,8 +158,7 @@ export class MediaComponent implements OnInit, OnDestroy {
         width: '700px',
         modal: true,
         dismissableMask: true,
-        styleClass: 'p-dialog-header-sm',
-        contentStyle: { 'margin-top': '-1.5rem' }
+        styleClass: 'p-dialog-header-sm app-form-dialog'
       });
     })).subscribe();
   }
@@ -171,8 +170,7 @@ export class MediaComponent implements OnInit, OnDestroy {
         width: '500px',
         modal: true,
         dismissableMask: true,
-        styleClass: 'p-dialog-header-sm',
-        contentStyle: { 'margin-top': '-1.5rem' }
+        styleClass: 'p-dialog-header-sm app-form-dialog'
       });
     })).subscribe();
   }
@@ -184,8 +182,7 @@ export class MediaComponent implements OnInit, OnDestroy {
         width: '500px',
         modal: true,
         dismissableMask: true,
-        styleClass: 'p-dialog-header-sm',
-        contentStyle: { 'margin-top': '-1.5rem' }
+        styleClass: 'p-dialog-header-sm app-form-dialog'
       });
     })).subscribe();
   }

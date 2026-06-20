@@ -56,7 +56,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     const dialogRef = openDialog(this.dialogService, CreateCollectionComponent, {
       width: '500px',
       modal: true,
-      styleClass: 'p-dialog-header-sm',
+      styleClass: 'p-dialog-header-sm app-form-dialog',
       dismissableMask: true,
       closeOnEscape: true,
       closable: true
@@ -72,7 +72,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       data: { ...collection },
       width: '700px',
       modal: true,
-      styleClass: 'p-dialog-header-sm',
+      styleClass: 'p-dialog-header-sm app-form-dialog',
       dismissableMask: true,
       closable: true
     });

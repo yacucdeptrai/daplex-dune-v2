@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
 import { takeUntil } from 'rxjs';
 
@@ -25,7 +25,7 @@ import { FirstErrorKeyPipe } from '../../../../shared/pipes/validation-pipe/firs
     styleUrls: ['./add-subtitle.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ItemDataService, DestroyService],
-    imports: [TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, SelectModule, DisabledControlDirective, InvalidControlDirective, FileUploadComponent, ButtonModule, FirstErrorKeyPipe]
+    imports: [DynamicDialogModule, TranslocoDirective, FormsModule, ReactiveFormsModule, FormHandlerDirective, SelectModule, DisabledControlDirective, InvalidControlDirective, FileUploadComponent, ButtonModule, FirstErrorKeyPipe]
 })
 export class AddSubtitleComponent implements OnInit {
   languages?: DropdownOptionDto[];

@@ -41,8 +41,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
       data: { ...this.currentUser },
       width: '500px',
       modal: true,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' },
+      styleClass: 'p-dialog-header-sm app-form-dialog',
       dismissableMask: true,
       minimal: true,
       providers: [{ provide: UsersService, useValue: this.usersService }]
@@ -60,8 +59,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
       data: { ...this.currentUser },
       width: '500px',
       modal: true,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' },
+      styleClass: 'p-dialog-header-sm app-form-dialog',
       dismissableMask: true,
       minimal: true,
       providers: [{ provide: UsersService, useValue: this.usersService }]
@@ -79,8 +77,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
       data: { ...this.currentUser },
       width: '500px',
       modal: true,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' },
+      styleClass: 'p-dialog-header-sm app-form-dialog',
       dismissableMask: true,
       minimal: true,
       providers: [{ provide: UsersService, useValue: this.usersService }]
@@ -98,8 +95,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
       data: { ...this.currentUser },
       width: '500px',
       modal: true,
-      styleClass: 'p-dialog-header-sm',
-      contentStyle: { 'margin-top': '-1.5rem' },
+      styleClass: 'p-dialog-header-sm app-form-dialog',
       dismissableMask: true,
       minimal: true,
       providers: [{ provide: UsersService, useValue: this.usersService }]
