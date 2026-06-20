@@ -77,9 +77,9 @@
         </p-altAutoComplete>
       </div>
       <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
-      <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-space-x-2 tw-content-center">
+      <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-content-center">
         @for (genre of updateMediaForm.value.genres; track genre._id || $index) {
-          <p-chip [label]="genre.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full"
+          <p-chip [label]="genre.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full tw-mr-2 tw-mb-2"
             (onRemove)="genreAC.removeOptionByObject(genre); genreAC.cd.markForCheck()"></p-chip>
         }
       </div>
@@ -98,9 +98,9 @@
         </p-altAutoComplete>
       </div>
       <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
-      <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-space-x-2 tw-content-center">
+      <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-content-center">
         @for (studio of updateMediaForm.value.studios; track studio._id || $index) {
-          <p-chip [label]="studio.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full"
+          <p-chip [label]="studio.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full tw-mr-2 tw-mb-2"
             (onRemove)="studioAC.removeOptionByObject(studio); studioAC.cd.markForCheck()"></p-chip>
         }
       </div>
@@ -119,9 +119,9 @@
         </p-altAutoComplete>
       </div>
       <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
-      <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-space-x-2 tw-content-center">
+      <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-content-center">
         @for (producer of updateMediaForm.value.producers; track producer._id || $index) {
-          <p-chip [label]="producer.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full"
+          <p-chip [label]="producer.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full tw-mr-2 tw-mb-2"
             (onRemove)="producerAC.removeOptionByObject(producer); producerAC.cd.markForCheck()"></p-chip>
         }
       </div>
@@ -140,9 +140,9 @@
         </p-altAutoComplete>
       </div>
       <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
-      <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-space-x-2 tw-content-center">
+      <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-content-center">
         @for (tag of updateMediaForm.value.tags; track tag._id || $index) {
-          <p-chip [label]="tag.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full"
+          <p-chip [label]="tag.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full tw-mr-2 tw-mb-2"
             (onRemove)="tagAC.removeOptionByObject(tag); tagAC.cd.markForCheck()"></p-chip>
         }
       </div>
@@ -161,9 +161,9 @@
         </p-altAutoComplete>
       </div>
       <div class="max-md:tw-hidden tw-divider-y tw-mx-8"></div>
-      <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-space-x-2 tw-content-center">
+      <div class="tw-flex tw-flex-wrap tw-w-full md:tw-w-2/3 tw-content-center">
         @for (collection of updateMediaForm.value.collections; track collection._id || $index) {
-          <p-chip [label]="collection.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full"
+          <p-chip [label]="collection.name" [removable]="true" styleClass="p-chip-sm tw-rounded-full tw-mr-2 tw-mb-2"
             (onRemove)="collectionAC.removeOptionByObject(collection); collectionAC.cd.markForCheck()"></p-chip>
         }
       </div>
