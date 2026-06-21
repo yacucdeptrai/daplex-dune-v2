@@ -7,7 +7,9 @@
     "showMore": "Show more",
     "showLess": "Show less",
     "viewCollection": "View collection",
-    "watchProgress": "Watch progress"
+    "watchProgress": "Watch progress",
+    "markWatched": "Mark watched",
+    "unmarkWatched": "Unmark watched"
   },
   "list": {
     "runtimeValue": "{{ runtime }} min",

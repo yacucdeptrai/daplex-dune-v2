@@ -189,6 +189,11 @@
         <button type="button" role="button" aria-label="Add media to playlist" pButton icon="ms ms-playlist-add"
           class="p-button-secondary p-button-shrink tw-text-lg" (click)="showAddToPlaylistDialog(media)">
         </button>
+        <button type="button" pButton [attr.aria-pressed]="isWatched(media._id) ? 'true' : 'false'"
+          [attr.aria-label]="(isWatched(media._id) ? t('media.actions.unmarkWatched') : t('media.actions.markWatched')) + ': ' + media.title"
+          [icon]="isWatched(media._id) ? 'ms ms-check-circle' : 'ms ms-check-circle-outline'"
+          class="p-button-secondary p-button-shrink tw-text-lg" (click)="toggleWatched(media)">
+        </button>
       </div>
     </div>
   </ng-template>
@@ -197,6 +202,10 @@
       <button appMenuItem (click)="showAddToPlaylistDialog(media)">
         <i class="ms ms-playlist-add"></i>
         <span>{{ t('media.playlists.addToPlaylist') }}</span>
+      </button>
+      <button appMenuItem [attr.aria-pressed]="isWatched(media._id) ? 'true' : 'false'" (click)="toggleWatched(media)">
+        <i [class]="isWatched(media._id) ? 'ms ms-check-circle' : 'ms ms-check-circle-outline'"></i>
+        <span>{{ isWatched(media._id) ? t('media.actions.unmarkWatched') : t('media.actions.markWatched') }}</span>
       </button>
     </div>
   </ng-template>

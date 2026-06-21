@@ -1,10 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, Renderer2, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, Renderer2, OnDestroy, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { TranslocoService, TRANSLOCO_SCOPE, TranslocoDirective } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { Media } from '../../../core/models';
-import { AuthService, WatchProgressService } from '../../../core/services';
+import { AuthService, HistoryService, WatchProgressService } from '../../../core/services';
 import { MediaType } from '../../../core/enums';
 import { AddToPlaylistComponent } from '../../dialogs/add-to-playlist';
 import { track_Id } from '../../../core/utils';
@@ -29,6 +29,7 @@ import { StripAriaLevelDirective } from '../../directives/strip-aria-level/strip
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         DialogService,
+        HistoryService,
         {
             provide: TRANSLOCO_SCOPE,
             useValue: 'media'
@@ -45,9 +46,12 @@ export class MediaListComponent implements OnInit, OnDestroy {
   @Input() itemLimit: number = 30;
   @Input() viewMode: number = 1;
   skeletonArray: Array<any>;
+  // Locally-marked ids this session; the optimistic source of rendered watched state.
+  markedIds = signal(new Set<string>());
 
   constructor(private renderer: Renderer2, private dialogService: DialogService, private translocoService: TranslocoService,
-    private authService: AuthService, private router: Router, private watchProgress: WatchProgressService) {
+    private authService: AuthService, private router: Router, private watchProgress: WatchProgressService,
+    private historyService: HistoryService) {
     this.skeletonArray = new Array(this.itemLimit);
   }
 
@@ -63,6 +67,29 @@ export class MediaListComponent implements OnInit, OnDestroy {
   onMediaMenuClick(button: HTMLButtonElement, opened: boolean): void {
     this.renderer[opened ? 'removeClass' : 'addClass'](button, 'tw-invisible');
     this.renderer[opened ? 'addClass' : 'removeClass'](button, 'tw-visible');
+  }
+
+  // Rendered watched state: the local optimistic toggle wins (W2.2 map is in-progress-only,
+  // so absent items default to "Mark watched" — see D-W0.9-2).
+  isWatched(mediaId: string): boolean {
+    return this.markedIds().has(mediaId);
+  }
+
+  // Single PATCH per click; optimistic flip rolled back on error (interceptor owns the toast).
+  toggleWatched(media: Media) {
+    if (!this.authService.currentUser) {
+      this.router.navigate(['/sign-in']);
+      return;
+    }
+    const target = this.isWatched(media._id) ? 0 : 1;
+    const before = this.markedIds();
+    const next = new Set(before);
+    target === 1 ? next.add(media._id) : next.delete(media._id);
+    this.markedIds.set(next);
+    // Restore the call-time snapshot on error so a stale rollback can't clobber a newer flip.
+    this.historyService.markWatched(media._id, { watched: target }).subscribe({
+      error: () => this.markedIds.set(before)
+    });
   }
 
   showAddToPlaylistDialog(media: Media) {

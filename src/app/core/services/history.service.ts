@@ -34,6 +34,10 @@ export class HistoryService {
     return this.http.patch<History>(`history/${id}`, updateHistoryDto);
   }
 
+  markWatched(mediaId: bigint | string, dto: { episode?: bigint | string; watched: number }) {
+    return this.http.patch<History | null>(`history/${mediaId}/watched`, dto);
+  }
+
   findWatchTime(findWatchTimeDto: FindWatchTimeDto) {
     const params: HttpParamsObject = { media: findWatchTimeDto.media };
     findWatchTimeDto.episode && (params['episode'] = findWatchTimeDto.episode);

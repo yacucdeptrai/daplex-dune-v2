@@ -1,4 +1,8 @@
 {
+  "actions": {
+    "markWatched": "Đánh dấu đã xem",
+    "unmarkWatched": "Bỏ đánh dấu đã xem"
+  },
   "details": {
     "runtimeValue": "{{ runtime }} phút",
     "noGenres": "Không có thể loại",
