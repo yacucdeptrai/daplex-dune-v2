@@ -17,7 +17,9 @@
    zinc ramp instead of the legacy white-alpha values; the oracle (un-layered, so it beats the
    preset's @layer primeng) masks that gap until tier-3 is pinned in the preset. */
 @import "../node_modules/primeicons/primeicons.css";
-@import "./assets/css/primeng/md-dark-indigo-custom.css";
+// @import "./assets/css/primeng/md-dark-indigo-custom.css";
+/* Slimmed oracle residue — bespoke/app rules with no v21 token equivalent (kept after the cutover) */
+@import "./assets/css/primeng/md-dark-indigo-residue.css";
 
 /* Tailwind */
 @import "../node_modules/tailwindcss/base";
@@ -37,6 +39,27 @@ html {
     background: #646464;
     border-radius: 5px;
   }
+}
+
+/* Roboto faces — moved out of the legacy md-dark-indigo oracle so the app font loads on its own once
+   the oracle is retired (the oracle owned these @font-face blocks). Files live in assets/fonts/. */
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Roboto"), local("Roboto-Regular"), url("/assets/fonts/roboto-regular.woff2") format("woff2"), url("/assets/fonts/roboto-regular.woff") format("woff");
+}
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  src: local("Roboto Medium"), local("Roboto-Medium"), url("/assets/fonts/roboto-medium.woff2") format("woff2"), url("/assets/fonts/roboto-medium.woff") format("woff");
+}
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  src: local("Roboto Bold"), local("Roboto-Bold"), url("/assets/fonts/roboto-bold.woff2") format("woff2"), url("/assets/fonts/roboto-bold.woff") format("woff");
 }
 
 body {
@@ -142,6 +165,107 @@ p {
 }
 .app-action-bar__actions .p-button.p-button-sm:not(.p-button-icon-only) {
   min-width: 5rem;
+}
+
+/* Button icon ↔ label spacing: v21 buttons space the icon and text with a flexbox `gap`
+   (the button.gap token — flexible, and it collapses by itself for icon-only buttons). The legacy
+   oracle ALSO puts a fixed margin on the icon, so the two stack and the gap doubles (16px instead of
+   8px). Drop the oracle margin so the single flexible gap is the only spacing. Redundant once the
+   oracle is removed at cutover; the more-specific selectbutton rules keep their own spacing. */
+.p-button .p-button-icon-left,
+.p-button .p-button-icon-right,
+.p-button .p-button-icon-top,
+.p-button .p-button-icon-bottom {
+  margin: 0;
+}
+
+/* Toggle / select buttons carrying the `p-button-sm` styleClass render full-size (~50px): v21 sizes
+   the `.p-togglebutton` element, but `.p-button-sm` only targets `.p-button`, so the small size never
+   reaches them — they tower over the real small controls (Filter button 41px, icon buttons 40px),
+   leaving a size gap. Apply the v21 small padding (matches button-sm: 0.5rem / 0.875rem) so they sit
+   at ~40px alongside the other sm buttons. */
+.p-togglebutton.p-button-sm {
+  padding: 0.5rem 0.875rem;
+}
+
+/* `p-togglebutton-dark` is only ever an icon-only expand/collapse toggle (onLabel/offLabel="" in both
+   uses — history filter + media filter). v21 still renders an empty label span, and the content's
+   centred flex row [icon · 8px gap · empty label] pushes the lone icon ~6px left of centre. Drop the
+   empty label so the single icon truly centres. */
+.p-togglebutton-dark .p-togglebutton-label {
+  display: none;
+}
+
+/* Paginator alignment: the legacy oracle right-aligned the paginator (justify-content:flex-end);
+   v21 defaults to center, so without the oracle the row floats in the middle. Pin flex-end so the
+   report + page controls sit against the right edge. */
+.p-paginator {
+  justify-content: flex-end;
+}
+
+/* Paginator item spacing: the legacy oracle gave the report, nav buttons and page buttons a 0.143rem
+   margin on top of the 4px container gap (→ ~6–9px gaps); v21 has no item margin, so without the
+   oracle the row packs to a uniform 4px. Restore the margins to match the before spacing. */
+.p-paginator .p-paginator-current,
+.p-paginator .p-paginator-first,
+.p-paginator .p-paginator-prev,
+.p-paginator .p-paginator-next,
+.p-paginator .p-paginator-last,
+.p-paginator .p-paginator-page {
+  margin: 0.143rem;
+}
+
+/* Paginator rows-per-page select renders 2px taller (50px, bordered box) than the flat page-number
+   and nav-icon buttons (48px), so it sits as an oversized box in the row. Match the button height so
+   the whole paginator row lines up. Also: it was a wide fixed box (number pinned left, chevron pinned
+   right behind a big gap, in a 40px dropdown) — hug the content and give the "10" and the chevron the
+   SAME 0.75rem padding all round for a balanced, compact [ 10 ⌄ ]. */
+.p-paginator .p-select {
+  height: 48px;
+  width: auto;
+  min-width: 0;
+}
+.p-paginator .p-select .p-select-label {
+  padding-right: 0; /* gap to the chevron is owned by the dropdown's left padding (below) */
+}
+.p-paginator .p-select .p-select-dropdown {
+  width: auto;
+  padding: 0 0.75rem; /* 12px each side: left = gap from "10", right = outer padding (matches label's 0.75rem left) */
+}
+
+/* Chip right padding: v21 zeroes a removable chip's padding-inline-end (it assumes the remove control
+   carries its own end spacing, but our ms-cancel glyph doesn't), so the ✕ sits flush to the edge.
+   The legacy oracle gave the chip 0 0.75rem — restore the 0.75rem right so removable chips keep even
+   padding (matches the label's left inset) once the oracle is dropped. (chip bg/colour/height are
+   pinned in the mddarkindigo preset; this is the removable-layout residue.) */
+.p-chip {
+  padding-right: 0.75rem;
+}
+/* Remove ✕ icon: its glyph is 18px in a 16px box with an 18px line-height, so the line-box is
+   top-anchored and the ✕ renders ~1px below the label's optical centre. Make the icon centre its own
+   glyph so the text and the ✕ sit on one vertically-centred line. */
+.p-chip .p-chip-remove-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* Text-input height: the legacy oracle padded `.p-inputtext` to 1rem (58px tall) so single-line text
+   inputs matched the form's selects; v21's 0.75rem renders them 50px (2px shorter than the 58px
+   selects, breaking the admin create/edit-media form). Restore the 1rem vertical padding so plain
+   text inputs are 58px. Sized inputs (-xs/-sm/-lg) keep their own size, and the optional middle
+   autocompletes (.p-autocomplete-full, pinned 56px) + selects are unaffected. */
+.p-inputtext:not(.p-inputtext-sm):not(.p-inputtext-lg):not(.p-inputtext-xs) {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+/* Progress bars: v21 defaults showValue=true, so the percentage label renders inside the bar — on the
+   thin watch-progress bars (history, resume cards, media list) it shows as stray digits (e.g. "55").
+   The legacy oracle hid the label; the app's progress bars are decorative (no number), so hide it. */
+.p-progressbar .p-progressbar-label {
+  display: none;
 }
 
 /* ── Image chooser grid — provider poster/backdrop picker ─────────────────────
@@ -325,17 +449,31 @@ p {
   outline-offset: 2px;
 }
 
-/* Select dropdown scrollbars: the global thin scrollbar only targets <html>, so each
-   dropdown's scroll container falls back to the OS scrollbar — on Windows that shows
-   up/down arrow buttons. Match the app's thin, button-less scrollbar. */
-.p-select-overlay .p-select-list-container,
-.p-select-overlay .p-virtualscroller {
+/* Dropdown / overlay scrollbars: the global thin scrollbar only targets <html>, so every overlay
+   panel's scroll container falls back to the OS scrollbar — on Windows that shows up/down arrow
+   buttons. Apply the app's thin, button-less scrollbar to ALL dropdown/overlay panels (selects,
+   autocompletes, multiselects, tree/cascade selects, datepickers, menus, popovers) + the virtual
+   scroller and the in-dialog .p-scrollbar areas. The `<overlay> *` descendant catch styles whichever
+   inner element actually scrolls, regardless of its exact class. */
+.p-select-overlay, .p-select-overlay *,
+.p-autocomplete-overlay, .p-autocomplete-overlay *,
+.p-multiselect-overlay, .p-multiselect-overlay *,
+.p-treeselect-overlay, .p-treeselect-overlay *,
+.p-cascadeselect-overlay, .p-cascadeselect-overlay *,
+.p-datepicker, .p-datepicker *,
+.p-menu, .p-menu *,
+.p-tieredmenu, .p-tieredmenu *,
+.p-contextmenu, .p-contextmenu *,
+.p-megamenu, .p-megamenu *,
+.p-popover, .p-popover *,
+.p-virtualscroller,
+.p-scrollbar {
   &::-webkit-scrollbar {
     width: 4px;
     height: 4px;
   }
   &::-webkit-scrollbar-button {
-    display: none; /* drop the up/down arrows */
+    display: none; /* drop the OS up/down arrows */
   }
   &::-webkit-scrollbar-track {
     background: #424242;

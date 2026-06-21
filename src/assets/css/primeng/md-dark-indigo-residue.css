@@ -1,0 +1,289 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   md-dark-indigo RESIDUE — the slimmed legacy oracle.
+
+   The v21 mddarkindigo token preset replaces standard PrimeNG component theming.
+   What it CANNOT reproduce is the project's bespoke/app-specific CSS: invented
+   modifier classes, Angular-driven validation states, the v17 float-label pattern,
+   in-field affix buttons, and a few light-pastel widgets. Those are gathered here
+   (extracted verbatim from md-dark-indigo-custom.css, v17→v21 selectors corrected)
+   so the app keeps its look once the full oracle is dropped. Un-layered on purpose.
+
+   Cataloged by the cutover-residue-inventory audit. Standard theming + dead/unused
+   classes (p-button-dark, p-input-filled, tabmenu-center, popover-no-arrow, …) were
+   intentionally excluded.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Bespoke button sizes & layout modifiers ───────────────────────────────── */
+.p-button-rounded.p-button-sm-icon {
+  width: 2.5rem;
+  height: 2.5rem !important;
+}
+.p-button.p-button-xs {
+  font-size: 0.875rem;
+  padding: 0.468rem 0.656rem;
+}
+.p-button.p-button-xs .p-button-icon {
+  font-size: 20px;
+}
+.p-button-rounded.p-button-xs {
+  width: 1.875rem;
+  height: 1.875rem !important;
+}
+.p-button-shrink {
+  justify-content: center;
+}
+.p-button-shrink .p-button-icon,
+.p-button-shrink .p-button-label {
+  flex: 0 1 auto !important;
+}
+/* readable Material glyph in small icon buttons (v21 scales it smaller via tokens) */
+.p-button.p-button-sm .p-button-icon {
+  font-size: 20px;
+}
+
+/* ── Dark expand/collapse toggle surface (history + media filter) ──────────── */
+/* (styles.scss hides the empty label; this restores the bespoke dark ground/icon) */
+.p-togglebutton.p-button.p-togglebutton-dark {
+  background: #2f2f2f;
+}
+.p-togglebutton.p-button.p-togglebutton-dark .p-button-icon,
+.p-togglebutton.p-button.p-highlight.p-togglebutton-dark .p-button-icon {
+  color: #ffffff;
+}
+.p-togglebutton.p-button.p-togglebutton-dark:focus {
+  background: #262626;
+}
+.p-togglebutton.p-button.p-togglebutton-dark:active {
+  background: #242424;
+}
+
+/* ── Form validation (app drives validity via Angular .ng-invalid/.ng-touched, ─
+      NOT PrimeNG [invalid], so the preset's invalid tokens never fire) ───────── */
+.p-error {
+  color: #f44435;
+  font-weight: 500;
+}
+.p-inputtext.ng-dirty.ng-invalid,
+.p-inputtext.ng-touched.ng-invalid {
+  border-color: #f44435;
+}
+.p-inputtext:enabled:focus.ng-invalid.ng-dirty,
+.p-inputtext:enabled:focus.ng-invalid.ng-touched {
+  box-shadow: inset 0 0 0 1px #f44435;
+}
+/* normal brand-blue inset focus ring (preset only changes the border colour) */
+.p-inputtext:enabled:focus {
+  box-shadow: inset 0 0 0 1px #526ed3;
+}
+p-inputnumber.ng-touched.ng-invalid > .p-inputnumber > .p-inputtext {
+  border-color: #f44435;
+}
+p-inputnumber.ng-dirty.ng-invalid > .p-inputnumber > .p-inputtext:enabled:focus,
+p-inputnumber.ng-touched.ng-invalid > .p-inputnumber > .p-inputtext:enabled:focus {
+  box-shadow: inset 0 0 0 1px #f44435;
+}
+/* grouped day/month/year selects (sign-up birthdate, create/configure-media dates) */
+.dropdown-group.ng-touched.ng-invalid .p-select {
+  border-color: #f44435;
+}
+.dropdown-group.ng-touched.ng-invalid .p-select:not(.p-disabled).p-focus {
+  box-shadow: inset 0 0 0 1px #f44435;
+}
+p-selectbutton.ng-dirty.ng-invalid > .p-selectbutton > .p-button,
+p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
+  border-color: #f44435;
+}
+
+/* ── v17 float-label pattern (auth pages — v21 dropped the .p-float-label class) ─ */
+.p-float-label > label {
+  left: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  transition-duration: 0.2s;
+}
+.p-float-label input:focus ~ label,
+.p-float-label input.p-filled ~ label,
+.p-float-label .p-inputwrapper-focus ~ label,
+.p-float-label .p-inputwrapper-filled ~ label {
+  top: -0.5rem !important;
+  background-color: #1e1e1e;
+  padding: 2px 4px;
+  margin-left: -4px;
+  margin-top: 0;
+}
+.p-float-label input:focus ~ label,
+.p-float-label .p-inputwrapper-focus ~ label {
+  color: #526ed3;
+}
+.p-float-label > .ng-invalid.ng-dirty + label,
+.p-float-label > .ng-invalid.ng-touched + label {
+  color: #f44435;
+}
+
+/* ── In-field affix button (show/hide-password eye) ────────────────────────── */
+.p-input-button-right,
+.p-input-button-left {
+  position: relative;
+}
+.p-input-button-right > button:last-of-type {
+  right: 0.25rem;
+}
+.p-input-button-right .p-inputtext {
+  padding-right: 3.75rem;
+}
+.p-input-button-left > button,
+.p-input-button-right > button {
+  position: absolute;
+  top: 50%;
+  margin-top: 0 !important;
+  transform: translateY(-50%);
+}
+
+/* ── Compact -xs control ramp (media filter + history filter) ──────────────── */
+.p-inputtext.p-inputtext-xs,
+.p-inputtext-xs .p-inputtext,
+.p-select-xs > .p-select-label,
+.p-multiselect-xs .p-multiselect-label,
+.p-autocomplete-xs .p-autocomplete-input {
+  font-size: 0.875rem;
+  padding: 0.62475rem 0.875rem;
+}
+.p-autocomplete-xs.p-autocomplete-multiple > .p-autocomplete-input-multiple {
+  padding: 0.1245rem 0.5rem;
+}
+
+/* ── Menu / panel bespoke (admin nav, vertical tab) ────────────────────────── */
+/* programmatic active row (vertical-tab.component.ts adds this class, not :hover) */
+.p-menuitem-link-active {
+  background: rgba(255, 255, 255, 0.12);
+}
+.p-menuitem-link-active:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+.p-menu .p-menuitem-text {
+  line-height: 1.5 !important;
+}
+.p-panel-header-neutral > .p-panel-header {
+  background: #323232;
+}
+.p-panel-content-neutral .p-panel-content {
+  background: #262626;
+}
+.p-panel-content-p-0 .p-panel-content {
+  padding: 0;
+}
+.p-panel-icons-rtl .p-panel-icons {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+/* ── Compact dialog header (29 dialogs use .p-dialog-header-sm) ─────────────── */
+.p-dialog-header-sm .p-dialog-header {
+  padding: 0.5rem 1.5rem;
+}
+
+/* ── Search-field leading glyph colour (the <i.ms-search> is a plain sibling,
+      so the preset's formField.iconColor can't reach it) ───────────────────── */
+.p-input-icon-left > i {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ── Rating — round tappable star buttons + red cancel ─────────────────────── */
+.p-rating .p-rating-icon {
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.p-rating .p-rating-icon:focus {
+  background: rgba(82, 110, 211, 0.12);
+}
+.p-rating:not(.p-disabled):not(.p-readonly) .p-rating-icon:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+.p-rating .p-rating-icon.p-rating-cancel {
+  color: #f44435;
+}
+.p-rating .p-rating-icon.p-rating-cancel:focus {
+  background: rgba(244, 68, 53, 0.12);
+}
+.p-rating:not(.p-disabled):not(.p-readonly) .p-rating-icon.p-rating-cancel:hover {
+  background: rgba(244, 68, 53, 0.04);
+}
+
+/* ── Datatable multi-sort order badge (circular brand pill) ────────────────── */
+.p-datatable .p-sortable-column .p-sortable-column-badge {
+  border-radius: 50%;
+  height: 1.143rem;
+  min-width: 1.143rem;
+  line-height: 1.143rem;
+  color: #526ed3;
+  background: rgba(82, 110, 211, 0.16);
+  margin-left: 0.5rem;
+}
+
+/* ── Secondary badge (no v21 severity equivalent) ──────────────────────────── */
+.p-badge.p-badge-secondary {
+  background-color: #464646;
+  color: #121212;
+}
+
+/* ── Skeleton shimmer sweep (tuned to the dark ground) ─────────────────────── */
+.p-skeleton:after {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
+}
+
+/* ── Message / Toast — Material light-pastel severity scheme (preset omits both,
+      so stock v21 would render them dark) ────────────────────────────────────── */
+.p-message.p-message-info,
+.p-toast .p-toast-message.p-toast-message-info {
+  background: #b3e5fc;
+  border: 0 none;
+  color: #01579b;
+}
+.p-message.p-message-info .p-message-icon,
+.p-message.p-message-info .p-message-close,
+.p-toast .p-toast-message.p-toast-message-info .p-toast-message-icon,
+.p-toast .p-toast-message.p-toast-message-info .p-toast-icon-close {
+  color: #01579b;
+}
+.p-message.p-message-success,
+.p-toast .p-toast-message.p-toast-message-success {
+  background: #c8e6c9;
+  border: 0 none;
+  color: #1b5e20;
+}
+.p-message.p-message-success .p-message-icon,
+.p-message.p-message-success .p-message-close,
+.p-toast .p-toast-message.p-toast-message-success .p-toast-message-icon,
+.p-toast .p-toast-message.p-toast-message-success .p-toast-icon-close {
+  color: #1b5e20;
+}
+.p-message.p-message-warn,
+.p-toast .p-toast-message.p-toast-message-warn {
+  background: #ffecb3;
+  border: 0 none;
+  color: #7f6003;
+}
+.p-message.p-message-warn .p-message-icon,
+.p-message.p-message-warn .p-message-close,
+.p-toast .p-toast-message.p-toast-message-warn .p-toast-message-icon,
+.p-toast .p-toast-message.p-toast-message-warn .p-toast-icon-close {
+  color: #7f6003;
+}
+.p-message.p-message-error,
+.p-toast .p-toast-message.p-toast-message-error {
+  background: #ffcdd2;
+  border: 0 none;
+  color: #b71c1c;
+}
+.p-message.p-message-error .p-message-icon,
+.p-message.p-message-error .p-message-close,
+.p-toast .p-toast-message.p-toast-message-error .p-toast-message-icon,
+.p-toast .p-toast-message.p-toast-message-error .p-toast-icon-close {
+  color: #b71c1c;
+}
+.p-toast {
+  opacity: 0.9;
+}
